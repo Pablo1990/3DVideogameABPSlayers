@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DC", "PruebaMenu\PruebaMenu.vcxproj", "{6F512E69-B739-4EFC-AA7D-46E4317B466C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PruebaC", "PruebaC\PruebaC.vcxproj", "{CA35272B-2801-44B2-B622-8867561DF5F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.Debug|Win32.Build.0 = Debug|Win32
+		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.Release|Win32.ActiveCfg = Release|Win32
+		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.Release|Win32.Build.0 = Release|Win32
+		{CA35272B-2801-44B2-B622-8867561DF5F5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CA35272B-2801-44B2-B622-8867561DF5F5}.Debug|Win32.Build.0 = Debug|Win32
+		{CA35272B-2801-44B2-B622-8867561DF5F5}.Release|Win32.ActiveCfg = Release|Win32
+		{CA35272B-2801-44B2-B622-8867561DF5F5}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(CodealikeProperties) = postSolution
+		SolutionGuid = f0f8b224-ffc0-4200-8eba-4600f6c9b30a
+	EndGlobalSection
+EndGlobal
