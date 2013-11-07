@@ -15,9 +15,19 @@ int MyMenu::AddMenu()
     if (driverType==video::EDT_COUNT)
         return 1;
 
-    // create device and exit if creation failed
 
-    IrrlichtDevice * device = createDevice(driverType, core::dimension2d<u32>(640, 480));
+	core::dimension2d<u32> resolution ( 1366, 768 );
+
+    // create device and exit if creation failed
+	irr::SIrrlichtCreationParameters params;
+	params.DriverType=driverType;
+	params.WindowSize=resolution;
+	params.Bits=32;
+	params.Fullscreen=true;
+	
+
+
+    IrrlichtDevice * device = createDeviceEx(params);
 
     if (device == 0)
         return 1; // could not create selected driver.
@@ -63,18 +73,23 @@ int MyMenu::AddMenu()
     // And tell the device to use our custom event receiver.
     device->setEventReceiver(&receiver);
 
+	video::ITexture* irrlichtBack = driver->getTexture("../Imagenes/demoback.jpg");
 
-	  while(device->run() && driver)
-    if (device->isWindowActive())
-    {
-        driver->beginScene(true, true, SColor(0,200,200,200));
 
-        env->drawAll();
+	while(device->run() && driver)
+	{
+		if (device->isWindowActive())
+		{
+			driver->beginScene(true, true, SColor(0,200,200,200));
+			if (irrlichtBack)
+				driver->draw2DImage(irrlichtBack,
+						core::position2d<int>(0,0));
+			env->drawAll();
     
-        driver->endScene();
+			driver->endScene();
 
+		}
 	}
-	
     device->drop();
 
 	return 0;
