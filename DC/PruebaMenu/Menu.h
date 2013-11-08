@@ -24,11 +24,12 @@ class MyEventReceiver;
 class MyMenu
 {
 public:
-	MyMenu(void);
+	MyMenu();
 	~MyMenu(void);
-	int AddMenu();
+	bool AddMenu(video::E_DRIVER_TYPE&);
+	void setStart();
 
 private:
-	IGUIButton* botones[5];
+	bool start;
 };
 

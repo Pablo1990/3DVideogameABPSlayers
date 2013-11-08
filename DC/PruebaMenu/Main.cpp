@@ -1,6 +1,7 @@
 #include <irrlicht.h>
 #include "BotonesMenu.h"
 #include "Menu.h"
+#include "Juego.h"
 
 using namespace irr;
 
@@ -17,8 +18,12 @@ using namespace gui;
 int main()
 {
 	MyMenu *menu = new MyMenu();
+	video::E_DRIVER_TYPE driverType;
 
-
-	return menu->AddMenu();
+	if(menu->AddMenu(driverType))
+	{
+		Juego game(driverType);
+		game.run();
+	}
 
 }

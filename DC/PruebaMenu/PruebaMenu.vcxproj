@@ -66,10 +66,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BotonesMenu.h" />
+    <ClInclude Include="Juego.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MyEventReceiver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Juego.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MyEventReceiver.cpp" />
     <ClCompile Include="Main.cpp" />

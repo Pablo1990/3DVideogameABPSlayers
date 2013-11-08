@@ -1,19 +1,20 @@
 #include "Menu.h"
 
-MyMenu::MyMenu(void)
+MyMenu::MyMenu()
 {
+	this->start = false;
 }
 
 MyMenu::~MyMenu(void)
 {
 }
 
-int MyMenu::AddMenu()
+bool MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 {
 	// ask user for driver
-    video::E_DRIVER_TYPE driverType = driverChoiceConsole();
+    driverType = driverChoiceConsole();
     if (driverType==video::EDT_COUNT)
-        return 1;
+        return false;
 
 
 	core::dimension2d<u32> resolution ( 1366, 768 );
@@ -32,7 +33,7 @@ int MyMenu::AddMenu()
     if (device == 0)
         return 1; // could not create selected driver.
 
-	 device->setWindowCaption(L"Irrlicht Engine - User Interface Demo");
+	 device->setWindowCaption(L"MENU");
     device->setResizable(true);
 
     video::IVideoDriver* driver = device->getVideoDriver();
@@ -76,7 +77,7 @@ int MyMenu::AddMenu()
 	video::ITexture* irrlichtBack = driver->getTexture("../Imagenes/demoback.jpg");
 
 
-	while(device->run() && driver)
+	while(device->run() && driver && start == false)
 	{
 		if (device->isWindowActive())
 		{
@@ -92,5 +93,11 @@ int MyMenu::AddMenu()
 	}
     device->drop();
 
-	return 0;
+	return true;
+}
+
+
+void MyMenu::setStart()
+{
+	this->start = true;
 }

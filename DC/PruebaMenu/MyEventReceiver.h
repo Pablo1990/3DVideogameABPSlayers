@@ -29,7 +29,7 @@ class MyEventReceiver : public IEventReceiver
 {
 public:
 
-	MyEventReceiver(SAppContext&, const MyMenu &m) ;
+	MyEventReceiver(SAppContext&, const MyMenu m) ;
 	~MyEventReceiver(void);
 	virtual bool OnEvent(const SEvent& event);
 
@@ -42,5 +42,6 @@ public:
 private:
 	SAppContext & Context;
 	s32 ant;
+	MyMenu *menu;
 };
 

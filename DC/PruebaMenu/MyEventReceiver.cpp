@@ -16,8 +16,9 @@ using namespace gui;
 
 
 
-MyEventReceiver::MyEventReceiver(SAppContext & context,const MyMenu &m) : Context(context)
+MyEventReceiver::MyEventReceiver(SAppContext & context, MyMenu m) : Context(context)
 {
+	menu = &m;
 }
 
 
@@ -42,7 +43,7 @@ bool MyEventReceiver::OnEvent(const SEvent& event)
 
 				case GUI_ID_QUIT_BUTTON:
 					Context.device->closeDevice();
-					return true;
+					return false;
 
 				case GUI_ID_VOLVER_BUTTON:
 					env->clear();
@@ -90,6 +91,8 @@ bool MyEventReceiver::OnEvent(const SEvent& event)
 
 					return true;
 
+				
+
 				case GUI_ID_EQUIPO_BUTTON:
 					env->clear();
 					env->addStaticText(L"PANTALLA POR EQUIPOS", rect<s32>(50,110,250,130), true);
@@ -106,10 +109,8 @@ bool MyEventReceiver::OnEvent(const SEvent& event)
 					return true;
 
 				case GUI_ID_NUEVA_PARTIDA_BUTTON:
-					env->clear();
-					env->addStaticText(L"PANTALLA DE JUEGO", rect<s32>(50,110,250,130), true);
-
-					env->addButton(rect<s32>(500,310,600,310 + 32), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+					Context.device->closeDevice();
+					//menu->setStart(true);
 
 					return true;
 
