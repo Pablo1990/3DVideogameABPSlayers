@@ -25,6 +25,7 @@ void Juego::run()
 	params.WindowSize=resolution;
 	params.Bits=32;
 	params.Fullscreen=true;
+	params.EventReceiver = this;
 
 	device = createDeviceEx(params);
 	if (!device)
@@ -38,6 +39,8 @@ void Juego::run()
 	video::IVideoDriver* driver = device->getVideoDriver();
 	scene::ISceneManager* smgr = device->getSceneManager();
 	gui::IGUIEnvironment* guienv = device->getGUIEnvironment();
+	device->getCursorControl()->setVisible(false);
+
 
 	device->setWindowCaption(L"DC Demo");
 	core::dimension2d<u32> size = device->getVideoDriver()->getScreenSize();
@@ -82,6 +85,19 @@ void Juego::run()
 			guienv->drawAll();
 			driver->endScene();
 
+			if(anim1 != NULL)
+			{
+				if(anim1->hasFinished())
+				{
+					
+					gun->setPosition(core::vector3df(15,-10,20));
+					gun->setRotation(core::vector3df(0,50,90));
+					gun->removeAnimators();
+					anim1->drop();
+					anim1=NULL;
+				}
+			}
+
 		}
 	}
 }
@@ -121,7 +137,7 @@ void Juego::switchToNextScene()
 	camera->setPosition(core::vector3df(108,140,-140));
 	camera->setFarValue(5000.0f);
 
-	scene::IAnimatedMeshSceneNode* gun = sm->addAnimatedMeshSceneNode(gunmesh, camera, -1);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
+	gun = sm->addAnimatedMeshSceneNode(gunmesh, camera, -1);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
 
 	gun->setScale(core::vector3df(0.008,0.008,0.008));
 	gun->setPosition(core::vector3df(15,-10,20)); 
@@ -242,5 +258,107 @@ bool Juego::OnEvent(const SEvent& event)
 	if (!device)
 		return false;
 
-	return true;
+
+	if (event.EventType == EET_KEY_INPUT_EVENT &&
+		event.KeyInput.Key == KEY_ESCAPE &&
+		event.KeyInput.PressedDown == false)
+	{
+		// user wants to quit.
+		device->closeDevice();
+	}
+	else
+	if (event.EventType == EET_MOUSE_INPUT_EVENT &&
+		 event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP)
+	{
+		//AQUI VA EL MOVIMIENTO DE LA ESPADA
+		if(gun->getAnimators().empty())
+		{
+			
+			lastX = gun->getAbsolutePosition().X;
+			lastY = gun->getAbsolutePosition().Y;
+
+			int difX, difY;
+			difX = abs(abs(firstX) - abs(lastX));
+			difY = abs(abs(firstY) - abs(lastY));
+
+			if(difY < 3 && difX < 3)
+			{
+				gun->setRotation(core::vector3df(0,0,0));
+				scene::ISceneNodeAnimator* anim = 0;
+				anim1 = 0;
+		
+
+				anim1 = device->getSceneManager()->createFlyStraightAnimator(
+				gun->getPosition(), core::vector3df(gun->getPosition().X, gun->getPosition().Y, gun->getPosition().Z + 20), 150, false, true);
+
+				gun->setLoopMode(false);
+
+				gun->addAnimator(anim1);
+			}
+			else
+			{
+				if(difY < difX)//Estocada lateral
+				{
+					if(firstX < lastX) //Hacia la derecha
+					{
+						gun->setRotation(core::vector3df(10,0,0));
+						anim1 = 0;
+		
+		
+
+						anim1 = device->getSceneManager()->createFlyStraightAnimator(
+						core::vector3df(gun->getPosition().X - 30, gun->getPosition().Y , gun->getPosition().Z), core::vector3df(gun->getPosition().X + 40, gun->getPosition().Y , gun->getPosition().Z), 300, false, true);
+
+						gun->setLoopMode(false);
+			
+						gun->addAnimator(anim1);
+
+					}
+					else//Hacia la izquierda
+					{
+						gun->setRotation(core::vector3df(10,0,0));
+						anim1 = 0;
+		
+		
+
+						anim1 = device->getSceneManager()->createFlyStraightAnimator(
+						core::vector3df(gun->getPosition().X + 30, gun->getPosition().Y , gun->getPosition().Z), core::vector3df(gun->getPosition().X - 40, gun->getPosition().Y , gun->getPosition().Z), 300, false, true);
+
+						gun->setLoopMode(false);
+			
+						gun->addAnimator(anim1);
+					}
+				}
+				else//Estocada vertical
+				{
+						gun->setRotation(core::vector3df(0,0,12));
+						anim1 = 0;
+		
+		
+
+						anim1 = device->getSceneManager()->createFlyStraightAnimator(
+						core::vector3df(gun->getPosition().X, gun->getPosition().Y + 40 , gun->getPosition().Z), core::vector3df(gun->getPosition().X, gun->getPosition().Y - 30, gun->getPosition().Z), 300, false, true);
+
+						gun->setLoopMode(false);
+			
+						gun->addAnimator(anim1);
+				}
+			}
+		}
+	}else if((event.EventType == EET_MOUSE_INPUT_EVENT &&
+		event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN))
+	{
+		firstX = gun->getAbsolutePosition().X;
+		firstY = gun->getAbsolutePosition().Y;
+
+	}
+	else
+	if (device->getSceneManager()->getActiveCamera())
+	{
+		device->getSceneManager()->getActiveCamera()->OnEvent(event);
+		return true;
+	}
+
+	return false;
 }
+
