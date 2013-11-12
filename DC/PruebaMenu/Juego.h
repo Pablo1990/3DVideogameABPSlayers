@@ -42,6 +42,14 @@ private:
 	scene::IParticleSystemSceneNode* campFire;
 	scene::ICameraSceneNode* camera;
 
+	scene::IAnimatedMeshSceneNode* gun;
+	float lastX;
+	float firstX;
+	float firstY;
+	float lastY;
+	scene::ISceneNodeAnimator* anim1;
+
+
 
 
 };
