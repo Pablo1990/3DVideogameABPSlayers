@@ -40,7 +40,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\irrlicht-1.8\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\irrlicht-1.8\bin;$(SolutionDir)\irrlicht-1.8\include;$(IncludePath)</IncludePath>
     <ReferencePath>$(SolutionDir)\irrlicht-1.8\lib\Win32-visualstudio;$(ReferencePath)</ReferencePath>
     <LibraryPath>$(SolutionDir)\irrlicht-1.8\lib\Win32-visualstudio;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
