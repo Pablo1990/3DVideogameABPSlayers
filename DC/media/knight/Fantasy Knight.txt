@@ -1,0 +1,26 @@
+walk: 0-39
+run: 41-60
+idle: 62-211
+talk: 212-361
+jump: 363-422
+ready: 426-484
+attacka: 485-545
+attackb: 546-606
+attackc: 607-667
+death: 668-753
+rolla: 754-779
+rollb: 780-800
+rollc: 800-832
+swim: 834-933
+stand2: 936-995
+talk2: 996-1176
+yawn: 1177-1358
+ready: 1359-1479
+ready loop: 1439-1479
+ready to attack: 1479-1485
+attackd: 1485-1578
+attacke: 1579-1620
+attackf: 1640-1761
+death2: 1761-1821
+death3: 1822-1928
+crazy: 1929-2276
