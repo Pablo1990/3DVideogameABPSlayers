@@ -1,0 +1,1 @@
+const char *sword_path = "../media/sword.3DS";

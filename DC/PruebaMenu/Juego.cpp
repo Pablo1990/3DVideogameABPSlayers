@@ -22,7 +22,6 @@ Juego::~Juego(void)
 void Juego::run()
 {
 	bool collision_flag = false;
-	pickUp = false;
 	core::dimension2d<u32> resolution(1366, 768);
 	
 	irr::SIrrlichtCreationParameters params;
@@ -98,12 +97,7 @@ void Juego::run()
 			driver->endScene();
 
 
-		if(pickUp)
-		{
-			swprintf(tmp, 255, L"Cojo espada");
-			statusText->setText(tmp);
-			pickUp = false;
-		}
+		
 
 
 
@@ -124,7 +118,7 @@ void Juego::run()
 					statusText->setText(tmp);
 					collision_flag = true;
 				}
-				else if ((collision(gun, model1_pelvis) || collision(gun, model1_pelvis)  || collision(gun, model1_RThight) || collision(gun, model1_RFoot) || collision(gun, model1_RCalf)
+				else if ((collision(gun, model1_pelvis) || collision(gun, model1_RThight) || collision(gun, model1_RFoot) || collision(gun, model1_RCalf)
 					|| collision(gun, model1_LThight) || collision(gun, model1_LFoot) || collision(gun, model1_LCalf)
 					|| collision(gun,model1_RUpperarm) || collision(gun, model1_RForearm) || collision(gun, model1_RHand)
 					|| collision(gun,model1_LUpperarm) || collision(gun, model1_LForearm) || collision(gun, model1_LHand))
@@ -284,9 +278,6 @@ void Juego::loadSceneData()
 			sm->addQuake3SceneNode ( meshBuffer, shader );
 		}
 
-
-		
-
 		scene::IAnimatedMesh* mesh = 0;
 		mesh = sm->getMesh("../media/knight/mesh/fantasy Knight.x");
 		if (mesh)
@@ -298,6 +289,7 @@ void Juego::loadSceneData()
 				model1->setRotation(core::vector3df(0, 270, 0));
 				model1->setScale(core::vector3df(0.55, 0.55, 0.55));
 				//model1->setMD2Animation(scene::EMAT_RUN);
+
 				model1->setMaterialFlag(video::EMF_LIGHTING, false);
 				//model1->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, false);
 				model1->addShadowVolumeSceneNode();
@@ -432,7 +424,12 @@ bool Juego::OnEvent(const SEvent& event)
 		// user wants to quit.
 		device->closeDevice();
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_E && event.KeyInput.PressedDown == true)
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_G && event.KeyInput.PressedDown == true && gun != NULL)
+	{
+		camera->removeChild(gun);
+		gun = NULL;
+	}
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_E && event.KeyInput.PressedDown == true && gun == NULL)
 	{
 		
 		scene::ISceneManager* smgr = device->getSceneManager();
@@ -467,9 +464,13 @@ bool Juego::OnEvent(const SEvent& event)
 
         if(selectedSceneNode)
         {
-			if(camera->getPosition().getDistanceFrom(selectedSceneNode->getPosition()) < 50)
+			if(camera->getPosition().getDistanceFrom(selectedSceneNode->getPosition()) < 75)
 			{
-				pickUp = true;
+				gun = smgr->addAnimatedMeshSceneNode(gunmesh, camera, -1);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
+	
+				gun->setScale(core::vector3df(0.008,0.008,0.008));
+				gun->setPosition(core::vector3df(15,-10,20)); 
+				gun->setRotation(core::vector3df(0,50,90));				
 			}
 
 		}
@@ -478,13 +479,13 @@ bool Juego::OnEvent(const SEvent& event)
 		 event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP)
 	{
 		//AQUI VA EL MOVIMIENTO DE LA ESPADA
-		if(gun->getAnimators().empty())
+		if(gun != NULL && gun->getAnimators().empty())
 		{
 			
 			lastX = gun->getAbsolutePosition().X;
 			lastY = gun->getAbsolutePosition().Y;
 
-			int difX, difY;
+			float difX, difY;
 			difX = abs(abs(firstX) - abs(lastX));
 			difY = abs(abs(firstY) - abs(lastY));
 
@@ -493,7 +494,6 @@ bool Juego::OnEvent(const SEvent& event)
 				gun->setRotation(core::vector3df(0,0,0));
 				scene::ISceneNodeAnimator* anim = 0;
 				anim1 = 0;
-		
 
 				anim1 = device->getSceneManager()->createFlyStraightAnimator(
 				gun->getPosition(), core::vector3df(gun->getPosition().X, gun->getPosition().Y, gun->getPosition().Z + 20), 150, false, true);
@@ -553,8 +553,9 @@ bool Juego::OnEvent(const SEvent& event)
 			}
 		}
 	}else if((event.EventType == EET_MOUSE_INPUT_EVENT &&
-		event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN))
+		event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) && gun != NULL)
 	{
+	
 		firstX = gun->getAbsolutePosition().X;
 		firstY = gun->getAbsolutePosition().Y;
 

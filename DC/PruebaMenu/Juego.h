@@ -2,6 +2,7 @@
 
 #include <irrlicht.h>
 #include <iostream>
+#include "Weapon.h"
 using namespace std;
 
 
@@ -79,7 +80,6 @@ private:
 	IBoneSceneNode *model1_LForearm;
 	IBoneSceneNode *model1_LHand;
 	IBoneSceneNode *model1_Neck;
-	bool pickUp;
 
 	scene::ITriangleSelector* model1_selector;
 	scene::ITriangleSelector* selector;
