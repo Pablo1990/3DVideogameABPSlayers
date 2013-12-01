@@ -1,7 +1,7 @@
 #include "Character.h"
 
 
-Character::Character(char* path,ISceneManager *sm)
+Character::Character(const char* path,ISceneManager *sm)
 {
 	this->scene_manager = sm;
 
@@ -9,7 +9,7 @@ Character::Character(char* path,ISceneManager *sm)
 	weapon = NULL;
 }
 
-Character::Character(char* path,ISceneManager *sm, Weapon* w)
+Character::Character(const char* path,ISceneManager *sm, Weapon* w)
 {
 	this->scene_manager = sm;
 
@@ -91,7 +91,7 @@ void Character::calculate_joint()
 	
 }
 
-bool Character::detect_collision(ISceneNode* a, vector<ISceneNode*> b)
+bool Character::detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b)
 {
 
 
@@ -108,7 +108,7 @@ bool Character::detect_collision(ISceneNode* a, vector<ISceneNode*> b)
 		intersectsWithBox(b->getTransformedBoundingBox());*/
 }
 
-void Character::manage_collision()
+void Character::manage_collision(Weapon *)
 {
 }
 

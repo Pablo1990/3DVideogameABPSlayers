@@ -8,5 +8,6 @@ public:
 	Sword(int dmg, int sp, ISceneManager *sm);
 	~Sword(void);
 	void attack(float first_x, float first_y, float last_x, float last_y);
+	void finish_animation();
 };
 

@@ -37,6 +37,26 @@ void Weapon::add_to_camera(vector3df position, vector3df rotation, vector3df sca
 	}
 }
 
+bool Weapon::get_collision_flag()
+{
+	return collision_flag;
+}
+
+void Weapon::set_collision_flag(bool cf)
+{
+	collision_flag = cf;
+}
+
+IAnimatedMeshSceneNode* Weapon::get_weapon_node()
+{
+	return weapon_node;
+}
+
+void Weapon::set_weapon_node(IAnimatedMeshSceneNode* wn)
+{
+	weapon_node = wn;
+}
+
 Weapon::~Weapon(void)
 {
 }
@@ -44,3 +64,8 @@ Weapon::~Weapon(void)
 void Weapon::attack(float first_x, float first_y, float last_x, float last_y)
 {
 }
+
+void Weapon::finish_animation()
+{
+}
+

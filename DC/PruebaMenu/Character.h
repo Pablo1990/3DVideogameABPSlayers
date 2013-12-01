@@ -9,13 +9,13 @@ using namespace std;
 class Character
 {
 public:
-	Character(char* path, ISceneManager *sm);
-	Character(char* path, ISceneManager *sm, Weapon* w);
+	Character(const char* path, ISceneManager *sm);
+	Character(const char* path, ISceneManager *sm, Weapon* w);
 	~Character(void);
 	void add_to_scene(vector3df position, vector3df rotation, vector3df scale);
 	void add_to_camera(vector3df position, vector3df rotation, vector3df scale, ICameraSceneNode* camera);
-	bool detect_collision(ISceneNode* a, vector<ISceneNode*> b);
-	virtual void manage_collision();
+	bool detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b);
+	virtual void manage_collision(Weapon* w);
 	virtual void calculate_joint();
 	void attack(float first_x, float first_y, float last_x, float last_y);
 protected:

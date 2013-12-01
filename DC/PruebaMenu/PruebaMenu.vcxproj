@@ -71,6 +71,7 @@
   <ItemGroup>
     <ClInclude Include="Character.h" />
     <ClInclude Include="Paths.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Sword.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="BotonesMenu.h" />
@@ -80,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Sword.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Juego.cpp" />

@@ -14,9 +14,6 @@ void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 {
 	if(weapon_node != NULL && weapon_node->getAnimators().empty())
 		{
-			
-			
-
 			float difX, difY;
 			difX = abs(abs(first_x) - abs(last_x));
 			difY = abs(abs(first_y) - abs(last_y));
@@ -73,5 +70,17 @@ void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 						weapon_node->setLoopMode(false);
 				}
 			}
+	}
+}
+
+void Sword::finish_animation()
+{
+	if(weapon_node && weapon_node->getAnimators().size() > 0)
+	{
+		weapon_node->setPosition(core::vector3df(15,-10,20));
+		weapon_node->setRotation(core::vector3df(0,50,90));
+		weapon_node->removeAnimators();
+		weapon_node->removeAnimators();
+		collision_flag = false;
 	}
 }

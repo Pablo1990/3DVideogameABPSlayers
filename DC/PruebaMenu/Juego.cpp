@@ -129,6 +129,7 @@ void Juego::run()
 					statusText->setText(tmp);
 					collision_flag = true;
 				}
+
 				if(anim1->hasFinished())
 				{	
 					gun->setPosition(core::vector3df(15,-10,20));
