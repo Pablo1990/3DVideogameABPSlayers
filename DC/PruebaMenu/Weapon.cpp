@@ -57,6 +57,20 @@ void Weapon::set_weapon_node(IAnimatedMeshSceneNode* wn)
 	weapon_node = wn;
 }
 
+bool Weapon::is_animated()
+{
+	return !weapon_node->getAnimators().empty();
+}
+
+vector3df Weapon::get_absolute_position()
+{
+	if(weapon_node)
+	{
+		return weapon_node->getAbsolutePosition();
+	}
+	return vector3df(0,0,0);
+}
+
 Weapon::~Weapon(void)
 {
 }

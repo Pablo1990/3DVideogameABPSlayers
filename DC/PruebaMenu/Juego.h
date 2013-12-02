@@ -2,7 +2,10 @@
 
 #include <irrlicht.h>
 #include <iostream>
+#include "Npc.h"
+#include "Sword.h"
 #include "Weapon.h"
+#include "Player.h"
 using namespace std;
 
 
@@ -80,7 +83,10 @@ private:
 	IBoneSceneNode *model1_LForearm;
 	IBoneSceneNode *model1_LHand;
 	IBoneSceneNode *model1_Neck;
-
+	Npc* npc;
+	Player* player;
+	Sword* sw;
+	Sword* dropped_sword;
 	scene::ITriangleSelector* model1_selector;
 	scene::ITriangleSelector* selector;
 	enum

@@ -32,3 +32,24 @@ void Player::manage_collision(Weapon *w)
 		}
 	}
 }
+
+void Player::drop_weapon(ICameraSceneNode* cam)
+{
+	cam->removeChild(weapon->get_weapon_node());
+	weapon->set_weapon_node(NULL);
+}
+
+void Player::pick_weapon(ICameraSceneNode* cam, IAnimatedMeshSceneNode* w)
+{
+
+	if(no_weapon())
+	{
+
+		weapon->set_weapon_node(w);
+		weapon->set_weapon_node( scene_manager->addAnimatedMeshSceneNode(weapon->get_weapon_node()->getMesh(), cam, -1));  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
+	
+		weapon->get_weapon_node()->setScale(core::vector3df(0.008,0.008,0.008));
+		weapon->get_weapon_node()->setPosition(core::vector3df(15,-10,20)); 
+		weapon->get_weapon_node()->setRotation(core::vector3df(0,50,90));		
+	}
+}

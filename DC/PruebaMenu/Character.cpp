@@ -29,7 +29,7 @@ void Character::add_to_scene(vector3df position, vector3df rotation, vector3df s
 		character_node->setScale(scale);
 		character_node->setRotation(rotation);
 		character_node->setPosition(position);
-		
+		character_node->setMaterialFlag(video::EMF_LIGHTING, false);
 		calculate_joint();
 
 	}
@@ -108,6 +108,21 @@ bool Character::detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b)
 		intersectsWithBox(b->getTransformedBoundingBox());*/
 }
 
+Weapon* Character::get_weapon()
+{
+	return weapon;
+}
+
+void Character::set_weapon(Weapon* w)
+{
+	weapon = w;
+}
+
+bool Character::no_weapon()
+{
+	return weapon->get_weapon_node() == NULL;
+}
+
 void Character::manage_collision(Weapon *)
 {
 }
@@ -119,3 +134,4 @@ void Character::attack(float first_x, float first_y, float last_x, float last_y)
 		weapon->attack(first_x, first_y,  last_x,  last_y);
 	}
 }
+

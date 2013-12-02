@@ -8,5 +8,7 @@ public:
 	Player(ISceneManager *sm, Weapon* w);
 	~Player(void);
 	void manage_collision(Weapon *w); 
+	void drop_weapon(ICameraSceneNode* cam);
+	void pick_weapon(ICameraSceneNode* cam, IAnimatedMeshSceneNode* w);
 };
 

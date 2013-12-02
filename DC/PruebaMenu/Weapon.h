@@ -15,9 +15,10 @@ public:
 	void set_collision_flag(bool cf);
 	IAnimatedMeshSceneNode* get_weapon_node();
 	void set_weapon_node(IAnimatedMeshSceneNode* wn);
+	bool is_animated();
+	vector3df get_absolute_position();
 	virtual void finish_animation();
 	virtual void attack(float first_x, float first_y, float last_x, float last_y);
-
 	~Weapon(void);
 protected:
 	int damage;

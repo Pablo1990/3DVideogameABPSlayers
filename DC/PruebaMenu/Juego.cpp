@@ -98,9 +98,10 @@ void Juego::run()
 
 
 		
-
-
-
+			
+			player->get_weapon()->finish_animation();
+			npc->manage_collision(player->get_weapon());
+			
 			if(anim1 != NULL)
 			{
 				// TODO mejorar esto
@@ -129,6 +130,7 @@ void Juego::run()
 					statusText->setText(tmp);
 					collision_flag = true;
 				}
+
 
 				if(anim1->hasFinished())
 				{	
@@ -181,14 +183,19 @@ void Juego::switchToNextScene()
 			
 	camera->setPosition(core::vector3df(108,140,-140));
 	camera->setFarValue(5000.0f);
-
+	
+	
+	Sword *sw2 = new Sword(0,0,sm);
+	player = new Player(sm, sw2);
+	player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
+	/*
 	gun = sm->addAnimatedMeshSceneNode(gunmesh, camera, -1);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
 	gun->setDebugDataVisible(scene::EDS_BBOX_ALL);
 	
 	gun->setScale(core::vector3df(0.008,0.008,0.008));
 	gun->setPosition(core::vector3df(15,-10,20)); 
 	gun->setRotation(core::vector3df(0,50,90));
-
+	*/
 	/*
 	if (model1_selector)
 	{
@@ -278,6 +285,9 @@ void Juego::loadSceneData()
 			// Now add the MeshBuffer(s) with the current Shader to the Manager
 			sm->addQuake3SceneNode ( meshBuffer, shader );
 		}
+
+		npc = new Npc(sm);
+		npc->add_to_scene(core::vector3df(100,0,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 
 		scene::IAnimatedMesh* mesh = 0;
 		mesh = sm->getMesh("../media/knight/mesh/fantasy Knight.x");
@@ -369,6 +379,9 @@ void Juego::loadSceneData()
 		}*/
 	}
 
+	dropped_sword = new Sword(0,0,sm);
+	dropped_sword->add_to_scene(core::vector3df(180,40,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);
+
 	gunmesh = sm->getMesh("../media/sword.3DS"); 
 	gunmesh->setMaterialFlag(video::EMF_LIGHTING, false);
 	droppedGun = sm->addAnimatedMeshSceneNode(gunmesh,0, IDFlag_IsPickable);
@@ -425,12 +438,14 @@ bool Juego::OnEvent(const SEvent& event)
 		// user wants to quit.
 		device->closeDevice();
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_G && event.KeyInput.PressedDown == true && gun != NULL)
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_G && event.KeyInput.PressedDown == true && player != NULL)
 	{
-		camera->removeChild(gun);
-		gun = NULL;
+		/*camera->removeChild(gun);
+		gun = NULL;*/
+
+		player->drop_weapon(camera);
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_E && event.KeyInput.PressedDown == true && gun == NULL)
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_E && event.KeyInput.PressedDown == true)
 	{
 		
 		scene::ISceneManager* smgr = device->getSceneManager();
@@ -449,8 +464,8 @@ bool Juego::OnEvent(const SEvent& event)
         // Used to show with triangle has been hit
         core::triangle3df hitTriangle;
 
-        scene::ISceneNode * selectedSceneNode =
-            collMan->getSceneNodeAndCollisionPointFromRay(
+        scene::IAnimatedMeshSceneNode * selectedSceneNode =
+            (IAnimatedMeshSceneNode*)collMan->getSceneNodeAndCollisionPointFromRay(
                     ray,
                     intersection, // This will be the position of the collision
                     hitTriangle, // This will be the triangle hit in the collision
@@ -467,11 +482,12 @@ bool Juego::OnEvent(const SEvent& event)
         {
 			if(camera->getPosition().getDistanceFrom(selectedSceneNode->getPosition()) < 75)
 			{
-				gun = smgr->addAnimatedMeshSceneNode(gunmesh, camera, -1);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
+				/*gun = smgr->addAnimatedMeshSceneNode(gunmesh, camera, -1);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
 	
 				gun->setScale(core::vector3df(0.008,0.008,0.008));
 				gun->setPosition(core::vector3df(15,-10,20)); 
-				gun->setRotation(core::vector3df(0,50,90));				
+				gun->setRotation(core::vector3df(0,50,90));				*/
+				player->pick_weapon(camera, selectedSceneNode);
 			}
 
 		}
@@ -479,8 +495,12 @@ bool Juego::OnEvent(const SEvent& event)
 	else if (event.EventType == EET_MOUSE_INPUT_EVENT &&
 		 event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP)
 	{
+
+		lastX = player->get_weapon()->get_absolute_position().X;
+		lastY = player->get_weapon()->get_absolute_position().Y;
+		player->attack(firstX, firstY, lastX, lastY);
 		//AQUI VA EL MOVIMIENTO DE LA ESPADA
-		if(gun != NULL && gun->getAnimators().empty())
+		/*if(gun != NULL && gun->getAnimators().empty())
 		{
 			
 			lastX = gun->getAbsolutePosition().X;
@@ -552,13 +572,13 @@ bool Juego::OnEvent(const SEvent& event)
 						gun->addAnimator(anim1);
 				}
 			}
-		}
+		}*/
 	}else if((event.EventType == EET_MOUSE_INPUT_EVENT &&
-		event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) && gun != NULL)
+		event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN))
 	{
 	
-		firstX = gun->getAbsolutePosition().X;
-		firstY = gun->getAbsolutePosition().Y;
+		firstX = player->get_weapon()->get_absolute_position().X;
+		firstY = player->get_weapon()->get_absolute_position().Y;
 
 	}
 	else
