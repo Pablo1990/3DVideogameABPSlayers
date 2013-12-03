@@ -28,54 +28,58 @@ printGameStatus(const CGame& g) {
     std::cout << "] \n";
 }
 
-bool prediction(double pesos[N+1], double inputs[N], double valorAPredecir)
+bool prediction(double pesos[DIMENSIONES+1], double valorAPredecir[DIMENSIONES])
 {
-    double suma;
-    for (int i = 0; i < N; ++i)
+    double suma=pesos[0];
+    for (int i = 0; i < DIMENSIONES; ++i)
     {
-        suma+=pesos[i+1]+inputs[i];
+        suma+=pesos[i+1]+valorAPredecir[i];
     }
 
     return suma>=0;
 }
 
-bool h(std::vector<double> w, std::vector<double> x)
+bool h(double pesos[DIMENSIONES+1], double x[DIMENSIONES])
 {
-    double suma=w[0];
-    for (int i = 1; i < sizeof(w); ++i)
+    double suma=pesos[0];
+    for (int i = 1; i < sizeof(pesos); ++i)
     {
-        suma+=w[i]*x[i-1];
+        suma+=pesos[i]*x[i-1];
+    }
+    return suma>=0;
+}
+
+void actualizarPesos(double pesos[DIMENSIONES+1], double inputs[DIMENSIONES], double correct)
+{
+    pesos[0]+=correct;
+    for (int i = 1; i < sizeof(pesos); ++i)
+    {
+        pesos[i]+=correct*inputs[i-1];
     }
 }
 
-bool training(double inputs[N], bool onfireInputs[N], double valorAPredecir)
+bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double valorAPredecir[DIMENSIONES])
 {
     int count=0;
     double errores[N];
-    std::vector<double> pesos[N];
+    double pesos[DIMENSIONES+1];
     int erroresCount=0;
     double valorCritico=0;
-    std::vector<double> aux;
-    for (int i = 0; i < N; ++i)
-    {
-        aux.push_back(1);
-        for(int j=0; j<DIMENSIONES; j++)
+        pesos[0]=1;
+        for (int i = 1; i <= DIMENSIONES; ++i)
         {
-            aux.push_back(0);
+            pesos[i] = 0;
         }
-        pesos[i]=aux;
-        aux.clear();
-    }
     int k=0;
 
     while(count<PASADAS)
     {
-        count++;
+            count++;
         erroresCount=0;
 
         for (int i = 0; i < N; ++i)
         {
-            if(h(w[i],x[i])>0)
+            if(h(pesos,inputs[i]))
             {
                 if(onfireInputs[i]) //debería estar not on fire
                 {
@@ -83,7 +87,7 @@ bool training(double inputs[N], bool onfireInputs[N], double valorAPredecir)
                     erroresCount++;
                 }
             }
-            else if(h(w[i],x[i])<0)
+            else if(!h(pesos,inputs[i]))
             {
                 if(!onfireInputs[i]) //debería estar on fire
                 {
@@ -99,12 +103,11 @@ bool training(double inputs[N], bool onfireInputs[N], double valorAPredecir)
             int i = errores[rand()%erroresCount];
             if(!onfireInputs[i])
             {
-                pesos[i+1]=-inputs[i];
-                //actualizar también todos los w de ese x
+                actualizarPesos(pesos, inputs[i], -1);
             }
             else
             {
-                pesos[i+1]=inputs[i];
+                actualizarPesos(pesos, inputs[i], 1);
             }
         }
         else
@@ -113,84 +116,8 @@ bool training(double inputs[N], bool onfireInputs[N], double valorAPredecir)
         }
     }
 
-    return prediction(pesos, inputs, valorAPredecir);
+    return prediction(pesos, valorAPredecir);
 }
-
-/*double aprendizaje(double valorCritico, double inputs[N], bool onfireInputs[N], double pesos[N])
-{
-    double learningRate = (double)0.1;
-    double errores[N];
-    int erroresCount=0;
-    int count=0;
-    int erroresCountAnt=N;
-    double valorCriticoFinal;
-
-    while(count<PASADAS)
-    {
-        std::cout << "valor: " << valorCritico << "\n";
-        count++;
-        erroresCount=0;
-        for(int i=0; i<N; i++)
-        {
-            if(valorCritico!=inputs[i])
-            {
-                if((inputs[i]*pesos[i])>valorCritico)
-                {
-                    if(!onfireInputs[i])
-                    {
-                        std::cout<<inputs[i]<< " Error Is not on fire\n";
-                        pesos[i]+=learningRate * 1*inputs[i];
-                        errores[erroresCount]=inputs[i];
-                        erroresCount++;
-                    }
-                    else
-                    {
-                        std::cout<<inputs[i]<< " Acierto on fire\n";
-                    }
-                }
-                else
-                {
-                    if(onfireInputs[i])
-                    {
-                        std::cout<<inputs[i]<< " Error Is on fire\n";
-                        pesos[i]+=learningRate * -inputs[i];
-                        errores[erroresCount]=inputs[i];
-                        erroresCount++;
-                    }
-                    else
-                    {
-                        std::cout<<inputs[i]<< " Acierto not on fire\n";
-                    }
-                }
-            }
-        }
-
-        std::cout << "errores: " << erroresCount << "\n";
-        if(erroresCount<erroresCountAnt)
-        {
-            erroresCountAnt = erroresCount;
-            if(erroresCount>0)
-            {
-                valorCriticoFinal = valorCritico;
-                valorCritico = errores[rand()%erroresCount];
-                std::cout << "valor nuevo: " << valorCritico << "\n";
-            }
-            else
-            {
-                valorCriticoFinal = valorCritico;
-                break;
-            }
-        }
-        else
-        {
-            valorCritico = errores[rand()%erroresCount];
-        }
-
-        std::cout << "-------------------------------\n";
-    }
-
-    return valorCriticoFinal;
-}*/
 
 int
 main(void) {
@@ -202,38 +129,36 @@ main(void) {
     game->setGameDifficultyMode(CGame::GDM_SAMELEVEL);
     const CFireDoor& fd = game->getCurrentFireDoor();
     const CFireDoor::TVecDoubles& inp = fd.getNextStepInputs();
-    double inputs[N];
-    bool onfireInputs[N];
-    double pesos[N];
-
-    
+    double inputs[N][DIMENSIONES];
+    bool onfireInputs[N];    
 
     // Main loop: stay will the game is on (i.e. the player is alive)
     while (game->getGameStatus() == CGame::GS_PLAYING) {
-        for (int i = 0; i < N; ++i)
-        {
-            pesos[i]=0;
-        }
-        // Do some game steps and print values
+    // Do some game steps and print values
         for (unsigned i=0; i < N; i++) {
             //printGameStatus(*game);
             game->nextStep();
 
             const CFireDoor& fd1 = game->getCurrentFireDoor();
             const CFireDoor::TVecDoubles& inp1 = fd.getNextStepInputs();
-            inputs[i]=inp[0];
+            for(int j=0; j<DIMENSIONES; j++)
+            {
+                inputs[i][j]=inp[i];   
+            }
             onfireInputs[i] = fd.isOnFire();
         }
-        //valorCritico=aprendizaje(valorCritico, inputs, onfireInputs, pesos);
-
         // Try to cross the current FireDoor
         printGameStatus(*game);
         std::cout << "**** TRYING TO CROSS THE DOOR ****\n";
-        if(training(inputs, onfireInputs, inp[0]))
+        double valorAPredecir[DIMENSIONES];
+        for (int j = 0; j < DIMENSIONES; ++j)
+        {
+            valorAPredecir[j] = inp[j];
+        }
+        if(training(inputs, onfireInputs, valorAPredecir))
         {
             game->crossFireDoor();
-        }
-        if (game->getGameStatus() != CGame::GS_PLAYING)
+        }        if (game->getGameStatus() != CGame::GS_PLAYING)
             std::cout << "!!!!!!!!!!! PLAYER GOT BURNED OUT !!!!!!!!!!!!!!\n";
         else
             std::cout << "****** DOOR PASSED *****\n";
