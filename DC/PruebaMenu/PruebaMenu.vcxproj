@@ -69,12 +69,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="Npc.h" />
+    <ClInclude Include="Paths.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Sword.h" />
+    <ClInclude Include="Weapon.h" />
     <ClInclude Include="BotonesMenu.h" />
     <ClInclude Include="Juego.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MyEventReceiver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Npc.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Sword.cpp" />
+    <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Juego.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MyEventReceiver.cpp" />
