@@ -12,13 +12,13 @@ Sword::~Sword(void)
 
 void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 {
-	if(weapon_node != NULL && weapon_node->getAnimators().empty())
+	if (weapon_node != NULL && weapon_node->getAnimators().empty())
 		{
 			float difX, difY;
 			difX = abs(abs(first_x) - abs(last_x));
 			difY = abs(abs(first_y) - abs(last_y));
 
-			if(difY < 3 && difX < 3)
+			if (difY < 3 && difX < 3)
 			{
 				weapon_node->setRotation(core::vector3df(0,0,0));
 				
@@ -31,9 +31,9 @@ void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 			}
 			else
 			{
-				if(difY < difX)//Estocada lateral
+				if (difY < difX) //Estocada lateral
 				{
-					if(first_x < last_x) //Hacia la derecha
+					if (first_x < last_x) //Hacia la derecha
 					{
 						weapon_node->setRotation(core::vector3df(10,0,0));
 	
@@ -45,7 +45,7 @@ void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 						weapon_node->setLoopMode(false);
 			
 					}
-					else//Hacia la izquierda
+					else //Hacia la izquierda
 					{
 						weapon_node->setRotation(core::vector3df(10,0,0));
 
@@ -58,7 +58,7 @@ void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 			
 					}
 				}
-				else//Estocada vertical
+				else //Estocada vertical
 				{
 						weapon_node->setRotation(core::vector3df(0,0,12));		
 
@@ -75,14 +75,13 @@ void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 
 void Sword::finish_animation()
 {
-	if(weapon_node && weapon_node->getAnimators().size() > 0)
+	if (weapon_node && weapon_node->getAnimators().size() > 0)
 	{
-		
 		list<ISceneNodeAnimator*>::ConstIterator it = weapon_node->getAnimators().begin();
-		if((*it)->hasFinished())
+		if ((*it)->hasFinished())
 		{
-			weapon_node->setPosition(core::vector3df(15,-10,20));
-			weapon_node->setRotation(core::vector3df(0,50,90));
+			weapon_node->setPosition(core::vector3df(15, -10, 20));
+			weapon_node->setRotation(core::vector3df(0, 50, 90));
 			weapon_node->removeAnimators();
 			weapon_node->removeAnimators();
 			collision_flag = false;

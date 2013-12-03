@@ -1,6 +1,5 @@
 #include "Player.h"
 
-
 Player::Player(ISceneManager *sm): Character(knight_path, sm)
 {
 }
@@ -33,18 +32,19 @@ void Player::manage_collision(Weapon *w)
 	}
 }
 
-void Player::drop_weapon(ICameraSceneNode* cam)
+void Player::drop_weapon(ISceneNode* cam)
 {
-	cam->removeChild(weapon->get_weapon_node());
-	weapon->set_weapon_node(NULL);
+	if (cam = dynamic_cast<ICameraSceneNode*>(cam))
+	{
+		cam->removeChild(weapon->get_weapon_node());
+		weapon->set_weapon_node(NULL);
+	}
 }
 
-void Player::pick_weapon(ICameraSceneNode* cam, IAnimatedMeshSceneNode* w)
+void Player::pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w)
 {
-
-	if(no_weapon())
+	if (no_weapon() && (cam = dynamic_cast<ICameraSceneNode*>(cam)))
 	{
-
 		weapon->set_weapon_node(w);
 		weapon->set_weapon_node( scene_manager->addAnimatedMeshSceneNode(weapon->get_weapon_node()->getMesh(), cam, -1));  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
 	
