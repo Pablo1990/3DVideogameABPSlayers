@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #define N 10
-#define PASADAS 100
+#define PASADAS 10
 #define DIMENSIONES 1
 
 using namespace FireDoorEscaper;
@@ -76,7 +76,7 @@ bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double valorA
                     erroresCount++;
                 }
             }
-            else if(!h(pesos,inputs[i]))
+            else
             {
                 if(!onfireInputs[i]) //debería estar on fire
                 {
@@ -92,18 +92,12 @@ bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double valorA
             int i = errores[rand()%erroresCount];
             if(!onfireInputs[i])
             {
-                actualizarPesos(pesos, inputs[i], -1);
+                actualizarPesos(pesos, inputs[i], 1);
             }
             else
             {
-                actualizarPesos(pesos, inputs[i], 1);
+                actualizarPesos(pesos, inputs[i], -1);
             }
-            std::cout<<"nuevos pesos: ";
-            for (int i = 0; i <= DIMENSIONES; ++i)
-            {
-                std::cout<<pesos[i]<<", ";
-            }
-            std::cout<<"\n";
         }
         else
         {
@@ -151,7 +145,8 @@ main(void) {
         if(training(inputs, onfireInputs, valorAPredecir))
         {
             game->crossFireDoor();
-        }        if (game->getGameStatus() != CGame::GS_PLAYING)
+        }        
+        if (game->getGameStatus() != CGame::GS_PLAYING)
             std::cout << "!!!!!!!!!!! PLAYER GOT BURNED OUT !!!!!!!!!!!!!!\n";
         else
             std::cout << "****** DOOR PASSED *****\n";
