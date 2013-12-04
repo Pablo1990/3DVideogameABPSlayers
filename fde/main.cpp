@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #define N 10
-#define PASADAS 10
+#define PASADAS 100
 #define DIMENSIONES 1
 
 using namespace FireDoorEscaper;
@@ -28,21 +28,10 @@ printGameStatus(const CGame& g) {
     std::cout << "] \n";
 }
 
-bool prediction(double pesos[DIMENSIONES+1], double valorAPredecir[DIMENSIONES])
-{
-    double suma=pesos[0];
-    for (int i = 0; i < DIMENSIONES; ++i)
-    {
-        suma+=pesos[i+1]+valorAPredecir[i];
-    }
-
-    return suma>=0;
-}
-
 bool h(double pesos[DIMENSIONES+1], double x[DIMENSIONES])
 {
     double suma=pesos[0];
-    for (int i = 1; i < sizeof(pesos); ++i)
+    for (int i = 1; i < DIMENSIONES+1; ++i)
     {
         suma+=pesos[i]*x[i-1];
     }
@@ -52,7 +41,7 @@ bool h(double pesos[DIMENSIONES+1], double x[DIMENSIONES])
 void actualizarPesos(double pesos[DIMENSIONES+1], double inputs[DIMENSIONES], double correct)
 {
     pesos[0]+=correct;
-    for (int i = 1; i < sizeof(pesos); ++i)
+    for (int i = 1; i < DIMENSIONES+1; ++i)
     {
         pesos[i]+=correct*inputs[i-1];
     }
@@ -74,7 +63,7 @@ bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double valorA
 
     while(count<PASADAS)
     {
-            count++;
+        count++;
         erroresCount=0;
 
         for (int i = 0; i < N; ++i)
@@ -109,6 +98,12 @@ bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double valorA
             {
                 actualizarPesos(pesos, inputs[i], 1);
             }
+            std::cout<<"nuevos pesos: ";
+            for (int i = 0; i <= DIMENSIONES; ++i)
+            {
+                std::cout<<pesos[i]<<", ";
+            }
+            std::cout<<"\n";
         }
         else
         {
@@ -116,13 +111,11 @@ bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double valorA
         }
     }
 
-    return prediction(pesos, valorAPredecir);
+    return h(pesos, valorAPredecir);
 }
 
 int
 main(void) {
-    double valorCritico=(double)0;
-    int invertido=0;
     // Create a new game starting at level 0, and staying at the same level all the time.
     // Use GDM_LEVELUP for increasing level of difficulty
     CGame *game = new CGame(0);
