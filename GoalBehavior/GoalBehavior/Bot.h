@@ -2,6 +2,8 @@
 
 #include "Goal_Think.h"
 class Goal_Think;
+
+
 class Bot
 {
 private: 
@@ -20,6 +22,7 @@ public:
 	int getPosx();
 	int getPosy();
 	bool getArma();
+	Goal_Think* getBrain();
 	~Bot(void);
 };
 

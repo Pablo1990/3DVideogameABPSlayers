@@ -1,6 +1,10 @@
 #pragma once
+
 #include "Goal_Composite.h";
+#include "Goal_Evaluator.h";
+
 class Bot;
+class Goal_Evaluator;
 class Goal_Think : public Goal_Composite
 {
 public:
@@ -15,5 +19,6 @@ public:
 	~Goal_Think(void);
 private:
 		Bot* dueño;
+		list<Goal_Evaluator*> Evaluators;
 
 };

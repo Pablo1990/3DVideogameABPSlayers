@@ -90,16 +90,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bot.h" />
+    <ClInclude Include="GetHealthGoal_Evaluator.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="Goal_Composite.h" />
+    <ClInclude Include="Goal_Evaluator.h" />
     <ClInclude Include="Goal_Think.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bot.cpp" />
+    <ClCompile Include="GetHealthGoal_Evaluator.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="GoalBehavior.cpp" />
+    <ClCompile Include="Goal_Composite.cpp" />
+    <ClCompile Include="Goal_Evaluator.cpp" />
     <ClCompile Include="Goal_Think.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

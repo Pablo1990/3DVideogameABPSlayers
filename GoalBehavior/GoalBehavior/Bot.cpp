@@ -51,3 +51,8 @@ void Bot::setSalud(int salud_)
 	salud=salud_;
 
 }
+
+Goal_Think* Bot::getBrain()
+{
+	return mente;
+}

@@ -3,6 +3,8 @@
 #include <list>
 using namespace std;
 
+
+
 class Goal_Composite : public Goal
 {
 public:  
@@ -12,8 +14,10 @@ public:
 		virtual int Process()=0;
 		virtual void Terminate()=0;
 		virtual void AddSubGoal(Goal *g)=0;
+		int ProcessSubgoals();
+		void RemoveAllSubgoals();
 private:
-		list <Goal* > m_subgoals;
+		list <Goal* > m_SubGoals;
 
 
 };

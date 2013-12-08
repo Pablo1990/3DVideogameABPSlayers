@@ -1,6 +1,7 @@
 #pragma once
 
 
+
 class Goal
 {
 
@@ -18,9 +19,13 @@ public:
 	bool hasfailed();
 
 private:
-
+	enum Estado
+	{
+		completed=2,active=1,inactive=0,error=3
+	};
 	int estado;//Si es 1 es activado, 2 es completo, 0 inactivo,3 error
 	int tipo;
+	
 		
 };
 
