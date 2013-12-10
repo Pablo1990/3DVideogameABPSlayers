@@ -37,7 +37,7 @@ void pintarActual(double inputs[N][DIMENSIONES], bool onfireInputs[N], double pe
     for (int i = 0; i < N; ++i)
     {
         sf::CircleShape shape(2.f);
-        if(onfireInputs[i])
+        if (onfireInputs[i])
         {
             shape.setFillColor(sf::Color::Red);
         }
@@ -103,16 +103,16 @@ bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double valorA
     }
     int k=0;
 
-    while(count<PASADAS)
+    while (count<PASADAS)
     {
         count++;
         erroresCount=0;
 
         for (int i = 0; i < N; ++i)
         {
-            if(h(pesos,inputs[i]))
+            if (h(pesos,inputs[i]))
             {
-                if(onfireInputs[i]) //debería estar not on fire
+                if (onfireInputs[i]) //debería estar not on fire
                 {
                     errores[erroresCount]=i;
                     erroresCount++;
@@ -120,7 +120,7 @@ bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double valorA
             }
             else
             {
-                if(!onfireInputs[i]) //debería estar on fire
+                if (!onfireInputs[i]) //debería estar on fire
                 {
                     errores[erroresCount]=i;
                     erroresCount++;
@@ -129,10 +129,10 @@ bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double valorA
         }
 
         //cogemos otro valor para ver que pasa
-        if(erroresCount>0)
+        if (erroresCount>0)
         {
             int i = errores[rand()%erroresCount];
-            if(!onfireInputs[i])
+            if (!onfireInputs[i])
             {
                 actualizarPesos(pesos, inputs[i], 1);
             }
@@ -192,7 +192,7 @@ main(void) {
         {
             valorAPredecir[j] = inp[j];
         }
-        if(training(inputs, onfireInputs, valorAPredecir))
+        if (training(inputs, onfireInputs, valorAPredecir))
         {
             game->crossFireDoor();
         }        
