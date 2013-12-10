@@ -4,15 +4,14 @@
 #include <stdlib.h>
 #include <SFML/Graphics.hpp>
 
-#define N 100               // Número de pruebas que se hacen al principio
-#define PASADAS 100
-#define DIMENSIONES 1
+#define N 30               // Número de muestras que se toman
+#define PLA_ITS 100        // Número de iteraciones para el perceptron
+#define DIMENSIONS 1
 
 using namespace FireDoorEscaper;
 
 // Print Game Status Values
-void
-printGameStatus(const CGame& g) {
+void printGameStatus(const CGame& g) {
     const CFireDoor& fd = g.getCurrentFireDoor();
     const CFireDoor::TVecDoubles& inp = fd.getNextStepInputs();
     std::cout   << "Lvl: " << g.getLevel()
@@ -29,7 +28,7 @@ printGameStatus(const CGame& g) {
     std::cout << "] \n";
 }
 
-void pintarActual(double inputs[N][DIMENSIONES], bool onfireInputs[N], double pesos[DIMENSIONES+1]) {
+void pintarActual(double inputs[N][DIMENSIONS], bool onfireInputs[N], double weights[DIMENSIONS+1]) {
     sf::RenderWindow window(sf::VideoMode(300, N*10), "Traza");
     window.clear();
 
@@ -48,9 +47,9 @@ void pintarActual(double inputs[N][DIMENSIONES], bool onfireInputs[N], double pe
     sf::RectangleShape rectangle;
     rectangle.setSize(sf::Vector2f(2, 200));
     rectangle.setOutlineColor(sf::Color::Green);
-    rectangle.setPosition(pesos[1], pesos[0]);
+    rectangle.setPosition(weights[1], weights[0]);
     window.draw(rectangle);
-    std::cout << "pesos " << pesos[0] << ", " <<pesos[1] << "\n"; 
+    std::cout << "weights " << weights[0] << ", " <<weights[1] << "\n"; 
 
     window.display();
     
@@ -63,80 +62,75 @@ void pintarActual(double inputs[N][DIMENSIONES], bool onfireInputs[N], double pe
     }
 }
 
-bool h(double pesos[DIMENSIONES+1], double x[DIMENSIONES]) {
-    double suma = pesos[0];
+bool h(double weights[DIMENSIONS+1], double x[DIMENSIONS]) {
+    double suma = weights[0];
     
-    for (int i = 1; i < DIMENSIONES+1; ++i)
-        suma += pesos[i]*x[i-1];
+    for (int i = 1; i < DIMENSIONS+1; ++i)
+        suma += weights[i]*x[i-1];
 
     return suma>=0;
 }
 
-void actualizarPesos(double pesos[DIMENSIONES+1], double inputs[DIMENSIONES], double correct) {
-    pesos[0] += correct;
+void updateWeights(double weights[DIMENSIONS+1], double inputs[DIMENSIONS], double correct) {
+    weights[0] += correct;
     
-    for (int i = 1; i < DIMENSIONES+1; ++i)
-        pesos[i] += correct*inputs[i-1];
+    for (int i = 1; i < DIMENSIONS+1; ++i)
+        weights[i] += correct*inputs[i-1];
 }
 
-bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double current_input[DIMENSIONES]) {
+bool training(double inputs[N][DIMENSIONS], bool onfireInputs[N], double currentInput[DIMENSIONS]) {
     int count = 0;
-    double errores[N];
-    double pesos[DIMENSIONES+1];
-    int erroresCount = 0;
-    double valorCritico = 0;
+    double errors[N];
+    double weights[DIMENSIONS+1];
+    int errorsCount = 0;
     
-    pesos[0] = 1;     // Se inicializa con peso=1 porque es el threshold
+    weights[0] = 1;     // Se inicializa con peso=1 porque es el threshold
+    for (int i = 1; i <= DIMENSIONS; i++)
+        weights[i] = 0;
     
-    for (int i = 1; i <= DIMENSIONES; i++)
-        pesos[i] = 0;
-    
-    while (count<PASADAS) {
+    while (count < PLA_ITS) {
         count++;
-        erroresCount = 0;
+        errorsCount = 0;
 
         for (int i = 0; i < N; i++) {
-            if (h(pesos,inputs[i])) {
+            if (h(weights,inputs[i])) {
                 if (onfireInputs[i]) { //debería estar not on fire
-                    errores[erroresCount] = i;
-                    erroresCount++;
+                    errors[errorsCount] = i;
+                    errorsCount++;
                 }
             }
-            else {
-                if (!onfireInputs[i]) { //debería estar on fire
-                    errores[erroresCount] = i;
-                    erroresCount++;
-                }
+            else if ( ! onfireInputs[i]) { //debería estar on fire
+                    errors[errorsCount] = i;
+                    errorsCount++;
             }
         }
 
         //cogemos otro valor para ver que pasa
-        if (erroresCount>0) {
-            int i = errores[rand()%erroresCount];
+        if (errorsCount > 0) {
+            int i = errors[rand()%errorsCount];
             
-            if (!onfireInputs[i])
-                actualizarPesos(pesos, inputs[i], 1);
+            if ( ! onfireInputs[i])
+                updateWeights(weights, inputs[i], 1);
             else
-                actualizarPesos(pesos, inputs[i], -1);
+                updateWeights(weights, inputs[i], -1);
         }
         else
             break;
 
-        pintarActual(inputs, onfireInputs, pesos);
+        pintarActual(inputs, onfireInputs, weights);
     }
 
-    return h(pesos, current_input);
+    return h(weights, currentInput);
 }
 
-int
-main(void) {
+int main(void) {
     // Create a new game starting at level 0, and staying at the same level all the time.
     // Use GDM_LEVELUP for increasing level of difficulty
     CGame *game = new CGame(0);
     game->setGameDifficultyMode(CGame::GDM_SAMELEVEL);
-    double inputs[N][DIMENSIONES];
+    double inputs[N][DIMENSIONS];
     bool onfireInputs[N];
-    double current_input[DIMENSIONES];
+    double currentInput[DIMENSIONS];
     const CFireDoor::TVecDoubles& inp;
 
     // Main loop: stay will the game is on (i.e. the player is alive)
@@ -146,7 +140,7 @@ main(void) {
             //printGameStatus(*game);
             inp = game->getCurrentFireDoor().getNextStepInputs();
 
-            for(int j=0; j<DIMENSIONES; j++)
+            for (int j=0; j<DIMENSIONS; j++)
                 inputs[i][j] = inp[j];   
 
             game->nextStep();
@@ -158,10 +152,10 @@ main(void) {
 
         inp = game->getCurrentFireDoor().getNextStepInputs();
         
-        for (int j = 0; j < DIMENSIONES; ++j)
-            current_input[j] = inp[j];
+        for (int j = 0; j < DIMENSIONS; ++j)
+            currentInput[j] = inp[j];
 
-        if (training(inputs, onfireInputs, current_input))
+        if (training(inputs, onfireInputs, currentInput))
             game->crossFireDoor();
 
         if (game->getGameStatus() != CGame::GS_PLAYING)
