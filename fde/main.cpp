@@ -2,9 +2,10 @@
 #include <cfiredoor.h>
 #include <iostream>
 #include <stdlib.h>
+#include <limits>
 #include <SFML/Graphics.hpp>
 
-#define N 30               // Número de muestras que se toman
+#define N 15               // Número de muestras que se toman
 #define PLA_ITS 100        // Número de iteraciones para el perceptron
 #define DIMENSIONS 1
 
@@ -63,12 +64,12 @@ void pintarActual(double inputs[N][DIMENSIONS], bool onfireInputs[N], double wei
 }
 
 bool h(double weights[DIMENSIONS+1], double x[DIMENSIONS]) {
-    double suma = weights[0];
+    double sum = weights[0];
     
     for (int i = 1; i < DIMENSIONS+1; ++i)
-        suma += weights[i]*x[i-1];
+        sum += weights[i] * x[i-1];
 
-    return suma>=0;
+    return sum >= 0;
 }
 
 void updateWeights(double weights[DIMENSIONS+1], double inputs[DIMENSIONS], double correct) {
@@ -79,40 +80,35 @@ void updateWeights(double weights[DIMENSIONS+1], double inputs[DIMENSIONS], doub
 }
 
 bool training(double inputs[N][DIMENSIONS], bool onfireInputs[N], double currentInput[DIMENSIONS]) {
-    int count = 0;
     double errors[N];
     double weights[DIMENSIONS+1];
+    double bestWeights[DIMENSIONS+1];
     int errorsCount = 0;
+    int randomInput;
+    int minErrorsCount = INT_MAX;
     
     weights[0] = 1;     // Se inicializa con peso=1 porque es el threshold
     for (int i = 1; i <= DIMENSIONS; i++)
         weights[i] = 0;
     
-    while (count < PLA_ITS) {
-        count++;
+    for (int i=0; i < PLA_ITS; i++) {
         errorsCount = 0;
 
-        for (int i = 0; i < N; i++) {
-            if (h(weights,inputs[i])) {
-                if (onfireInputs[i]) { //debería estar not on fire
-                    errors[errorsCount] = i;
-                    errorsCount++;
-                }
-            }
-            else if ( ! onfireInputs[i]) { //debería estar on fire
-                    errors[errorsCount] = i;
-                    errorsCount++;
+        for (int j = 0; i < N; j++) {            
+            if (h(weights, inputs[j]) == onfireInputs[j]) {  // Se comprueba si hay error
+                errors[errorsCount] = j;
+                errorsCount++;
             }
         }
 
-        //cogemos otro valor para ver que pasa
-        if (errorsCount > 0) {
-            int i = errors[rand()%errorsCount];
-            
-            if ( ! onfireInputs[i])
-                updateWeights(weights, inputs[i], 1);
-            else
-                updateWeights(weights, inputs[i], -1);
+        if (errorsCount > 0) {  // Se actualiza un peso en caso de haber error
+            if (errorsCount < minErrorsCount) {  // Se guardan los mejores pesos
+                minErrorsCount = errorsCount;
+                std::copy(&weights[0], &weights[DIMENSIONS+1], bestWeights);
+            }
+
+            randomInput = errors[rand()%errorsCount];
+            updateWeights(weights, inputs[randomInput], (onfireInputs[i]? -1 : 1));
         }
         else
             break;
@@ -120,7 +116,7 @@ bool training(double inputs[N][DIMENSIONS], bool onfireInputs[N], double current
         pintarActual(inputs, onfireInputs, weights);
     }
 
-    return h(weights, currentInput);
+    return h(bestWeights, currentInput);
 }
 
 int main(void) {
@@ -131,14 +127,14 @@ int main(void) {
     double inputs[N][DIMENSIONS];
     bool onfireInputs[N];
     double currentInput[DIMENSIONS];
-    const CFireDoor::TVecDoubles& inp;
 
     // Main loop: stay will the game is on (i.e. the player is alive)
     while (game->getGameStatus() == CGame::GS_PLAYING) {
     // Do some game steps and print values
         for (unsigned i=0; i < N; i++) {
             //printGameStatus(*game);
-            inp = game->getCurrentFireDoor().getNextStepInputs();
+            const CFireDoor::TVecDoubles& inp = 
+                    game->getCurrentFireDoor().getNextStepInputs();
 
             for (int j=0; j<DIMENSIONS; j++)
                 inputs[i][j] = inp[j];   
@@ -150,7 +146,8 @@ int main(void) {
         printGameStatus(*game);
         std::cout << "**** TRYING TO CROSS THE DOOR ****\n";
 
-        inp = game->getCurrentFireDoor().getNextStepInputs();
+        const CFireDoor::TVecDoubles& inp =
+                game->getCurrentFireDoor().getNextStepInputs();
         
         for (int j = 0; j < DIMENSIONS; ++j)
             currentInput[j] = inp[j];
