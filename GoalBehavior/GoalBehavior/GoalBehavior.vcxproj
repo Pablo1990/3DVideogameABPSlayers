@@ -90,6 +90,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bot.h" />
+    <ClInclude Include="ExploreGoal_Evaluator.h" />
+    <ClInclude Include="Feature.h" />
     <ClInclude Include="GetHealthGoal_Evaluator.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="Goal_Composite.h" />
@@ -100,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bot.cpp" />
+    <ClCompile Include="ExploreGoal_Evaluator.cpp" />
     <ClCompile Include="GetHealthGoal_Evaluator.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="GoalBehavior.cpp" />
