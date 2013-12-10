@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <SFML/Graphics.hpp>
 
-#define N 10
+#define N 100               // Número de pruebas que se hacen al principio
 #define PASADAS 100
 #define DIMENSIONES 1
 
@@ -94,11 +94,13 @@ bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double valorA
     double pesos[DIMENSIONES+1];
     int erroresCount=0;
     double valorCritico=0;
-        pesos[0]=1;
-        for (int i = 1; i <= DIMENSIONES; ++i)
-        {
-            pesos[i] = 0;
-        }
+    
+    pesos[0]=1;     // Se inicializa con peso=1 porque es el threshold
+    
+    for (int i = 1; i <= DIMENSIONES; ++i)
+    {
+        pesos[i] = 0;
+    }
     int k=0;
 
     while(count<PASADAS)
@@ -167,15 +169,17 @@ main(void) {
     // Do some game steps and print values
         for (unsigned i=0; i < N; i++) {
             //printGameStatus(*game);
-            game->nextStep();
+            const CFireDoor::TVecDoubles& inp1 = 
+                    game->getCurrentFireDoor().getNextStepInputs();
 
-            const CFireDoor& fd1 = game->getCurrentFireDoor();
-            const CFireDoor::TVecDoubles& inp1 = fd1.getNextStepInputs();
             for(int j=0; j<DIMENSIONES; j++)
             {
                 inputs[i][j]=inp1[j];   
-            }
-            onfireInputs[i] = fd1.isOnFire();
+            }            
+
+            game->nextStep();
+
+            onfireInputs[i] = game->getCurrentFireDoor().isOnFire();
         }
         // Try to cross the current FireDoor
         printGameStatus(*game);
