@@ -50,7 +50,7 @@ void pintarActual(double inputs[N][DIMENSIONES], bool onfireInputs[N], double pe
     rectangle.setOutlineColor(sf::Color::Green);
     rectangle.setPosition(pesos[1], pesos[0]);
     window.draw(rectangle);
-    std::cout<<"pesos "<< pesos[0]<<", " <<pesos[1]<<"\n"; 
+    std::cout << "pesos " << pesos[0] << ", " <<pesos[1] << "\n"; 
 
     window.display();
     
@@ -64,7 +64,8 @@ void pintarActual(double inputs[N][DIMENSIONES], bool onfireInputs[N], double pe
 }
 
 bool h(double pesos[DIMENSIONES+1], double x[DIMENSIONES]) {
-    double suma=pesos[0];
+    double suma = pesos[0];
+    
     for (int i = 1; i < DIMENSIONES+1; ++i)
         suma += pesos[i]*x[i-1];
 
@@ -78,7 +79,7 @@ void actualizarPesos(double pesos[DIMENSIONES+1], double inputs[DIMENSIONES], do
         pesos[i] += correct*inputs[i-1];
 }
 
-bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double valorAPredecir[DIMENSIONES]) {
+bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double current_input[DIMENSIONES]) {
     int count = 0;
     double errores[N];
     double pesos[DIMENSIONES+1];
@@ -87,14 +88,14 @@ bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double valorA
     
     pesos[0] = 1;     // Se inicializa con peso=1 porque es el threshold
     
-    for (int i = 1; i <= DIMENSIONES; ++i)
+    for (int i = 1; i <= DIMENSIONES; i++)
         pesos[i] = 0;
     
     while (count<PASADAS) {
         count++;
         erroresCount = 0;
 
-        for (int i = 0; i < N; ++i) {
+        for (int i = 0; i < N; i++) {
             if (h(pesos,inputs[i])) {
                 if (onfireInputs[i]) { //debería estar not on fire
                     errores[erroresCount] = i;
@@ -124,7 +125,7 @@ bool training(double inputs[N][DIMENSIONES], bool onfireInputs[N], double valorA
         pintarActual(inputs, onfireInputs, pesos);
     }
 
-    return h(pesos, valorAPredecir);
+    return h(pesos, current_input);
 }
 
 int
@@ -135,34 +136,32 @@ main(void) {
     game->setGameDifficultyMode(CGame::GDM_SAMELEVEL);
     double inputs[N][DIMENSIONES];
     bool onfireInputs[N];
+    double current_input[DIMENSIONES];
+    const CFireDoor::TVecDoubles& inp;
 
     // Main loop: stay will the game is on (i.e. the player is alive)
     while (game->getGameStatus() == CGame::GS_PLAYING) {
     // Do some game steps and print values
         for (unsigned i=0; i < N; i++) {
             //printGameStatus(*game);
-            const CFireDoor::TVecDoubles& inp1 = 
-                    game->getCurrentFireDoor().getNextStepInputs();
+            inp = game->getCurrentFireDoor().getNextStepInputs();
 
             for(int j=0; j<DIMENSIONES; j++)
-                inputs[i][j] = inp1[j];   
+                inputs[i][j] = inp[j];   
 
             game->nextStep();
-
             onfireInputs[i] = game->getCurrentFireDoor().isOnFire();
         }
         // Try to cross the current FireDoor
         printGameStatus(*game);
         std::cout << "**** TRYING TO CROSS THE DOOR ****\n";
 
-        const CFireDoor& fd = game->getCurrentFireDoor();
-        const CFireDoor::TVecDoubles& inp = fd.getNextStepInputs();
-        double valorAPredecir[DIMENSIONES];
+        inp = game->getCurrentFireDoor().getNextStepInputs();
         
         for (int j = 0; j < DIMENSIONES; ++j)
-            valorAPredecir[j] = inp[j];
+            current_input[j] = inp[j];
 
-        if (training(inputs, onfireInputs, valorAPredecir))
+        if (training(inputs, onfireInputs, current_input))
             game->crossFireDoor();
 
         if (game->getGameStatus() != CGame::GS_PLAYING)
