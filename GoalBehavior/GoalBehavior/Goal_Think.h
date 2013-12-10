@@ -5,6 +5,8 @@
 
 class Bot;
 class Goal_Evaluator;
+
+
 class Goal_Think : public Goal_Composite
 {
 public:
