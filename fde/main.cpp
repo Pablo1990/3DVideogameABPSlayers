@@ -2,10 +2,9 @@
 #include <cfiredoor.h>
 #include <iostream>
 #include <stdlib.h>
-#include <limits>
 #include <SFML/Graphics.hpp>
 
-#define N 15               // Número de muestras que se toman
+#define N 10               // Número de muestras que se toman
 #define PLA_ITS 100        // Número de iteraciones para el perceptron
 #define DIMENSIONS 1
 
@@ -85,7 +84,7 @@ bool training(double inputs[N][DIMENSIONS], bool onfireInputs[N], double current
     double bestWeights[DIMENSIONS+1];
     int errorsCount = 0;
     int randomInput;
-    int minErrorsCount = INT_MAX;
+    int minErrorsCount = N+1;
     
     weights[0] = 1;     // Se inicializa con peso=1 porque es el threshold
     for (int i = 1; i <= DIMENSIONS; i++)
@@ -94,7 +93,7 @@ bool training(double inputs[N][DIMENSIONS], bool onfireInputs[N], double current
     for (int i=0; i < PLA_ITS; i++) {
         errorsCount = 0;
 
-        for (int j = 0; i < N; j++) {            
+        for (int j = 0; j < N; j++) {            
             if (h(weights, inputs[j]) == onfireInputs[j]) {  // Se comprueba si hay error
                 errors[errorsCount] = j;
                 errorsCount++;
@@ -108,12 +107,12 @@ bool training(double inputs[N][DIMENSIONS], bool onfireInputs[N], double current
             }
 
             randomInput = errors[rand()%errorsCount];
-            updateWeights(weights, inputs[randomInput], (onfireInputs[i]? -1 : 1));
+            updateWeights(weights, inputs[randomInput], (onfireInputs[randomInput]? -1 : 1));
         }
         else
-            break;
+            return h(weights, currentInput);
 
-        pintarActual(inputs, onfireInputs, weights);
+        //pintarActual(inputs, onfireInputs, weights);
     }
 
     return h(bestWeights, currentInput);
@@ -136,7 +135,7 @@ int main(void) {
             const CFireDoor::TVecDoubles& inp = 
                     game->getCurrentFireDoor().getNextStepInputs();
 
-            for (int j=0; j<DIMENSIONS; j++)
+            for (int j=0; j<DIMENSIONS; ++j)
                 inputs[i][j] = inp[j];   
 
             game->nextStep();
