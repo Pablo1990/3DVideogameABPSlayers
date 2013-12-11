@@ -186,7 +186,7 @@ void Juego::switchToNextScene()
 	
 	
 	Sword *sw2 = new Sword(0,0,sm);
-	player = new Player(sm, sw2);
+	player = new Player(sm, sw2, mapSelector);
 	player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
 	/*
 	gun = sm->addAnimatedMeshSceneNode(gunmesh, camera, -1);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
@@ -382,6 +382,8 @@ void Juego::loadSceneData()
 	dropped_sword = new Sword(0,0,sm);
 	dropped_sword->add_to_scene(core::vector3df(180,40,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);
 
+	
+
 	gunmesh = sm->getMesh("../media/sword.3DS"); 
 	gunmesh->setMaterialFlag(video::EMF_LIGHTING, false);
 	droppedGun = sm->addAnimatedMeshSceneNode(gunmesh,0, IDFlag_IsPickable);
@@ -424,6 +426,9 @@ void Juego::loadSceneData()
 	campFire->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
 	campFire->setMaterialTexture(0, driver->getTexture("../media/fireball.bmp"));
 	campFire->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+
+	dropped_bow = new Bow(0,0,sm, mapSelector, device);
+	dropped_bow->add_to_scene(core::vector3df(230,40,180), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
 }
 
 bool Juego::OnEvent(const SEvent& event)
@@ -487,7 +492,7 @@ bool Juego::OnEvent(const SEvent& event)
 				gun->setScale(core::vector3df(0.008,0.008,0.008));
 				gun->setPosition(core::vector3df(15,-10,20)); 
 				gun->setRotation(core::vector3df(0,50,90));				*/
-				player->pick_weapon(camera, selectedSceneNode);
+				player->pick_weapon(camera, selectedSceneNode, device);
 			}
 
 		}

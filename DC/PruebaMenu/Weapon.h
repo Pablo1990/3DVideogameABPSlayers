@@ -9,7 +9,7 @@ using namespace scene;
 class Weapon
 {
 public:
-	Weapon(const char* path, int dmg, int sp, ISceneManager *sm);
+	Weapon(const char* path, int dmg, int sp, ISceneManager *sm, int t);
 	~Weapon(void);
 
 	void set_weapon_node(IAnimatedMeshSceneNode* wn);
@@ -22,7 +22,7 @@ public:
 	virtual void attack(float first_x, float first_y, float last_x, float last_y);
 
 	void add_to_scene(vector3df position, vector3df rotation, vector3df scale, bool pickable);
-	void add_to_camera(vector3df position,vector3df rotation, vector3df scale, ICameraSceneNode* camera);
+	void add_to_camera(vector3df position,vector3df rotation, vector3df scale, ISceneNode* camera);
 	bool is_animated();
 
 protected:
@@ -49,5 +49,6 @@ private:
 		// homonids can be highlighted, but the level mesh can't.
 		IDFlag_IsHighlightable = 1 << 1
 	};
+	int ty;
 };
 

@@ -10,7 +10,9 @@ Character::Character(const char* path, ISceneManager *sm)
 
 Character::Character(const char* path, ISceneManager *sm, Weapon* w)
 {
-	Character(path, sm);
+	this->scene_manager = sm;
+
+	this->character_mesh = sm->getMesh(path);
 	this->weapon = w;
 }
 

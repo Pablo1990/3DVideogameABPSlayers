@@ -1,10 +1,9 @@
 #include "Sword.h"
 
 
-Sword::Sword(int dmg, int sp, ISceneManager *sm):Weapon(sword_path, dmg, sp, sm)
+Sword::Sword(int dmg, int sp, ISceneManager *sm):Weapon(sword_path, dmg, sp, sm, SWORD_TYPE)
 {
 }
-
 
 Sword::~Sword(void)
 {

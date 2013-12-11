@@ -1,6 +1,6 @@
 #include "Weapon.h"
 
-Weapon::Weapon(const char* path, int dmg = 0, int sp = 0, ISceneManager *sm = 0)
+Weapon::Weapon(const char* path, int dmg = 0, int sp = 0, ISceneManager *sm = 0, int t = -1)
 {
 	this->damage = dmg;
 	this->speed = sp;
@@ -8,6 +8,7 @@ Weapon::Weapon(const char* path, int dmg = 0, int sp = 0, ISceneManager *sm = 0)
 
 	this->weapon_mesh = sm->getMesh(path); 
 	this->weapon_mesh->setMaterialFlag(video::EMF_LIGHTING, false);
+	this->ty = t;
 }
 
 void Weapon::add_to_scene(vector3df position, vector3df rotation, vector3df scale, bool pickable)
@@ -23,10 +24,12 @@ void Weapon::add_to_scene(vector3df position, vector3df rotation, vector3df scal
 		selector = scene_manager->createTriangleSelector(this->weapon_node);
 		this->weapon_node->setTriangleSelector(selector);
 		selector->drop();
+
+		weapon_node->setName(std::to_string(ty).c_str());
 	}
 }
 
-void Weapon::add_to_camera(vector3df position, vector3df rotation, vector3df scale, ICameraSceneNode* camera)
+void Weapon::add_to_camera(vector3df position, vector3df rotation, vector3df scale, ISceneNode* camera)
 {
 	this->weapon_node = scene_manager->addAnimatedMeshSceneNode(this->weapon_mesh, camera, ID_IsNotPickable);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
 	if(this->weapon_node)

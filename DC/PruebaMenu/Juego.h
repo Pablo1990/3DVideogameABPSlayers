@@ -6,6 +6,7 @@
 #include "Sword.h"
 #include "Weapon.h"
 #include "Player.h"
+#include "Bow.h"
 using namespace std;
 
 
@@ -87,6 +88,7 @@ private:
 	Player* player;
 	Sword* sw;
 	Sword* dropped_sword;
+	Bow* dropped_bow;
 	scene::ITriangleSelector* model1_selector;
 	scene::ITriangleSelector* selector;
 	enum
