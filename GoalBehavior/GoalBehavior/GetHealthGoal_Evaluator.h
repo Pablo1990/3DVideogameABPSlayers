@@ -1,6 +1,7 @@
 #pragma once
 #include "Goal_Evaluator.h";
 
+
 class GetHealthGoal_Evaluator: public Goal_Evaluator
 {
 public:

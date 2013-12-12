@@ -2,13 +2,12 @@
 #include "Bot.h"
 
 
-Bot::Bot(int salud_,int posx_,int posy_,bool arma_)
+Bot::Bot(double salud_,double posx_,double posy_,double arma_)
 {
 	salud=salud_;
-	posx=posx_;
-	posy=posy_;
+	Pos.first=posx_;
+	Pos.second=posy_;
 	arma=arma_;
-
 }
 
 
@@ -16,37 +15,32 @@ Bot::~Bot(void)
 {
 }
 
-bool Bot:: getArma()
+double Bot:: getArma()
 {
 	return arma;
 }
-int Bot::getSalud()
+double Bot::getSalud()
 {
 	return salud;
 }
-int Bot::getPosx()
+pair<double,double> Bot::getPos()
 {
-	return posx;
+	return Pos;
 
 
 }
-int Bot::getPosy()
-{
-	return posy;
 
-
-}
-void Bot::setArma(bool est_arma)
+void Bot::setArma(double est_arma)
 {
 	arma=est_arma;
 
 }
-void Bot::setPosition(int posx_,int posy_)
+void Bot::setPosition(double posx_,double posy_)
 {
-	posx=posx_;
-	posy=posy_;
+	Pos.first=posx_;
+	Pos.second=posy_;
 }
-void Bot::setSalud(int salud_)
+void Bot::setSalud(double salud_)
 {
 	salud=salud_;
 

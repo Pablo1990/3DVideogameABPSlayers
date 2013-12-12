@@ -13,9 +13,9 @@ GetHealthGoal_Evaluator::~GetHealthGoal_Evaluator(void)
 
 double GetHealthGoal_Evaluator::CalculateDesirability(Bot* pBot)
 {
-  /*
+  
 	//first grab the distance to the closest instance of a health item
-  double Distance = Raven_Feature::DistanceToItem(pBot, type_health);
+	double Distance = Goal_Evaluator::DistanceToItem(pBot, 1);
 
   //if the distance feature is rated with a value of 1 it means that the
   //item is either not present on the map or too far away to be worth
@@ -32,14 +32,14 @@ double GetHealthGoal_Evaluator::CalculateDesirability(Bot* pBot)
     //the desirability of finding a health item is proportional to the amount
     //of health remaining and inversely proportional to the distance from the
     //nearest instance of a health item.
-    double Desirability = Tweaker * (1-Raven_Feature::Health(pBot)) /
-                          (Raven_Feature::DistanceToItem(pBot, type_health));
+	float Desirability = Tweaker * (1-Goal_Evaluator::Health(pBot)) /
+		(Goal_Evaluator::DistanceToItem(pBot, 1));
 
     //ensure the value is in the range 0 to 1
-    Clamp(Desirability, 0, 1);
 
+	clamp(Desirability,0.0f,1.0f);
     return Desirability;
-  }*/
+  }
 	return 0;
  
 }
