@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <SFML/Graphics.hpp>
 
-#define N 10               // Número de muestras que se toman
-#define PLA_ITS 100        // Número de iteraciones para el perceptron
-#define DIMENSIONS 1
+#define N 40               // Número de muestras que se toman
+#define PLA_ITS 1000        // Número de iteraciones para el perceptron
+#define DIMENSIONS 2
 
 using namespace FireDoorEscaper;
 
@@ -47,6 +47,7 @@ void pintarActual(double inputs[N][DIMENSIONS], bool onfireInputs[N], double wei
     sf::RectangleShape rectangle;
     rectangle.setSize(sf::Vector2f(2, 200));
     rectangle.setOutlineColor(sf::Color::Green);
+    //sacar la X
     rectangle.setPosition(weights[1], weights[0]);
     window.draw(rectangle);
     std::cout << "weights " << weights[0] << ", " <<weights[1] << "\n"; 
@@ -121,7 +122,7 @@ bool training(double inputs[N][DIMENSIONS], bool onfireInputs[N], double current
 int main(void) {
     // Create a new game starting at level 0, and staying at the same level all the time.
     // Use GDM_LEVELUP for increasing level of difficulty
-    CGame *game = new CGame(0);
+    CGame *game = new CGame(DIMENSIONS-1);
     game->setGameDifficultyMode(CGame::GDM_SAMELEVEL);
     double inputs[N][DIMENSIONS];
     bool onfireInputs[N];
