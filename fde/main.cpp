@@ -40,7 +40,11 @@ void pintarActual(double inputs[N][DIMENSIONS], bool onfireInputs[N], double wei
         else
             shape.setFillColor(sf::Color::Blue);
         
-        shape.setPosition(inputs[i][0]+100, i*3);
+        if (DIMENSIONS==1)
+            shape.setPosition(inputs[i][0] + 100, i * 3);
+        else if (DIMENSIONS==2)
+            shape.setPosition(inputs[i][0] + 100, inputs[i][1]);
+            
         window.draw(shape);
     }
 
@@ -48,7 +52,7 @@ void pintarActual(double inputs[N][DIMENSIONS], bool onfireInputs[N], double wei
     rectangle.setSize(sf::Vector2f(2, 200));
     rectangle.setOutlineColor(sf::Color::Green);
     //sacar la X
-    rectangle.setPosition(weights[1], weights[0]);
+    rectangle.setPosition(weights[0], weights[1]);
     window.draw(rectangle);
     std::cout << "weights " << weights[0] << ", " <<weights[1] << "\n"; 
 
