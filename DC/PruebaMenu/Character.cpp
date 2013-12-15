@@ -6,6 +6,8 @@ Character::Character(const char* path, ISceneManager *sm)
 
 	this->character_mesh = sm->getMesh(path); 
 	this->weapon = NULL;
+	this->heal_flag = false;
+	this->heal_count = 0;
 }
 
 Character::Character(const char* path, ISceneManager *sm, Weapon* w)
@@ -14,6 +16,8 @@ Character::Character(const char* path, ISceneManager *sm, Weapon* w)
 
 	this->character_mesh = sm->getMesh(path);
 	this->weapon = w;
+	this->heal_flag = false;
+	this->heal_count = 0;
 }
 
 Character::~Character(void)
@@ -124,6 +128,53 @@ void Character::attack(float first_x, float first_y, float last_x, float last_y)
 {
 	if (this->weapon)
 	{
-		this->weapon->attack(first_x, first_y,  last_x,  last_y);
+			this->weapon->attack(first_x, first_y,  last_x,  last_y);
+			if(dynamic_cast<ThrowableItem*>(this->weapon))
+			{
+				this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
+				this->weapon->set_weapon_node(NULL);
+			}
 	}
+}
+
+//0 Nada, 1 Fuego, 2 Cura
+int Character::heal_or_fire(ISceneNode* camp_fire, ISceneNode* heal, IrrlichtDevice* d)
+{
+	if(character_node)
+	{
+		if( camp_fire && camp_fire->getTransformedBoundingBox().
+			intersectsWithBox(character_node->getTransformedBoundingBox()))
+		{
+			heal_flag = false;
+			return 1;
+		}
+		else if(heal && heal->getTransformedBoundingBox().
+			intersectsWithBox(character_node->getTransformedBoundingBox()))
+		{
+			if(heal_flag)
+			{
+				if(d->getTimer()->getTime() - heal_time < 5000)
+				{
+					return 2;
+				}
+				else
+				{
+					heal_flag = false;
+				}
+			}
+			else if(heal_count < 5)
+			{
+				heal_time = d->getTimer()->getTime();
+				heal_count++;
+				heal_flag = true;
+				return 2;
+			}
+			
+		}
+		else
+		{
+			heal_flag = false;
+		}
+	}
+		return 0;
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Character.h"
 #include "Paths.h"
+#include "Bow.h"
 
 class Npc: public Character
 {

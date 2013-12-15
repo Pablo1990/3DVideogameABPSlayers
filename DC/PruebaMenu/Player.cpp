@@ -38,11 +38,16 @@ void Player::manage_collision(Weapon *w)
 
 void Player::drop_weapon(ISceneNode* cam)
 {
-	if (cam = dynamic_cast<ICameraSceneNode*>(cam))
+
+	try
 	{
 		cam->removeChild(weapon->get_weapon_node());
 		weapon->set_weapon_node(NULL);
 	}
+	catch(exception ex)
+	{
+	}
+	
 }
 
 void Player::pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, 	IrrlichtDevice *device)
@@ -57,6 +62,11 @@ void Player::pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, 	IrrlichtDe
 		else if(atoi(w->getName()) ==  BOW_TYPE)
 		{
 			weapon = new Bow(0,0,scene_manager, mapSelector, device);
+			weapon->add_to_camera(core::vector3df(0,-10,20), core::vector3df(0,-90,0), core::vector3df(0.02,0.02,0.02), cam);
+		}	
+		else if(atoi(w->getName()) ==  RED_SHROOM_TYPE)
+		{
+			weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::RED_SHROOM);
 			weapon->add_to_camera(core::vector3df(0,-10,20), core::vector3df(0,-90,0), core::vector3df(0.02,0.02,0.02), cam);
 		}	
 	}

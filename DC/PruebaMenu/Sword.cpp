@@ -74,16 +74,22 @@ void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 
 void Sword::finish_animation()
 {
-	if (weapon_node && weapon_node->getAnimators().size() > 0)
+	try
 	{
-		list<ISceneNodeAnimator*>::ConstIterator it = weapon_node->getAnimators().begin();
-		if ((*it)->hasFinished())
+		if (weapon_node && weapon_node->getAnimators().size() > 0)
 		{
-			weapon_node->setPosition(core::vector3df(15, -10, 20));
-			weapon_node->setRotation(core::vector3df(0, 50, 90));
-			weapon_node->removeAnimators();
-			weapon_node->removeAnimators();
-			collision_flag = false;
+			list<ISceneNodeAnimator*>::ConstIterator it = weapon_node->getAnimators().begin();
+			if ((*it)->hasFinished())
+			{
+				weapon_node->setPosition(core::vector3df(15, -10, 20));
+				weapon_node->setRotation(core::vector3df(0, 50, 90));
+				weapon_node->removeAnimators();
+				weapon_node->removeAnimators();
+				collision_flag = false;
+			}
 		}
+	}
+	catch(exception ex)
+	{
 	}
 }

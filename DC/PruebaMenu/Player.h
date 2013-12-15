@@ -3,7 +3,7 @@
 #include "Paths.h"
 #include "Sword.h"
 #include "Bow.h"
-
+#include "ThrowableItem.h"
 class Player: public Character
 {
 public:

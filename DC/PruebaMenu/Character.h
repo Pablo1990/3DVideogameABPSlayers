@@ -2,6 +2,7 @@
 #include <irrlicht.h>
 #include <vector>
 #include "Weapon.h"
+#include "ThrowableItem.h"
 #include <string>
 using namespace irr;
 using namespace scene;
@@ -27,6 +28,7 @@ public:
 	bool detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b);
 	bool no_weapon();
 	void attack(float first_x, float first_y, float last_x, float last_y);
+	int heal_or_fire(ISceneNode* camp_fire, ISceneNode* heal, IrrlichtDevice* d);
 
 protected:
 	IAnimatedMesh *character_mesh;
@@ -36,5 +38,8 @@ protected:
 	vector<IBoneSceneNode *> head;
 	vector<IBoneSceneNode *> body;
 	Weapon *weapon;
+	bool heal_flag;
+	int heal_count;
+	float heal_time;
 };
 

@@ -4,6 +4,7 @@ Weapon::Weapon(const char* path, int dmg = 0, int sp = 0, ISceneManager *sm = 0,
 {
 	this->damage = dmg;
 	this->speed = sp;
+
 	this->scene_manager = sm;
 
 	this->weapon_mesh = sm->getMesh(path); 

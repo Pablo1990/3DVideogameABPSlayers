@@ -35,10 +35,10 @@ void Juego::run()
 	if (!device)
 		return;
 
-	if (device->getFileSystem()->existFile("map-20kdm2.pk3"))
-		device->getFileSystem()->addFileArchive("map-20kdm2.pk3");
+	if (device->getFileSystem()->existFile("test1.pk3"))
+		device->getFileSystem()->addFileArchive("test1.pk3");
 	else
-		device->getFileSystem()->addFileArchive("../media/map-20kdm2.pk3");
+		device->getFileSystem()->addFileArchive("../media/test1.pk3");
 
 	video::IVideoDriver* driver = device->getVideoDriver();
 	scene::ISceneManager* smgr = device->getSceneManager();
@@ -57,6 +57,7 @@ void Juego::run()
 	statusText->setOverrideColor(video::SColor(255,205,200,200));
 
 	s32 now = 0;
+
 	s32 lastfps = 0;
 	sceneStartTime = device->getTimer()->getTime();
 	wchar_t tmp[255];
@@ -101,6 +102,23 @@ void Juego::run()
 			
 			player->get_weapon()->finish_animation();
 			npc->manage_collision(player->get_weapon());
+			switch(player->heal_or_fire(campFire, heal_camp, device))
+			{
+
+				case 0:
+					swprintf(tmp, 255, L"NORMAL", head_hit);
+					statusText->setText(tmp);
+					break;
+				case 1:
+					swprintf(tmp, 255, L"ARDO", head_hit);
+					statusText->setText(tmp);
+					break;
+				
+				case 2:
+					swprintf(tmp, 255, L"CURACION", head_hit);
+					statusText->setText(tmp);
+					break;
+			}
 			
 			if(anim1 != NULL)
 			{
@@ -188,6 +206,7 @@ void Juego::switchToNextScene()
 	Sword *sw2 = new Sword(0,0,sm);
 	player = new Player(sm, sw2, mapSelector);
 	player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
+	player->add_to_camera(vector3df(0, -70, -15), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
 	/*
 	gun = sm->addAnimatedMeshSceneNode(gunmesh, camera, -1);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
 	gun->setDebugDataVisible(scene::EDS_BBOX_ALL);
@@ -233,18 +252,19 @@ void Juego::loadSceneData()
 	// Quake3 Shader controls Z-Writing
 	sm->getParameters()->setAttribute(scene::ALLOW_ZWRITE_ON_TRANSPARENT, true);
 
-	quakeLevelMesh = (scene::IQ3LevelMesh*) sm->getMesh("maps/20kdm2.bsp");
+	quakeLevelMesh = (scene::IQ3LevelMesh*) sm->getMesh("maps/test1.bsp");
 
 	if (quakeLevelMesh)
 	{
 		u32 i;
 
 		//move all quake level meshes (non-realtime)
-		core::matrix4 m;
+		/*core::matrix4 m;
 		m.setTranslation(core::vector3df(-1300,-70,-1249));
 
 		for ( i = 0; i != scene::quake3::E_Q3_MESH_SIZE; ++i )
 			sm->getMeshManipulator()->transform(quakeLevelMesh->getMesh(i), m);
+		*/
 
 		quakeLevelNode = sm->addOctreeSceneNode(
 				quakeLevelMesh->getMesh( scene::quake3::E_Q3_MESH_GEOMETRY));
@@ -287,7 +307,7 @@ void Juego::loadSceneData()
 		}
 
 		npc = new Npc(sm);
-		npc->add_to_scene(core::vector3df(100,0,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
+		npc->add_to_scene(core::vector3df(100,70,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 
 		scene::IAnimatedMesh* mesh = 0;
 		mesh = sm->getMesh("../media/knight/mesh/fantasy Knight.x");
@@ -380,7 +400,7 @@ void Juego::loadSceneData()
 	}
 
 	dropped_sword = new Sword(0,0,sm);
-	dropped_sword->add_to_scene(core::vector3df(180,40,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);
+	dropped_sword->add_to_scene(core::vector3df(180,70,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);
 
 	
 
@@ -405,8 +425,8 @@ void Juego::loadSceneData()
 	// create camp fire
 
 	campFire = sm->addParticleSystemSceneNode(false);
-	campFire->setPosition(core::vector3df(100,120,600));
-	campFire->setScale(core::vector3df(2,2,2));
+	campFire->setPosition(core::vector3df(100,70,600));
+	campFire->setScale(core::vector3df(20,20,20));
 
 	scene::IParticleEmitter* em = campFire->createBoxEmitter(
 		core::aabbox3d<f32>(-7,0,-7,7,1,7),
@@ -427,8 +447,40 @@ void Juego::loadSceneData()
 	campFire->setMaterialTexture(0, driver->getTexture("../media/fireball.bmp"));
 	campFire->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 
+	//Zona de curacion
+	
+	heal_camp = sm->addParticleSystemSceneNode(false);
+	heal_camp->setPosition(core::vector3df(-1000,70,-200));
+	heal_camp->setScale(core::vector3df(20,20,20));
+
+	em = heal_camp->createBoxEmitter(
+		core::aabbox3d<f32>(-7,0,-7,7,1,7),
+		core::vector3df(0.0f,0.06f,0.0f),
+		80,100, video::SColor(1,255,255,255),video::SColor(1,255,255,255), 800,2000);
+
+	em->setMinStartSize(core::dimension2d<f32>(20.0f, 10.0f));
+	em->setMaxStartSize(core::dimension2d<f32>(20.0f, 10.0f));
+	heal_camp->setEmitter(em);
+	em->drop();
+
+	paf = heal_camp->createFadeOutParticleAffector();
+	heal_camp->addAffector(paf);
+	paf->drop();
+
+	heal_camp->setMaterialFlag(video::EMF_LIGHTING, false);
+	heal_camp->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+	heal_camp->setMaterialTexture(0, driver->getTexture("../media/particlegreen.jpg"));
+	heal_camp->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+
+
 	dropped_bow = new Bow(0,0,sm, mapSelector, device);
-	dropped_bow->add_to_scene(core::vector3df(230,40,180), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
+	dropped_bow->add_to_scene(core::vector3df(230,70,180), core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
+	//dropped_bow->add_to_scene(core::vector3df(230,70,180), core::vector3df(90,0,0), core::vector3df(1,1,1), true);
+	//dropped_bow->get_weapon_node()->setMaterialTexture(0,driver->getTexture("../media/azul.jpg"));
+
+	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
+	dropped_red_shroom->add_to_scene(core::vector3df(280,70,180), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
+	
 }
 
 bool Juego::OnEvent(const SEvent& event)
@@ -485,7 +537,7 @@ bool Juego::OnEvent(const SEvent& event)
 
         if(selectedSceneNode)
         {
-			if(camera->getPosition().getDistanceFrom(selectedSceneNode->getPosition()) < 75)
+			if(camera->getPosition().getDistanceFrom(selectedSceneNode->getPosition()) <= 110)
 			{
 				/*gun = smgr->addAnimatedMeshSceneNode(gunmesh, camera, -1);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
 	

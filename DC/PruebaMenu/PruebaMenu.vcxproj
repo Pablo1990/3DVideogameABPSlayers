@@ -78,6 +78,7 @@
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="Sword.h" />
+    <ClInclude Include="ThrowableItem.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="BotonesMenu.h" />
     <ClInclude Include="Juego.h" />
@@ -91,6 +92,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RangeWeapon.cpp" />
     <ClCompile Include="Sword.cpp" />
+    <ClCompile Include="ThrowableItem.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Juego.cpp" />
     <ClCompile Include="Menu.cpp" />

@@ -8,15 +8,19 @@ using namespace video;
 class RangeWeapon: public Weapon
 {
 public:
-	RangeWeapon(const char* path, int dmg, int sp, ISceneManager *sm, ITriangleSelector *ms, 	IrrlichtDevice *d, int type);
+	RangeWeapon(const char* path, int dmg, int sp, ISceneManager *sm, ITriangleSelector *ms, 	IrrlichtDevice *d, int type, const char* ammo_paht);
 	~RangeWeapon(void);
-	virtual void finish_animation();
+	void finish_animation();
 	virtual void attack(float first_x, float first_y, float last_x, float last_y);
-	void shoot_anim();
+	void shoot_anim(vector3df rotation);
+	bool is_animated();
+	array<SParticleImpact> get_impacts();
+	void set_collision_flag(bool flag, int index);
 protected:
 	array<SParticleImpact> Impacts;
 	ITriangleSelector* mapSelector;
 	IrrlichtDevice *device;
 	IParticleSystemSceneNode* campFire;
+	IAnimatedMesh* ammo_mesh;
 };
 

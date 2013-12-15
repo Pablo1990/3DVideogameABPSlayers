@@ -23,7 +23,7 @@ public:
 
 	void add_to_scene(vector3df position, vector3df rotation, vector3df scale, bool pickable);
 	void add_to_camera(vector3df position,vector3df rotation, vector3df scale, ISceneNode* camera);
-	bool is_animated();
+	virtual bool is_animated();
 
 protected:
 	int damage;
@@ -32,6 +32,7 @@ protected:
 	IAnimatedMesh* weapon_mesh;
 	IAnimatedMeshSceneNode *weapon_node;
 	ISceneManager *scene_manager;
+	int ty;
 
 private:
 	enum
@@ -49,6 +50,5 @@ private:
 		// homonids can be highlighted, but the level mesh can't.
 		IDFlag_IsHighlightable = 1 << 1
 	};
-	int ty;
 };
 
