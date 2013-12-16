@@ -6,6 +6,8 @@
 #include "Sword.h"
 #include "Weapon.h"
 #include "Player.h"
+#include "Bow.h"
+#include "ThrowableItem.h"
 using namespace std;
 
 
@@ -47,6 +49,8 @@ private:
 	scene::IAnimatedMesh* gunmesh;
 		video::SColor backColor;
 	scene::IParticleSystemSceneNode* campFire;
+	scene::IParticleSystemSceneNode* heal_camp;
+
 	scene::ICameraSceneNode* camera;
 
 	scene::IAnimatedMeshSceneNode* gun;
@@ -87,8 +91,12 @@ private:
 	Player* player;
 	Sword* sw;
 	Sword* dropped_sword;
+	Bow* dropped_bow;
+	ThrowableItem* dropped_red_shroom;
+
 	scene::ITriangleSelector* model1_selector;
 	scene::ITriangleSelector* selector;
+
 	enum
 {
     // I use this ISceneNode ID to indicate a scene node that is

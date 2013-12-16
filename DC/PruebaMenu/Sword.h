@@ -1,6 +1,7 @@
 #pragma once
 #include "Weapon.h"
 #include "Paths.h"
+#include "Structs.h"
 
 class Sword: public Weapon
 {

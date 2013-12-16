@@ -9,7 +9,7 @@ using namespace scene;
 class Weapon
 {
 public:
-	Weapon(const char* path, int dmg, int sp, ISceneManager *sm);
+	Weapon(const char* path, int dmg, int sp, ISceneManager *sm, int t);
 	~Weapon(void);
 
 	void set_weapon_node(IAnimatedMeshSceneNode* wn);
@@ -22,8 +22,8 @@ public:
 	virtual void attack(float first_x, float first_y, float last_x, float last_y);
 
 	void add_to_scene(vector3df position, vector3df rotation, vector3df scale, bool pickable);
-	void add_to_camera(vector3df position,vector3df rotation, vector3df scale, ICameraSceneNode* camera);
-	bool is_animated();
+	void add_to_camera(vector3df position,vector3df rotation, vector3df scale, ISceneNode* camera);
+	virtual bool is_animated();
 
 protected:
 	int damage;
@@ -32,6 +32,7 @@ protected:
 	IAnimatedMesh* weapon_mesh;
 	IAnimatedMeshSceneNode *weapon_node;
 	ISceneManager *scene_manager;
+	int ty;
 
 private:
 	enum
