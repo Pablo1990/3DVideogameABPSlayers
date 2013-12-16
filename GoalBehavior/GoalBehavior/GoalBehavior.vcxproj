@@ -89,21 +89,28 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttackTargetGoal_Evaluator.h" />
     <ClInclude Include="Bot.h" />
+    <ClInclude Include="EscapeGoal_Evaluator.h" />
     <ClInclude Include="ExploreGoal_Evaluator.h" />
     <ClInclude Include="Feature.h" />
     <ClInclude Include="GetHealthGoal_Evaluator.h" />
+    <ClInclude Include="GetWeaponGoal_Evaluator.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="Goal_Composite.h" />
     <ClInclude Include="Goal_Evaluator.h" />
     <ClInclude Include="Goal_Think.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Window_Scene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AttackTargetGoal_Evaluator.cpp" />
     <ClCompile Include="Bot.cpp" />
+    <ClCompile Include="EscapeGoal_Evaluator.cpp" />
     <ClCompile Include="ExploreGoal_Evaluator.cpp" />
     <ClCompile Include="GetHealthGoal_Evaluator.cpp" />
+    <ClCompile Include="GetWeaponGoal_Evaluator.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="GoalBehavior.cpp" />
     <ClCompile Include="Goal_Composite.cpp" />
@@ -113,6 +120,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Window_Scene.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -27,7 +27,7 @@ double GetHealthGoal_Evaluator::CalculateDesirability(Bot* pBot)
   else
   {
     //value used to tweak the desirability
-    const double Tweaker = 0.2;
+    const double Tweaker = 0.4;
 
     //the desirability of finding a health item is proportional to the amount
     //of health remaining and inversely proportional to the distance from the
@@ -37,7 +37,7 @@ double GetHealthGoal_Evaluator::CalculateDesirability(Bot* pBot)
 
     //ensure the value is in the range 0 to 1
 
-	clamp(Desirability,0.0f,1.0f);
+	Desirability=clamp(Desirability, 0.0, 1.0);
     return Desirability;
   }
 	return 0;
