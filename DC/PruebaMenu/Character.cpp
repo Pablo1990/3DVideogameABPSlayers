@@ -8,6 +8,9 @@ Character::Character(const char* path, ISceneManager *sm)
 	this->weapon = NULL;
 	this->heal_flag = false;
 	this->heal_count = 0;
+
+	sh = new Shield(scene_manager);
+
 }
 
 Character::Character(const char* path, ISceneManager *sm, Weapon* w)
@@ -18,6 +21,10 @@ Character::Character(const char* path, ISceneManager *sm, Weapon* w)
 	this->weapon = w;
 	this->heal_flag = false;
 	this->heal_count = 0;
+
+
+	sh = new Shield(scene_manager);
+
 }
 
 Character::~Character(void)
@@ -45,7 +52,17 @@ void Character::add_to_scene(vector3df position, vector3df rotation, vector3df s
 
 void Character::add_to_camera(vector3df position, vector3df rotation, vector3df scale, ICameraSceneNode* camera)
 {
-	this->character_node = scene_manager->addAnimatedMeshSceneNode(this->character_mesh, camera);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
+	this->character_node = scene_manager->addAnimatedMeshSceneNode(this->character_mesh);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
+	character_node->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+	character_node->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL_REF);
+	
+	character_node->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
+	character_node->setMaterialFlag(EMF_COLOR_MASK, 0);
+	//character_node->setDebugDataVisible(EDS_BBOX_ALL);
+
+	sh->add_to_camera(vector3df(-5,-5,5), vector3df(0,0,0), vector3df(3,3,3), camera);
+	//sh->get_weapon_node()->setDebugDataVisible(EDS_BBOX_ALL);
+	//camera->setParent(character_node);
 	if (this->character_node)
 	{
 		do_transformations_and_joints(position, rotation, scale);
@@ -92,11 +109,18 @@ void Character::calculate_joint()
 
 bool Character::detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b)
 {
+
 	for(unsigned int i = 0; i < b.size(); i++)
 	{
-		if(a->getTransformedBoundingBox().intersectsWithBox(b[i]->getTransformedBoundingBox()))
+		try
 		{
-			return true;
+			if(a->getTransformedBoundingBox().intersectsWithBox(b[i]->getTransformedBoundingBox()))
+			{
+				return true;
+			}
+		}
+		catch(exception ex)
+		{
 		}
 	}
 
@@ -126,7 +150,7 @@ void Character::manage_collision(Weapon *)
 
 void Character::attack(float first_x, float first_y, float last_x, float last_y)
 {
-	if (this->weapon)
+	if (this->weapon && !sh->get_cover())
 	{
 			this->weapon->attack(first_x, first_y,  last_x,  last_y);
 			if(dynamic_cast<ThrowableItem*>(this->weapon))
@@ -177,4 +201,31 @@ int Character::heal_or_fire(ISceneNode* camp_fire, ISceneNode* heal, IrrlichtDev
 		}
 	}
 		return 0;
+}
+
+void Character::movement(ICameraSceneNode* camera)
+{
+	/*vector3df rotation = camera->getRotation();
+	vector3df position = camera->getPosition();
+	
+	rotation.X = 0;
+	rotation.Z = 0;
+	rotation.Y += 180;
+	//rotation.Y = 0;
+	//rotation.Y +=  character_node->getRotation().Y;
+	//rotation.X +=  character_node->getRotation().X;
+
+	position.Z += -15;
+	position.Y += -70;
+
+	character_node->setPosition(position);
+	character_node->setRotation(rotation);*/
+}
+
+void Character::defend()
+{
+}
+
+void Character::no_defend()
+{
 }

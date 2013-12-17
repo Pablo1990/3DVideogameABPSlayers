@@ -36,7 +36,7 @@ void Weapon::add_to_camera(vector3df position, vector3df rotation, vector3df sca
 	if(this->weapon_node)
 	{
 		this->weapon_node->setScale(scale);
-		this->weapon_node->setPosition(core::vector3df(15,-10,20)); 
+		this->weapon_node->setPosition(position); 
 		this->weapon_node->setRotation(rotation);
 	}
 }
@@ -63,7 +63,14 @@ void Weapon::set_weapon_node(IAnimatedMeshSceneNode* wn)
 
 bool Weapon::is_animated()
 {
-	return ! this->weapon_node->getAnimators().empty();
+	try
+	{
+		if(weapon_node)
+			return ! this->weapon_node->getAnimators().empty();
+	}
+	catch(exception ex)
+	{
+	}
 }
 
 vector3df Weapon::get_absolute_position()

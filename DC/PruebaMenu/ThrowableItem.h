@@ -14,11 +14,12 @@ public:
 	{
 		RED_SHROOM,
 		BLUE_SHROOM,
-		YELLOW_SHROOM
+		YELLOW_SHROOM,
+		STONE,
+		TORCH
 	};
 
 protected:
-		IAnimatedMesh *ammo_mesh;
 		bool shot;
 		vector3df scale;
 };

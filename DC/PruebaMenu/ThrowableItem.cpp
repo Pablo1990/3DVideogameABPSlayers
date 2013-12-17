@@ -11,21 +11,35 @@ ThrowableItem::ThrowableItem(ISceneManager *sm, ITriangleSelector *ms, IrrlichtD
 		this->weapon_mesh = sm->getMesh(red_shroom_path); 
 		this->weapon_mesh->setMaterialFlag(video::EMF_LIGHTING, false);
 		this->ty = RED_SHROOM_TYPE;
-		ammo_mesh = sm->getMesh(red_shroom_path);
+		this->set_ammo_mesh(red_shroom_path);
 		break;
 		
 	case BLUE_SHROOM:
 		this->weapon_mesh = sm->getMesh(blue_shroom_path); 
 		this->weapon_mesh->setMaterialFlag(video::EMF_LIGHTING, false);
 		this->ty = BLUE_SHROOM_TYPE;
-		ammo_mesh = sm->getMesh(blue_shroom_path);
+		this->set_ammo_mesh(blue_shroom_path);
 		break;
 
 	case YELLOW_SHROOM:
 		this->weapon_mesh = sm->getMesh(yellow_shroom_path); 
 		this->weapon_mesh->setMaterialFlag(video::EMF_LIGHTING, false);
 		this->ty = YELLOW_SHROOM_TYPE;
-		ammo_mesh = sm->getMesh(yellow_shroom_path);
+		this->set_ammo_mesh(yellow_shroom_path);
+		break;
+
+	case STONE:
+		this->weapon_mesh = sm->getMesh(stone_path); 
+		this->weapon_mesh->setMaterialFlag(video::EMF_LIGHTING, false);
+		this->ty = STONE_TYPE;
+		this->set_ammo_mesh(stone_path);
+		break;
+
+	case TORCH:
+		this->weapon_mesh = sm->getMesh(torch_path); 
+		this->weapon_mesh->setMaterialFlag(video::EMF_LIGHTING, false);
+		this->ty = TORCH_TYPE;
+		this->set_ammo_mesh(torch_path);
 		break;
 	}
 }
