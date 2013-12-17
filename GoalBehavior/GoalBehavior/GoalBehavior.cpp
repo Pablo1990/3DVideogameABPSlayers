@@ -14,7 +14,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 
 	
-    sf::RenderWindow window(sf::VideoMode(700,500), "Prueba de objetivos");
+   
 		//Declaramos los bot y la memoria del juego
 		Bot *jugador=new Bot(100.0,0.0,0.0,10.0);
 	Bot *enemigoPrincipal=new Bot(100.0,20,20,10.0);
@@ -26,31 +26,34 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 	g->setDueño(enemigoPrincipal);
 	enemigoPrincipal->setBrain(g);
-	Window_Scene scene=Window_Scene(enemigoPrincipal,jugador,window);
+	Window_Scene scene=Window_Scene(enemigoPrincipal,jugador);
 
     //El programa se ejecutara mientras la ventana este abierta
-	window.display();
-
-		 while (window.isOpen())
+	scene.window.display();
+	int i=0;
+		 while (scene.window.isOpen())
     {
         //Reogemos y procesamos los eventos del sistema operativo
         sf::Event event;
-        while (window.pollEvent(event))
+        while (scene.window.pollEvent(event))
         {
             //Si el evento es cerrar la ventana, cerramos la ventana que creamos antes
             if (event.type == sf::Event::Closed)
-              window.close();
-        }
-		/*
-		if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::A))
-		{
+              scene.window.close();
+
+			scene.moverJugador(event);
 			
-		 scene.j1.setFillColor(sf::Color::Green);
-		 cout<<"Pulsada Y"<<endl;
-		}*/
+			scene.cargarEscenario();
+        }
+		
+		
+		
+		 
+		
+		i++;
 	  
     }
 
-  system("PAUSE");
+ //System("PAUSE");
   return 0;
 }
