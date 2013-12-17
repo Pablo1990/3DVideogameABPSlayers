@@ -11,14 +11,8 @@
 using namespace Concurrency::direct3d;
 
 class Bot;
-//Para estandarizar la distancia entre 0 y 1
-const double distanciae_maxima=141.4213562;
-struct Item
-{
-
-	pair<double,double> Pos;
-	int typeItem;//1 Salud , 2 Arma , 3 Adversario
-}; 
+//Para estandarizar la distancia entre 0 y 1 La distancia de ancho y largo 20 celdas
+const double distanciae_maxima=28.28427125;
 
 class Goal_Evaluator
 {
@@ -34,15 +28,12 @@ public:
 
   double WeaponHealth(Bot* pBot);
   inline float clamp(float x, float a, float b)
-
 {
 
-    return x < a ? a : (x > b ? b : x);
+   return max(a, min(x, b));
 
 }
-
-private:
-		list<Item> items;
+		
 };
 
 

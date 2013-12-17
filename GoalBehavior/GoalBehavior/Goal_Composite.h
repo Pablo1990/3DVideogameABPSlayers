@@ -13,7 +13,7 @@ public:
 		virtual void Activate()=0;
 		virtual int Process()=0;
 		virtual void Terminate()=0;
-		virtual void AddSubGoal(Goal *g)=0;
+		void AddSubGoal(Goal *g);
 		int ProcessSubgoals();
 		void RemoveAllSubgoals();
 private:

@@ -27,23 +27,22 @@ Goal_Evaluator::~Goal_Evaluator(void)
   //is called the value returned is 1
    double Goal_Evaluator:: DistanceToItem(Bot* pBot, int ItemType)
   {
-	  double distancia=1;
-
-	 
-	  if(items.empty())
+	  double distancia=1.0;
+	  if(pBot->items.empty())
 	  {
-		return 1;
+		return 1.0;
 
 	  }
+
 	  else
 	  {
-		for (std::list<Item>::iterator it = items.begin();
-       it != items.end();
+		for (std::list<Item>::iterator it = pBot->items.begin();
+       it != pBot->items.end();
        ++it)
 		{
 			if((*it).typeItem==ItemType)
 			{
-				int distaux=sqrt((pow((pBot->getPos().first-(*it).Pos.first),2))+(pow((pBot->getPos().second-(*it).Pos.second),2)));
+				double distaux=sqrt((pow((pBot->getPos().first-(*it).Pos.first),2))+(pow((pBot->getPos().second-(*it).Pos.second),2)));
 				//Estandarizamos
 				distaux=distaux/distanciae_maxima;
 				if(distaux <distancia)
@@ -52,7 +51,6 @@ Goal_Evaluator::~Goal_Evaluator(void)
 		}
 	  
 	  }
-	  
 	  return distancia;
   }
 
@@ -60,6 +58,6 @@ Goal_Evaluator::~Goal_Evaluator(void)
   //su valor como máximo 10
   double  Goal_Evaluator::WeaponHealth(Bot* pBot)
   {
-	  double estado_arma=pBot->getArma()/10;
-	  return 0;
+	  double estado_arma=pBot->getArma()/10.0;
+	  return estado_arma;
   }

@@ -3,7 +3,10 @@
 #include "Goal_Composite.h"
 using namespace std;
 
-
+void Goal_Composite::AddSubGoal(Goal *goal)
+{
+	m_SubGoals.push_front(goal);
+}
 int Goal_Composite::ProcessSubgoals()
 {
   //remove all completed and failed goals from the front of the subgoal list
