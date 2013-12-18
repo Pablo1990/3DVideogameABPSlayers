@@ -47,5 +47,5 @@ double GetHealthGoal_Evaluator::CalculateDesirability(Bot* pBot)
  void GetHealthGoal_Evaluator::SetGoal(Bot* bot)
   {
 
-	  //bot->getBrain()->AddSubgoalGetHealth
+	  bot->getBrain()->AddSubgoalGetItem(bot,1);
   }

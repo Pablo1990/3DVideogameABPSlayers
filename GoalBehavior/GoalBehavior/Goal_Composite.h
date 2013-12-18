@@ -1,9 +1,10 @@
 #include "Goal.h" 
 #include <iostream>
 #include <list>
+
 using namespace std;
 
-
+class Goal;
 
 class Goal_Composite : public Goal
 {

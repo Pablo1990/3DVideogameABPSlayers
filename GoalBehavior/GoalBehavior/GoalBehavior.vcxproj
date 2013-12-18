@@ -95,10 +95,14 @@
     <ClInclude Include="ExploreGoal_Evaluator.h" />
     <ClInclude Include="Feature.h" />
     <ClInclude Include="GetHealthGoal_Evaluator.h" />
+    <ClInclude Include="Goal_Escape.h" />
+    <ClInclude Include="Goal_GetItem.h" />
     <ClInclude Include="GetWeaponGoal_Evaluator.h" />
     <ClInclude Include="Goal.h" />
+    <ClInclude Include="GoalAtack_Target.h" />
     <ClInclude Include="Goal_Composite.h" />
     <ClInclude Include="Goal_Evaluator.h" />
+    <ClInclude Include="Goal_Explore.h" />
     <ClInclude Include="Goal_Think.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -110,11 +114,15 @@
     <ClCompile Include="EscapeGoal_Evaluator.cpp" />
     <ClCompile Include="ExploreGoal_Evaluator.cpp" />
     <ClCompile Include="GetHealthGoal_Evaluator.cpp" />
+    <ClCompile Include="Goal_Escape.cpp" />
+    <ClCompile Include="Goal_GetItem.cpp" />
     <ClCompile Include="GetWeaponGoal_Evaluator.cpp" />
     <ClCompile Include="Goal.cpp" />
+    <ClCompile Include="GoalAtack_Target.cpp" />
     <ClCompile Include="GoalBehavior.cpp" />
     <ClCompile Include="Goal_Composite.cpp" />
     <ClCompile Include="Goal_Evaluator.cpp" />
+    <ClCompile Include="Goal_Explore.cpp" />
     <ClCompile Include="Goal_Think.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

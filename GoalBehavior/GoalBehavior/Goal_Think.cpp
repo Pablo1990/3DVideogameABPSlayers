@@ -7,6 +7,7 @@
 #include "ExploreGoal_Evaluator.h"
 
 
+
 Goal_Think::Goal_Think()
 {
 	EscapeGoal_Evaluator *e=new EscapeGoal_Evaluator();
@@ -52,6 +53,27 @@ void Goal_Think::setDueño(Bot* d)
 {
 	dueño=d;
 }
+void Goal_Think::AddSubgoalGetAtackTarget(Bot *b)
+{
+	GoalAtack_Target *a=new GoalAtack_Target(b);
+	AddSubGoal(a);
+}
+void Goal_Think::AddSubgoalGetExplore(Bot *b)
+{
+	Goal_Explore *a=new Goal_Explore(b);
+	AddSubGoal(a);
+}
+void Goal_Think::AddSubgoalGetItem(Bot *b,int tipoitem)
+{
+	Goal_GetItem *a=new Goal_GetItem(b,tipoitem);
+	AddSubGoal(a);
+}
+void  Goal_Think::AddSubgoalEscape(Bot *b)
+{
+	Goal_Escape *e=new Goal_Escape(b);
+	AddSubGoal(e);
+
+}
 void Goal_Think::Arbitrate()
 {
   double best = 0;
@@ -64,7 +86,7 @@ void Goal_Think::Arbitrate()
    
 	  
 	  double desirabilty= (*curDes)->CalculateDesirability(dueño);
-	
+	  //cout<<"Puntos:"<<desirabilty<<endl;
 
     if (desirabilty >= best)
     {

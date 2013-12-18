@@ -11,34 +11,34 @@ Bot::Bot(double salud_,double posx_,double posy_,double arma_)
 	//Meto aqui los items para poner por el mapa
 		
 		pair<double,double> pos;
-		pos.first=15;
-		pos.second=10;
+		pos.first=15*25;
+		pos.second=10*25;
 		Item i=Item(pos,2);
 		//item
 		items.push_front(i);
 		//item
-		pos.first=19;
-		pos.second=5;
+		pos.first=19*25;
+		pos.second=5*25;
 		i=Item::Item(pos,2);
 		items.push_front(i);
 		//item
-		pos.first=5;
-		pos.second=15;
+		pos.first=5*25;
+		pos.second=15*25;
 		i=Item::Item(pos,2);
 		items.push_front(i);
 		//item
-		pos.first=12;
-		pos.second=5;
+		pos.first=12*25;
+		pos.second=5*25;
 		i=Item::Item(pos,2);
 		items.push_front(i);
 		//item
-		pos.first=4;
-		pos.second=5;
+		pos.first=4*25;
+		pos.second=5*25;
 		i=Item::Item(pos,2);
 		items.push_front(i);
 		//item
-		pos.first=15;
-		pos.second=0;
+		pos.first=15*25;
+		pos.second=0*25;
 		i=Item::Item(pos,1);
 		items.push_front(i);
 
@@ -86,6 +86,7 @@ bool Bot::isEnemigoPresent()
 		{
 			return true;
 		}
+		//cout<<"entro Distancia:"<<distaux<<endl;
 	}
 	return false;
 

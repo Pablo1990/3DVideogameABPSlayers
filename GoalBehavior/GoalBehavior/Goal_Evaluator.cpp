@@ -44,9 +44,11 @@ Goal_Evaluator::~Goal_Evaluator(void)
 			{
 				double distaux=sqrt((pow((pBot->getPos().first-(*it).Pos.first),2))+(pow((pBot->getPos().second-(*it).Pos.second),2)));
 				//Estandarizamos
+				
 				distaux=distaux/distanciae_maxima;
-				if(distaux <distancia)
+				if(distaux <=distancia)
 					distancia=distaux;
+				
 			}
 		}
 	  

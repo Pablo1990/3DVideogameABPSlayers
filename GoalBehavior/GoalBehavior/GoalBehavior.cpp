@@ -12,12 +12,10 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-
-	
-   
 		//Declaramos los bot y la memoria del juego
-		Bot *jugador=new Bot(100.0,0.0,0.0,10.0);
-	Bot *enemigoPrincipal=new Bot(100.0,20,20,10.0);
+	
+	Bot *jugador=new Bot(100.0,475,475,10.0);
+	Bot *enemigoPrincipal=new Bot(100.0,5*25,2*25,4.0);
 	
 	enemigoPrincipal->setEnem(jugador);
 	jugador->setEnem(enemigoPrincipal);
@@ -30,30 +28,32 @@ int _tmain(int argc, _TCHAR* argv[])
 
     //El programa se ejecutara mientras la ventana este abierta
 	scene.window.display();
-	int i=0;
+
 		 while (scene.window.isOpen())
     {
         //Reogemos y procesamos los eventos del sistema operativo
         sf::Event event;
-        while (scene.window.pollEvent(event))
+		while (scene.window.pollEvent(event))
         {
             //Si el evento es cerrar la ventana, cerramos la ventana que creamos antes
             if (event.type == sf::Event::Closed)
               scene.window.close();
 
-			scene.moverJugador(event);
-			
-			scene.cargarEscenario();
+			g->Arbitrate();
+			g->ProcessSubgoals();
+			scene.moverJugador(event,jugador,enemigoPrincipal);
+			if((jugador->getSalud()==0 || enemigoPrincipal->getSalud()==0 ))
+			{
+				
+				cout<<"Fin del juego"<<endl;
+				scene.window.close();
+			}
+
+			scene.cargarEscenario(enemigoPrincipal,jugador);
         }
 		
-		
-		
-		 
-		
-		i++;
-	  
     }
 
- //System("PAUSE");
+ system("PAUSE");
   return 0;
 }

@@ -2,7 +2,10 @@
 
 #include "Goal_Composite.h";
 #include "Goal_Evaluator.h";
-
+#include "GoalAtack_Target.h"
+#include "Goal_Explore.h"
+#include "Goal_GetItem.h";
+#include "Goal_Escape.h"
 
 class Bot;
 class Goal_Evaluator;
@@ -17,6 +20,10 @@ public:
 	void Arbitrate();
 	bool Present(int type);//Comprobaremos todos nuestros subojetivos para comprobar si esta ya presente(true) o no(false)
 	void setDueño(Bot* d);
+	void AddSubgoalGetAtackTarget(Bot *);
+	void AddSubgoalGetExplore(Bot *b);
+	void AddSubgoalEscape(Bot *b);
+	void AddSubgoalGetItem(Bot *b,int tipoitem);
 	Goal_Think(void);
 	~Goal_Think(void);
 private:

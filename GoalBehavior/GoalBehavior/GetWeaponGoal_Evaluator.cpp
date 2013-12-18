@@ -9,6 +9,7 @@ GetWeaponGoal_Evaluator::GetWeaponGoal_Evaluator(void)
 
 GetWeaponGoal_Evaluator::~GetWeaponGoal_Evaluator(void)
 {
+
 }
 
 double GetWeaponGoal_Evaluator::CalculateDesirability(Bot* pBot)
@@ -50,5 +51,5 @@ double GetWeaponGoal_Evaluator::CalculateDesirability(Bot* pBot)
   {
 
 	  //Goal de WeaponGOal
-	  bot->getBrain()->AddSubGoal(NULL);
+	  bot->getBrain()->AddSubgoalGetItem(bot,2);
   }

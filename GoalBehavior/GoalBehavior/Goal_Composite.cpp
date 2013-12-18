@@ -5,10 +5,12 @@ using namespace std;
 
 void Goal_Composite::AddSubGoal(Goal *goal)
 {
+
 	m_SubGoals.push_front(goal);
 }
 int Goal_Composite::ProcessSubgoals()
 {
+	
   //remove all completed and failed goals from the front of the subgoal list
   while (!m_SubGoals.empty() &&
          (m_SubGoals.front()->iscomplete() || m_SubGoals.front()->hasfailed()))
@@ -41,6 +43,8 @@ int Goal_Composite::ProcessSubgoals()
   else
   {
 	  // completed is 2
+	  
+	//cout<<"Objetivo Completado siguiente"<<endl;
     return 2;
   }
 }

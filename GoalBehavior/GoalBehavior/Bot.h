@@ -7,7 +7,7 @@
 #include <iomanip>
 #include "Goal_Think.h"
 
-const int Distancia_Max_Vision=4;
+const int Distancia_Max_Vision=4*25;
 
 class Goal_Think;
 
