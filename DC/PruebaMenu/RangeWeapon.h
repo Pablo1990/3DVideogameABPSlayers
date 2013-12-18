@@ -16,6 +16,7 @@ public:
 	bool is_animated();
 	array<SParticleImpact> get_impacts();
 	void set_collision_flag(bool flag, int index);
+	void set_ammo_mesh(const char* path);
 protected:
 	array<SParticleImpact> Impacts;
 	ITriangleSelector* mapSelector;

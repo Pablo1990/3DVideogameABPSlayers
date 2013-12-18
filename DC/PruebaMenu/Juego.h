@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Bow.h"
 #include "ThrowableItem.h"
+#include "Spear.h"
 using namespace std;
 
 
@@ -93,9 +94,11 @@ private:
 	Sword* dropped_sword;
 	Bow* dropped_bow;
 	ThrowableItem* dropped_red_shroom;
-
+	Spear* dropped_spear;
+	bool crouch;
 	scene::ITriangleSelector* model1_selector;
 	scene::ITriangleSelector* selector;
+	scene::ISceneNodeAnimatorCollisionResponse* collider;
 
 	enum
 {

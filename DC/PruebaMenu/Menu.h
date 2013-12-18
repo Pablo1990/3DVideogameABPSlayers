@@ -2,8 +2,9 @@
 
 
 #include <irrlicht.h>
+#include "driverChoice.h"
 #include "BotonesMenu.h"
-#include "MyEventReceiver.h"
+//#include "MyEventReceiver.h"
 
 using namespace irr;
 
@@ -19,17 +20,18 @@ using namespace gui;
 
 
 
-class MyEventReceiver;
+//class MyEventReceiver;
 
-class MyMenu
+class MyMenu: public IEventReceiver
 {
 public:
 	MyMenu();
 	~MyMenu(void);
 	bool AddMenu(video::E_DRIVER_TYPE&);
 	void setStart();
-
+	virtual bool OnEvent(const SEvent& event);
 private:
 	bool start;
+	IrrlichtDevice * device;
 };
 

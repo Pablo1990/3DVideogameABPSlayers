@@ -43,5 +43,6 @@ private:
 	SAppContext & Context;
 	s32 ant;
 	MyMenu *menu;
+
 };
 

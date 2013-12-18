@@ -7,6 +7,7 @@ Juego::Juego(video::E_DRIVER_TYPE d)
 	this->driverType = d;
 	this->skyboxNode = 0;
 	this->model2 = 0;
+	crouch = false;
 }
 
 
@@ -91,15 +92,7 @@ void Juego::run()
 				statusText->setText(tmp);
 			}
 
-
-			driver->beginScene(timeForThisScene != -1, true, backColor);
-			smgr->drawAll();
-			guienv->drawAll();
-			driver->endScene();
-
-
-		
-			
+			player->movement(camera);
 			player->get_weapon()->finish_animation();
 			npc->manage_collision(player->get_weapon());
 			switch(player->heal_or_fire(campFire, heal_camp, device))
@@ -120,49 +113,17 @@ void Juego::run()
 					break;
 			}
 			
-			if(anim1 != NULL)
-			{
-				// TODO mejorar esto
-				if (collision(gun, model1_head) &&  ! collision_flag)
-				{
-					head_hit++;
-					swprintf(tmp, 255, L"Golpe en la cabeza: %i", head_hit);
-					statusText->setText(tmp);
-					collision_flag = true;
-				}
-				else if ((collision(gun, model1_high_spine) || collision(gun, model1_low_spine) ||collision(gun, model1_Neck)) &&  ! collision_flag)
-				{
-					spine_hit++;
-					swprintf(tmp, 255, L"Golpe en el cuerpo: %i", spine_hit);
-					statusText->setText(tmp);
-					collision_flag = true;
-				}
-				else if ((collision(gun, model1_pelvis) || collision(gun, model1_RThight) || collision(gun, model1_RFoot) || collision(gun, model1_RCalf)
-					|| collision(gun, model1_LThight) || collision(gun, model1_LFoot) || collision(gun, model1_LCalf)
-					|| collision(gun,model1_RUpperarm) || collision(gun, model1_RForearm) || collision(gun, model1_RHand)
-					|| collision(gun,model1_LUpperarm) || collision(gun, model1_LForearm) || collision(gun, model1_LHand))
-					&& ! collision_flag)
-				{
-					ex_hit++;
-					swprintf(tmp, 255, L"Golpe en las extremidades: %i", ex_hit);
-					statusText->setText(tmp);
-					collision_flag = true;
-				}
-
-
-				if(anim1->hasFinished())
-				{	
-					gun->setPosition(core::vector3df(15,-10,20));
-					gun->setRotation(core::vector3df(0,50,90));
-					gun->removeAnimators();
-					anim1->drop();
-					anim1=NULL;
-					collision_flag = false;
-				}
+			driver->beginScene(timeForThisScene != -1, true, backColor);
+			smgr->drawAll();
+			guienv->drawAll();
+			driver->endScene();
 
 
 		
-			}
+			
+
+			
+	
 		}
 	}
 }
@@ -173,7 +134,7 @@ void Juego::switchToNextScene()
 	scene::ISceneManager* sm = device->getSceneManager();
 
 
-	SKeyMap keyMap[9];
+	SKeyMap keyMap[10];
 	keyMap[0].Action = EKA_MOVE_FORWARD;
 	keyMap[0].KeyCode = KEY_UP;
 	keyMap[1].Action = EKA_MOVE_FORWARD;
@@ -197,16 +158,18 @@ void Juego::switchToNextScene()
 	keyMap[8].Action = EKA_JUMP_UP;
 	keyMap[8].KeyCode = KEY_KEY_J;
 
-	camera = sm->addCameraSceneNodeFPS(0, 100.0f, .4f, ID_IsNotPickable, keyMap, 9, false, 3.f);
-			
+	keyMap[9].Action = EKA_CROUCH;
+	keyMap[9].KeyCode = KEY_LCONTROL;
+
+	camera = sm->addCameraSceneNodeFPS(0, 100.0f, .4f, ID_IsNotPickable, keyMap, 10, false, 3.f);
+	camera->bindTargetAndRotation(true);
 	camera->setPosition(core::vector3df(108,140,-140));
 	camera->setFarValue(5000.0f);
 	
-	
 	Sword *sw2 = new Sword(0,0,sm);
-	player = new Player(sm, sw2, mapSelector);
+	player = new Player(sm, sw2, mapSelector, camera);
 	player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
-	player->add_to_camera(vector3df(0, -70, -15), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
+	player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
 	/*
 	gun = sm->addAnimatedMeshSceneNode(gunmesh, camera, -1);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
 	gun->setDebugDataVisible(scene::EDS_BBOX_ALL);
@@ -226,14 +189,13 @@ void Juego::switchToNextScene()
 		characterCollision->drop();
 	}*/
 
-	scene::ISceneNodeAnimatorCollisionResponse* collider =
+		collider =
 		sm->createCollisionResponseAnimator(
 		metaSelector, camera, core::vector3df(25,50,25),
 		core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0),
 			core::vector3df(0,45,0), 0.005f);
 	
 	camera->addAnimator(collider);
-	collider->drop();
 }
 
 bool Juego::collision(ISceneNode* a, ISceneNode* b)
@@ -399,8 +361,7 @@ void Juego::loadSceneData()
 		}*/
 	}
 
-	dropped_sword = new Sword(0,0,sm);
-	dropped_sword->add_to_scene(core::vector3df(180,70,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);
+	
 
 	
 
@@ -424,9 +385,10 @@ void Juego::loadSceneData()
 
 	// create camp fire
 
-	campFire = sm->addParticleSystemSceneNode(false);
-	campFire->setPosition(core::vector3df(100,70,600));
+	campFire = sm->addParticleSystemSceneNode(false,0,IDFlag_IsPickable);
+	campFire->setPosition(core::vector3df(-500,70,340));
 	campFire->setScale(core::vector3df(20,20,20));
+	campFire->setName(std::to_string(TORCH_TYPE).c_str());
 
 	scene::IParticleEmitter* em = campFire->createBoxEmitter(
 		core::aabbox3d<f32>(-7,0,-7,7,1,7),
@@ -473,6 +435,9 @@ void Juego::loadSceneData()
 	heal_camp->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 
 
+	dropped_sword = new Sword(0,0,sm);
+	dropped_sword->add_to_scene(core::vector3df(180,70,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);
+
 	dropped_bow = new Bow(0,0,sm, mapSelector, device);
 	dropped_bow->add_to_scene(core::vector3df(230,70,180), core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
 	//dropped_bow->add_to_scene(core::vector3df(230,70,180), core::vector3df(90,0,0), core::vector3df(1,1,1), true);
@@ -480,7 +445,23 @@ void Juego::loadSceneData()
 
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
 	dropped_red_shroom->add_to_scene(core::vector3df(280,70,180), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
-	
+
+	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM);
+	dropped_red_shroom->add_to_scene(core::vector3df(280,70,230), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
+
+	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM);
+	dropped_red_shroom->add_to_scene(core::vector3df(280,70,280), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
+
+	dropped_spear = new Spear(0,0,sm);
+	dropped_spear->add_to_scene( core::vector3df(330,90,180), core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true);
+
+	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE);
+	dropped_red_shroom->add_to_scene(core::vector3df(280,70,330), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
+
+	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::TORCH);
+	dropped_red_shroom->add_to_scene(core::vector3df(-500,70,200), core::vector3df(90,0,0), core::vector3df(4,4,4), true);
+	dropped_red_shroom->add_to_scene(core::vector3df(-500,70,500), core::vector3df(90,180,0), core::vector3df(4,4,4), true);
+
 }
 
 bool Juego::OnEvent(const SEvent& event)
@@ -539,14 +520,44 @@ bool Juego::OnEvent(const SEvent& event)
         {
 			if(camera->getPosition().getDistanceFrom(selectedSceneNode->getPosition()) <= 110)
 			{
-				/*gun = smgr->addAnimatedMeshSceneNode(gunmesh, camera, -1);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
-	
-				gun->setScale(core::vector3df(0.008,0.008,0.008));
-				gun->setPosition(core::vector3df(15,-10,20)); 
-				gun->setRotation(core::vector3df(0,50,90));				*/
 				player->pick_weapon(camera, selectedSceneNode, device);
 			}
 
+		}
+	}
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == true)
+	{
+		if(!crouch)
+		{
+			   
+			camera->removeAnimator(collider);
+
+			collider =
+				device->getSceneManager()->createCollisionResponseAnimator(
+				metaSelector, camera, core::vector3df(25,10,25),
+				core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0),
+					core::vector3df(0,45,0), 0.005f);
+	
+			camera->addAnimator(collider);
+			crouch = true;
+		}
+	}
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == false)
+	{
+		if(crouch)
+		{
+
+			camera->removeAnimator(collider);
+
+			collider =
+				device->getSceneManager()->createCollisionResponseAnimator(
+				metaSelector, camera, core::vector3df(25,40,25),
+				core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0),
+					core::vector3df(0,45,0), 0.005f);
+	
+			camera->addAnimator(collider);
+			camera->setPosition(camera->getPosition() + vector3df(0,40,0));
+			crouch = false;
 		}
 	}
 	else if (event.EventType == EET_MOUSE_INPUT_EVENT &&
@@ -637,6 +648,19 @@ bool Juego::OnEvent(const SEvent& event)
 		firstX = player->get_weapon()->get_absolute_position().X;
 		firstY = player->get_weapon()->get_absolute_position().Y;
 
+	}
+	else if (event.EventType == EET_MOUSE_INPUT_EVENT &&
+		event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP)
+	{
+		if(player)
+			player->no_defend();
+	}
+	else
+	if((event.EventType == EET_MOUSE_INPUT_EVENT &&
+		event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN))
+	{
+		if(player)
+			player->defend();
 	}
 	else
 	if (device->getSceneManager()->getActiveCamera())

@@ -194,3 +194,9 @@ void RangeWeapon::set_collision_flag(bool flag, int index)
 {
 	Impacts[index].collision_flag = flag;
 }
+
+void RangeWeapon::set_ammo_mesh(const char* path)
+{
+	ammo_mesh = scene_manager->getMesh(path);
+
+}

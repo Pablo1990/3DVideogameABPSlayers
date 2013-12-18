@@ -11,6 +11,8 @@ Sword::~Sword(void)
 
 void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 {
+	try
+	{
 	if (weapon_node != NULL && weapon_node->getAnimators().empty())
 		{
 			float difX, difY;
@@ -69,6 +71,10 @@ void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 						weapon_node->setLoopMode(false);
 				}
 			}
+	}
+	}
+	catch(exception ex)
+	{
 	}
 }
 
