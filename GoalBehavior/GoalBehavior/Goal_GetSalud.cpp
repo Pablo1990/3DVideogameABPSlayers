@@ -17,7 +17,6 @@ void
 Goal_GetSalud::Activate()
 {
 	estado=active;
-	cout<<"Activado Coger Salud"<<endl;
 }
 
 int Goal_GetSalud::Process()

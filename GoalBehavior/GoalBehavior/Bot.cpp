@@ -462,7 +462,6 @@ bool Bot::Move_ToFreeAttack()
 	int posx=0;
 	int posy=0;
 	pair<double,double> pos=getPos();
-	cout<<pos.first<<" "<<pos.second<<endl;
 	while(muevo ==false)
 	{
 		

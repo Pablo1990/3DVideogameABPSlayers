@@ -15,7 +15,6 @@ void Goal_RealizarAtaque::Activate()
 {
 	
 	estado=active;
-	cout<<"Activado Disparo de ataque"<<endl;
 
 	
 		
@@ -34,10 +33,8 @@ int Goal_RealizarAtaque::Process()
 	else
 	{
 		estado=error;
-		cout<<"Tiro fallido el enemigo no esta en el blanco"<<endl;
 
 	}
-	cout<<"Finalizado Disparo de ataque"<<endl;
 	
 	return estado;
 }

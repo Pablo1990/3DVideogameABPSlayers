@@ -15,7 +15,6 @@ Goal_Explore::~Goal_Explore(void)
 void Goal_Explore::Activate()
 {
 	estado=active;
-	cout<<"Activado Explorar Terreno"<<endl;
 
 
 	AddSubGoal(new Goal_Vagar(d));
@@ -31,7 +30,6 @@ void Goal_Explore::Activate()
 	{
 		estado= ProcessSubgoals();
 	}
-	cout<<"Finalizado explorar"<<endl;
 	Terminate();
 	return estado;
   }

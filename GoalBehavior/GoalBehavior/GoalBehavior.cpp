@@ -12,8 +12,8 @@
 #define DIMENSIONS 5
 #define N 20
 #define PLA_ITS 100
-#define NUM_INPUTS 10
-#define BOTMOVEMENTS 10
+#define NUM_INPUTS 100
+#define BOTMOVEMENTS 100
 
 bool h(double weights[DIMENSIONS+1], double x[DIMENSIONS]) {
     double sum = weights[0];
@@ -92,6 +92,7 @@ double fRand(double fMin, double fMax)
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	srand(time(NULL));
 	int cont=0;
 	double inputs[NUM_INPUTS][DIMENSIONS];
 	double result[DIMENSIONS];
@@ -106,7 +107,6 @@ int _tmain(int argc, _TCHAR* argv[])
 		cont=0;
 		//Probabilidades: Attack, Escape, Explore, GetHealth, GetWeapon.
 		double randProbabilities[] = {fRand(0,1), fRand(0,1), fRand(0,1), fRand(0,1), fRand(0,1)};
-
 		
 		//Declaramos los bot y la memoria del juego
 		Bot *jugador=new Bot(100.0,475,3*25,4.0, probabilities);
@@ -142,8 +142,6 @@ int _tmain(int argc, _TCHAR* argv[])
 				//scene.moverJugador(event,jugador,enemigoPrincipal);
 				if((jugador->getSalud()==0 || enemigoPrincipal->getSalud()==0 ))
 				{
-				
-					cout<<"Fin del juego"<<endl;
 					break;
 				}
 		 }
@@ -157,18 +155,18 @@ int _tmain(int argc, _TCHAR* argv[])
 		
 	}
 
-	double *trainedProbabilities = training(inputs, result);
+	double *weightsFinal = training(inputs, result);
 	
-	double definedProbabilities[DIMENSIONS+1];
+	double definedProbabilities[DIMENSIONS];
 	do
 	{
-		for (int i = 0; i <= DIMENSIONS; i++)
+		for (int i = 0; i < DIMENSIONS; i++)
 		{
 			definedProbabilities[i]=fRand(0,1);
 		}
-	} while (h(trainedProbabilities, definedProbabilities));
+	} while (h(weightsFinal, definedProbabilities));
 
-	cout<<definedProbabilities[0]<<" "<<definedProbabilities[1];
+	cout<<definedProbabilities[0]<<" "<<definedProbabilities[1]<<" "<<definedProbabilities[2]<<" "<<definedProbabilities[3]<<" "<<definedProbabilities[4];
 
  system("PAUSE");
   return 0;

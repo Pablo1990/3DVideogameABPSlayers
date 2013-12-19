@@ -16,7 +16,6 @@ GoalAtack_Target::~GoalAtack_Target(void)
 void GoalAtack_Target::Activate()
 {
 	estado=active;
-	cout<<"Activado Atacar"<<endl;
 	
 	AddSubGoal(new Goal_RealizarAtaque(d));
 	AddSubGoal(new MoveToPosition(d,3));
@@ -32,7 +31,6 @@ void GoalAtack_Target::Activate()
 		estado= ProcessSubgoals();
 	}
 	Terminate();
-	cout<<"Finalizado ataque"<<endl;
 	return estado;
   }
 

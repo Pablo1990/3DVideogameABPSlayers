@@ -17,7 +17,6 @@ MoveToPosition::~MoveToPosition(void)
 void MoveToPosition::Activate()
 {
 	estado=active;
-	cout<<"Activado Ir hacia Objetivo"<<endl;
 }
 
 int MoveToPosition::Process()

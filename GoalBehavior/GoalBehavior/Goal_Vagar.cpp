@@ -16,7 +16,6 @@ void
 Goal_Vagar::Activate()
 {
 	estado=active;
-	cout<<"Activado moverPosicion"<<endl;
 }
 
 int Goal_Vagar::Process()

@@ -87,8 +87,6 @@ void Goal_Think::Arbitrate()
    
 	  
 	  double desirabilty= (*curDes)->CalculateDesirability(dueño);
-	  cout<<"Puntos de "<<(*curDes)->name<<" "<<desirabilty<<endl;
-	  cout<<endl;
 
     if (desirabilty >= best)
     {

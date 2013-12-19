@@ -15,7 +15,6 @@ void Goal_Escape::Activate()
 {
 	
 	estado=active;
-	cout<<"Activado Escape"<<endl;
 
 	if(d->isEnemigoPresent())
 	{
@@ -34,7 +33,6 @@ int Goal_Escape::Process()
 	{
 		estado= ProcessSubgoals();
 	}
-	cout<<"Finalizado huida"<<endl;
 	Terminate();
 	return estado;
 }

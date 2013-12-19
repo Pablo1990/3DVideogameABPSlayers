@@ -20,7 +20,6 @@ void Goal_GetItem::Activate()
 
 	if(item==1)
 	{
-		cout<<"Activado Objetivo Coger Salud"<<endl;
 		AddSubGoal(new Goal_GetSalud(dueño));
 		AddSubGoal(new MoveToPosition(dueño,1));
 		
@@ -28,7 +27,6 @@ void Goal_GetItem::Activate()
 	}
 	else
 	{
-		cout<<"Activado Objetivo Coger Arma"<<endl;
 		AddSubGoal(new Goal_GetArma(dueño));
 		AddSubGoal(new MoveToPosition(dueño,2));
 		
@@ -46,7 +44,6 @@ void Goal_GetItem::Activate()
 		estado= ProcessSubgoals();
 	}
 	Terminate();
-	cout<<"Finalizado coger arma o salud"<<endl;
 	return estado;
 
 
