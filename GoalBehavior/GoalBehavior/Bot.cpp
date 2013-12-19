@@ -2,12 +2,18 @@
 #include "Bot.h"
 
 
-Bot::Bot(double salud_,double posx_,double posy_,double arma_)
+Bot::Bot(double salud_,double posx_,double posy_,double arma_, double probabilities_[5])
 {
 	salud=salud_;
 	Pos.first=posx_;
 	Pos.second=posy_;
 	arma=arma_;
+	
+	for(int j=0; j<5; j++)
+	{
+		probabilities[j] = probabilities_[j];
+	}
+
 	//Meto aqui los items para poner por el mapa
 		
 		pair<double,double> pos;
@@ -90,6 +96,26 @@ bool Bot::isEnemigoPresent()
 	}
 	return false;
 
+}
+
+double Bot::getProbAttack(){
+	return probabilities[0];
+}
+	
+double Bot::getProbEscape(){
+	return probabilities[1];
+}
+	
+double Bot::getProbExplore(){
+	return probabilities[2];
+}
+	
+double Bot::getProbGetHealth(){
+	return probabilities[3];
+}
+	
+double Bot::getProbGetWeapon(){
+	return probabilities[4];
 }
 
 double Bot::getSalud()

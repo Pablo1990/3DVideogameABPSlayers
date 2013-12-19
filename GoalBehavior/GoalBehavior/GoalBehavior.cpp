@@ -12,8 +12,8 @@
 #define DIMENSIONS 5
 #define N 20
 #define PLA_ITS 100
-#define NUM_INPUTS 100
-#define BOTMOVEMENTS 500
+#define NUM_INPUTS 10
+#define BOTMOVEMENTS 10
 
 bool h(double weights[DIMENSIONS+1], double x[DIMENSIONS]) {
     double sum = weights[0];
@@ -21,7 +21,7 @@ bool h(double weights[DIMENSIONS+1], double x[DIMENSIONS]) {
     for (int i = 1; i < DIMENSIONS+1; ++i)
         sum += weights[i] * x[i-1];
 
-    return sum >= 0;
+    return sum >= 1;
 }
 
 void updateWeights(double weights[DIMENSIONS+1], double inputs[DIMENSIONS], double correct) {
@@ -31,7 +31,7 @@ void updateWeights(double weights[DIMENSIONS+1], double inputs[DIMENSIONS], doub
         weights[i] += correct*inputs[i-1];
 }
 
-bool training(double inputs[N][DIMENSIONS], bool onfireInputs[N], double currentInput[DIMENSIONS]) {
+double* training(double inputs[N][DIMENSIONS], double results[N]) {
     double errors[N];
     double weights[DIMENSIONS+1];
     double bestWeights[DIMENSIONS+1];
@@ -47,7 +47,7 @@ bool training(double inputs[N][DIMENSIONS], bool onfireInputs[N], double current
         errorsCount = 0;
 
         for (int j = 0; j < N; j++) {            
-            if (h(weights, inputs[j]) == onfireInputs[j]) {  // Se comprueba si hay error
+            if (h(weights, inputs[j]) == results[j]) {  // Se comprueba si hay error
                 errors[errorsCount] = j;
                 errorsCount++;
             }
@@ -60,13 +60,28 @@ bool training(double inputs[N][DIMENSIONS], bool onfireInputs[N], double current
             }
 
             randomInput = errors[rand()%errorsCount];
-            updateWeights(weights, inputs[randomInput], (onfireInputs[randomInput]? -1 : 1));
+			if(results[randomInput] >1040/2)
+			{
+			}
+			else if(results[randomInput] >=0)
+			{
+				updateWeights(weights, inputs[randomInput], 1);
+			}
+			else if(results[randomInput] < -1040/2)
+			{
+				updateWeights(weights, inputs[randomInput], -1);
+			}
+			else if(results[randomInput] <0)
+			{
+				updateWeights(weights, inputs[randomInput], -2);
+			}
+
         }
         else
-            return h(weights, currentInput);
+			return weights;
     }
 
-    return h(bestWeights, currentInput);
+    return bestWeights;
 }
 
 double fRand(double fMin, double fMax)
@@ -81,8 +96,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	double inputs[NUM_INPUTS][DIMENSIONS];
 	double result[DIMENSIONS];
 	double weights[DIMENSIONS+1];
-
-	//INICIALIZAR WEIGHTS
 
 	
 	double probabilities[] = {0.8, 0.6, 0.05, 0.4, 0.3};
@@ -144,7 +157,18 @@ int _tmain(int argc, _TCHAR* argv[])
 		
 	}
 
-	training
+	double *trainedProbabilities = training(inputs, result);
+	
+	double definedProbabilities[DIMENSIONS+1];
+	do
+	{
+		for (int i = 0; i <= DIMENSIONS; i++)
+		{
+			definedProbabilities[i]=fRand(0,1);
+		}
+	} while (h(trainedProbabilities, definedProbabilities));
+
+	cout<<definedProbabilities[0]<<" "<<definedProbabilities[1];
 
  system("PAUSE");
   return 0;
