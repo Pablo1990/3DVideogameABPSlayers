@@ -31,10 +31,11 @@ private:
 		double arma;//Sera el valor del estado del arma cuando sea 0 es cuando el bot no tendrá arma y 1 si está el arma en perfecto estado
 		Goal_Think *  mente;
 		Bot* enemigo;
+		double probabilities[5];
 		
 		
 public:
-	Bot(double,double,double,double);
+	Bot(double,double,double,double,double [5]);
 	void setSalud(double);
 	void setPosition(double,double);
 	bool MoverseAItemSalud();
@@ -50,6 +51,11 @@ public:
 	pair<double,double> getPos();
 	double getArma();
 	Goal_Think* getBrain();
+	double getProbAttack();
+	double getProbEscape();
+	double getProbExplore();
+	double getProbGetHealth();
+	double getProbGetWeapon();
 
 	list<Item> items;
 	~Bot(void);

@@ -18,7 +18,7 @@ double AttackTargetGoal_Evaluator::CalculateDesirability(Bot* pBot)
   //only do the calculation if there is a target present
   if (pBot->isEnemigoPresent())
   {
-    const double Tweaker = 0.8;
+	  const double Tweaker = pBot->getProbAttack();
 
 	Desirability = Tweaker *Goal_Evaluator::Health(pBot) *Goal_Evaluator::WeaponHealth(pBot);
 	 

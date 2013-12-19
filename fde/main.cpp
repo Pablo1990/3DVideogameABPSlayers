@@ -29,12 +29,13 @@ void printGameStatus(const CGame& g) {
 }
 
 void pintarActual(double inputs[N][DIMENSIONS], bool onfireInputs[N], double weights[DIMENSIONS+1]) {
-    sf::RenderWindow window(sf::VideoMode(300, N*10), "Traza");
+    sf::RenderWindow window(sf::VideoMode(1000, N*10), "Traza");
     window.clear();
 
     for (int i = 0; i < N; ++i) {
         sf::CircleShape shape(2.f);
-        
+        std::cout << "puntos: " << inputs[i][0] << inputs[i][1] << "\n";
+
         if (onfireInputs[i])
             shape.setFillColor(sf::Color::Red);
         else
@@ -43,7 +44,7 @@ void pintarActual(double inputs[N][DIMENSIONS], bool onfireInputs[N], double wei
         if (DIMENSIONS==1)
             shape.setPosition(inputs[i][0] + 100, i * 3);
         else if (DIMENSIONS==2)
-            shape.setPosition(inputs[i][0] + 100, inputs[i][1]);
+            shape.setPosition(inputs[i][0]/100 + 500, inputs[i][1]);
             
         window.draw(shape);
     }
@@ -51,8 +52,12 @@ void pintarActual(double inputs[N][DIMENSIONS], bool onfireInputs[N], double wei
     sf::RectangleShape rectangle;
     rectangle.setSize(sf::Vector2f(2, 200));
     rectangle.setOutlineColor(sf::Color::Green);
-    //sacar la X
-    rectangle.setPosition(weights[0], weights[1]);
+
+    double point1 = (-1 * weights[0]) / weights[2];
+
+    double point2 = (-1 * weights[2] * point1 - weights[0]) / weights[1];
+
+    rectangle.setPosition(point1/100+500, point2);
     window.draw(rectangle);
     std::cout << "weights " << weights[0] << ", " <<weights[1] << "\n"; 
 
@@ -117,7 +122,7 @@ bool training(double inputs[N][DIMENSIONS], bool onfireInputs[N], double current
         else
             return h(weights, currentInput);
 
-        //pintarActual(inputs, onfireInputs, weights);
+        pintarActual(inputs, onfireInputs, weights);
     }
 
     return h(bestWeights, currentInput);

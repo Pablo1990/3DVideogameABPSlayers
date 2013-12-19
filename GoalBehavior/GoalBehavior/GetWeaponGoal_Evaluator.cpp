@@ -29,7 +29,7 @@ double GetWeaponGoal_Evaluator::CalculateDesirability(Bot* pBot)
   else
   {
     //value used to tweak the desirability
-    const double Tweaker = 0.3;
+	  const double Tweaker = pBot->getProbGetWeapon();
 
     double Health, WeaponStrength;
 

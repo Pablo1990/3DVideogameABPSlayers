@@ -17,7 +17,7 @@ double EscapeGoal_Evaluator::CalculateDesirability(Bot* pBot)
   //only do the calculation if there is a target present
   if (pBot->isEnemigoPresent())
   {
-    const double Tweaker = 0.6;
+	  const double Tweaker = pBot->getProbEscape();
 
 	Desirability = Tweaker *(1-Goal_Evaluator::Health(pBot))*(1-Goal_Evaluator::WeaponHealth(pBot));
   }

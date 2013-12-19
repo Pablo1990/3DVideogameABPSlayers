@@ -27,7 +27,7 @@ double GetHealthGoal_Evaluator::CalculateDesirability(Bot* pBot)
   else
   {
     //value used to tweak the desirability
-    const double Tweaker = 0.4;
+	  const double Tweaker = pBot->getProbGetHealth();
 
     //the desirability of finding a health item is proportional to the amount
     //of health remaining and inversely proportional to the distance from the

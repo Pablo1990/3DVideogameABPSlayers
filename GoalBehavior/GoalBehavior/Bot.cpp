@@ -2,12 +2,14 @@
 #include "Bot.h"
 
 
-Bot::Bot(double salud_,double posx_,double posy_,double arma_)
+Bot::Bot(double salud_,double posx_,double posy_,double arma_, double probabilities_[5])
 {
 	salud=salud_;
 	Pos.first=posx_;
 	Pos.second=posy_;
 	arma=arma_;
+	for(int i=0; i<5; i++)
+		probabilities[i] = probabilities_[i];
 	//Meto aqui los items para poner por el mapa
 		
 		pair<double,double> pos;
@@ -47,6 +49,27 @@ Bot::Bot(double salud_,double posx_,double posy_,double arma_)
 
 Bot::~Bot(void)
 {
+}
+
+
+double Bot::getProbAttack(){
+	return probabilities[0];
+}
+
+double Bot::getProbEscape(){
+	return probabilities[1];
+}
+
+double Bot::getProbExplore(){
+	return probabilities[2];
+}
+
+double Bot::getProbGetHealth(){
+	return probabilities[3];
+}
+
+double Bot::getProbGetWeapon(){
+	return probabilities[4];
 }
 
 double Bot:: getArma()
@@ -231,6 +254,7 @@ bool Bot::MoverseAItemArma()
 		default:
 			break;
 		}
+		ran = rand()%8;
 	}
 	//int pos
 	cout<<posx<<" "<<posy<<endl;
@@ -240,7 +264,7 @@ bool Bot::MoverseAItemArma()
 bool Bot::MoverseAItemSalud()
 {
 	bool muevo=false;
-	int ran=rand()%9;
+	int ran=rand()%8;
 	int posx=0;
 	int posy=0;
 	pair<double,double> pos=DarPosSalud();
@@ -326,6 +350,7 @@ bool Bot::MoverseAItemSalud()
 		default:
 			break;
 		}
+		ran = rand()%8;
 	}
 	//int pos
 	return true;
