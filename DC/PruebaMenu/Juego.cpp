@@ -6,7 +6,6 @@ Juego::Juego(video::E_DRIVER_TYPE d)
 {
 	this->driverType = d;
 	this->skyboxNode = 0;
-	this->model2 = 0;
 	crouch = false;
 }
 
@@ -82,36 +81,32 @@ void Juego::run()
 
 			now = device->getTimer()->getTime();
 
-			if((int)camera->getPosition().X >= 80 && (int)camera->getPosition().Z <= 605 && (int)camera->getPosition().Z >= 590
-				&& (int)camera->getPosition().X <= 106)
-			{
-				const s32 nowfps = driver->getFPS();
-
-				swprintf(tmp, 255, L"Tengo una piedra");
-
-				statusText->setText(tmp);
-			}
 
 			player->movement(camera);
-			player->get_weapon()->finish_animation();
-			npc->manage_collision(player->get_weapon());
-			switch(player->heal_or_fire(campFire, heal_camp, device))
-			{
+			if(player->get_weapon())
+				player->get_weapon()->finish_animation();
 
-				case 0:
-					swprintf(tmp, 255, L"NORMAL", head_hit);
-					statusText->setText(tmp);
-					break;
-				case 1:
-					swprintf(tmp, 255, L"ARDO", head_hit);
-					statusText->setText(tmp);
-					break;
+			if(npc)
+				npc->manage_collision(player->get_weapon());
+
+			if(player)
+				switch(player->heal_or_fire(campFire, heal_camp, device))
+				{
+
+					case 0:
+						swprintf(tmp, 255, L"NORMAL", head_hit);
+						statusText->setText(tmp);
+						break;
+					case 1:
+						swprintf(tmp, 255, L"ARDO", head_hit);
+						statusText->setText(tmp);
+						break;
 				
-				case 2:
-					swprintf(tmp, 255, L"CURACION", head_hit);
-					statusText->setText(tmp);
-					break;
-			}
+					case 2:
+						swprintf(tmp, 255, L"CURACION", head_hit);
+						statusText->setText(tmp);
+						break;
+				}
 			
 			driver->beginScene(timeForThisScene != -1, true, backColor);
 			smgr->drawAll();
@@ -161,48 +156,31 @@ void Juego::switchToNextScene()
 	keyMap[9].Action = EKA_CROUCH;
 	keyMap[9].KeyCode = KEY_LCONTROL;
 
-	camera = sm->addCameraSceneNodeFPS(0, 100.0f, .4f, ID_IsNotPickable, keyMap, 10, false, 3.f);
-	camera->bindTargetAndRotation(true);
-	camera->setPosition(core::vector3df(108,140,-140));
-	camera->setFarValue(5000.0f);
-	
-	Sword *sw2 = new Sword(0,0,sm);
-	player = new Player(sm, sw2, mapSelector, camera);
-	player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
-	player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
-	/*
-	gun = sm->addAnimatedMeshSceneNode(gunmesh, camera, -1);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
-	gun->setDebugDataVisible(scene::EDS_BBOX_ALL);
-	
-	gun->setScale(core::vector3df(0.008,0.008,0.008));
-	gun->setPosition(core::vector3df(15,-10,20)); 
-	gun->setRotation(core::vector3df(0,50,90));
-	*/
-	/*
-	if (model1_selector)
+	try
 	{
-		scene::ISceneNodeAnimator* characterCollision =
-			sm->createCollisionResponseAnimator(metaModelSelector, camera, core::vector3df(25,50,25),
-			core::vector3df(0, model1->getMesh() ? -10.f : 0.0f,0),
-			core::vector3df(0,45,0), 0.005f);
-		camera->addAnimator(characterCollision);
-		characterCollision->drop();
-	}*/
-
-		collider =
-		sm->createCollisionResponseAnimator(
-		metaSelector, camera, core::vector3df(25,50,25),
-		core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0),
-			core::vector3df(0,45,0), 0.005f);
+		camera = sm->addCameraSceneNodeFPS(0, 100.0f, .4f, ID_IsNotPickable, keyMap, 10, false, 3.f);
+		camera->bindTargetAndRotation(true);
+		camera->setPosition(core::vector3df(108,140,-140));
+		camera->setFarValue(5000.0f);
 	
-	camera->addAnimator(collider);
+		Sword *sw2 = new Sword(0,0,sm);
+		player = new Player(sm, sw2, mapSelector, camera);
+		player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
+		player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
+	
+
+			collider =
+			sm->createCollisionResponseAnimator(
+			metaSelector, camera, core::vector3df(25,50,25),
+			core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0),
+				core::vector3df(0,45,0), 0.005f);
+	
+		camera->addAnimator(collider);
+	}
+	catch(...)
+	{}
 }
 
-bool Juego::collision(ISceneNode* a, ISceneNode* b)
-{
-	return a->getTransformedBoundingBox().
-		intersectsWithBox(b->getTransformedBoundingBox());
-}
 
 void Juego::loadSceneData()
 {
@@ -271,62 +249,7 @@ void Juego::loadSceneData()
 		npc = new Npc(sm);
 		npc->add_to_scene(core::vector3df(100,70,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 
-		scene::IAnimatedMesh* mesh = 0;
-		mesh = sm->getMesh("../media/knight/mesh/fantasy Knight.x");
-		if (mesh)
-		{
-			model1 = sm->addAnimatedMeshSceneNode(mesh);
-			//model1->setDebugDataVisible(scene::EDS_BBOX_ALL);
-			if (model1)
-			{
-				model1->setRotation(core::vector3df(0, 270, 0));
-				model1->setScale(core::vector3df(0.55, 0.55, 0.55));
-				//model1->setMD2Animation(scene::EMAT_RUN);
-
-				model1->setMaterialFlag(video::EMF_LIGHTING, false);
-				//model1->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, false);
-				model1->addShadowVolumeSceneNode();
-				//model1->setLoopMode(false);
-				u32 joints = model1->getJointCount();
-				//Caja cabeza
-				this->model1_head = model1->getJointNode("Bip01_Head");
-				//Cajas cuerpo
-				this->model1_high_spine = model1->getJointNode("Bip01_Spine1");
-				this->model1_low_spine = model1->getJointNode("Bip01_Spine");	
-				this->model1_Neck = model1->getJointNode("Bip01_Neck");
-
-
-				//Cajas pierna derecha
-				this->model1_pelvis = model1->getJointNode("Bip01_Pelvis");
-				this->model1_RThight = model1->getJointNode("Bip01_R_Thigh");
-				this->model1_RCalf = model1->getJointNode("Bip01_R_Calf");
-				this->model1_RFoot = model1->getJointNode("Bip01_R_Foot");
-
-				//Cajas pierna izquierda
-				this->model1_LThight = model1->getJointNode("Bip01_L_Thigh");
-				this->model1_LCalf = model1->getJointNode("Bip01_L_Calf");
-				this->model1_LFoot = model1->getJointNode("Bip01_L_Foot");
-
-				//Cajas brazo derecho
-				//this->model1_RClavicle = model1->getJointNode("Bip01_R_Clavicle");
-				this->model1_RUpperarm = model1->getJointNode("Bip01_R_UpperArm");
-				this->model1_RForearm = model1->getJointNode("Bip01_R_Forearm");
-				this->model1_RHand = model1->getJointNode("Bip01_R_Hand");
-
-
-				//Cajas brazo izquierdo
-				//this->model1_LClavicle = model1->getJointNode("Bip01_L_Clavicle");
-				this->model1_LUpperarm = model1->getJointNode("Bip01_L_UpperArm");
-				this->model1_LForearm = model1->getJointNode("Bip01_L_Forearm");
-				this->model1_LHand = model1->getJointNode("Bip01_L_Hand");
-
-				model1->setDebugDataVisible(scene::EDS_BBOX_ALL);
-
-				model1_selector = sm->createOctreeTriangleSelector(model1->getMesh(), model1, 128);
-				metaModelSelector = sm->createMetaTriangleSelector();
-				metaModelSelector->addTriangleSelector(model1_selector);
-			}
-		}
+		
 
 		scene::ISceneNodeAnimator* anim = 0;
 
@@ -341,42 +264,8 @@ void Juego::loadSceneData()
 			driver->getTexture("../irrlicht-1.8/media/irrlicht2_bk.jpg"));
 		driver->setTextureCreationFlag(video::ETCF_CREATE_MIP_MAPS, true);
 
-		// create walk-between-portals animation
-		core::vector3df waypoint[2];
-		waypoint[0].set(-250, 0, 100);
-		waypoint[1].set(550, 0, 100);
-
-		/*if (model1)
-		{
-			anim = device->getSceneManager()->createFlyStraightAnimator(
-				waypoint[0], waypoint[1], 8000, true);
-			model1->addAnimator(anim);
-			//anim->drop();
-
-			model1->setRotation(core::vector3df(0, 90, 0));
-			anim = device->getSceneManager()->createFlyStraightAnimator(
-				waypoint[1], waypoint[0], 8000, true);
-			model1->addAnimator(anim);
-			anim->drop();
-		}*/
-	}
-
 	
-
-	
-
-	gunmesh = sm->getMesh("../media/sword.3DS"); 
-	gunmesh->setMaterialFlag(video::EMF_LIGHTING, false);
-	droppedGun = sm->addAnimatedMeshSceneNode(gunmesh,0, IDFlag_IsPickable);
-	if(droppedGun)
-	{
-		droppedGun->setScale(core::vector3df(0.008,0.008,0.008));
-		droppedGun->setPosition(core::vector3df(140,40,120)); 
-		selector = sm->createTriangleSelector(droppedGun);
-		droppedGun->setTriangleSelector(selector);
-		selector->drop();
 	}
-		
 		
 
 	// create meta triangle selector with all triangles selectors in it.
@@ -440,8 +329,6 @@ void Juego::loadSceneData()
 
 	dropped_bow = new Bow(0,0,sm, mapSelector, device);
 	dropped_bow->add_to_scene(core::vector3df(230,70,180), core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
-	//dropped_bow->add_to_scene(core::vector3df(230,70,180), core::vector3df(90,0,0), core::vector3df(1,1,1), true);
-	//dropped_bow->get_weapon_node()->setMaterialTexture(0,driver->getTexture("../media/azul.jpg"));
 
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
 	dropped_red_shroom->add_to_scene(core::vector3df(280,70,180), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
@@ -485,168 +372,111 @@ bool Juego::OnEvent(const SEvent& event)
 	}
 	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_E && event.KeyInput.PressedDown == true)
 	{
+		try
+		{
+			scene::ISceneManager* smgr = device->getSceneManager();
+			scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
+			core::line3d<f32> ray;
+			ray.start = camera->getPosition();
+			ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 1000.0f;
+				// This call is all you need to perform ray/triangle collision on every scene node
+			// that has a triangle selector, including the Quake level mesh.  It finds the nearest
+			// collision point/triangle, and returns the scene node containing that point.
+			// Irrlicht provides other types of selection, including ray/triangle selector,
+			// ray/box and ellipse/triangle selector, plus associated helpers.
+			// See the methods of ISceneCollisionManager
+			// Tracks the current intersection point with the level or a mesh
+			core::vector3df intersection;
+			// Used to show with triangle has been hit
+			core::triangle3df hitTriangle;
+
+			scene::IAnimatedMeshSceneNode * selectedSceneNode =
+				(IAnimatedMeshSceneNode*)collMan->getSceneNodeAndCollisionPointFromRay(
+						ray,
+						intersection, // This will be the position of the collision
+						hitTriangle, // This will be the triangle hit in the collision
+						IDFlag_IsPickable, // This ensures that only nodes that we have
+								// set up to be pickable are considered
+						0); // Check the entire scene (this is actually the implicit default)
+
+			// If the ray hit anything, move the billboard to the collision position
+			// and draw the triangle that was hit.
+
 		
-		scene::ISceneManager* smgr = device->getSceneManager();
-		scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
-		core::line3d<f32> ray;
-        ray.start = camera->getPosition();
-        ray.end = ray.start + (camera->getTarget() - ray.start).normalize() * 1000.0f;
-		 // This call is all you need to perform ray/triangle collision on every scene node
-        // that has a triangle selector, including the Quake level mesh.  It finds the nearest
-        // collision point/triangle, and returns the scene node containing that point.
-        // Irrlicht provides other types of selection, including ray/triangle selector,
-        // ray/box and ellipse/triangle selector, plus associated helpers.
-        // See the methods of ISceneCollisionManager
-		// Tracks the current intersection point with the level or a mesh
-        core::vector3df intersection;
-        // Used to show with triangle has been hit
-        core::triangle3df hitTriangle;
 
-        scene::IAnimatedMeshSceneNode * selectedSceneNode =
-            (IAnimatedMeshSceneNode*)collMan->getSceneNodeAndCollisionPointFromRay(
-                    ray,
-                    intersection, // This will be the position of the collision
-                    hitTriangle, // This will be the triangle hit in the collision
-                    IDFlag_IsPickable, // This ensures that only nodes that we have
-                            // set up to be pickable are considered
-                    0); // Check the entire scene (this is actually the implicit default)
-
-        // If the ray hit anything, move the billboard to the collision position
-        // and draw the triangle that was hit.
-
-		
-
-        if(selectedSceneNode)
-        {
-			if(camera->getPosition().getDistanceFrom(selectedSceneNode->getPosition()) <= 110)
+			if(selectedSceneNode)
 			{
-				player->pick_weapon(camera, selectedSceneNode, device);
-			}
+				if(camera->getPosition().getDistanceFrom(selectedSceneNode->getPosition()) <= 110)
+				{
+					player->pick_weapon(camera, selectedSceneNode, device);
+				}
 
+			}
 		}
+		catch(...)
+		{}
 	}
 	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == true)
 	{
 		if(!crouch)
 		{
-			   
-			camera->removeAnimator(collider);
+			try
+			{
+				camera->removeAnimator(collider);
 
-			collider =
-				device->getSceneManager()->createCollisionResponseAnimator(
-				metaSelector, camera, core::vector3df(25,10,25),
-				core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0),
-					core::vector3df(0,45,0), 0.005f);
+				collider =
+					device->getSceneManager()->createCollisionResponseAnimator(
+					metaSelector, camera, core::vector3df(25,10,25),
+					core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0),
+						core::vector3df(0,45,0), 0.005f);
 	
-			camera->addAnimator(collider);
-			crouch = true;
+				camera->addAnimator(collider);
+				crouch = true;
+			}
+			catch(...)
+			{}
 		}
 	}
 	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == false)
 	{
 		if(crouch)
 		{
+			try
+			{
+				camera->removeAnimator(collider);
 
-			camera->removeAnimator(collider);
-
-			collider =
-				device->getSceneManager()->createCollisionResponseAnimator(
-				metaSelector, camera, core::vector3df(25,40,25),
-				core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0),
-					core::vector3df(0,45,0), 0.005f);
+				collider =
+					device->getSceneManager()->createCollisionResponseAnimator(
+					metaSelector, camera, core::vector3df(25,40,25),
+					core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0),
+						core::vector3df(0,45,0), 0.005f);
 	
-			camera->addAnimator(collider);
-			camera->setPosition(camera->getPosition() + vector3df(0,40,0));
-			crouch = false;
+				camera->addAnimator(collider);
+				camera->setPosition(camera->getPosition() + vector3df(0,40,0));
+				crouch = false;
+			}
+			catch(...)
+			{}
 		}
 	}
 	else if (event.EventType == EET_MOUSE_INPUT_EVENT &&
 		 event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP)
 	{
-
-		lastX = player->get_weapon()->get_absolute_position().X;
-		lastY = player->get_weapon()->get_absolute_position().Y;
-		player->attack(firstX, firstY, lastX, lastY);
-		//AQUI VA EL MOVIMIENTO DE LA ESPADA
-		/*if(gun != NULL && gun->getAnimators().empty())
+		if(player)
 		{
-			
-			lastX = gun->getAbsolutePosition().X;
-			lastY = gun->getAbsolutePosition().Y;
-
-			float difX, difY;
-			difX = abs(abs(firstX) - abs(lastX));
-			difY = abs(abs(firstY) - abs(lastY));
-
-			if(difY < 3 && difX < 3)
-			{
-				gun->setRotation(core::vector3df(0,0,0));
-				scene::ISceneNodeAnimator* anim = 0;
-				anim1 = 0;
-
-				anim1 = device->getSceneManager()->createFlyStraightAnimator(
-				gun->getPosition(), core::vector3df(gun->getPosition().X, gun->getPosition().Y, gun->getPosition().Z + 20), 150, false, true);
-
-				gun->setLoopMode(false);
-
-				gun->addAnimator(anim1);
-			}
-			else
-			{
-				if(difY < difX)//Estocada lateral
-				{
-					if(firstX < lastX) //Hacia la derecha
-					{
-						gun->setRotation(core::vector3df(10,0,0));
-						anim1 = 0;
+			lastX = player->get_weapon()->get_absolute_position().X;
+			lastY = player->get_weapon()->get_absolute_position().Y;
+			player->attack(firstX, firstY, lastX, lastY);
+		}
 		
-		
-
-						anim1 = device->getSceneManager()->createFlyStraightAnimator(
-						core::vector3df(gun->getPosition().X - 30, gun->getPosition().Y , gun->getPosition().Z), core::vector3df(gun->getPosition().X + 40, gun->getPosition().Y , gun->getPosition().Z), 300, false, true);
-
-						gun->setLoopMode(false);
-			
-						gun->addAnimator(anim1);
-
-					}
-					else//Hacia la izquierda
-					{
-						gun->setRotation(core::vector3df(10,0,0));
-						anim1 = 0;
-		
-		
-
-						anim1 = device->getSceneManager()->createFlyStraightAnimator(
-						core::vector3df(gun->getPosition().X + 30, gun->getPosition().Y , gun->getPosition().Z), core::vector3df(gun->getPosition().X - 40, gun->getPosition().Y , gun->getPosition().Z), 300, false, true);
-
-						gun->setLoopMode(false);
-			
-						gun->addAnimator(anim1);
-					}
-				}
-				else//Estocada vertical
-				{
-						gun->setRotation(core::vector3df(0,0,12));
-						anim1 = 0;
-		
-		
-
-						anim1 = device->getSceneManager()->createFlyStraightAnimator(
-						core::vector3df(gun->getPosition().X, gun->getPosition().Y + 40 , gun->getPosition().Z), core::vector3df(gun->getPosition().X, gun->getPosition().Y - 30, gun->getPosition().Z), 300, false, true);
-
-						gun->setLoopMode(false);
-			
-						gun->addAnimator(anim1);
-				}
-			}
-		}*/
 	}else if((event.EventType == EET_MOUSE_INPUT_EVENT &&
 		event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN))
 	{
-	
-		firstX = player->get_weapon()->get_absolute_position().X;
-		firstY = player->get_weapon()->get_absolute_position().Y;
+		if(player)
+		{
+			firstX = player->get_weapon()->get_absolute_position().X;
+			firstY = player->get_weapon()->get_absolute_position().Y;
+		}
 
 	}
 	else if (event.EventType == EET_MOUSE_INPUT_EVENT &&
@@ -663,7 +493,7 @@ bool Juego::OnEvent(const SEvent& event)
 			player->defend();
 	}
 	else
-	if (device->getSceneManager()->getActiveCamera())
+	if (device && device->getSceneManager()->getActiveCamera())
 	{
 		device->getSceneManager()->getActiveCamera()->OnEvent(event);
 		return true;

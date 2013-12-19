@@ -14,10 +14,13 @@ Bow::~Bow(void)
 
 void Bow::attack(float first_x, float first_y, float last_x, float last_y)
 {
-	u32 now = device->getTimer()->getTime();
-	if(now -last_shot > reload_time)
+	if(device)
 	{
-		this->shoot_anim(vector3df(1.4,1.4,1.4));
-		last_shot = device->getTimer()->getTime();
+		u32 now = device->getTimer()->getTime();
+		if(now -last_shot > reload_time)
+		{
+			this->shoot_anim(vector3df(1.4,1.4,1.4));
+			last_shot = device->getTimer()->getTime();
+		}
 	}
 }

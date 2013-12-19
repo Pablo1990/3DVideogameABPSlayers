@@ -3,6 +3,8 @@
 #include "Paths.h"
 #include "Bow.h"
 
+#include <IMeshManipulator.h>
+
 class Npc: public Character
 {
 public:
