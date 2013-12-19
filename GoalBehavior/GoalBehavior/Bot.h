@@ -40,6 +40,9 @@ public:
 	void setPosition(double,double);
 	bool MoverseAItemSalud();
 	bool MoverseAItemArma();
+	bool MoverseAEnemigo();
+	bool Move_Explore();
+	bool Move_ToFreeAttack();
 	pair<double,double> DarPosSalud();
 	pair<double,double> DarPosArmaCercana();
 	void setArma(double);

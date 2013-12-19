@@ -4,11 +4,13 @@
 
 AttackTargetGoal_Evaluator::AttackTargetGoal_Evaluator(void)
 {
+	name="Attack";
 }
 
 
 AttackTargetGoal_Evaluator::~AttackTargetGoal_Evaluator(void)
 {
+	
 }
 
 double AttackTargetGoal_Evaluator::CalculateDesirability(Bot* pBot)

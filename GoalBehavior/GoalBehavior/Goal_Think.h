@@ -9,6 +9,9 @@
 #include "MoveToPosition.h";
 #include "Goal_GetArma.h";
 #include "Goal_GetSalud.h";
+#include "Goal_Vagar.h";
+#include "Goal_MarcarHuida.h";
+#include "Goal_RealizarAtaque.h";
 
 class Bot;
 class Goal_Evaluator;

@@ -81,12 +81,14 @@ void Goal_Think::Arbitrate()
   
   //iterate through all the evaluators to see which produces the highest score
  list<Goal_Evaluator*>::iterator curDes = Evaluators.begin();
+ 
   for (curDes; curDes != Evaluators.end(); ++curDes)
   {
    
 	  
 	  double desirabilty= (*curDes)->CalculateDesirability(dueño);
-	  //cout<<"Puntos:"<<desirabilty<<endl;
+	  cout<<"Puntos de "<<(*curDes)->name<<" "<<desirabilty<<endl;
+	  cout<<endl;
 
     if (desirabilty >= best)
     {

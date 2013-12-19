@@ -4,11 +4,13 @@
 
 EscapeGoal_Evaluator::EscapeGoal_Evaluator(void)
 {
+	name="Escape";
 }
 
 
 EscapeGoal_Evaluator::~EscapeGoal_Evaluator(void)
 {
+	
 }
 double EscapeGoal_Evaluator::CalculateDesirability(Bot* pBot)
 {
@@ -27,5 +29,5 @@ double EscapeGoal_Evaluator::CalculateDesirability(Bot* pBot)
 void EscapeGoal_Evaluator::SetGoal(Bot* bot)
 {
 
-	//bot->getBrain()->AddSubgoalEscape;
+	bot->getBrain()->AddSubgoalEscape(bot);
 }

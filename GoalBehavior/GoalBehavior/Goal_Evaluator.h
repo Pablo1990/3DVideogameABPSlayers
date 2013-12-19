@@ -34,6 +34,7 @@ public:
    return max(a, min(x, b));
 
 }
+  string name;
 		
 };
 

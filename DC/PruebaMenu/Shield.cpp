@@ -1,3 +1,7 @@
+
+
+
+
 #include "Shield.h"
 
 
@@ -13,12 +17,17 @@ Shield::~Shield(void)
 
 void Shield::attack(float first_x, float first_y, float last_x, float last_y)
 {
-	if (weapon_node != NULL && !cover)
+	try
 	{
-		weapon_node->setPosition(vector3df(0,0,5));
-		cover = true;
-		weapon_node->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+		if (weapon_node != NULL && !cover)
+		{
+			weapon_node->setPosition(vector3df(0,0,5));
+			cover = true;
+			weapon_node->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+		}
 	}
+	catch(...)
+	{}
 }
 
 void Shield::finish_animation()
@@ -32,7 +41,7 @@ void Shield::finish_animation()
 			weapon_node->setMaterialType(video::EMT_SOLID);
 		}
 	}
-	catch(exception ex)
+	catch(...)
 	{
 	}
 }

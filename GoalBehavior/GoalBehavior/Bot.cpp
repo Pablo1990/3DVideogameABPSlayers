@@ -2,14 +2,12 @@
 #include "Bot.h"
 
 
-Bot::Bot(double salud_,double posx_,double posy_,double arma_, double probabilities_[5])
+Bot::Bot(double salud_,double posx_,double posy_,double arma_)
 {
 	salud=salud_;
 	Pos.first=posx_;
 	Pos.second=posy_;
 	arma=arma_;
-	for(int i=0; i<5; i++)
-		probabilities[i] = probabilities_[i];
 	//Meto aqui los items para poner por el mapa
 		
 		pair<double,double> pos;
@@ -49,27 +47,6 @@ Bot::Bot(double salud_,double posx_,double posy_,double arma_, double probabilit
 
 Bot::~Bot(void)
 {
-}
-
-
-double Bot::getProbAttack(){
-	return probabilities[0];
-}
-
-double Bot::getProbEscape(){
-	return probabilities[1];
-}
-
-double Bot::getProbExplore(){
-	return probabilities[2];
-}
-
-double Bot::getProbGetHealth(){
-	return probabilities[3];
-}
-
-double Bot::getProbGetWeapon(){
-	return probabilities[4];
 }
 
 double Bot:: getArma()
@@ -170,8 +147,8 @@ bool Bot::MoverseAItemArma()
 	int posx=0;
 	int posy=0;
 	pair<double,double> pos=DarPosArmaCercana();
-	cout<<"rand"<<ran<<pos.first<<"   "<<pos.second<<";"<<endl;
-	cout<<"Me muevo"<<endl;
+	//cout<<"rand"<<ran<<pos.first<<"   "<<pos.second<<";"<<endl;
+	//cout<<"Me muevo"<<endl;
 	while(muevo ==false)
 	{
 		switch (ran)
@@ -254,10 +231,296 @@ bool Bot::MoverseAItemArma()
 		default:
 			break;
 		}
-		ran = rand()%8;
+		ran=rand()%8;
+	}
+	
+	return true;
+
+}
+bool Bot::MoverseAEnemigo()
+{
+	bool muevo=false;
+	int ran=rand()%8;
+	int posx=0;
+	int posy=0;
+	pair<double,double> pos=getEnem()->getPos();
+	//cout<<"rand"<<ran<<pos.first<<"   "<<pos.second<<";"<<endl;
+	//cout<<"Me muevo"<<endl;
+	while(muevo ==false)
+	{
+		switch (ran)
+		{
+		case 0:	posx=pos.first-25;
+				posy=pos.second-25;
+				if(posx>=0  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 1:	posx=pos.first;
+				posy=pos.second-25;
+		if(posx>=0  && posy>=0)
+		{
+			muevo=true;
+			Pos.first=posx;
+			Pos.second=posy;
+		}		
+		break;
+		case 2:	posx=pos.first+25;
+				posy=pos.second-25;
+				if(posx<=475  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 3:	posx=pos.first+25;
+				posy=pos.second;
+				if(posx<=475  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+
+		case 4:	posx=pos.first+25;
+				posy=pos.second+25;
+				if(posx<=475  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 5:	posx=pos.first;
+				posy=pos.second+25;
+				if(posx<=475  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 6:	posx=pos.first-25;
+				posy=pos.second+25;
+				if(posx>=0  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 7:	posx=pos.first-25;
+			posy=pos.second;
+			if(posx>=0  && posy<=475)
+			{
+				muevo=true;
+				Pos.first=posx;
+				Pos.second=posy;
+			}		
+			break;
+		
+		
+		default:
+			break;
+		}
+		ran=rand()%8;
+	}
+	return true;
+
+
+}
+bool Bot::Move_Explore()
+{
+	bool  muevo=false;
+	int ran=rand()%8;
+	int posx=0;
+	int posy=0;
+	pair<double,double> pos=getPos();
+	
+	while(muevo ==false)
+	{
+		
+		switch (ran)
+		{
+		case 0:	posx=pos.first-25;
+				posy=pos.second-25;
+				if(posx>=0  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 1:	posx=pos.first;
+				posy=pos.second-25;
+		if(posx>=0  && posy>=0)
+		{
+			muevo=true;
+			Pos.first=posx;
+			Pos.second=posy;
+		}		
+		break;
+		case 2:	posx=pos.first+25;
+				posy=pos.second-25;
+				if(posx<=475  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 3:	posx=pos.first+25;
+				posy=pos.second;
+				if(posx<=475  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+
+		case 4:	posx=pos.first+25;
+				posy=pos.second+25;
+				if(posx<=475  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 5:	posx=pos.first;
+				posy=pos.second+25;
+				if(posx<=475  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 6:	posx=pos.first-25;
+				posy=pos.second+25;
+				if(posx>=0  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 7:	posx=pos.first-25;
+			posy=pos.second;
+			if(posx>=0  && posy<=475)
+			{
+				muevo=true;
+				Pos.first=posx;
+				Pos.second=posy;
+			}		
+			break;
+		default:
+			break;
+		}
+		ran=rand()%8;
 	}
 	//int pos
-	cout<<posx<<" "<<posy<<endl;
+	return true;
+
+}
+bool Bot::Move_ToFreeAttack()
+{
+	bool  muevo=false;
+	int ran=rand()%8;
+	int posx=0;
+	int posy=0;
+	pair<double,double> pos=getPos();
+	cout<<pos.first<<" "<<pos.second<<endl;
+	while(muevo ==false)
+	{
+		
+		switch (ran)
+		{
+		case 0:	posx=pos.first-(25*5);
+				posy=pos.second-(25*5);
+				if(posx>=0  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 1:	posx=pos.first;
+				posy=pos.second-(25*5);
+		if(posx>=0  && posy>=0)
+		{
+			muevo=true;
+			Pos.first=posx;
+			Pos.second=posy;
+		}		
+		break;
+		case 2:	posx=pos.first+(25*5);
+				posy=pos.second-(25*5);
+				if(posx<=475  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 3:	posx=pos.first+(25*5);
+				posy=pos.second;
+				if(posx<=475  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+
+		case 4:	posx=pos.first+(25*5);
+				posy=pos.second+(25*5);
+				if(posx<=475  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 5:	posx=pos.first;
+				posy=pos.second+(25*5);
+				if(posx<=475  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 6:	posx=pos.first-(25*5);
+				posy=pos.second+(25*5);
+				if(posx>=0  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 7:	posx=pos.first-(25*5);
+			posy=pos.second;
+			if(posx>=0  && posy<=475)
+			{
+				muevo=true;
+				Pos.first=posx;
+				Pos.second=posy;
+			}		
+			break;
+		default:
+			break;
+		}
+		ran=rand()%8;
+	}
+	//int pos
 	return true;
 
 }
@@ -350,7 +613,7 @@ bool Bot::MoverseAItemSalud()
 		default:
 			break;
 		}
-		ran = rand()%8;
+		ran=rand()%8;
 	}
 	//int pos
 	return true;

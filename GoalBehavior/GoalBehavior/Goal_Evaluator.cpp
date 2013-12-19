@@ -4,7 +4,7 @@
 
 Goal_Evaluator::Goal_Evaluator(void)
 {
-	//Meter items
+	
 }
 
 
@@ -61,5 +61,6 @@ Goal_Evaluator::~Goal_Evaluator(void)
   double  Goal_Evaluator::WeaponHealth(Bot* pBot)
   {
 	  double estado_arma=pBot->getArma()/10.0;
+	  
 	  return estado_arma;
   }
