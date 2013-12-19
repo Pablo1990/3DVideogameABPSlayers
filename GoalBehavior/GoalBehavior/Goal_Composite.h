@@ -1,9 +1,10 @@
 #include "Goal.h" 
 #include <iostream>
 #include <list>
+
 using namespace std;
 
-
+class Goal;
 
 class Goal_Composite : public Goal
 {
@@ -16,6 +17,10 @@ public:
 		void AddSubGoal(Goal *g);
 		int ProcessSubgoals();
 		void RemoveAllSubgoals();
+		int TamSubgoal()
+		{
+			return m_SubGoals.size();
+		}
 private:
 		list <Goal* > m_SubGoals;
 

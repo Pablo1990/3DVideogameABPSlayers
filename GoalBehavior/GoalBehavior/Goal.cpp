@@ -24,7 +24,7 @@ bool  Goal:: isinactive()
 }
 bool  Goal:: iscomplete()
 {
-	if(estado==2)
+	if(estado==completed)
 		return true;
 	return false;
 }

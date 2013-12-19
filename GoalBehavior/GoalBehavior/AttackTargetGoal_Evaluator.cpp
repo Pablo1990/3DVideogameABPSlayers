@@ -29,7 +29,7 @@ double AttackTargetGoal_Evaluator::CalculateDesirability(Bot* pBot)
 void AttackTargetGoal_Evaluator::SetGoal(Bot* bot)
 {
 
-	//bot->getBrain()->AddSubgoalGetAtackTarget;
+	bot->getBrain()->AddSubgoalGetAtackTarget(bot);
 }
 
 

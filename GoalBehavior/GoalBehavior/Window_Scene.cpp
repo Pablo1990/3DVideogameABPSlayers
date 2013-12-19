@@ -40,7 +40,9 @@ Window_Scene::Window_Scene(Bot *enem,Bot *j)
 	radio_vision.setOutlineColor(sf::Color::Green);
 	radio_vision.setOutlineThickness(1.0);
 	radio_vision.setFillColor(sf::Color::Transparent);
-	j1.setPosition(475,475);
+	j1.setPosition(j->getPos().first,j->getPos().second);
+	bot.setPosition(enem->getPos().first,enem->getPos().second);
+
 	
 	//cout<<"centro"<<j1.getOrigin().x<<" "<<j1.getOrigin().x<<endl;
 	
@@ -52,7 +54,7 @@ Window_Scene::Window_Scene(Bot *enem,Bot *j)
 	int k=0;
 	for (std::list<Item>::iterator it = items2.begin(); it != items2.end(); ++it)
 		{
-			itemspr[k].setPosition((*it).Pos.first*25,(*it).Pos.second*25);
+			itemspr[k].setPosition((*it).Pos.first,(*it).Pos.second);
 			
 				// Cargamos la textura desde un archivo
 		if((*it).typeItem==2)
@@ -128,7 +130,7 @@ Window_Scene::Window_Scene(Bot *enem,Bot *j)
 Window_Scene::~Window_Scene(void)
 {
 }
-void Window_Scene::cargarEscenario()
+void Window_Scene::cargarEscenario(Bot *enem,Bot *j)
 {
 	window.clear(sf::Color::White);
 	//Pintar celdas
@@ -142,10 +144,41 @@ void Window_Scene::cargarEscenario()
 		{
 			window.draw(itemspr[i]);
 		}
+		
+	j1.setPosition(j->getPos().first,j->getPos().second);
+	bot.setPosition(enem->getPos().first,enem->getPos().second);
 		radio_vision.setPosition((bot.getPosition().x+bot.getRadius())-radio_vision.getRadius(),(bot.getPosition().y+bot.getRadius())-radio_vision.getRadius());
 		window.draw(radio_vision);
+
+		//Actualizamos la posicion
+
+
 		window.draw(j1);
 		window.draw(bot);
+		
+
+		//tEXTO
+			int salud=enem->getSalud();
+		std::stringstream bot_;
+		std::stringstream jug;
+		std::stringstream bota_;
+		std::stringstream juga;
+	// Obtenemos las cadenas desde los puntos
+	bot_ << "Salud Bot "<< salud;
+	Text_Sb.setString(bot_.str());
+		salud=j->getSalud();
+		
+	jug << "Salud Jugador "<< salud;
+		Text_Sj.setString(jug.str());
+		salud=enem->getArma();
+
+	bota_<<"Estado  Arma de Bot "<<salud;
+	Text_Sba.setString(bota_.str());
+		salud=j->getArma();
+	juga << "Estado  Arma de Jugador "<< salud;
+		Text_Sja.setString(juga.str());
+
+
 		window.draw(Text_Sb);
 		window.draw(Text_Sj);
 		window.draw(Text_Sba);
@@ -153,32 +186,36 @@ void Window_Scene::cargarEscenario()
 		 window.display();
 }
 
-void Window_Scene::moverJugador(sf::Event mov)
+void Window_Scene::moverJugador(sf::Event mov,Bot *jug_,Bot * enem_)
 {
 
-	
-	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && j1.getPosition().y >=25)
 	{
 		j1.move(0,(-25));
+		jug_->setPosition(jug_->getPos().first,jug_->getPos().second-25);
 
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && j1.getPosition().x >=25)
 	{
 		j1.move((-25),0);
+		jug_->setPosition(jug_->getPos().first-25,jug_->getPos().second);
 	}
 	
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && j1.getPosition().x <475)
 	{
 		j1.move(25,0);
-		//j1.setPosition(j1.getPosition().x+25,j1.getPosition().y);
+		jug_->setPosition(jug_->getPos().first+25,jug_->getPos().second);
 	}
 	
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && j1.getPosition().y < 475)
 	{
 		j1.move(0,25);
-		//j1.setPosition(j1.getPosition().x,j1.getPosition().y+25);
+		
+		jug_->setPosition(jug_->getPos().first,jug_->getPos().second+25);
 	}
-	//}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && ((abs( jug_->getPos().first-enem_->getPos().first)<=25) && (abs( jug_->getPos().second-enem_->getPos().second)<=25)))
+	{
+		enem_->setSalud(enem_->getSalud()-5);
+	}
 	
 }

@@ -11,8 +11,9 @@
 using namespace Concurrency::direct3d;
 
 class Bot;
+
 //Para estandarizar la distancia entre 0 y 1 La distancia de ancho y largo 20 celdas
-const double distanciae_maxima=28.28427125;
+const double distanciae_maxima=141.42135623730;
 
 class Goal_Evaluator
 {

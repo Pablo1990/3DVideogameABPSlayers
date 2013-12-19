@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include <SFML/Graphics.hpp>
 #include <sstream>
+#include <math.h>
 #include "Bot.h";
 
 class Window_Scene
@@ -22,9 +23,9 @@ public:
 		sf::Text Text_Sj;
 		sf::Text Text_Sba;
 		sf::Text Text_Sja;
-		void moverJugador(sf::Event);
+		void moverJugador(sf::Event,Bot*,Bot *);
 		
-	void cargarEscenario();
+	void cargarEscenario(Bot *enem,Bot *j);
 
 };
 

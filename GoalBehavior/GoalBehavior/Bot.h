@@ -7,7 +7,7 @@
 #include <iomanip>
 #include "Goal_Think.h"
 
-const int Distancia_Max_Vision=4;
+const int Distancia_Max_Vision=4*25;
 
 class Goal_Think;
 
@@ -37,6 +37,10 @@ public:
 	Bot(double,double,double,double);
 	void setSalud(double);
 	void setPosition(double,double);
+	bool MoverseAItemSalud();
+	bool MoverseAItemArma();
+	pair<double,double> DarPosSalud();
+	pair<double,double> DarPosArmaCercana();
 	void setArma(double);
 	Bot* getEnem();
 	void setEnem(Bot*);
