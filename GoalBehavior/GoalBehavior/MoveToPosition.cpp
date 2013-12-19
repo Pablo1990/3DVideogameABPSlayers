@@ -40,7 +40,9 @@ int MoveToPosition::Process()
 	//Ir hacia Bot
 	else
 	{
-	
+		if(d->isEnemigoPresent())
+			d->MoverseAEnemigo();
+		Terminate();
 	}
 	return estado;
 }

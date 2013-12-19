@@ -4,6 +4,7 @@
 
 GetHealthGoal_Evaluator::GetHealthGoal_Evaluator(void)
 {
+	name="GetHealth";
 }
 
 
@@ -32,8 +33,16 @@ double GetHealthGoal_Evaluator::CalculateDesirability(Bot* pBot)
     //the desirability of finding a health item is proportional to the amount
     //of health remaining and inversely proportional to the distance from the
     //nearest instance of a health item.
-	float Desirability = Tweaker * (1-Goal_Evaluator::Health(pBot)) /
-		(Goal_Evaluator::DistanceToItem(pBot, 1));
+	float Desirability=0.0;
+	if(Distance!=0)
+	{
+		Desirability = Tweaker * (1-Goal_Evaluator::Health(pBot)) /Distance;
+	}
+	else
+	{
+		Desirability = Tweaker * (1-Goal_Evaluator::Health(pBot));
+	
+	}
 
     //ensure the value is in the range 0 to 1
 

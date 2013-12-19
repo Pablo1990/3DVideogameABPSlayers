@@ -4,6 +4,7 @@
 
 ExploreGoal_Evaluator::ExploreGoal_Evaluator(void)
 {
+	name="Explore";
 }
 
 

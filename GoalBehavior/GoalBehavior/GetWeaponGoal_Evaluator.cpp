@@ -4,6 +4,7 @@
 
 GetWeaponGoal_Evaluator::GetWeaponGoal_Evaluator(void)
 {
+	name="GetWeapon";
 }
 
 
@@ -37,8 +38,19 @@ double GetWeaponGoal_Evaluator::CalculateDesirability(Bot* pBot)
 
 	//Calculará la salud del arma que tiene el usuario siendo 0 si no tiene o esta muy dañada
 	WeaponStrength = Goal_Evaluator::WeaponHealth(pBot);
+	double Desirability=0.0;
+	if(Distance!=0)
+	{
+		Desirability = (Tweaker * Health * (1.0-WeaponStrength)) / Distance;
+		
+	}
+	else
+	{
+	
+		Desirability = (Tweaker * Health * (1.0-WeaponStrength));
+	}
 
-	double Desirability = (Tweaker * Health * (1.0-WeaponStrength)) / Distance;
+		
 
     //ensure the value is in the range 0 to 1
     Desirability=clamp(Desirability, 0, 1);

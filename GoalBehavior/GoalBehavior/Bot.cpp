@@ -147,8 +147,8 @@ bool Bot::MoverseAItemArma()
 	int posx=0;
 	int posy=0;
 	pair<double,double> pos=DarPosArmaCercana();
-	cout<<"rand"<<ran<<pos.first<<"   "<<pos.second<<";"<<endl;
-	cout<<"Me muevo"<<endl;
+	//cout<<"rand"<<ran<<pos.first<<"   "<<pos.second<<";"<<endl;
+	//cout<<"Me muevo"<<endl;
 	while(muevo ==false)
 	{
 		switch (ran)
@@ -231,16 +231,303 @@ bool Bot::MoverseAItemArma()
 		default:
 			break;
 		}
+		ran=rand()%8;
+	}
+	
+	return true;
+
+}
+bool Bot::MoverseAEnemigo()
+{
+	bool muevo=false;
+	int ran=rand()%8;
+	int posx=0;
+	int posy=0;
+	pair<double,double> pos=getEnem()->getPos();
+	//cout<<"rand"<<ran<<pos.first<<"   "<<pos.second<<";"<<endl;
+	//cout<<"Me muevo"<<endl;
+	while(muevo ==false)
+	{
+		switch (ran)
+		{
+		case 0:	posx=pos.first-25;
+				posy=pos.second-25;
+				if(posx>=0  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 1:	posx=pos.first;
+				posy=pos.second-25;
+		if(posx>=0  && posy>=0)
+		{
+			muevo=true;
+			Pos.first=posx;
+			Pos.second=posy;
+		}		
+		break;
+		case 2:	posx=pos.first+25;
+				posy=pos.second-25;
+				if(posx<=475  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 3:	posx=pos.first+25;
+				posy=pos.second;
+				if(posx<=475  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+
+		case 4:	posx=pos.first+25;
+				posy=pos.second+25;
+				if(posx<=475  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 5:	posx=pos.first;
+				posy=pos.second+25;
+				if(posx<=475  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 6:	posx=pos.first-25;
+				posy=pos.second+25;
+				if(posx>=0  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 7:	posx=pos.first-25;
+			posy=pos.second;
+			if(posx>=0  && posy<=475)
+			{
+				muevo=true;
+				Pos.first=posx;
+				Pos.second=posy;
+			}		
+			break;
+		
+		
+		default:
+			break;
+		}
+		ran=rand()%8;
+	}
+	return true;
+
+
+}
+bool Bot::Move_Explore()
+{
+	bool  muevo=false;
+	int ran=rand()%8;
+	int posx=0;
+	int posy=0;
+	pair<double,double> pos=getPos();
+	
+	while(muevo ==false)
+	{
+		
+		switch (ran)
+		{
+		case 0:	posx=pos.first-25;
+				posy=pos.second-25;
+				if(posx>=0  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 1:	posx=pos.first;
+				posy=pos.second-25;
+		if(posx>=0  && posy>=0)
+		{
+			muevo=true;
+			Pos.first=posx;
+			Pos.second=posy;
+		}		
+		break;
+		case 2:	posx=pos.first+25;
+				posy=pos.second-25;
+				if(posx<=475  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 3:	posx=pos.first+25;
+				posy=pos.second;
+				if(posx<=475  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+
+		case 4:	posx=pos.first+25;
+				posy=pos.second+25;
+				if(posx<=475  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 5:	posx=pos.first;
+				posy=pos.second+25;
+				if(posx<=475  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 6:	posx=pos.first-25;
+				posy=pos.second+25;
+				if(posx>=0  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 7:	posx=pos.first-25;
+			posy=pos.second;
+			if(posx>=0  && posy<=475)
+			{
+				muevo=true;
+				Pos.first=posx;
+				Pos.second=posy;
+			}		
+			break;
+		default:
+			break;
+		}
+		ran=rand()%8;
 	}
 	//int pos
-	cout<<posx<<" "<<posy<<endl;
+	return true;
+
+}
+bool Bot::Move_ToFreeAttack()
+{
+	bool  muevo=false;
+	int ran=rand()%8;
+	int posx=0;
+	int posy=0;
+	pair<double,double> pos=getPos();
+	cout<<pos.first<<" "<<pos.second<<endl;
+	while(muevo ==false)
+	{
+		
+		switch (ran)
+		{
+		case 0:	posx=pos.first-(25*5);
+				posy=pos.second-(25*5);
+				if(posx>=0  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 1:	posx=pos.first;
+				posy=pos.second-(25*5);
+		if(posx>=0  && posy>=0)
+		{
+			muevo=true;
+			Pos.first=posx;
+			Pos.second=posy;
+		}		
+		break;
+		case 2:	posx=pos.first+(25*5);
+				posy=pos.second-(25*5);
+				if(posx<=475  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 3:	posx=pos.first+(25*5);
+				posy=pos.second;
+				if(posx<=475  && posy>=0)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+
+		case 4:	posx=pos.first+(25*5);
+				posy=pos.second+(25*5);
+				if(posx<=475  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 5:	posx=pos.first;
+				posy=pos.second+(25*5);
+				if(posx<=475  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 6:	posx=pos.first-(25*5);
+				posy=pos.second+(25*5);
+				if(posx>=0  && posy<=475)
+				{
+					muevo=true;
+					Pos.first=posx;
+					Pos.second=posy;
+				}		
+				break;
+		case 7:	posx=pos.first-(25*5);
+			posy=pos.second;
+			if(posx>=0  && posy<=475)
+			{
+				muevo=true;
+				Pos.first=posx;
+				Pos.second=posy;
+			}		
+			break;
+		default:
+			break;
+		}
+		ran=rand()%8;
+	}
+	//int pos
 	return true;
 
 }
 bool Bot::MoverseAItemSalud()
 {
 	bool muevo=false;
-	int ran=rand()%9;
+	int ran=rand()%8;
 	int posx=0;
 	int posy=0;
 	pair<double,double> pos=DarPosSalud();
@@ -326,6 +613,7 @@ bool Bot::MoverseAItemSalud()
 		default:
 			break;
 		}
+		ran=rand()%8;
 	}
 	//int pos
 	return true;

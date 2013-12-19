@@ -15,7 +15,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		//Declaramos los bot y la memoria del juego
 	
 	Bot *jugador=new Bot(100.0,475,475,10.0);
-	Bot *enemigoPrincipal=new Bot(100.0,13*25,2*25,10.0);
+	Bot *enemigoPrincipal=new Bot(100.0,450,450,5.0);
 	
 	enemigoPrincipal->setEnem(jugador);
 	jugador->setEnem(enemigoPrincipal);
@@ -39,13 +39,22 @@ int _tmain(int argc, _TCHAR* argv[])
             if (event.type == sf::Event::Closed)
               scene.window.close();
 
+			//system("PAUSE");
 			g->Arbitrate();
 			g->ProcessSubgoals();
+			cout<<endl;
+			cout<<"----------"<<endl;
+
 			scene.moverJugador(event,jugador,enemigoPrincipal);
-			if((jugador->getSalud()==0 || enemigoPrincipal->getSalud()==0 ))
+			if(jugador->getSalud()==0 )
 			{
 				
-				cout<<"Fin del juego"<<endl;
+				cout<<"Fin del juego: Gana El Bot"<<endl;
+				scene.window.close();
+			}
+			else if (enemigoPrincipal->getSalud()==0 )
+			{
+				cout<<"Fin del juego: Gana El Jugador"<<endl;
 				scene.window.close();
 			}
 
