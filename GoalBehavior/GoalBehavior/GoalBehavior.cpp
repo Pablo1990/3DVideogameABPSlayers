@@ -15,7 +15,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		//Declaramos los bot y la memoria del juego
 	
 	Bot *jugador=new Bot(100.0,475,475,10.0);
-	Bot *enemigoPrincipal=new Bot(100.0,5*25,2*25,4.0);
+	Bot *enemigoPrincipal=new Bot(100.0,13*25,2*25,10.0);
 	
 	enemigoPrincipal->setEnem(jugador);
 	jugador->setEnem(enemigoPrincipal);

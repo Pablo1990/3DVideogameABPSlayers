@@ -37,6 +37,10 @@ public:
 	Bot(double,double,double,double);
 	void setSalud(double);
 	void setPosition(double,double);
+	bool MoverseAItemSalud();
+	bool MoverseAItemArma();
+	pair<double,double> DarPosSalud();
+	pair<double,double> DarPosArmaCercana();
 	void setArma(double);
 	Bot* getEnem();
 	void setEnem(Bot*);

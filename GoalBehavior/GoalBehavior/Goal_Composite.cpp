@@ -18,6 +18,7 @@ int Goal_Composite::ProcessSubgoals()
     m_SubGoals.front()->Terminate();
     delete m_SubGoals.front();
     m_SubGoals.pop_front();
+	
   }
 
   //if any subgoals remain, process the one at the front of the list

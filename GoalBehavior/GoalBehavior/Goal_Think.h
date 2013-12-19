@@ -6,6 +6,9 @@
 #include "Goal_Explore.h"
 #include "Goal_GetItem.h";
 #include "Goal_Escape.h"
+#include "MoveToPosition.h";
+#include "Goal_GetArma.h";
+#include "Goal_GetSalud.h";
 
 class Bot;
 class Goal_Evaluator;

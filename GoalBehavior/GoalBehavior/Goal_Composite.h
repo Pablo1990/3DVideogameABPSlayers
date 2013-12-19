@@ -17,6 +17,10 @@ public:
 		void AddSubGoal(Goal *g);
 		int ProcessSubgoals();
 		void RemoveAllSubgoals();
+		int TamSubgoal()
+		{
+			return m_SubGoals.size();
+		}
 private:
 		list <Goal* > m_SubGoals;
 
