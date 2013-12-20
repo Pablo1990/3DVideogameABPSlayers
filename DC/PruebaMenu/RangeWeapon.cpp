@@ -91,7 +91,8 @@ void RangeWeapon::shoot_anim(vector3df scale)
 			imp.when = 1;
 			imp.outVector = out;
 			imp.pos = end;
-			imp.collision_flag = false;
+			imp.
+				= false;
 		}
 		else
 		{

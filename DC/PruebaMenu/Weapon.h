@@ -28,7 +28,7 @@ public:
 protected:
 	int damage;
 	int speed;
-	int collision_flag;
+	bool collision_flag;
 	IAnimatedMesh* weapon_mesh;
 	IAnimatedMeshSceneNode *weapon_node;
 	ISceneManager *scene_manager;

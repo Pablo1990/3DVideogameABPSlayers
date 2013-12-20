@@ -92,7 +92,8 @@ void Spear::finish_animation()
 				weapon_node->setRotation(core::vector3df(-140, 0, 0));
 				weapon_node->removeAnimators();
 				weapon_node->removeAnimators();
-				collision_flag = false;
+				
+				= false;
 			}
 		}
 	}
