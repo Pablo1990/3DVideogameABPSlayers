@@ -93,7 +93,7 @@ void Spear::finish_animation()
 				weapon_node->removeAnimators();
 				weapon_node->removeAnimators();
 				
-				= false;
+				collision_flag = false;
 			}
 		}
 	}
