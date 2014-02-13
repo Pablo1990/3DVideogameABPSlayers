@@ -1,9 +1,144 @@
 #include "Pathfinding.h"
 
+using namespace std;
+
 
 Pathfinding::Pathfinding(Position pIni, Position pFin){
 	this->pIni = Position(pIni);
 	this->pFin = Position(pFin);
+	this->camino.clear();
+}
+
+Pathfinding::~Pathfinding(){
+	this->camino.~vector();
+}
+
+/*getters y setters*/
+Position Pathfinding::getPosInicio(){
+	return this->pIni;
+}
+
+void Pathfinding::setPosInicio(Position p){
+	this->pIni.setX(p.getX());
+	this->pIni.setY(p.getY());
+	this->pIni.setZ(p.getZ());
+}
+
+Position Pathfinding::getPosFin(){
+	return this->pFin;
+}
+
+void Pathfinding::setPosFin(Position p){
+	this->pFin.setX(p.getX());
+	this->pFin.setY(p.getY());
+	this->pFin.setZ(p.getZ());
+}
+
+vector<Position> Pathfinding::getCamino(){
+	return this->camino;
+}
+
+void Pathfinding::setCamino(vector<Position> c){
+	this->camino.clear();
+	this->camino = c;
+}
+
+/* functions */
+/** Calcula el mejor camino en funcion de pIni y pFin
+ * Return el vector de posiciones que sera el camino
+ * Tambien se guarda en la clase ese vector.
+ */
+vector<Position> Pathfinding::AEstrella(){
+	//mundo tamaño máximo 20
+        //Recorremos el mapa y lo sacamos por pantalla y llenamos de -1 el array expandidos
+        for (int i = 0; i < tamaño; i++) {
+            for (int j = 0; j < tamaño; j++) {
+                expandidos[i][j] = -1;
+                //System.out.print(mundo[i][j]);
+            }
+            //System.out.println();
+        }
+        //contador de nodos expandidos
+        int cont = 0;
+        //variable auxiliar
+        int gprima;
+        //Array para la Lista Interior
+        ArrayList<Nodo> listaInterior = new ArrayList<Nodo>();
+        //Array para la lista Frontera
+        ArrayList<Nodo> listaFrontera = new ArrayList<Nodo>();
+        //Array para los hijos de cada nodo.
+        ArrayList<Nodo> hijosM = new ArrayList<Nodo>();
+        //Inicializamos el primer nodo (origen), con padre = null
+        Nodo n = new Nodo(0, -1, -1, null, origen, 1);
+        //calculamos la h para el origen
+        n.h = calcularH(n);
+        //calculamos la f para el origen
+        n.f = calcularF(n.g, n.h);
+        //Y lo añadimos a la lista frontera
+        listaFrontera.add(n);
+        //Recorremos esta hasta que sea vacia
+        while (!listaFrontera.isEmpty()) {
+            //Buscamos el nodo con menor F es decir, el mejor (camino más corto)
+            n = new Nodo(menorF(listaFrontera));
+            //Nodo encontrado lo ponemos en expandidos
+            expandidos[n.x][n.y] = cont;
+            //Aumentamos el contador de expandidos
+            cont++;
+            //Lo eliminamos de listaFrontera
+            listaFrontera.remove(n);
+            //Y lo añadimos a nuestra listaInterior como fijo
+            listaInterior.add(n);
+            //En el caso de que este nodo sea estado solución
+            if (n.getX() == destino && n.getY() == tamaño - 2) {
+                //Sacamos por pantalla expandidos y el camino
+                reconstruirCamino(n);
+                //Y salimos con todo correcto
+                return 0;
+            }
+            //Creamos los hijos posibles para el nodo actual n.
+            hijosM = crearHijos(n);
+            //Recorremos la lista de hijos
+            for (int i = 0; i < hijosM.size(); i++) {
+                //Comprobamos que no esté en lista interior
+                if (!listaInterior.contains(hijosM.get(i))) {
+                    //Obtemos el hijo i
+                    Nodo m = new Nodo(hijosM.get(i));
+                    //Calculamos su g, para ver si es mejor de lo que ya tenemos
+                    gprima = n.g + calcularG(n, m);
+                    //Si no está en lista frontera
+                    if (!listaFrontera.contains(m)) {
+                        //Lo añadimos
+                        listaFrontera.add(m);
+                    } else { //En caso contrario
+                        //Obtenemos el nodo que está en listafrontera
+                        Nodo aux = new Nodo(listaFrontera.get(listaFrontera.indexOf(m)));
+                        //Comprobamos que gprima es mejor que aux.g
+                        if (aux.g > gprima) //si es g'(m) mejor m.g
+                        {
+                            //Si es mejor metemos sus características en el de la listafrontera
+                            aux.padre = n;
+                            aux.h = calcularH(m);
+                            aux.g = calcularG(n, m);
+                            aux.f = calcularF(m.g, m.h);
+                        }
+                    }
+                }
+            }
+        }
+        //Si no ha encontrado solución
+        return -1;
+}
+
+/** Imprime el camino que se ha calculado
+* Sirve para el modo debug
+*/
+void Pathfinding::imprimirCamino(){
+	vector<Position>::iterator it;
+	cout<<"Camino encontrado: "<<endl;
+	for(it = camino.begin(); it!=camino.end(); it++)
+	{
+		cout<<(*it)<<endl;
+	}
 }
 
 /**

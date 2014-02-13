@@ -1,5 +1,7 @@
 #include "Position.h"
 
+using namespace std;
+
 Position::Position(){
 	this->x = 0;
 	this->y = 0;
@@ -46,6 +48,10 @@ float Position::getZ() const{
 
 void Position::setZ(float z){
 	this->z = z;
+}
+
+std::ostream& operator<<(std::ostream &strm, const Position &p) {
+	return strm << "Position(" << p.getX << ", " << p.getY() << ", " << p.getZ() << ")";
 }
 
 

@@ -1,8 +1,15 @@
 #pragma once
+
+#include <iostream>
+
+using namespace std;
+
 class Position
 {
 private:
 	float x, y, z;
+	friend std::ostream& operator<<(std::ostream&, const Position&);
+
 public:
 	Position(float, float, float);
 	Position(const Position&);
@@ -21,5 +28,7 @@ public:
 
 	/*sobrecarga operadores */
 	//Position operator=(const Position&);
+
+	
 };
 
