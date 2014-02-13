@@ -34,6 +34,14 @@ public:
 	int heal_or_fire(ISceneNode* camp_fire, ISceneNode* heal, IrrlichtDevice* d);
 	void movement(ICameraSceneNode* camera);
 
+	//Salud
+	double get_health();
+	void set_health(double);
+
+	//Posicion
+	vector3df get_position();
+	void set_position(double,double,double);
+
 protected:
 	IAnimatedMesh *character_mesh;
 	IAnimatedMeshSceneNode *character_node;
@@ -43,6 +51,7 @@ protected:
 	vector<IBoneSceneNode *> body;
 	Shield *sh;
 	Weapon *weapon;
+	double health;
 	bool heal_flag;
 	int heal_count;
 	float heal_time;

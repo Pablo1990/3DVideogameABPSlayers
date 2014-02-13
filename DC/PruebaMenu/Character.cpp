@@ -296,3 +296,23 @@ void Character::defend()
 void Character::no_defend()
 {
 }
+
+double Character::get_health()
+{
+	return health;
+}
+void Character::set_health(double h)
+{
+	health=h;
+}
+
+vector3df Character::get_position()
+{
+	return character_node->getPosition();
+}
+void Character::set_position(double x,double y ,double z)
+{
+	vector3df v3=vector3df(x,y,z);
+	
+	character_node->addAnimator(scene_manager->createFlyStraightAnimator(character_node->getPosition(),v3,150,false,false));
+}

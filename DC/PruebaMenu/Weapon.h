@@ -25,9 +25,15 @@ public:
 	void add_to_camera(vector3df position,vector3df rotation, vector3df scale, ISceneNode* camera);
 	virtual bool is_animated();
 
+	//Obtener y cambiar el desgaste de arma
+	void set_resist(double);
+	double get_resist();
+
+
 protected:
 	int damage;
 	int speed;
+	double resist;
 	bool collision_flag;
 	IAnimatedMesh* weapon_mesh;
 	IAnimatedMeshSceneNode *weapon_node;
