@@ -122,3 +122,11 @@ void Weapon::finish_animation()
 {
 }
 
+void Weapon::set_resist(double r)
+{
+	resist=r;
+}
+	double Weapon::get_resist()
+	{
+		return resist;
+	}

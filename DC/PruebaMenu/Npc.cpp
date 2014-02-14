@@ -17,6 +17,7 @@ void Npc::manage_collision(Weapon *w)
 {
 	try
 	{
+		
 		RangeWeapon* rw2 = dynamic_cast<RangeWeapon*>(w);
 		if (w != NULL) 
 		{
@@ -110,5 +111,12 @@ void Npc::manage_collision(Weapon *w)
 	}
 	catch(...)
 	{
+
 	}
+}
+
+std::list<Weapon*> Npc::getItems()
+{
+	return items;
+
 }
