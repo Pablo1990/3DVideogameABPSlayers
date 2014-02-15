@@ -120,3 +120,94 @@ std::list<Weapon*> Npc::getItems()
 	return items;
 
 }
+vector3df  Npc::DarPosSalud()
+{
+	vector3df v3=vector3df();
+	return v3;
+}
+vector3df  Npc::DarPosArmaCercana()
+{
+	int distancia=9999.9;
+
+	vector3df v3=vector3df();
+	for (std::list<Weapon*>::iterator it = items.begin();
+       it != items.end();
+       ++it)
+		{
+			
+				
+			double distaux=sqrt((pow((get_position().X-(*it)->get_absolute_position().X),2))+(pow((get_position().Y-(*it)->get_absolute_position().Y),2)));
+				//Estandarizamos
+				if(distaux <=distancia)
+				{
+					distancia=distaux;
+					v3=(*it)->get_absolute_position();
+				}
+			
+		}
+	return v3;
+}
+
+void Npc::setBrain(Goal_Think* mente_)
+{
+
+	mente=mente_;
+}
+
+Goal_Think* Npc::getBrain()
+{
+	return mente;
+	
+}
+
+void Npc::setEnem(Player* p)
+{
+	player=p;
+}
+Player* Npc::getEnem()
+{
+	return player;
+}
+
+bool Npc::isEnemigoPresent()
+{
+	if(player !=NULL)
+{
+	int x_E=player->get_position().X;
+	int y_E=player->get_position().Y;
+	int x=get_position().X;
+	int y=get_position().Y;
+	int distaux=sqrt(pow((x-x_E),2)+pow((y-y_E),2));
+
+	//POner distancia máxima de visión
+	if(distaux <=9999)
+	{
+		return true;
+	}
+	//cout<<"entro Distancia:"<<distaux<<endl;
+}
+return false;
+}
+
+
+bool Npc::MoverseAItemSalud()
+{
+	return true;
+}
+bool Npc::MoverseAItemArma()
+{
+	return true;
+}
+bool Npc::MoverseAEnemigo()
+{
+	return true;
+}
+bool Npc::Move_Explore()
+{
+	return true;
+}
+bool Npc::Move_ToFreeAttack()
+{
+	return true;
+
+}

@@ -29,7 +29,8 @@ public:
 	bool MoverseAEnemigo();
 	bool Move_Explore();
 	bool Move_ToFreeAttack();
-
+	vector3df DarPosSalud();
+	vector3df DarPosArmaCercana();
 	//Enemigo
 	void setEnem(Player*);
 	Player* getEnem();

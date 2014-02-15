@@ -23,8 +23,8 @@ Goal_GetSalud::Activate()
 int Goal_GetSalud::Process()
 {
 	Activate();
-	pair<double,double> pos=d->DarPosSalud();
-	if((std::abs(pos.first-d->get_position().X)<=25 ) && std::abs(pos.second-d->get_position().Y)<=25)
+	vector3df pos=d->DarPosSalud();
+	if((std::abs(pos.X-d->get_position().X)<=25 ) && std::abs(pos.Y-d->get_position().Y)<=25)
 		{
 			d->set_health(100);
 			estado=completed;
