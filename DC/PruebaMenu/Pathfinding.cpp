@@ -48,7 +48,7 @@ void Pathfinding::setCamino(vector<Position> c){
  * Return el vector de posiciones que sera el camino
  * Tambien se guarda en la clase ese vector.
  */
-vector<Position> Pathfinding::AEstrella(){
+vector<Position> Pathfinding::AEstrella(vector<Position> mapa){
 	vector<Position> expandidos;
         //Recorremos el mapa y lo sacamos por pantalla y llenamos de -1 el array expandidos
         for (int i = 0; i < tamaño; i++) {
@@ -65,7 +65,7 @@ vector<Position> Pathfinding::AEstrella(){
         //Array para la Lista Interior
 		vector<NodoPathfinding, NodoPathfinding> listaInterior;
         //Array para la lista Frontera
-        vector<NodoPathfinding> listaFrontera;
+        vector<NodoPathfinding, NodoPathfinding> listaFrontera;
         //Array para los hijos de cada NodoPathfinding.
         vector<NodoPathfinding> hijosM;
         //Inicializamos el primer NodoPathfinding (origen), con padre = null
