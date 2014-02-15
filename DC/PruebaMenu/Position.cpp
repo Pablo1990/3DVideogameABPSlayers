@@ -51,7 +51,7 @@ void Position::setZ(float z){
 }
 
 std::ostream& operator<<(std::ostream &strm, const Position &p) {
-	return strm << "Position(" << p.getX << ", " << p.getY() << ", " << p.getZ() << ")";
+	return strm << "Position(" << p.getX() << ", " << p.getY() << ", " << p.getZ() << ")";
 }
 
 
