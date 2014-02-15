@@ -3,9 +3,9 @@
 using namespace std;
 
 Position::Position(){
-	this->x = 0;
-	this->y = 0;
-	this->z = 0;
+	this->x = -1;
+	this->y = -1;
+	this->z = -1;
 }
 
 Position::Position(const Position& p){
@@ -53,5 +53,10 @@ void Position::setZ(float z){
 std::ostream& operator<<(std::ostream &strm, const Position &p) {
 	return strm << "Position(" << p.getX() << ", " << p.getY() << ", " << p.getZ() << ")";
 }
+
+bool Position::operator==(const Position& p){
+	return (p.getX() == this->getX() && p.getY() == this->getY() && p.getZ() == this->getZ());
+}
+
 
 

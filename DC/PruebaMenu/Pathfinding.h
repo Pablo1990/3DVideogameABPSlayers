@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Position.h"
+#include "NodoPathfinding.h"
+
 #include <vector>
 #include <iostream>
 
@@ -38,4 +40,10 @@ public:
 	* Sirve para el modo debug
 	*/
 	void imprimirCamino();
+
+	int calcularF();
+
+	int calcularG();
+
+	int calcularH();
 };

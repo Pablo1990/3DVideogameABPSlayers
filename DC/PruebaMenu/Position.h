@@ -27,7 +27,7 @@ public:
 	void setZ(float);
 
 	/*sobrecarga operadores */
-	//Position operator=(const Position&);
+	bool operator==(const Position&);
 
 	
 };
