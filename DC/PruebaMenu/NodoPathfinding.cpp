@@ -2,11 +2,11 @@
 
 NodoPathfinding::NodoPathfinding(void)
 {
-	padre = nullptr;
 }
 
 NodoPathfinding::~NodoPathfinding(void)
 {
+	this->pos.~Position();
 }
 
 /**
@@ -18,12 +18,11 @@ NodoPathfinding::~NodoPathfinding(void)
      * @param x
      * @param y
      */
-    NodoPathfinding::NodoPathfinding(int g, int f, int h, int x, int y) {
+    NodoPathfinding::NodoPathfinding(int g, int f, int h, Position p) {
         this->g = g;
         this->f = f;
         this->h = h;
-        this->x = x;
-        this->y = y;
+		this->pos = p;
     }
  
     /**
@@ -32,8 +31,6 @@ NodoPathfinding::~NodoPathfinding(void)
      */
     NodoPathfinding::NodoPathfinding(NodoPathfinding& n) {
         this->g = n.g;
-        this->x = n.x;
-        this->y = n.y;
         this->f = n.f;
         this->h = n.h;
     }
@@ -57,24 +54,8 @@ NodoPathfinding::~NodoPathfinding(void)
      * Devuelve la g
      * @return int g
      */
-    int NodoPathfinding::getG() {
+    int NodoPathfinding::getG(NodoPadreEHijo , NodoPadreEHijo ) {
         return g;
-    }
- 
-    /**
-     * Devuelve la fila
-     * @return
-     */
-    int NodoPathfinding::getX() {
-        return x;
-    }
- 
-    /**
-     * Devuelve la columna
-     * @return
-     */
-    int NodoPathfinding::getY() {
-        return y;
     }
  
     /**
@@ -83,22 +64,6 @@ NodoPathfinding::~NodoPathfinding(void)
      */
     void NodoPathfinding::setG(int g) {
         this->g = g;
-    }
- 
-    /**
-     * Modifica la fila, por una nueva
-     * @param x
-     */
-    void NodoPathfinding::setX(int x) {
-        this->x = x;
-    }
- 
-    /**
-     * Cambia la columna, por  una nueva
-     * @param y
-     */
-    void NodoPathfinding::setY(int y) {
-        this->y = y;
     }
  
     /**

@@ -19,7 +19,7 @@ private:
      */
     int h;
 
-	Position p;
+	Position pos;
 public:
 	NodoPathfinding(void);
 	~NodoPathfinding(void);

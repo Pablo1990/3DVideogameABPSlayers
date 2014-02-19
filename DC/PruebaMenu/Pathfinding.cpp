@@ -1,4 +1,6 @@
 #include "Pathfinding.h"
+#include <iostream>
+#include <math.h>
 
 using namespace std;
 
@@ -48,12 +50,15 @@ void Pathfinding::setCamino(vector<Position> c){
  * Return el vector de posiciones que sera el camino
  * Tambien se guarda en la clase ese vector.
  */
-vector<Position> Pathfinding::AEstrella(vector<Position> mapa){
-	vector<Position> expandidos;
+vector<Position> Pathfinding::AEstrella(Position mapa){
+	const int x = mapa.getX();
+	const int y = mapa.getY();
+	const int z = mapa.getZ();
+	int expandidos[x][y][z];
         //Recorremos el mapa y lo sacamos por pantalla y llenamos de -1 el array expandidos
-        for (int i = 0; i < tamaño; i++) {
-            for (int j = 0; j < tamaño; j++) {
-                expandidos[i][j] = -1;
+	for (int i = 0; i < mapa.getX(); i++) {
+		for (int j = 0; j < mapa.getZ(); j++) {
+			expandidos[i][j][0] = -1;
                 //System.out.print(mundo[i][j]);
             }
             //System.out.println();
@@ -63,33 +68,34 @@ vector<Position> Pathfinding::AEstrella(vector<Position> mapa){
         //variable auxiliar
         int gprima;
         //Array para la Lista Interior
-		vector<NodoPathfinding, NodoPathfinding> listaInterior;
+		vector<NodoPadreEHijo> listaInterior;
         //Array para la lista Frontera
-        vector<NodoPathfinding, NodoPathfinding> listaFrontera;
+		vector<NodoPadreEHijo> listaFrontera;
         //Array para los hijos de cada NodoPathfinding.
-        vector<NodoPathfinding> hijosM;
+		vector<NodoPadreEHijo> hijosM;
         //Inicializamos el primer NodoPathfinding (origen), con padre = null
-        //NodoPathfinding n(0, -1, -1, null, origen, 1);
+        NodoPathfinding nActual(0, -1, -1, pIni);
+		NodoPadreEHijo n(nActual, NodoPathfinding());
         //calculamos la h para el origen
-		n.setH(calcularH(n));
+		n.getNodo().setH(calcularH(n.getNodo()));
         //calculamos la f para el origen
-		n.setF(calcularF(n.g, n.h));
+		n.getNodo().setF(calcularF(n.getNodo().getG(), n.getNodo().getH()));
         //Y lo añadimos a la lista frontera
-        listaFrontera.add(n);
+		listaFrontera.push_back(n);
         //Recorremos esta hasta que sea vacia
-        while (!listaFrontera.isEmpty()) {
+		while (!listaFrontera.empty()) {
             //Buscamos el NodoPathfinding con menor F es decir, el mejor (camino más corto)
-            n = new NodoPathfinding(menorF(listaFrontera));
+			NodoPadreEHijo n(menorF(listaFrontera));
             //NodoPathfinding encontrado lo ponemos en expandidos
-            expandidos[n.x][n.y] = cont;
+			expandidos[n.getNodo().getPosition().getX()][n.getNodo().getPosition().getY()][n.getNodo().getPosition().getZ()] = cont;
             //Aumentamos el contador de expandidos
             cont++;
             //Lo eliminamos de listaFrontera
-            listaFrontera.remove(n);
+			listaFrontera.erase(n);
             //Y lo añadimos a nuestra listaInterior como fijo
-            listaInterior.add(n);
+			listaInterior.push_back(n);
             //En el caso de que este NodoPathfinding sea estado solución
-            if (n.getX() == destino && n.getY() == tamaño - 2) {
+			if (n.getNodo().getPosition().getX() == pFin.getX() && n.getNodo().getPosition().getY() == pFin.getY() && n.getNodo().getPosition().getZ() == pFin.getZ()) {
                 //Sacamos por pantalla expandidos y el camino
                 reconstruirCamino(n);
                 //Y salimos con todo correcto
@@ -100,33 +106,36 @@ vector<Position> Pathfinding::AEstrella(vector<Position> mapa){
             //Recorremos la lista de hijos
             for (int i = 0; i < hijosM.size(); i++) {
                 //Comprobamos que no esté en lista interior
-                if (!listaInterior.contains(hijosM.get(i))) {
+				if (!(std::find(listaInterior.begin(), listaInterior.end(),hijosM[i]) != listaInterior.end())) {
                     //Obtemos el hijo i
-                    NodoPathfinding m = new NodoPathfinding(hijosM.get(i));
+					NodoPadreEHijo m(hijosM[i]);
                     //Calculamos su g, para ver si es mejor de lo que ya tenemos
-                    gprima = n.g + calcularG(n, m);
+					gprima = n.getNodo().getG() + calcularG(n, m);
                     //Si no está en lista frontera
-                    if (!listaFrontera.contains(m)) {
+					if(!(std::find(listaFrontera.begin(), listaFrontera.end(), m) != listaFrontera.end())) {
+						/* v contains x */
                         //Lo añadimos
-                        listaFrontera.add(m);
+						listaFrontera.push_back(m);
                     } else { //En caso contrario
                         //Obtenemos el NodoPathfinding que está en listafrontera
-                        NodoPathfinding aux = new NodoPathfinding(listaFrontera.get(listaFrontera.indexOf(m)));
+						NodoPadreEHijo np(std::find(listaFrontera.begin(), listaFrontera.end(), m));
+						NodoPathfinding aux = np.getNodo();
                         //Comprobamos que gprima es mejor que aux.g
-                        if (aux.g > gprima) //si es g'(m) mejor m.g
+						if (aux.getG() > gprima) //si es g'(m) mejor m.g
                         {
                             //Si es mejor metemos sus características en el de la listafrontera
-                            aux.padre = n;
-                            aux.h = calcularH(m);
-                            aux.g = calcularG(n, m);
-                            aux.f = calcularF(m.g, m.h);
+							np.setPadre(n.getNodo());
+							aux.setH(calcularH(m.getNodo()));
+                            aux.setG(calcularG(n, m));
+							aux.setF(calcularF(m.getNodo().getG(), m.getNodo().getH()));
                         }
                     }
                 }
             }
         }
+		vector<Position> p;
         //Si no ha encontrado solución
-        return -1;
+		return p;
 }
 
 /** Imprime el camino que se ha calculado
@@ -159,12 +168,12 @@ void Pathfinding::imprimirCamino(){
      * @param m
      * @return
      */
-    int Pathfinding::calcularG(NodoPathfinding n, NodoPathfinding m) {
+	int Pathfinding::calcularG(NodoPadreEHijo n, NodoPadreEHijo m) {
         int g = 0;
-        if (m.padre == null) {
+		if (m.getPadre() == NodoPathfinding()) {
             g = 1;
         } else {
-            g = n.g + 1;
+			g = n.getNodo().getG() + 1;
         }
  
  
@@ -178,15 +187,15 @@ void Pathfinding::imprimirCamino(){
      * @param m
      * @return
      */
-    int Pathfinding::calcularH(NodoPathfinding m) {
+	int Pathfinding::calcularH(NodoPathfinding m) {
         int h = 0;
         //Distancía Euclídea
         //h = (int) Math.sqrt(Math.pow(((tamaño - 2) - m.y), 2) + Math.pow(destino - m.x, 2));
         //Distancía Manhattan
-        int y = (tamaño - 2) - m.y;
-		int x = destino - m.x;
-        x = Math.abs(x);
-        y = Math.abs(y);
+		int y = pFin.getY() - m.getPosition().getY();
+		int x = pFin.getX() - m.getPosition().getX();
+        x = abs(x);
+        y = abs(y);
         h = x + y;
  
         //Algoritmo voraz creado por mí
@@ -226,23 +235,117 @@ void Pathfinding::imprimirCamino(){
      * @param listaFrontera
      * @return
      */
-    NodoPathfinding Pathfinding::menorF(vector<NodoPathfinding> listaFrontera) {
+	NodoPadreEHijo menorF(vector<NodoPadreEHijo> listaFrontera) {
         //Cogemos el primer NodoPathfinding de la lista
-        NodoPathfinding n = new NodoPathfinding(listaFrontera.get(0));
+		NodoPadreEHijo nPadreEHijo(listaFrontera[0]);
+		NodoPathfinding n = nPadreEHijo.getNodo();
         //y lo tamamos como referencia
-        int menor = n.f;
+		int menor = n.getF();
         //Recorremos la lista
         for (int i = 1; i < listaFrontera.size(); i++) {
             //Cogemos el siguiente
-            NodoPathfinding nuevo = new NodoPathfinding(listaFrontera.get(i));
+			NodoPadreEHijo nuevoPadreEHijo(listaFrontera[i]);
+			NodoPathfinding nuevo = nuevoPadreEHijo.getNodo();
             //Comprobamos que es mejor o igual que el que tenemos
             //ya que así tenderemos a coger los que sean  insertado últimos
-            if (menor >= nuevo.f) {
+			if (menor >= nuevo.getF()) {
                 //Si es mejor que el que tenemos nos lo quedamos 
                 n = nuevo;
-                menor = nuevo.f;
+				menor = nuevo.getF();
+				nPadreEHijo.setNodo(n);
+				nPadreEHijo.setPadre(nuevoPadreEHijo.getPadre());
             }
         }
         //Devolvemos el NodoPathfinding con menor f
-        return n;
+		return nPadreEHijo;
     }
+
+	ArrayList<Nodo> crearHijos(Nodo n) {
+        //Array de hijos
+        ArrayList<Nodo> hijosM = new ArrayList<Nodo>();
+        Nodo hijo;
+        //comprobamos todas las posibilidades, como máximo puede tener 4 hijos.
+        //Derecha, comprobamos que esté vacío y que no nos salgamos del mapa
+        if (n.y + 1 < tamaño && mundo[n.x][n.y + 1] == 0) {
+            hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
+            hijo.g = calcularG(n, hijo);
+            hijo.h = calcularH(hijo);
+            hijo.f = calcularF(hijo.g, hijo.h);
+            hijo.padre = n;
+            hijosM.add(hijo);
+        }
+        //arriba, comprobamos que esté vacío y que no nos salgamos del mapa
+        if (n.x - 1 >= 0 && mundo[n.x - 1][n.y] == 0) {
+            hijo = new Nodo(0, 0, 0, n, n.x - 1, n.y);
+            hijo.g = calcularG(n, hijo);
+            hijo.h = calcularH(hijo);
+            hijo.f = calcularF(hijo.g, hijo.h);
+            hijo.padre = n;
+            hijosM.add(hijo);
+        }
+        //Abajo, comprobamos que esté vacío y que no nos salgamos del mapa
+        if (n.x + 1 < tamaño && mundo[n.x + 1][n.y] == 0) {
+            hijo = new Nodo(0, 0, 0, n, n.x + 1, n.y);
+            hijo.g = calcularG(n, hijo);
+            hijo.h = calcularH(hijo);
+            hijo.f = calcularF(hijo.g, hijo.h);
+            hijo.padre = n;
+            hijosM.add(hijo);
+        }
+        //Izquierda, comprobamos que esté vacío y que no nos salgamos del mapa
+        if (n.y - 1 >= 0 && mundo[n.x][n.y - 1] == 0) {
+            hijo = new Nodo(0, 0, 0, n, n.x, n.y - 1);
+            hijo.g = calcularG(n, hijo);
+            hijo.h = calcularH(hijo);
+            hijo.f = calcularF(hijo.g, hijo.h);
+            hijo.padre = n;
+            hijosM.add(hijo);
+        }
+ 
+        return hijosM;
+    }
+
+	/**
+     * Sacamos por pantalla el camino al que hemos llegado y los nodos por los
+     * que hemos pasado
+     * @param n nodo solución
+     */
+    void reconstruirCamino(Nodo n) {
+        //aquí modificamos char camino[][] e int expandidos[][] tal como dice
+        //el enunciado de la práctica
+        Nodo m = n;
+        //Nodo solución
+        camino[m.x][m.y] = 'X';
+        System.out.println("Camino: ");
+        //Mientras no lleguemos al hijo origen
+        while (m.padre != null) {
+            //Cogemos el padre y lo que convertimos en el actual
+            m = new Nodo(m.padre);
+            //Mentemos en el array las coordenadas 
+            camino[m.x][m.y] = 'X';
+        }
+        //Recorremos el array y mostramos por pantalla la solución al problema
+        for (int i = 0; i < tamaño; i++) {
+            for (int j = 0; j < tamaño; j++) {
+                if (camino[i][j] == 'X') {
+                    System.out.print('X');
+                } else {
+                    System.out.print('.');
+                }
+            }
+            System.out.println();
+        }
+        //Recorremos expandidos y mostramos los nodos.
+        System.out.println("Expandidos:");
+        for (int i = 0; i < tamaño; i++) {
+            for (int j = 0; j < tamaño; j++) {
+                if (expandidos[i][j] >= 0 && expandidos[i][j] < 10) {
+                    System.out.print(" ");
+                }
+                System.out.print(expandidos[i][j] + " ");
+            }
+            System.out.println();
+        }
+ 
+    }
+     
