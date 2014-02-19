@@ -6,17 +6,17 @@ class NodoPadreEHijo
 {
 private:
 	NodoPathfinding nodo;
-	NodoPathfinding padre;
+	NodoPadreEHijo *padre;
 public:
 	NodoPadreEHijo();
-	NodoPadreEHijo(NodoPathfinding n, NodoPathfinding padre);
+	NodoPadreEHijo(NodoPathfinding n, NodoPathfinding* padre);
 	~NodoPadreEHijo(void);
 
-	NodoPathfinding getPadre() const;
+	NodoPathfinding* getPadre() const;
 	NodoPathfinding getNodo() const;
 
 	void setNodo(NodoPathfinding n);
-	void setPadre(NodoPathfinding padre);
+	void setPadre(NodoPadreEHijo* padre);
 
 };
 

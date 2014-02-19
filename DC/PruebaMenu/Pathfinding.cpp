@@ -75,7 +75,7 @@ vector<Position> Pathfinding::AEstrella(Position mapa){
 		vector<NodoPadreEHijo> hijosM;
         //Inicializamos el primer NodoPathfinding (origen), con padre = null
         NodoPathfinding nActual(0, -1, -1, pIni);
-		NodoPadreEHijo n(nActual, NodoPathfinding());
+		NodoPadreEHijo n(nActual, NULL);
         //calculamos la h para el origen
 		n.getNodo().setH(calcularH(n.getNodo()));
         //calculamos la f para el origen
@@ -124,7 +124,7 @@ vector<Position> Pathfinding::AEstrella(Position mapa){
 						if (aux.getG() > gprima) //si es g'(m) mejor m.g
                         {
                             //Si es mejor metemos sus características en el de la listafrontera
-							np.setPadre(n.getNodo());
+							np.setPadre(new NodoPadreEHijo(n));
 							aux.setH(calcularH(m.getNodo()));
                             aux.setG(calcularG(n, m));
 							aux.setF(calcularF(m.getNodo().getG(), m.getNodo().getH()));
@@ -170,7 +170,7 @@ void Pathfinding::imprimirCamino(){
      */
 	int Pathfinding::calcularG(NodoPadreEHijo n, NodoPadreEHijo m) {
         int g = 0;
-		if (m.getPadre() == NodoPathfinding()) {
+		if (m.getPadre() == NULL) {
             g = 1;
         } else {
 			g = n.getNodo().getG() + 1;
@@ -253,7 +253,7 @@ void Pathfinding::imprimirCamino(){
                 n = nuevo;
 				menor = nuevo.getF();
 				nPadreEHijo.setNodo(n);
-				nPadreEHijo.setPadre(nuevoPadreEHijo.getPadre());
+				nPadreEHijo.setPadre(new NodoPadreEHijo(nuevoPadreEHijo));
             }
         }
         //Devolvemos el NodoPathfinding con menor f
@@ -310,17 +310,16 @@ void Pathfinding::imprimirCamino(){
      * que hemos pasado
      * @param n nodo solución
      */
-    void reconstruirCamino(Nodo n) {
-        //aquí modificamos char camino[][] e int expandidos[][] tal como dice
-        //el enunciado de la práctica
-        Nodo m = n;
+	vector<Position> reconstruirCamino(NodoPadreEHijo n) {
+		char camino[100][100][100];
+		NodoPadreEHijo m(n);
         //Nodo solución
-        camino[m.x][m.y] = 'X';
+		camino[m.getNodo().getPosition().getX()][m.getNodo().getPosition().getY()][m.getNodo().getPosition().getZ()] = 'X';
         System.out.println("Camino: ");
         //Mientras no lleguemos al hijo origen
-        while (m.padre != null) {
+		while (!(m.getPadre() == NodoPathfinding())) {
             //Cogemos el padre y lo que convertimos en el actual
-            m = new Nodo(m.padre);
+            m = m.);
             //Mentemos en el array las coordenadas 
             camino[m.x][m.y] = 'X';
         }

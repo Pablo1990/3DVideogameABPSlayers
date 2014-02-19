@@ -10,14 +10,14 @@ NodoPathfinding::~NodoPathfinding(void)
 }
 
 /**
-     * Constructor del NodoPathfiding
-     * @param g 
-     * @param f 
-     * @param h 
-     * @param padre
-     * @param x
-     * @param y
-     */
+ * Constructor del NodoPathfiding
+ * @param g 
+ * @param f 
+ * @param h 
+ * @param padre
+ * @param x
+ * @param y
+*/
     NodoPathfinding::NodoPathfinding(int g, int f, int h, Position p) {
         this->g = g;
         this->f = f;
