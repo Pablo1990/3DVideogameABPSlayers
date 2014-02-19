@@ -30,18 +30,20 @@ Goal_Evaluator::~Goal_Evaluator(void)
 	  double distancia=1.0;
 	  if(pBot->getItems().empty())
 	  {
+		  cout<<"Entro aqui"<<endl;
 		return 1.0;
 
 	  }
 
 	  else
 	  {
-		  for (std::list<Weapon*>::iterator it = pBot->getItems().begin();
-			  it != pBot->getItems().end();
-       ++it)
+			std::list<Weapon*> lista= pBot->getItems();
+			for (std::list<Weapon*>::iterator it = lista.begin();
+			  it != lista.end();
+       it++)
 		{
 			
-			double distaux=sqrt((pow((pBot->get_position().X-(*it)->get_absolute_position().X),2))+(pow((pBot->get_position().Y-(*it)->get_absolute_position().Y),2)));
+			double distaux=sqrt((pow((pBot->get_position().X-(*it)->get_absolute_position().X),2))+(pow((pBot->get_position().Z-(*it)->get_absolute_position().Z),2)));
 				//Estandarizamos
 				
 				distaux=distaux/distanciae_maxima;
@@ -62,38 +64,24 @@ Goal_Evaluator::~Goal_Evaluator(void)
    double Goal_Evaluator:: DistanceToItemHealth(Npc* pBot)
   {
 	  double distancia=1.0;
-	  if(pBot->getItems().empty())
-	  {
-		return 1.0;
-
-	  }
-
-	  else
-	  {
-		  for (std::list<Weapon*>::iterator it = pBot->getItems().begin();
-			  it != pBot->getItems().end();
-       ++it)
-		{
+	  
 			
-			double distaux=sqrt((pow((pBot->get_position().X-(*it)->get_absolute_position().X),2))+(pow((pBot->get_position().Y-(*it)->get_absolute_position().Y),2)));
+	  distancia=sqrt((pow((pBot->get_position().X-pBot->DarPosSalud().X),2))+(pow((pBot->get_position().Z-pBot->DarPosSalud().Z),2)));
 				//Estandarizamos
 				
-				distaux=distaux/distanciae_maxima;
-				if(distaux <=distancia)
-					distancia=distaux;
+				distancia=distancia/distanciae_maxima;
 				
 			
-		}
+		
 	  
-	  }
-	  return distancia;
+	  	  return distancia;
   }
 
   //Nos devolverá un valor entre 0 e 1 segun el estado de salud del arma en el caso de valer 0 si no tiene arma el bot o 1 si se encuentra en salud máxima de arma por cada ataque el arma se desgastará en 1 valiendo
-  //su valor como máximo 10
+  //su valor como máximo 15
   double  Goal_Evaluator::WeaponHealth(Npc* pBot)
   {
-	  double estado_arma=pBot->get_weapon()->get_resist()/10.0;
+	  double estado_arma=pBot->get_weapon()->get_resist()/15;
 	  
 	  return estado_arma;
   }

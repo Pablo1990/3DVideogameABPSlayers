@@ -12,6 +12,7 @@ Weapon::Weapon(const char* path, int dmg = 0, int sp = 0, ISceneManager *sm = 0,
 		this->weapon_mesh = sm->getMesh(path); 
 		this->weapon_mesh->setMaterialFlag(video::EMF_LIGHTING, false);
 		this->ty = t;
+		this->resist=3;
 	}
 	catch(...)
 	{}
@@ -126,7 +127,9 @@ void Weapon::set_resist(double r)
 {
 	resist=r;
 }
-	double Weapon::get_resist()
-	{
-		return resist;
-	}
+double Weapon::get_resist()
+{
+	return resist;
+}
+
+	

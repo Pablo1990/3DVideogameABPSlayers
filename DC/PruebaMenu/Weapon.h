@@ -9,6 +9,7 @@ using namespace scene;
 class Weapon
 {
 public:
+	
 	Weapon(const char* path, int dmg, int sp, ISceneManager *sm, int t);
 	~Weapon(void);
 
@@ -30,10 +31,12 @@ public:
 	double get_resist();
 
 
+
 protected:
 	int damage;
 	int speed;
 	double resist;
+
 	bool collision_flag;
 	IAnimatedMesh* weapon_mesh;
 	IAnimatedMeshSceneNode *weapon_node;

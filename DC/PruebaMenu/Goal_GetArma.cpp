@@ -24,7 +24,7 @@ int Goal_GetArma::Process()
 {
 	Activate();
 	vector3df pos=d->DarPosArmaCercana();
-	if((std::abs(pos.X-d->get_position().X)<=25 ) && std::abs(pos.Y-d->get_position().Y)<=25)
+	if((std::abs(pos.X-d->get_position().X)<=25 ) && std::abs(pos.Y-d->get_position().Z)<=25)
 		{
 
 			// Se hara cada clase de arma con distintos valores de resist

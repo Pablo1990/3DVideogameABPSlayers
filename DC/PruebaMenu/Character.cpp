@@ -10,7 +10,7 @@ Character::Character(const char* path, ISceneManager *sm)
 		this->weapon = NULL;
 		this->heal_flag = false;
 		this->heal_count = 0;
-
+		this->health=100;
 		sh = new Shield(scene_manager);
 	}
 	catch(...)
@@ -28,7 +28,7 @@ Character::Character(const char* path, ISceneManager *sm, Weapon* w)
 		this->heal_flag = false;
 		this->heal_count = 0;
 
-
+		this->health=100;
 		sh = new Shield(scene_manager);
 	}
 	catch(...)
