@@ -284,12 +284,19 @@ void Pathfinding::imprimirCamino(){
         //comprobamos todas las posibilidades, como máximo puede tener 4 hijos.
         //Derecha, comprobamos que esté vacío y que no nos salgamos del mapa
         if (n.y + 1 < tamaño && mundo[n.x][n.y + 1] == 0) {
-            hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-            hijo.g = calcularG(n, hijo);
-            hijo.h = calcularH(hijo);
-            hijo.f = calcularF(hijo.g, hijo.h);
-            hijo.padre = n;
-            hijosM.add(hijo);
+			NodoPathfinding nodoHijo(0,0,0, Position());
+			hijo.setNodo(nodoHijo);
+			hijo.setPadre(new NodoPadreEHijo(n));
+			//PUEDE PETAAAAAAAAARRRRRR
+            //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
+			hijo.getNodo().setG(calcularG(n,hijo));
+            //hijo.g = calcularG(n, hijo);
+			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+            //hijo.h = calcularH(hijo);
+			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+            //hijo.f = calcularF(hijo.g, hijo.h);
+            //hijo.padre = n;
+			hijosM.push_back(hijo);
         }
         //arriba, comprobamos que esté vacío y que no nos salgamos del mapa
         if (n.x - 1 >= 0 && mundo[n.x - 1][n.y] == 0) {
