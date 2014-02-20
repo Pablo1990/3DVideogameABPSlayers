@@ -51,18 +51,19 @@ void Pathfinding::setCamino(vector<Position> c){
  * Tambien se guarda en la clase ese vector.
  */
 vector<Position> Pathfinding::AEstrella(Position mapa){
-	const int x = mapa.getX();
-	const int y = mapa.getY();
-	const int z = mapa.getZ();
-	int expandidos[x][y][z];
+	const int maxX = mapa.getX();
+	const int maxY = mapa.getY();
+	const int maxZ = mapa.getZ();
+	int ***expandidos;
+	expandidos = new int **[maxX];
         //Recorremos el mapa y lo sacamos por pantalla y llenamos de -1 el array expandidos
 	for (int i = 0; i < mapa.getX(); i++) {
+		expandidos[i] = new int *[maxZ];
 		for (int j = 0; j < mapa.getZ(); j++) {
 			expandidos[i][j][0] = -1;
-                //System.out.print(mundo[i][j]);
-            }
-            //System.out.println();
         }
+    }
+	//HABRA QUE RELLENAR DE -10 O ALGO ASI PARA QUE SE SEPA QUE HAY OBSTACULOS O SIMPLEMENTE QUE SON INALCANZABLES
         //contador de NodoPathfindings expandidos
         int cont = 0;
         //variable auxiliar
@@ -87,19 +88,20 @@ vector<Position> Pathfinding::AEstrella(Position mapa){
             //Buscamos el NodoPathfinding con menor F es decir, el mejor (camino más corto)
 			NodoPadreEHijo n(menorF(listaFrontera));
             //NodoPathfinding encontrado lo ponemos en expandidos
-			expandidos[n.getNodo().getPosition().getX()][n.getNodo().getPosition().getY()][n.getNodo().getPosition().getZ()] = cont;
+			int x = n.getNodo().getPosition().getX();
+			int z = n.getNodo().getPosition().getZ();
+			int y = n.getNodo().getPosition().getY();
+			expandidos[x][z][y] = cont;
             //Aumentamos el contador de expandidos
             cont++;
             //Lo eliminamos de listaFrontera
-			listaFrontera.erase(n);
+			listaFrontera.erase(std::remove(listaFrontera.begin(), listaFrontera.end(), n), listaFrontera.end());
             //Y lo añadimos a nuestra listaInterior como fijo
 			listaInterior.push_back(n);
             //En el caso de que este NodoPathfinding sea estado solución
 			if (n.getNodo().getPosition().getX() == pFin.getX() && n.getNodo().getPosition().getY() == pFin.getY() && n.getNodo().getPosition().getZ() == pFin.getZ()) {
                 //Sacamos por pantalla expandidos y el camino
-                reconstruirCamino(n);
-                //Y salimos con todo correcto
-                return 0;
+                return reconstruirCamino(n, expandidos);
             }
             //Creamos los hijos posibles para el NodoPathfinding actual n.
             hijosM = crearHijos(n);
@@ -260,10 +262,10 @@ void Pathfinding::imprimirCamino(){
 		return nPadreEHijo;
     }
 
-	ArrayList<Nodo> crearHijos(Nodo n) {
+	vector<NodoPadreEHijo> crearHijos(NodoPadreEHijo n, ) {
         //Array de hijos
-        ArrayList<Nodo> hijosM = new ArrayList<Nodo>();
-        Nodo hijo;
+        vector<NodoPadreEHijo> hijosM;
+		NodoPadreEHijo hijo;
         //comprobamos todas las posibilidades, como máximo puede tener 4 hijos.
         //Derecha, comprobamos que esté vacío y que no nos salgamos del mapa
         if (n.y + 1 < tamaño && mundo[n.x][n.y + 1] == 0) {
@@ -310,16 +312,16 @@ void Pathfinding::imprimirCamino(){
      * que hemos pasado
      * @param n nodo solución
      */
-	vector<Position> reconstruirCamino(NodoPadreEHijo n) {
+	vector<Position> reconstruirCamino(NodoPadreEHijo n, int ***expandidos) {
 		char camino[100][100][100];
 		NodoPadreEHijo m(n);
         //Nodo solución
 		camino[m.getNodo().getPosition().getX()][m.getNodo().getPosition().getY()][m.getNodo().getPosition().getZ()] = 'X';
-        System.out.println("Camino: ");
+        cout<<"Camino: "<<endl;
         //Mientras no lleguemos al hijo origen
-		while (!(m.getPadre() == NodoPathfinding())) {
+		while (!(m.getPadre() == NULL)) {
             //Cogemos el padre y lo que convertimos en el actual
-            m = m.);
+			m = m.getPadre();
             //Mentemos en el array las coordenadas 
             camino[m.x][m.y] = 'X';
         }

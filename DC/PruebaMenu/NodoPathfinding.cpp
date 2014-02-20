@@ -54,7 +54,7 @@ NodoPathfinding::~NodoPathfinding(void)
      * Devuelve la g
      * @return int g
      */
-    int NodoPathfinding::getG(NodoPadreEHijo , NodoPadreEHijo ) {
+    int NodoPathfinding::getG() {
         return g;
     }
  

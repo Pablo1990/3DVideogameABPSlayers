@@ -1,7 +1,5 @@
 #include "NodoPadreEHijo.h"
 
-
-
 NodoPadreEHijo::NodoPadreEHijo(NodoPathfinding n, NodoPadreEHijo* padre)
 {
 	this->nodo = n;
@@ -9,7 +7,7 @@ NodoPadreEHijo::NodoPadreEHijo(NodoPathfinding n, NodoPadreEHijo* padre)
 		this->padre = new NodoPadreEHijo(padre->getNodo(), padre->getPadre());
 	}
 	else{
-		this->padre = null;
+		this->padre = NULL;
 	}
 }
 
@@ -19,18 +17,28 @@ NodoPadreEHijo::~NodoPadreEHijo(void)
 	this->padre.~~NodoPadreEHijo();
 }
 
-NodoPathfinding* getPadre() const{
+NodoPadreEHijo* NodoPadreEHijo::getPadre() const{
 	return this->padre;
 }
 
-NodoPathfinding getNodo() const{
+NodoPathfinding NodoPadreEHijo::getNodo() const{
 	return this->nodo;
 }
 
-void setNodo(NodoPathfinding n){
+void NodoPadreEHijo::setNodo(NodoPathfinding n){
 	this->nodo = n;
 }
 
-void setPadre(NodoPadreEHijo* padre){
+void NodoPadreEHijo::setPadre(NodoPadreEHijo* padre){
 	this->padre = padre;
+}
+
+NodoPadreEHijo NodoPadreEHijo::operator=(NodoPadreEHijo* p){
+	this->nodo = p->getNodo();
+	if(padre!=NULL){
+		this->padre = new NodoPadreEHijo(padre->getNodo(), padre->getPadre());
+	}
+	else{
+		this->padre = NULL;
+	}
 }

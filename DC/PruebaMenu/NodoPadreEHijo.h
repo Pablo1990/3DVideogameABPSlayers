@@ -9,14 +9,16 @@ private:
 	NodoPadreEHijo *padre;
 public:
 	NodoPadreEHijo();
-	NodoPadreEHijo(NodoPathfinding n, NodoPathfinding* padre);
+	NodoPadreEHijo(NodoPathfinding n, NodoPadreEHijo* padre);
 	~NodoPadreEHijo(void);
 
-	NodoPathfinding* getPadre() const;
+	NodoPadreEHijo* getPadre() const;
 	NodoPathfinding getNodo() const;
 
 	void setNodo(NodoPathfinding n);
 	void setPadre(NodoPadreEHijo* padre);
+
+	NodoPadreEHijo operator=(NodoPadreEHijo* p);
 
 };
 
