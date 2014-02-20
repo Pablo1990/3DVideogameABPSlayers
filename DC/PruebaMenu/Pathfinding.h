@@ -48,4 +48,10 @@ public:
 	int calcularG(NodoPadreEHijo, NodoPadreEHijo);
 
 	int calcularH(NodoPathfinding);
+
+	NodoPadreEHijo menorF(vector<NodoPadreEHijo>);
+
+	vector<Position> reconstruirCamino(NodoPadreEHijo n, int ***expandidos);
+
+	vector<NodoPadreEHijo> crearHijos(NodoPadreEHijo n);
 };

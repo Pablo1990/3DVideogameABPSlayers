@@ -14,7 +14,8 @@ NodoPadreEHijo::NodoPadreEHijo(NodoPathfinding n, NodoPadreEHijo* padre)
 NodoPadreEHijo::~NodoPadreEHijo(void)
 {
 	this->nodo.~NodoPathfinding();
-	this->padre.~~NodoPadreEHijo();
+	delete this->padre;
+	this->padre = NULL;
 }
 
 NodoPadreEHijo* NodoPadreEHijo::getPadre() const{
@@ -30,7 +31,12 @@ void NodoPadreEHijo::setNodo(NodoPathfinding n){
 }
 
 void NodoPadreEHijo::setPadre(NodoPadreEHijo* padre){
-	this->padre = padre;
+	if(padre!=NULL){
+		this->padre = new NodoPadreEHijo(padre->getNodo(), padre->getPadre());
+	}
+	else{
+		this->padre = NULL;
+	}
 }
 
 NodoPadreEHijo NodoPadreEHijo::operator=(NodoPadreEHijo* p){

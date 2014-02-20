@@ -95,7 +95,13 @@ vector<Position> Pathfinding::AEstrella(Position mapa){
             //Aumentamos el contador de expandidos
             cont++;
             //Lo eliminamos de listaFrontera
-			listaFrontera.erase(std::remove(listaFrontera.begin(), listaFrontera.end(), n), listaFrontera.end());
+			for(std::vector<NodoPadreEHijo>::iterator it = listaFrontera.begin(); it != listaFrontera.end(); ++it) {
+				if(it->getNodo() == n.getNodo())
+				{
+					listaFrontera.erase(it);
+					break;
+				}
+			}
             //Y lo añadimos a nuestra listaInterior como fijo
 			listaInterior.push_back(n);
             //En el caso de que este NodoPathfinding sea estado solución
@@ -119,8 +125,17 @@ vector<Position> Pathfinding::AEstrella(Position mapa){
                         //Lo añadimos
 						listaFrontera.push_back(m);
                     } else { //En caso contrario
+						
+						NodoPadreEHijo np;
                         //Obtenemos el NodoPathfinding que está en listafrontera
-						NodoPadreEHijo np(std::find(listaFrontera.begin(), listaFrontera.end(), m));
+						for(std::vector<NodoPadreEHijo>::iterator it = listaFrontera.begin(); it != listaFrontera.end(); ++it) {
+							if(it->getNodo() == n.getNodo())
+							{
+								np.setNodo(it->getNodo());
+								np.setPadre(it->getPadre());
+								break;
+							}
+						}
 						NodoPathfinding aux = np.getNodo();
                         //Comprobamos que gprima es mejor que aux.g
 						if (aux.getG() > gprima) //si es g'(m) mejor m.g
@@ -237,7 +252,7 @@ void Pathfinding::imprimirCamino(){
      * @param listaFrontera
      * @return
      */
-	NodoPadreEHijo menorF(vector<NodoPadreEHijo> listaFrontera) {
+	NodoPadreEHijo Pathfinding::menorF(vector<NodoPadreEHijo> listaFrontera) {
         //Cogemos el primer NodoPathfinding de la lista
 		NodoPadreEHijo nPadreEHijo(listaFrontera[0]);
 		NodoPathfinding n = nPadreEHijo.getNodo();
@@ -262,7 +277,7 @@ void Pathfinding::imprimirCamino(){
 		return nPadreEHijo;
     }
 
-	vector<NodoPadreEHijo> crearHijos(NodoPadreEHijo n, ) {
+	vector<NodoPadreEHijo> Pathfinding::crearHijos(NodoPadreEHijo n) {
         //Array de hijos
         vector<NodoPadreEHijo> hijosM;
 		NodoPadreEHijo hijo;
@@ -312,41 +327,16 @@ void Pathfinding::imprimirCamino(){
      * que hemos pasado
      * @param n nodo solución
      */
-	vector<Position> reconstruirCamino(NodoPadreEHijo n, int ***expandidos) {
-		char camino[100][100][100];
+	vector<Position> Pathfinding::reconstruirCamino(NodoPadreEHijo n, int ***expandidos) {
+		vector<Position> camino;
 		NodoPadreEHijo m(n);
         //Nodo solución
-		camino[m.getNodo().getPosition().getX()][m.getNodo().getPosition().getY()][m.getNodo().getPosition().getZ()] = 'X';
-        cout<<"Camino: "<<endl;
         //Mientras no lleguemos al hijo origen
 		while (!(m.getPadre() == NULL)) {
+			camino.push_back(m.getNodo().getPosition());
             //Cogemos el padre y lo que convertimos en el actual
 			m = m.getPadre();
-            //Mentemos en el array las coordenadas 
-            camino[m.x][m.y] = 'X';
         }
-        //Recorremos el array y mostramos por pantalla la solución al problema
-        for (int i = 0; i < tamaño; i++) {
-            for (int j = 0; j < tamaño; j++) {
-                if (camino[i][j] == 'X') {
-                    System.out.print('X');
-                } else {
-                    System.out.print('.');
-                }
-            }
-            System.out.println();
-        }
-        //Recorremos expandidos y mostramos los nodos.
-        System.out.println("Expandidos:");
-        for (int i = 0; i < tamaño; i++) {
-            for (int j = 0; j < tamaño; j++) {
-                if (expandidos[i][j] >= 0 && expandidos[i][j] < 10) {
-                    System.out.print(" ");
-                }
-                System.out.print(expandidos[i][j] + " ");
-            }
-            System.out.println();
-        }
- 
+		return camino;
     }
      
