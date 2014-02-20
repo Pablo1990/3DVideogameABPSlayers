@@ -19,6 +19,9 @@ public:
 	void set_collision_flag(bool cf);
 	IAnimatedMeshSceneNode* get_weapon_node();
 
+	int get_damage();
+	void set_damage(int d);
+
 	virtual void finish_animation();
 	virtual void attack(float first_x, float first_y, float last_x, float last_y);
 

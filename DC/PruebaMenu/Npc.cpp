@@ -28,6 +28,8 @@ void Npc::manage_collision(Weapon *w)
 				if (detect_collision(w->get_weapon_node(), this->head))
 				{
 					w->set_collision_flag(true);
+					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
+					
 					if(scene_manager)
 					{
 						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
@@ -40,6 +42,8 @@ void Npc::manage_collision(Weapon *w)
 				else if (detect_collision(w->get_weapon_node(), this->body))
 				{
 					w->set_collision_flag(true);
+					this->health = this->health - (w->get_damage() - 0.20 * w->get_damage());
+
 					if(scene_manager)
 					{
 						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
@@ -52,6 +56,9 @@ void Npc::manage_collision(Weapon *w)
 				else if (detect_collision(w->get_weapon_node(), this->extremity))
 				{
 					w->set_collision_flag(true);
+					int restar = w->get_damage() - 0.40 * w->get_damage();
+					this->health = this->health - (w->get_damage() - 0.40 * w->get_damage());
+
 					if(scene_manager)
 					{
 						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();

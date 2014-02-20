@@ -91,6 +91,8 @@ void Juego::run()
 				npc->manage_collision(player->get_weapon());
 				mente->Arbitrate();
 				mente->ProcessSubgoals();
+				swprintf(tmp, 255, L"NpcHealth %f", npc->get_health());
+				statusText->setText(tmp);
 			}
 				
 
@@ -170,7 +172,7 @@ void Juego::switchToNextScene()
 		camera->setPosition(core::vector3df(25,140,25));
 		camera->setFarValue(5000.0f);
 	
-		Sword *sw2 = new Sword(0,0,sm);
+		Sword *sw2 = new Sword(4,7,sm);
 		player = new Player(sm, sw2, mapSelector, camera);
 		player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
 		player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
@@ -337,18 +339,32 @@ void Juego::loadSceneData()
 
 	
 	npc = new Npc(sm,new Sword(0,0,sm),heal_camp->getAbsolutePosition());
+	
+	
 
-		npc->add_to_scene(core::vector3df(100,70,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
-std::list<Weapon*> armas =std::list<Weapon*>();
+
+	npc->add_to_scene(core::vector3df(100,70,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
+
+	collider =
+			sm->createCollisionResponseAnimator(
+			metaSelector,npc->get_character_node(), core::vector3df(15,1,15),
+			core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0));
+
+	npc->get_character_node()->addAnimator(collider);
+
+	std::list<Weapon*> armas =std::list<Weapon*>();
 	dropped_sword = new Sword(0,0,sm);
-	dropped_sword->add_to_scene(core::vector3df(180,70,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);
+	dropped_sword->add_to_scene(core::vector3df(180,5,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);
 	armas.push_front(dropped_sword);
+
 	dropped_bow = new Bow(0,0,sm, mapSelector, device);
-	dropped_bow->add_to_scene(core::vector3df(230,70,180), core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
+	dropped_bow->add_to_scene(core::vector3df(230,5,180), core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
 	armas.push_front(dropped_bow);
+
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
 	dropped_red_shroom->add_to_scene(core::vector3df(280,70,180), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
 	armas.push_front(dropped_red_shroom);
+
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM);
 	dropped_red_shroom->add_to_scene(core::vector3df(280,70,230), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
 

@@ -163,6 +163,11 @@ bool Character::detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b)
 		intersectsWithBox(b->getTransformedBoundingBox());*/
 }
 
+ISceneNode* Character::get_character_node()
+{
+	return this->character_node;
+}
+
 Weapon* Character::get_weapon()
 {
 	return this->weapon;
