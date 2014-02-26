@@ -25,12 +25,13 @@ Goal_Evaluator::~Goal_Evaluator(void)
   //given item. The farther the item, the higher the rating. If there is no
   //item of the given type present in the game world at the time this method
   //is called the value returned is 1
+
    double Goal_Evaluator:: DistanceToItem(Npc* pBot)
   {
 	  double distancia=1.0;
 	  if(pBot->getItems().empty())
 	  {
-		  cout<<"Entro aqui"<<endl;
+		
 		return 1.0;
 
 	  }
@@ -67,8 +68,8 @@ Goal_Evaluator::~Goal_Evaluator(void)
 	  
 			
 	  distancia=sqrt((pow((pBot->get_position().X-pBot->DarPosSalud().X),2))+(pow((pBot->get_position().Z-pBot->DarPosSalud().Z),2)));
-				//Estandarizamos
 				
+	  //Estandarizamos
 				distancia=distancia/distanciae_maxima;
 				
 			
