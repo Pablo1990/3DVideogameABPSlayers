@@ -15,6 +15,8 @@ private:
 	Position pIni;
 	Position pFin;
 	vector<Position> camino;
+	int*** mapa;
+	Position finMapa;
 
 public:
 	/* Constructores y destructor */
@@ -31,12 +33,15 @@ public:
 	vector<Position> getCamino();
 	void setCamino(vector<Position>);
 
+	int*** getMapa();
+	void setMapa(vector<vector<Position>> obstaculos);
+
 	/* functions */
 	/** Calcula el mejor camino en funcion de pIni y pFin
 	 * Return el vector de posiciones que sera el camino
 	 * Tambien se guarda en la clase ese vector.
 	 */
-	vector<Position> AEstrella(Position);
+	vector<Position> AEstrella(float pasos);
 
 	/** Imprime el camino que se ha calculado
 	* Sirve para el modo debug
@@ -53,5 +58,5 @@ public:
 
 	vector<Position> reconstruirCamino(NodoPadreEHijo n, int ***expandidos);
 
-	vector<NodoPadreEHijo> crearHijos(NodoPadreEHijo n);
+	vector<NodoPadreEHijo> crearHijos(NodoPadreEHijo n, int minX, int minZ, int maxX, int maxZ);
 };
