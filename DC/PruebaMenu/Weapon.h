@@ -9,6 +9,7 @@ using namespace scene;
 class Weapon
 {
 public:
+	
 	Weapon(const char* path, int dmg, int sp, ISceneManager *sm, int t);
 	~Weapon(void);
 
@@ -17,6 +18,9 @@ public:
 	bool get_collision_flag();
 	void set_collision_flag(bool cf);
 	IAnimatedMeshSceneNode* get_weapon_node();
+
+	int get_damage();
+	void set_damage(int d);
 
 	virtual void finish_animation();
 	virtual void attack(float first_x, float first_y, float last_x, float last_y);
@@ -30,10 +34,12 @@ public:
 	double get_resist();
 
 
+
 protected:
 	int damage;
 	int speed;
 	double resist;
+
 	bool collision_flag;
 	IAnimatedMesh* weapon_mesh;
 	IAnimatedMeshSceneNode *weapon_node;

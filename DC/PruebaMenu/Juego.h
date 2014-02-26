@@ -62,6 +62,7 @@ private:
 	scene::ISceneNode* skyboxNode;
 	
 	Npc* npc;
+	Goal_Think* mente;
 	Player* player;
 	Sword* sw;
 	Sword* dropped_sword;

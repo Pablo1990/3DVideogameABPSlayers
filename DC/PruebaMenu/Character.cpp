@@ -10,7 +10,7 @@ Character::Character(const char* path, ISceneManager *sm)
 		this->weapon = NULL;
 		this->heal_flag = false;
 		this->heal_count = 0;
-
+		this->health=100;
 		sh = new Shield(scene_manager);
 	}
 	catch(...)
@@ -28,7 +28,7 @@ Character::Character(const char* path, ISceneManager *sm, Weapon* w)
 		this->heal_flag = false;
 		this->heal_count = 0;
 
-
+		this->health=100;
 		sh = new Shield(scene_manager);
 	}
 	catch(...)
@@ -161,6 +161,11 @@ bool Character::detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b)
 	return false;
 	/*return a->getTransformedBoundingBox().
 		intersectsWithBox(b->getTransformedBoundingBox());*/
+}
+
+ISceneNode* Character::get_character_node()
+{
+	return this->character_node;
 }
 
 Weapon* Character::get_weapon()

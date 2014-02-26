@@ -22,13 +22,13 @@ Juego::~Juego(void)
 void Juego::run()
 {
 	bool collision_flag = false;
-	core::dimension2d<u32> resolution(1366, 768);
+	core::dimension2d<u32> resolution(580, 456);
 	
 	irr::SIrrlichtCreationParameters params;
 	params.DriverType=driverType;
 	params.WindowSize=resolution;
 	params.Bits=32;
-	params.Fullscreen=true;
+	params.Fullscreen=false;
 	params.EventReceiver = this;
 
 	device = createDeviceEx(params);
@@ -87,10 +87,19 @@ void Juego::run()
 				player->get_weapon()->finish_animation();
 
 			if(npc)
+			{
 				npc->manage_collision(player->get_weapon());
+				mente->Arbitrate();
+				mente->ProcessSubgoals();
+				swprintf(tmp, 255, L"NpcHealth %f", npc->get_health());
+				statusText->setText(tmp);
+			}
+				
 
 			if(player)
-				switch(player->heal_or_fire(campFire, heal_camp, device))
+				player->heal_or_fire(campFire, heal_camp, device);
+
+				/*switch(player->heal_or_fire(campFire, heal_camp, device))
 				{
 
 					case 0:
@@ -106,7 +115,7 @@ void Juego::run()
 						swprintf(tmp, 255, L"CURACION", head_hit);
 						statusText->setText(tmp);
 						break;
-				}
+				}*/
 			
 			driver->beginScene(timeForThisScene != -1, true, backColor);
 			smgr->drawAll();
@@ -160,14 +169,20 @@ void Juego::switchToNextScene()
 	{
 		camera = sm->addCameraSceneNodeFPS(0, 100.0f, .4f, ID_IsNotPickable, keyMap, 10, false, 3.f);
 		camera->bindTargetAndRotation(true);
-		camera->setPosition(core::vector3df(108,140,-140));
+		camera->setPosition(core::vector3df(25,140,25));
 		camera->setFarValue(5000.0f);
 	
-		Sword *sw2 = new Sword(0,0,sm);
+		Sword *sw2 = new Sword(4,7,sm);
 		player = new Player(sm, sw2, mapSelector, camera);
 		player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
 		player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
-	
+		
+		
+		//IA
+		npc->setEnem(player);
+		mente=new Goal_Think();
+		npc->setBrain(mente);
+		mente->setDueño(npc);
 
 			collider =
 			sm->createCollisionResponseAnimator(
@@ -246,8 +261,7 @@ void Juego::loadSceneData()
 			sm->addQuake3SceneNode ( meshBuffer, shader );
 		}
 
-		npc = new Npc(sm);
-		npc->add_to_scene(core::vector3df(100,70,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
+		
 
 		
 
@@ -323,15 +337,33 @@ void Juego::loadSceneData()
 	heal_camp->setMaterialTexture(0, driver->getTexture("../media/particlegreen.jpg"));
 	heal_camp->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 
+	
+	npc = new Npc(sm,new Sword(0,0,sm),heal_camp->getAbsolutePosition());
+	
+	
 
+
+	npc->add_to_scene(core::vector3df(100,70,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
+
+	collider =
+			sm->createCollisionResponseAnimator(
+			metaSelector,npc->get_character_node(), core::vector3df(15,1,15),
+			core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0));
+
+	npc->get_character_node()->addAnimator(collider);
+
+	std::list<Weapon*> armas =std::list<Weapon*>();
 	dropped_sword = new Sword(0,0,sm);
-	dropped_sword->add_to_scene(core::vector3df(180,70,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);
+	dropped_sword->add_to_scene(core::vector3df(180,5,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);
+	armas.push_front(dropped_sword);
 
 	dropped_bow = new Bow(0,0,sm, mapSelector, device);
-	dropped_bow->add_to_scene(core::vector3df(230,70,180), core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
+	dropped_bow->add_to_scene(core::vector3df(230,5,180), core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
+	armas.push_front(dropped_bow);
 
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
 	dropped_red_shroom->add_to_scene(core::vector3df(280,70,180), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
+	armas.push_front(dropped_red_shroom);
 
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM);
 	dropped_red_shroom->add_to_scene(core::vector3df(280,70,230), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
@@ -348,7 +380,10 @@ void Juego::loadSceneData()
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::TORCH);
 	dropped_red_shroom->add_to_scene(core::vector3df(-500,70,200), core::vector3df(90,0,0), core::vector3df(4,4,4), true);
 	dropped_red_shroom->add_to_scene(core::vector3df(-500,70,500), core::vector3df(90,180,0), core::vector3df(4,4,4), true);
+	
 
+	//Meto armas
+	npc->setItems(armas);
 }
 
 bool Juego::OnEvent(const SEvent& event)
@@ -465,7 +500,7 @@ bool Juego::OnEvent(const SEvent& event)
 		if(player)
 		{
 			lastX = player->get_weapon()->get_absolute_position().X;
-			lastY = player->get_weapon()->get_absolute_position().Y;
+			lastY = player->get_weapon()->get_absolute_position().Z;
 			player->attack(firstX, firstY, lastX, lastY);
 		}
 		
@@ -475,7 +510,7 @@ bool Juego::OnEvent(const SEvent& event)
 		if(player)
 		{
 			firstX = player->get_weapon()->get_absolute_position().X;
-			firstY = player->get_weapon()->get_absolute_position().Y;
+			firstY = player->get_weapon()->get_absolute_position().Z;
 		}
 
 	}

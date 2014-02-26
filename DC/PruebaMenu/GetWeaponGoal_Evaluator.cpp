@@ -19,7 +19,7 @@ double GetWeaponGoal_Evaluator::CalculateDesirability(Npc* pBot)
 	
   //Nos dará la distancia del tipo arma más cercano al bot
   double Distance = Goal_Evaluator::DistanceToItem(pBot);
-
+  cout<<"Distancia arma"<<Distance<<endl;
   //if the distance feature is rated with a value of 1 it means that the
   //item is either not present on the map or too far away to be worth
   //considering, therefore the desirability is zero

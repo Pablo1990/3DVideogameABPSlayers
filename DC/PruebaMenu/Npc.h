@@ -18,8 +18,8 @@ class Goal_Think;
 class Npc: public Character
 {
 public:
-	Npc(ISceneManager *sm);
-	Npc(ISceneManager *sm, Weapon* w);
+	Npc(ISceneManager *sm,vector3df);
+	Npc(ISceneManager *sm, Weapon* w,vector3df);
 	~Npc(void);
 
 	void manage_collision(Weapon *w); 
@@ -42,11 +42,11 @@ public:
 
 	//Lista de items de arma
 	std::list<Weapon*> getItems();
-
+	void setItems(std::list<Weapon*> );
 private:
 	Goal_Think *mente;
 	Player *player;
 	std::list<Weapon*> items;
-	
+	vector3df posHealth;
 };
 

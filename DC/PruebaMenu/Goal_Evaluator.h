@@ -13,7 +13,12 @@ using namespace std;
 class Npc;
 
 //Para estandarizar la distancia entre 0 y 1 La distancia de ancho y largo 20 celdas
-const double distanciae_maxima=141.42135623730;
+/* 
+Haría falta sacar las distancia euclidea entre el punto máximo 
+
+
+*/
+const double distanciae_maxima=sqrt((pow((0-1894.93),2))+(pow((0-1294.88),2)));
 
 class Goal_Evaluator
 {

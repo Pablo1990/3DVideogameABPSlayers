@@ -1,12 +1,14 @@
 #include "Npc.h"
 
 
-Npc::Npc(ISceneManager *sm): Character(knight_path, sm)
+Npc::Npc(ISceneManager *sm,vector3df pos): Character(knight_path, sm)
 {
+	posHealth=pos;
 }
 
-Npc::Npc(ISceneManager *sm, Weapon* w): Character(knight_path, sm, w)
+Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos): Character(knight_path, sm, w)
 {
+	posHealth=pos;
 }
 
 Npc::~Npc(void)
@@ -26,6 +28,8 @@ void Npc::manage_collision(Weapon *w)
 				if (detect_collision(w->get_weapon_node(), this->head))
 				{
 					w->set_collision_flag(true);
+					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
+					
 					if(scene_manager)
 					{
 						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
@@ -38,6 +42,8 @@ void Npc::manage_collision(Weapon *w)
 				else if (detect_collision(w->get_weapon_node(), this->body))
 				{
 					w->set_collision_flag(true);
+					this->health = this->health - (w->get_damage() - 0.20 * w->get_damage());
+
 					if(scene_manager)
 					{
 						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
@@ -50,6 +56,9 @@ void Npc::manage_collision(Weapon *w)
 				else if (detect_collision(w->get_weapon_node(), this->extremity))
 				{
 					w->set_collision_flag(true);
+					int restar = w->get_damage() - 0.40 * w->get_damage();
+					this->health = this->health - (w->get_damage() - 0.40 * w->get_damage());
+
 					if(scene_manager)
 					{
 						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
@@ -120,9 +129,14 @@ std::list<Weapon*> Npc::getItems()
 	return items;
 
 }
+void Npc::setItems(std::list<Weapon*> armas)
+{
+	items=armas;
+}
 vector3df  Npc::DarPosSalud()
 {
 	vector3df v3=vector3df();
+	v3=posHealth;
 	return v3;
 }
 vector3df  Npc::DarPosArmaCercana()
@@ -136,7 +150,7 @@ vector3df  Npc::DarPosArmaCercana()
 		{
 			
 				
-			double distaux=sqrt((pow((get_position().X-(*it)->get_absolute_position().X),2))+(pow((get_position().Y-(*it)->get_absolute_position().Y),2)));
+			double distaux=sqrt((pow((get_position().X-(*it)->get_absolute_position().X),2))+(pow((get_position().Z-(*it)->get_absolute_position().Z),2)));
 				//Estandarizamos
 				if(distaux <=distancia)
 				{
@@ -174,13 +188,13 @@ bool Npc::isEnemigoPresent()
 	if(player !=NULL)
 {
 	int x_E=player->get_position().X;
-	int y_E=player->get_position().Y;
+	int y_E=player->get_position().Z;
 	int x=get_position().X;
-	int y=get_position().Y;
+	int y=get_position().Z;
 	int distaux=sqrt(pow((x-x_E),2)+pow((y-y_E),2));
 
 	//POner distancia máxima de visión
-	if(distaux <=9999)
+	if(distaux <=300)
 	{
 		return true;
 	}
@@ -200,6 +214,7 @@ bool Npc::MoverseAItemArma()
 }
 bool Npc::MoverseAEnemigo()
 {
+
 	return true;
 }
 bool Npc::Move_Explore()
@@ -208,6 +223,7 @@ bool Npc::Move_Explore()
 }
 bool Npc::Move_ToFreeAttack()
 {
+
 	return true;
 
 }

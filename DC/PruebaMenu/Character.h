@@ -17,6 +17,8 @@ public:
 	Character(const char* path, ISceneManager *sm, Weapon* w);
 	~Character(void);
 	
+	ISceneNode* get_character_node();
+
 	Weapon* get_weapon();
 	void set_weapon(Weapon* w);
 	
@@ -28,10 +30,13 @@ public:
 	void do_transformations_and_joints(vector3df position, vector3df rotation, vector3df scale);
 	void add_to_scene(vector3df position, vector3df rotation, vector3df scale);
 	void add_to_camera(vector3df position, vector3df rotation, vector3df scale, ICameraSceneNode* camera);
+
 	bool detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b);
+
 	bool no_weapon();
 	void attack(float first_x, float first_y, float last_x, float last_y);
 	int heal_or_fire(ISceneNode* camp_fire, ISceneNode* heal, IrrlichtDevice* d);
+
 	void movement(ICameraSceneNode* camera);
 
 	//Salud

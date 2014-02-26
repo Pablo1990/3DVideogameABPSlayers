@@ -12,6 +12,7 @@ Weapon::Weapon(const char* path, int dmg = 0, int sp = 0, ISceneManager *sm = 0,
 		this->weapon_mesh = sm->getMesh(path); 
 		this->weapon_mesh->setMaterialFlag(video::EMF_LIGHTING, false);
 		this->ty = t;
+		this->resist=3;
 	}
 	catch(...)
 	{}
@@ -72,6 +73,16 @@ void Weapon::set_collision_flag(bool cf)
 	this->collision_flag = cf;
 }
 
+int Weapon::get_damage()
+{
+	return this->damage;
+}
+
+void Weapon::set_damage(int d)
+{
+	this->damage = d;
+}
+
 IAnimatedMeshSceneNode* Weapon::get_weapon_node()
 {
 	return this->weapon_node;
@@ -126,7 +137,11 @@ void Weapon::set_resist(double r)
 {
 	resist=r;
 }
-	double Weapon::get_resist()
-	{
-		return resist;
-	}
+
+double Weapon::get_resist()
+{
+	return resist;
+}
+
+
+	
