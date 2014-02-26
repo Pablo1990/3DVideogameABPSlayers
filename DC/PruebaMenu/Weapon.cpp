@@ -73,6 +73,16 @@ void Weapon::set_collision_flag(bool cf)
 	this->collision_flag = cf;
 }
 
+int Weapon::get_damage()
+{
+	return this->damage;
+}
+
+void Weapon::set_damage(int d)
+{
+	this->damage = d;
+}
+
 IAnimatedMeshSceneNode* Weapon::get_weapon_node()
 {
 	return this->weapon_node;
@@ -127,9 +137,11 @@ void Weapon::set_resist(double r)
 {
 	resist=r;
 }
+
 double Weapon::get_resist()
 {
 	return resist;
 }
+
 
 	
