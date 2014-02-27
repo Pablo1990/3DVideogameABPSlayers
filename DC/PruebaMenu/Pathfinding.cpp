@@ -351,13 +351,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
         //arriba, comprobamos que esté vacío y que no nos salgamos del mapa
@@ -367,13 +369,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
 		if (mapa[x+1][z-1][y] == 0) {
@@ -382,13 +386,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
         //Abajo, comprobamos que esté vacío y que no nos salgamos del mapa
@@ -398,13 +404,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
         //Izquierda, comprobamos que esté vacío y que no nos salgamos del mapa
@@ -414,13 +422,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
 		if (mapa[x-1][z-1][y] == 0) {
@@ -429,13 +439,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
 		if (mapa[x][z+1][y] == 0) {
@@ -444,13 +456,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
 		if (mapa[x][z-1][y] == 0) {
@@ -459,13 +473,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
 		/** Saltos **/
@@ -475,13 +491,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
         //arriba, comprobamos que esté vacío y que no nos salgamos del mapa
@@ -491,13 +509,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
 		if (mapa[x+1][z-1][y+1] == 0) {
@@ -506,13 +526,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
         //Abajo, comprobamos que esté vacío y que no nos salgamos del mapa
@@ -522,13 +544,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
         //Izquierda, comprobamos que esté vacío y que no nos salgamos del mapa
@@ -538,13 +562,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
 		if (mapa[x-1][z-1][y+1] == 0) {
@@ -553,13 +579,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
 		if (mapa[x][z+1][y+1] == 0) {
@@ -568,13 +596,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
 		if (mapa[x][z-1][y+1] == 0) {
@@ -583,13 +613,15 @@ void Pathfinding::imprimirCamino(){
 			hijo.setPadre(new NodoPadreEHijo(n));
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + 1);
-			hijo.getNodo().setG(calcularG(n,hijo));
+			NodoPathfinding aux(hijo.getNodo());
+			aux.setG(calcularG(n,hijo));
             //hijo.g = calcularG(n, hijo);
-			hijo.getNodo().setH(calcularH(hijo.getNodo()));
+			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			hijo.getNodo().setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
+			hijo.setNodo(aux);
 			hijosM.push_back(hijo);
         }
  

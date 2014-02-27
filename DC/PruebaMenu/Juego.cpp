@@ -75,8 +75,8 @@ void Juego::run()
 		core::line3d<f32> ray;
 		int attack_count = 0;
 		
-		Position p1(npc->get_position().X, npc->get_position().Y, npc->get_position().Z);
-		Position p2(npc->get_position().X + 300, npc->get_position().Y, npc->get_position().Z);
+		Position p1(npc->get_position().X, 0, npc->get_position().Z);
+		Position p2(npc->get_position().X + 300, 0, npc->get_position().Z);
 		Pathfinding pf(p1, p2);
 		Position last_corner(1894.93, 1, 1294.88);
 		vector<vector<Position>> obstacles;
