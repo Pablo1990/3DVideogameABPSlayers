@@ -73,7 +73,7 @@ void Juego::run()
 
 		scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 		core::line3d<f32> ray;
-
+		int attack_count = 0;
 	while(device->run() && driver)
 	{
 		if (device->isWindowActive())
@@ -93,6 +93,19 @@ void Juego::run()
 				mente->ProcessSubgoals();
 				swprintf(tmp, 255, L"NpcHealth %f", npc->get_health());
 				statusText->setText(tmp);
+				/*if(attack_count%100 == 0)
+				{
+					npc->attack(2);
+					
+				}
+				attack_count++;
+					if(attack_count > 10000)
+						attack_count = 0;
+				*/
+					if(npc->get_weapon())
+					{
+						npc->get_weapon()->finish_animation();
+					}
 			}
 				
 
@@ -208,6 +221,7 @@ void Juego::loadSceneData()
 	sm->getParameters()->setAttribute(scene::ALLOW_ZWRITE_ON_TRANSPARENT, true);
 
 	quakeLevelMesh = (scene::IQ3LevelMesh*) sm->getMesh("maps/test1.bsp");
+	
 
 	if (quakeLevelMesh)
 	{
@@ -242,7 +256,7 @@ void Juego::loadSceneData()
 
 		// the additional mesh can be quite huge and is unoptimized
 		scene::IMesh * additional_mesh = quakeLevelMesh->getMesh ( scene::quake3::E_Q3_MESH_ITEMS );
-
+		
 		for ( i = 0; i!= additional_mesh->getMeshBufferCount (); ++i )
 		{
 			scene::IMeshBuffer *meshBuffer = additional_mesh->getMeshBuffer ( i );
@@ -351,6 +365,10 @@ void Juego::loadSceneData()
 			core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0));
 
 	npc->get_character_node()->addAnimator(collider);
+	Sword *sw3 = new Sword(4,7,sm);
+	npc->set_weapon(sw3);
+	npc->add_weapon_to_node(core::vector3df(40,100,0), core::vector3df(180,-50,90), core::vector3df(0.02, 0.02,0.02));
+	
 
 	std::list<Weapon*> armas =std::list<Weapon*>();
 	dropped_sword = new Sword(0,0,sm);

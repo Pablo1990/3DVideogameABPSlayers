@@ -24,9 +24,11 @@ public:
 
 	virtual void finish_animation();
 	virtual void attack(float first_x, float first_y, float last_x, float last_y);
+	virtual void attack(int type);
 
 	void add_to_scene(vector3df position, vector3df rotation, vector3df scale, bool pickable);
 	void add_to_camera(vector3df position,vector3df rotation, vector3df scale, ISceneNode* camera);
+	void add_to_node(vector3df position,vector3df rotation, vector3df scale, ISceneNode* node);
 	virtual bool is_animated();
 
 	//Obtener y cambiar el desgaste de arma
@@ -45,6 +47,8 @@ protected:
 	IAnimatedMeshSceneNode *weapon_node;
 	ISceneManager *scene_manager;
 	int ty;
+	vector3df main_rotation;
+	vector3df main_position;
 
 private:
 	enum

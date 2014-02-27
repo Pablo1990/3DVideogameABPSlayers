@@ -16,13 +16,20 @@ AttackTargetGoal_Evaluator::~AttackTargetGoal_Evaluator(void)
 double AttackTargetGoal_Evaluator::CalculateDesirability(Npc* pBot)
 {
   double Desirability = 0.0;
-
+   double Distance = Goal_Evaluator::DistanceToEnem(pBot);
   //only do the calculation if there is a target present
   if (pBot->isEnemigoPresent())
   {
     const double Tweaker = 0.8;
 
-	Desirability = Tweaker *Goal_Evaluator::Health(pBot) *Goal_Evaluator::WeaponHealth(pBot);
+	if(Distance != 0)
+	{
+		Desirability = (Tweaker *Goal_Evaluator::Health(pBot) *Goal_Evaluator::WeaponHealth(pBot)) / Distance;
+	}
+	else
+	{
+		Desirability = (Tweaker *Goal_Evaluator::Health(pBot) *Goal_Evaluator::WeaponHealth(pBot));
+	}
 	 
   }
   Desirability=clamp(Desirability, 0, 1);

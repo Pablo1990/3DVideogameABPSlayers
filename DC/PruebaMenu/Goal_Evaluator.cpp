@@ -77,7 +77,22 @@ Goal_Evaluator::~Goal_Evaluator(void)
 	  
 	  	  return distancia;
   }
-
+   
+   double Goal_Evaluator:: DistanceToEnem(Npc* pBot)
+  {
+	  double distancia=1.0;
+	  
+			
+	  distancia=sqrt((pow((pBot->get_position().X-pBot->getEnem()->get_position().X),2))+(pow((pBot->get_position().Z-pBot->getEnem()->get_position().Z),2)));
+				
+	  //Estandarizamos
+				distancia=distancia/distanciae_maxima;
+				
+			
+		
+	  
+	  	  return distancia;
+  }
   //Nos devolverá un valor entre 0 e 1 segun el estado de salud del arma en el caso de valer 0 si no tiene arma el bot o 1 si se encuentra en salud máxima de arma por cada ataque el arma se desgastará en 1 valiendo
   //su valor como máximo 15
   double  Goal_Evaluator::WeaponHealth(Npc* pBot)

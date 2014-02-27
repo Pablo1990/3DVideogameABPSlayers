@@ -13,7 +13,7 @@ void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 {
 	try
 	{
-	if (weapon_node != NULL && weapon_node->getAnimators().empty())
+	if (weapon_node != NULL && weapon_node->getAnimators().empty() && resist > 0)
 		{
 			float difX, difY;
 			difX = abs(abs(first_x) - abs(last_x));
@@ -32,7 +32,7 @@ void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 			}
 			else
 			{
-				if (difY < difX) //Estocada lateral
+				if (difY > difX) //Estocada lateral
 				{
 					if (first_x < last_x) //Hacia la derecha
 					{
@@ -87,8 +87,8 @@ void Sword::finish_animation()
 			list<ISceneNodeAnimator*>::ConstIterator it = weapon_node->getAnimators().begin();
 			if ((*it)->hasFinished())
 			{
-				weapon_node->setPosition(core::vector3df(15, -10, 20));
-				weapon_node->setRotation(core::vector3df(0, 50, 90));
+				weapon_node->setPosition(main_position/*core::vector3df(15, -10, 20)*/);
+				weapon_node->setRotation(main_rotation/*core::vector3df(0, 50, 90)*/);
 				weapon_node->removeAnimators();
 				weapon_node->removeAnimators();
 				collision_flag = false;
@@ -97,5 +97,46 @@ void Sword::finish_animation()
 	}
 	catch(...)
 	{
+	}
+}
+
+void Sword::attack(int type)
+{
+	weapon_node->setRotation(core::vector3df(0,180,0));
+	if (weapon_node != NULL && weapon_node->getAnimators().empty() && resist > 0)
+	{
+		switch(type)
+		{
+			case 0://lateral
+				weapon_node->addAnimator(scene_manager->createFlyStraightAnimator(
+					core::vector3df(weapon_node->getPosition().X, weapon_node->getPosition().Y , weapon_node->getPosition().Z - 30),
+					core::vector3df(weapon_node->getPosition().X - 60, weapon_node->getPosition().Y , weapon_node->getPosition().Z - 30),
+					300, false, true));
+
+				weapon_node->setLoopMode(false);
+				break;
+			case 1://vertical
+				weapon_node->setRotation(core::vector3df(180,0,90));		
+
+				weapon_node->addAnimator(scene_manager->createFlyStraightAnimator(
+					core::vector3df(weapon_node->getPosition().X -50, weapon_node->getPosition().Y + 40 , weapon_node->getPosition().Z - 30),
+					core::vector3df(weapon_node->getPosition().X -50, weapon_node->getPosition().Y - 30, weapon_node->getPosition().Z - 30),
+					300, false, true));
+
+				weapon_node->setLoopMode(false);
+				break;
+
+			case 2:
+				weapon_node->setRotation(core::vector3df(180,0,90));
+				
+				weapon_node->addAnimator(scene_manager->createFlyStraightAnimator(
+					core::vector3df(weapon_node->getPosition().X - 50, weapon_node->getPosition().Y, weapon_node->getPosition().Z), 
+					core::vector3df(weapon_node->getPosition().X - 50, weapon_node->getPosition().Y, weapon_node->getPosition().Z - 50)
+					, 200, false, true));
+
+				weapon_node->setLoopMode(false);
+				break;
+		}
+		resist = resist - 1;
 	}
 }

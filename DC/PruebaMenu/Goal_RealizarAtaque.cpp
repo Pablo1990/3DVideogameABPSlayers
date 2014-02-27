@@ -26,11 +26,12 @@ int Goal_RealizarAtaque::Process()
 
 	Activate();
 	//hay que comprobar que parametros son correctos y despues cambiarlo para cada tipo de arma
-	if(d->isEnemigoPresent() && ((std::abs(d->getEnem()->get_position().X-d->get_position().X)<=25 ) && std::abs(d->getEnem()->get_position().Z-d->get_position().Z)<=25))
+	if(d->isEnemigoPresent() && ((std::abs(d->getEnem()->get_position().X-d->get_position().X)<=60 ) && std::abs(d->getEnem()->get_position().Z-d->get_position().Z)<=40))
 	{
 		//Añadir animación de ataque
-		d->getEnem()->set_health(d->getEnem()->get_health()-5);
-		d->get_weapon()->set_resist(d->get_weapon()->get_resist()-5);
+		d->attack(0);
+		//d->getEnem()->set_health(d->getEnem()->get_health()-5);
+		//d->get_weapon()->set_resist(d->get_weapon()->get_resist()-0.01);
 		Terminate();
 	}
 	else
