@@ -131,8 +131,10 @@ bool MyMenu::OnEvent(const SEvent& event)
 				case GUI_ID_VOLVER_BUTTON:
 					env->clear();
 
+				
 				env->addButton(rect<s32>(700,150,1000,150 + 82), 0, GUI_ID_JUGAR_BUTTON,
             L"Jugar", L"Comienza el juego");
+				
 
 	env->addButton(rect<s32>(700,260,1000,260 + 82), 0, GUI_ID_INVENTARIO_BUTTON,
             L"Inventario", L"Echale un ojo a tus objetos");
@@ -169,17 +171,17 @@ bool MyMenu::OnEvent(const SEvent& event)
 					env->addButton(rect<s32>(700,480,1000,480 + 82), 0, GUI_ID_OPCIONES_BUTTON, L"Opciones", L"Configura el juego");
 					env->addButton(rect<s32>(700,590,1000,590 + 82), 0, GUI_ID_QUIT_BUTTON, L"Quit", L"Sal del juego");
 
-					env->addStaticText(L"AQUI VA UNA IMAGEN", rect<s32>(50,110,250,130), true);
+					
 
 
 					return true;
 				case GUI_ID_1VS1_BUTTON:
 					env->clear();
 
-					env->addStaticText(L"Destino de caballero 1vs1 Nivel 1", rect<s32>(50,110,250,130), true);
+				
 					env->addButton(rect<s32>(700,150,1000,150 + 82), 0, GUI_ID_CONTINUAR_BUTTON, L"Continuar", L"Continua desde el ultimo nivel desbloqueado");
-					env->addButton(rect<s32>(700,190,1000,260 + 82), 0, GUI_ID_NUEVA_PARTIDA_BUTTON, L"Nueva Partida", L"Comienza de nuevo");
-					env->addButton(rect<s32>(700,310,1000,370 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu Inicio");
+					env->addButton(rect<s32>(700,260,1000,260 + 82), 0, GUI_ID_NUEVA_PARTIDA_BUTTON, L"Nueva Partida", L"Comienza de nuevo");
+					env->addButton(rect<s32>(700,370,1000,370 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu Inicio");
 
 					return true;
 
@@ -187,8 +189,8 @@ bool MyMenu::OnEvent(const SEvent& event)
 
 				case GUI_ID_EQUIPO_BUTTON:
 					env->clear();
-					
-					env->addButton(rect<s32>(700,310,100,310 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+						env->addButton(rect<s32>(700,260,1000,260 + 82), 0, GUI_ID_NUEVA_PARTIDA_BUTTON, L"Nueva Partida", L"Comienza de nuevo");
+					env->addButton(rect<s32>(700,370,1000,370 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 
 					return true;
 
