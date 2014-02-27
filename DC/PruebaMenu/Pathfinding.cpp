@@ -154,13 +154,29 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
             //Recorremos la lista de hijos
             for (int i = 0; i < hijosM.size(); i++) {
                 //Comprobamos que no esté en lista interior
-				if (!(std::find(listaInterior.begin(), listaInterior.end(),hijosM[i]) != listaInterior.end())) {
+				bool encon = false;
+				for(std::vector<NodoPadreEHijo>::iterator it = listaInterior.begin(); it != listaInterior.end(); ++it) {
+					if(it->getNodo() == hijosM[i].getNodo())
+					{
+						encon = true;
+						break;
+					}
+				}
+				if (!encon) {
                     //Obtemos el hijo i
 					NodoPadreEHijo m(hijosM[i]);
                     //Calculamos su g, para ver si es mejor de lo que ya tenemos
 					gprima = n.getNodo().getG() + calcularG(n, m);
                     //Si no está en lista frontera
-					if(!(std::find(listaFrontera.begin(), listaFrontera.end(), m) != listaFrontera.end())) {
+					bool encon = false;
+					for(std::vector<NodoPadreEHijo>::iterator it = listaFrontera.begin(); it != listaFrontera.end(); ++it) {
+						if(it->getNodo() == m.getNodo())
+						{
+							encon = true;
+							break;
+						}
+					}
+					if(!encon) {
 						/* v contains x */
                         //Lo añadimos
 						listaFrontera.push_back(m);

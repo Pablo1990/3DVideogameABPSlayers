@@ -81,6 +81,10 @@ NodoPathfinding::~NodoPathfinding(void)
     void NodoPathfinding::setH(int h) {
         this->h = h;
     }
+
+	Position NodoPathfinding::getPosition(){
+		return this->pos;
+	}
  
     /**
      * Comprueba si dos nodos son iguales

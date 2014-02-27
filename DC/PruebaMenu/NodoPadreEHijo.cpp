@@ -11,6 +11,10 @@ NodoPadreEHijo::NodoPadreEHijo(NodoPathfinding n, NodoPadreEHijo* padre)
 	}
 }
 
+NodoPadreEHijo::NodoPadreEHijo(){
+	this->padre = NULL;
+}
+
 NodoPadreEHijo::~NodoPadreEHijo(void)
 {
 	this->nodo.~NodoPathfinding();
@@ -18,11 +22,31 @@ NodoPadreEHijo::~NodoPadreEHijo(void)
 	this->padre = NULL;
 }
 
-NodoPadreEHijo* NodoPadreEHijo::getPadre() const{
+NodoPadreEHijo::NodoPadreEHijo(NodoPadreEHijo* p){
+	this->setNodo(p->getNodo());
+	if(p->getPadre()!=NULL){
+		this->setPadre(new NodoPadreEHijo(p->getPadre()));
+	}
+	else{
+		this->setPadre(NULL);
+	}
+}
+
+NodoPadreEHijo::NodoPadreEHijo(const NodoPadreEHijo& p){
+	nodo = p.nodo;
+	if(p.padre!=NULL){
+		padre = new NodoPadreEHijo(p.padre);
+	}
+	else{
+		padre = NULL;
+	}
+}
+
+NodoPadreEHijo* NodoPadreEHijo::getPadre(){
 	return this->padre;
 }
 
-NodoPathfinding NodoPadreEHijo::getNodo() const{
+NodoPathfinding NodoPadreEHijo::getNodo(){
 	return this->nodo;
 }
 
@@ -40,11 +64,25 @@ void NodoPadreEHijo::setPadre(NodoPadreEHijo* padre){
 }
 
 NodoPadreEHijo NodoPadreEHijo::operator=(NodoPadreEHijo* p){
-	this->nodo = p->getNodo();
-	if(padre!=NULL){
-		this->padre = new NodoPadreEHijo(padre->getNodo(), padre->getPadre());
+	NodoPadreEHijo nodoo;
+	nodoo.setNodo(p->getNodo());
+	if(p->getPadre()!=NULL){
+		nodoo.setPadre(new NodoPadreEHijo(p->getPadre()));
 	}
 	else{
-		this->padre = NULL;
+		nodoo.setPadre(NULL);
 	}
+	return nodoo;
+}
+
+NodoPadreEHijo NodoPadreEHijo::operator=(NodoPadreEHijo& p){
+	NodoPadreEHijo nodoo;
+	nodoo.setNodo(p.getNodo());
+	if(p.getPadre()!=NULL){
+		nodoo.setPadre(new NodoPadreEHijo(p.getPadre()));
+	}
+	else{
+		nodoo.setPadre(NULL);
+	}
+	return nodoo;
 }
