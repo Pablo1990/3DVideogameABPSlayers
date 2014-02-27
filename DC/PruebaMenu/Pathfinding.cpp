@@ -69,7 +69,7 @@ void Pathfinding::setMapa(vector<vector<Position>> obstaculos){
         }
     }
 
-	for (int k = 0; k < obstaculos.size(); k++)
+	for (int k = 1; k < obstaculos.size(); k++)
 	{
 		for(int x = obstaculos[k][0].getX(); x < obstaculos[k][1].getX(); x++){
 			for(int z = obstaculos[k][0].getZ(); z < obstaculos[k][1].getZ(); z++){
@@ -145,7 +145,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
             //Y lo añadimos a nuestra listaInterior como fijo
 			listaInterior.push_back(n);
             //En el caso de que este NodoPathfinding sea estado solución
-			if (n.getNodo().getPosition().getX() == pFin.getX() && n.getNodo().getPosition().getY() == pFin.getY() && n.getNodo().getPosition().getZ() == pFin.getZ()) {
+			if (n.getNodo().getG() >= pasos || ( n.getNodo().getPosition().getX() == pFin.getX() && n.getNodo().getPosition().getY() == pFin.getY() && n.getNodo().getPosition().getZ() == pFin.getZ())) {
                 //Sacamos por pantalla expandidos y el camino
                 return reconstruirCamino(n, expandidos);
             }
