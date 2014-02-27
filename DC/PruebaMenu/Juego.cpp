@@ -93,15 +93,7 @@ void Juego::run()
 				mente->ProcessSubgoals();
 				swprintf(tmp, 255, L"NpcHealth %f", npc->get_health());
 				statusText->setText(tmp);
-				/*if(attack_count%100 == 0)
-				{
-					npc->attack(2);
-					
-				}
-				attack_count++;
-					if(attack_count > 10000)
-						attack_count = 0;
-				*/
+
 					if(npc->get_weapon())
 					{
 						npc->get_weapon()->finish_animation();
@@ -365,9 +357,10 @@ void Juego::loadSceneData()
 			core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0));
 
 	npc->get_character_node()->addAnimator(collider);
-	Sword *sw3 = new Sword(4,7,sm);
+	//Sword *sw3 = new Sword(4,7,sm);
+	Spear *sw3 = new Spear(4,5,sm);
 	npc->set_weapon(sw3);
-	npc->add_weapon_to_node(core::vector3df(40,100,0), core::vector3df(180,-50,90), core::vector3df(0.02, 0.02,0.02));
+	npc->add_weapon_to_node(core::vector3df(40,100,0), core::vector3df(180,-50,90), core::vector3df(2.5, 2.5 , 2.5));
 	
 
 	std::list<Weapon*> armas =std::list<Weapon*>();

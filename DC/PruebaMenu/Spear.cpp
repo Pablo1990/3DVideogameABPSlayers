@@ -88,8 +88,8 @@ void Spear::finish_animation()
 			list<ISceneNodeAnimator*>::ConstIterator it = weapon_node->getAnimators().begin();
 			if ((*it)->hasFinished())
 			{
-				weapon_node->setPosition(core::vector3df(10,-30,20));
-				weapon_node->setRotation(core::vector3df(-140, 0, 0));
+				weapon_node->setPosition(main_position /*core::vector3df(10,-30,20)*/);
+				weapon_node->setRotation(main_rotation /*core::vector3df(-140, 0, 0)*/);
 				weapon_node->removeAnimators();
 				weapon_node->removeAnimators();
 				
@@ -99,5 +99,47 @@ void Spear::finish_animation()
 	}
 	catch(...)
 	{
+	}
+}
+
+
+void Spear::attack(int type)
+{
+	weapon_node->setRotation(core::vector3df(0,180,0));
+	if (weapon_node != NULL && weapon_node->getAnimators().empty() && resist > 0)
+	{
+		switch(type)
+		{
+			case 0://lateral
+				weapon_node->addAnimator(scene_manager->createFlyStraightAnimator(
+					core::vector3df(weapon_node->getPosition().X, weapon_node->getPosition().Y , weapon_node->getPosition().Z - 30),
+					core::vector3df(weapon_node->getPosition().X - 60, weapon_node->getPosition().Y , weapon_node->getPosition().Z - 30),
+					300, false, true));
+
+				weapon_node->setLoopMode(false);
+				break;
+			case 1://vertical
+				weapon_node->setRotation(core::vector3df(180,0,90));		
+
+				weapon_node->addAnimator(scene_manager->createFlyStraightAnimator(
+					core::vector3df(weapon_node->getPosition().X -50, weapon_node->getPosition().Y + 40 , weapon_node->getPosition().Z - 30),
+					core::vector3df(weapon_node->getPosition().X -50, weapon_node->getPosition().Y - 30, weapon_node->getPosition().Z - 30),
+					300, false, true));
+
+				weapon_node->setLoopMode(false);
+				break;
+
+			case 2:
+				weapon_node->setRotation(core::vector3df(180,0,90));
+				
+				weapon_node->addAnimator(scene_manager->createFlyStraightAnimator(
+					core::vector3df(weapon_node->getPosition().X - 50, weapon_node->getPosition().Y, weapon_node->getPosition().Z), 
+					core::vector3df(weapon_node->getPosition().X - 50, weapon_node->getPosition().Y, weapon_node->getPosition().Z - 50)
+					, 200, false, true));
+
+				weapon_node->setLoopMode(false);
+				break;
+		}
+		resist = resist - 1;
 	}
 }
