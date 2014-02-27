@@ -27,7 +27,7 @@ public:
 	~Goal_Evaluator(void);
 	virtual double CalculateDesirability(Npc* bot)=0;
 	virtual void SetGoal(Npc* bot)=0;
-
+	double DistanceToEnem(Npc* pBot);
   double Health(Npc* pNpc);
   
    double DistanceToItem(Npc* pNpc);

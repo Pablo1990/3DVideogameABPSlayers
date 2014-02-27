@@ -89,6 +89,7 @@
     <ClInclude Include="Goal_RealizarAtaque.h" />
     <ClInclude Include="Goal_Think.h" />
     <ClInclude Include="Goal_Vagar.h" />
+    <ClInclude Include="Mapa.h" />
     <ClInclude Include="MoveToPosition.h" />
     <ClInclude Include="Npc.h" />
     <ClInclude Include="Paths.h" />
@@ -127,6 +128,7 @@
     <ClCompile Include="Goal_RealizarAtaque.cpp" />
     <ClCompile Include="Goal_Think.cpp" />
     <ClCompile Include="Goal_Vagar.cpp" />
+    <ClCompile Include="Mapa.cpp" />
     <ClCompile Include="MoveToPosition.cpp" />
     <ClCompile Include="Npc.cpp" />
     <ClCompile Include="Player.cpp" />

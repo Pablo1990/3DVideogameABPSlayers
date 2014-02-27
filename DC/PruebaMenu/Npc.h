@@ -31,6 +31,10 @@ public:
 	bool Move_ToFreeAttack();
 	vector3df DarPosSalud();
 	vector3df DarPosArmaCercana();
+	void attack(int type);
+	
+	void add_weapon_to_node(vector3df position, vector3df rotation, vector3df scale);
+	
 	//Enemigo
 	void setEnem(Player*);
 	Player* getEnem();

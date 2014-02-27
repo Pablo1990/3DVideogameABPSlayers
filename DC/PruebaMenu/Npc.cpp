@@ -30,6 +30,11 @@ void Npc::manage_collision(Weapon *w)
 					w->set_collision_flag(true);
 					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
 					
+					if((int)health <= 0)
+					{
+						
+					}
+
 					if(scene_manager)
 					{
 						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
@@ -194,7 +199,7 @@ bool Npc::isEnemigoPresent()
 	int distaux=sqrt(pow((x-x_E),2)+pow((y-y_E),2));
 
 	//POner distancia máxima de visión
-	if(distaux <=300)
+	if(distaux <=500)
 	{
 		return true;
 	}
@@ -225,5 +230,34 @@ bool Npc::Move_ToFreeAttack()
 {
 
 	return true;
+
+}
+
+void Npc::add_weapon_to_node(vector3df position, vector3df rotation, vector3df scale)
+{
+	try
+	{
+		if(weapon)
+		{
+			weapon->add_to_node(position, rotation, scale, character_node);
+		}
+	}
+	catch(...)
+	{}
+
+}
+
+void Npc::attack(int type)
+{
+	try
+	{
+		if(weapon)
+		{
+			weapon->attack(type);
+		}
+	}
+	catch(...)
+	{
+	}
 
 }

@@ -41,6 +41,7 @@ double GetWeaponGoal_Evaluator::CalculateDesirability(Npc* pBot)
 	double Desirability=0.0;
 	if(Distance!=0)
 	{
+		cout << "weapon strenght " << WeaponStrength << endl;
 		Desirability = (Tweaker * Health * (1.0-WeaponStrength)) / Distance;
 		
 	}

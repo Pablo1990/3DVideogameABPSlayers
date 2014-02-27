@@ -12,7 +12,7 @@ Weapon::Weapon(const char* path, int dmg = 0, int sp = 0, ISceneManager *sm = 0,
 		this->weapon_mesh = sm->getMesh(path); 
 		this->weapon_mesh->setMaterialFlag(video::EMF_LIGHTING, false);
 		this->ty = t;
-		this->resist=3;
+		this->resist=15;
 	}
 	catch(...)
 	{}
@@ -35,7 +35,8 @@ void Weapon::add_to_scene(vector3df position, vector3df rotation, vector3df scal
 			selector = scene_manager->createTriangleSelector(this->weapon_node);
 			this->weapon_node->setTriangleSelector(selector);
 			selector->drop();
-
+			main_position = position;
+			main_rotation = rotation;
 			weapon_node->setName(std::to_string(ty).c_str());
 		}
 	}
@@ -55,6 +56,8 @@ void Weapon::add_to_camera(vector3df position, vector3df rotation, vector3df sca
 			this->weapon_node->setScale(scale);
 			this->weapon_node->setPosition(position); 
 			this->weapon_node->setRotation(rotation);
+			main_position = position;
+			main_rotation = rotation;
 		//	weapon_node->setDebugDataVisible(EDS_BBOX_ALL);
 
 		}
@@ -143,5 +146,27 @@ double Weapon::get_resist()
 	return resist;
 }
 
-
+void Weapon::add_to_node(vector3df position, vector3df rotation, vector3df scale, ISceneNode* node)
+{
+	try
+	{
+		if(scene_manager)
+			this->weapon_node = scene_manager->addAnimatedMeshSceneNode(this->weapon_mesh, node, ID_IsNotPickable);  //this is the important line where you make "gun" child of the camera so it moves when the camera moves
 	
+		if(this->weapon_node)
+		{
+			this->weapon_node->setScale(scale);
+			this->weapon_node->setPosition(position); 
+			this->weapon_node->setRotation(rotation);
+			weapon_node->setDebugDataVisible(EDS_BBOX_ALL);
+			main_position = position;
+			main_rotation = rotation;
+		}
+	}
+	catch(...)
+	{}
+}
+
+void Weapon::attack(int type)
+{
+}
