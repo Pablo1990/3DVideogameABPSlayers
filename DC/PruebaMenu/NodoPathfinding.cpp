@@ -33,6 +33,7 @@ NodoPathfinding::~NodoPathfinding(void)
         this->g = n.g;
         this->f = n.f;
         this->h = n.h;
+		this->pos = n.pos;
     }
  
     /**
