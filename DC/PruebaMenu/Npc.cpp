@@ -261,3 +261,8 @@ void Npc::attack(int type)
 	}
 
 }
+
+void Npc::move_to(Position p)
+{
+	this->character_node->addAnimator(scene_manager->createFlyStraightAnimator(character_node->getPosition(), vector3df(p.getX(), p.getY(), p.getZ()), 1000, false, false));
+}

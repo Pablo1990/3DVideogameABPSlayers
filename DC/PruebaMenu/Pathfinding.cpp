@@ -59,17 +59,19 @@ void Pathfinding::setMapa(vector<vector<Position>> obstaculos){
 	finMapa.setX(maxX);
 	finMapa.setY(maxY);
 	finMapa.setZ(maxZ);
+	
 	mapa = new int **[maxX];
         //Recorremos el mapa y lo sacamos por pantalla y llenamos de -1 el array expandidos
 	for (int i = 0; i < maxX; i++) {
 		mapa[i] = new int *[maxZ];
 		for (int j = 0; j < maxZ; j++) {
+			mapa[i][j] = new int[2];
 			mapa[i][j][0] = 0; //se puede
 			mapa[i][j][1] = -1; //no puede
         }
     }
 
-	for (int k = 0; k < obstaculos.size(); k++)
+	for (int k = 1; k < obstaculos.size(); k++)
 	{
 		for(int x = obstaculos[k][0].getX(); x < obstaculos[k][1].getX(); x++){
 			for(int z = obstaculos[k][0].getZ(); z < obstaculos[k][1].getZ(); z++){
@@ -100,6 +102,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 	for (int i = minX; i < maxX; i++) {
 		expandidos[i] = new int *[maxZ];
 		for (int j = minZ; j < maxZ; j++) {
+			expandidos[i][j] = new int[1];
 			expandidos[i][j][0] = -1;
         }
     }
