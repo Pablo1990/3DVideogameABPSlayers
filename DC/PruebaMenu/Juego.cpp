@@ -85,7 +85,7 @@ void Juego::run()
 		obstacles.push_back(v2);
 		pf.setMapa(obstacles);
 
-		vector<Position> way_points = pf.AEstrella(250);
+		vector<Position> way_points = pf.AEstrella(125);
 		pf.imprimirCamino();
 	while(device->run() && driver)
 	{

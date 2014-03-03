@@ -58,5 +58,5 @@ public:
 
 	vector<Position> reconstruirCamino(NodoPadreEHijo n, int ***expandidos);
 
-	vector<NodoPadreEHijo> crearHijos(NodoPadreEHijo n, int minX, int minZ, int maxX, int maxZ);
+	vector<NodoPadreEHijo> crearHijos(NodoPadreEHijo n, int minX, int minZ, int maxX, int maxZ, int minY, int maxY);
 };

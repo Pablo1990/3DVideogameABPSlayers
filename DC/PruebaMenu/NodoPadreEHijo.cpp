@@ -23,12 +23,12 @@ NodoPadreEHijo::~NodoPadreEHijo(void)
 }
 
 NodoPadreEHijo::NodoPadreEHijo(NodoPadreEHijo* p){
-	this->setNodo(p->getNodo());
+	this->nodo = p->getNodo();
 	if(p->getPadre()!=NULL){
-		this->setPadre(new NodoPadreEHijo(p->getPadre()));
+		this->padre = new NodoPadreEHijo(p->getPadre());
 	}
 	else{
-		this->setPadre(NULL);
+		this->padre = NULL;
 	}
 }
 
