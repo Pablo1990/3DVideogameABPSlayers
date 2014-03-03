@@ -134,6 +134,11 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 		while (!listaFrontera.empty()) {
             //Buscamos el NodoPathfinding con menor F es decir, el mejor (camino más corto)
 			NodoPadreEHijo n(menorF(listaFrontera));
+
+			if(n.getPadre()!=NULL)
+			{
+				cout<<"hola"<<endl;
+			}
             //NodoPathfinding encontrado lo ponemos en expandidos
 			int x = n.getNodo().getPosition().getX();
 			int z = n.getNodo().getPosition().getZ();
@@ -335,7 +340,7 @@ void Pathfinding::imprimirCamino(){
                 n = nuevo;
 				menor = nuevo.getF();
 				nPadreEHijo.setNodo(n);
-				nPadreEHijo.setPadre(new NodoPadreEHijo(nuevoPadreEHijo));
+				nPadreEHijo.setPadre(&nuevoPadreEHijo);
             }
         }
         //Devolvemos el NodoPathfinding con menor f
@@ -357,7 +362,7 @@ void Pathfinding::imprimirCamino(){
 			if (mapa[x+espaciado][z][y] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x+espaciado,y,z));
 				hijo.setNodo(nodoHijo);
-				hijo.setPadre(new NodoPadreEHijo(n));
+				hijo.setPadre(&n);
 				//PUEDE PETAAAAAAAAARRRRRR
 				//hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 				NodoPathfinding aux(hijo.getNodo());
@@ -379,7 +384,7 @@ void Pathfinding::imprimirCamino(){
 			if (mapa[x+espaciado][z+espaciado][y] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x+espaciado,y,z+espaciado));
 				hijo.setNodo(nodoHijo);
-				hijo.setPadre(new NodoPadreEHijo(n));
+				hijo.setPadre(&n);
 				//PUEDE PETAAAAAAAAARRRRRR
 				//hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 				NodoPathfinding aux(hijo.getNodo());
@@ -399,7 +404,7 @@ void Pathfinding::imprimirCamino(){
 			if (mapa[x+espaciado][z-espaciado][y] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x+espaciado,y,z-espaciado));
 				hijo.setNodo(nodoHijo);
-				hijo.setPadre(new NodoPadreEHijo(n));
+				hijo.setPadre(&n);
 				//PUEDE PETAAAAAAAAARRRRRR
 				//hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 				NodoPathfinding aux(hijo.getNodo());
@@ -421,7 +426,7 @@ void Pathfinding::imprimirCamino(){
 			if (mapa[x-espaciado][z][y] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x-espaciado,y,z));
 				hijo.setNodo(nodoHijo);
-				hijo.setPadre(new NodoPadreEHijo(n));
+				hijo.setPadre(&n);
 				//PUEDE PETAAAAAAAAARRRRRR
 				//hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 				NodoPathfinding aux(hijo.getNodo());
@@ -443,7 +448,7 @@ void Pathfinding::imprimirCamino(){
 			if (mapa[x-espaciado][z+espaciado][y] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x-espaciado,y,z+espaciado));
 				hijo.setNodo(nodoHijo);
-				hijo.setPadre(new NodoPadreEHijo(n));
+				hijo.setPadre(&n);
 				//PUEDE PETAAAAAAAAARRRRRR
 				//hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 				NodoPathfinding aux(hijo.getNodo());
@@ -464,7 +469,7 @@ void Pathfinding::imprimirCamino(){
 			if (mapa[x-espaciado][z-espaciado][y] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x-espaciado,y,z-espaciado));
 				hijo.setNodo(nodoHijo);
-				hijo.setPadre(new NodoPadreEHijo(n));
+				hijo.setPadre(&n);
 				//PUEDE PETAAAAAAAAARRRRRR
 				//hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 				NodoPathfinding aux(hijo.getNodo());
@@ -485,7 +490,7 @@ void Pathfinding::imprimirCamino(){
 			if (mapa[x][z+espaciado][y] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x,y,z+espaciado));
 				hijo.setNodo(nodoHijo);
-				hijo.setPadre(new NodoPadreEHijo(n));
+				hijo.setPadre(&n);
 				//PUEDE PETAAAAAAAAARRRRRR
 				//hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 				NodoPathfinding aux(hijo.getNodo());
@@ -506,7 +511,7 @@ void Pathfinding::imprimirCamino(){
 			if (mapa[x][z-espaciado][y] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x,y,z-espaciado));
 				hijo.setNodo(nodoHijo);
-				hijo.setPadre(new NodoPadreEHijo(n));
+				hijo.setPadre(&n);
 				//PUEDE PETAAAAAAAAARRRRRR
 				//hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 				NodoPathfinding aux(hijo.getNodo());
@@ -527,7 +532,7 @@ void Pathfinding::imprimirCamino(){
 			if (mapa[x+espaciado][z][y+espaciado] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x+espaciado,y+espaciado,z));
 				hijo.setNodo(nodoHijo);
-				hijo.setPadre(new NodoPadreEHijo(n));
+				hijo.setPadre(&n);
 				//PUEDE PETAAAAAAAAARRRRRR
 				//hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 				NodoPathfinding aux(hijo.getNodo());
@@ -548,7 +553,7 @@ void Pathfinding::imprimirCamino(){
 			if (mapa[x+espaciado][z+espaciado][y+espaciado] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x+espaciado,y+espaciado,z+espaciado));
 				hijo.setNodo(nodoHijo);
-				hijo.setPadre(new NodoPadreEHijo(n));
+				hijo.setPadre(&n);
 				//PUEDE PETAAAAAAAAARRRRRR
 				//hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 				NodoPathfinding aux(hijo.getNodo());
@@ -568,7 +573,7 @@ void Pathfinding::imprimirCamino(){
 			if (mapa[x+espaciado][z-espaciado][y+espaciado] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x+espaciado,y+espaciado,z-espaciado));
 				hijo.setNodo(nodoHijo);
-				hijo.setPadre(new NodoPadreEHijo(n));
+				hijo.setPadre(&n);
 				//PUEDE PETAAAAAAAAARRRRRR
 				//hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 				NodoPathfinding aux(hijo.getNodo());
@@ -589,7 +594,7 @@ void Pathfinding::imprimirCamino(){
 			if (mapa[x-espaciado][z][y+espaciado] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x-espaciado,y+espaciado,z));
 				hijo.setNodo(nodoHijo);
-				hijo.setPadre(new NodoPadreEHijo(n));
+				hijo.setPadre(&n);
 				//PUEDE PETAAAAAAAAARRRRRR
 				//hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 				NodoPathfinding aux(hijo.getNodo());
@@ -610,7 +615,7 @@ void Pathfinding::imprimirCamino(){
 			if (mapa[x-espaciado][z+espaciado][y+espaciado] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x-espaciado,y+espaciado,z+espaciado));
 				hijo.setNodo(nodoHijo);
-				hijo.setPadre(new NodoPadreEHijo(n));
+				hijo.setPadre(&n);
 				//PUEDE PETAAAAAAAAARRRRRR
 				//hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 				NodoPathfinding aux(hijo.getNodo());
@@ -630,7 +635,7 @@ void Pathfinding::imprimirCamino(){
 		if (mapa[x-espaciado][z-espaciado][y+espaciado] == 0) {
 			NodoPathfinding nodoHijo(0,0,0, Position(x-espaciado,y+espaciado,z-espaciado));
 			hijo.setNodo(nodoHijo);
-			hijo.setPadre(new NodoPadreEHijo(n));
+			hijo.setPadre(&n);
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 			NodoPathfinding aux(hijo.getNodo());
@@ -650,7 +655,7 @@ void Pathfinding::imprimirCamino(){
 		if (mapa[x][z+espaciado][y+espaciado] == 0) {
 			NodoPathfinding nodoHijo(0,0,0, Position(x,y+espaciado,z+espaciado));
 			hijo.setNodo(nodoHijo);
-			hijo.setPadre(new NodoPadreEHijo(n));
+			hijo.setPadre(&n);
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 			NodoPathfinding aux(hijo.getNodo());
@@ -670,7 +675,7 @@ void Pathfinding::imprimirCamino(){
 		if (mapa[x][z-espaciado][y+espaciado] == 0) {
 			NodoPathfinding nodoHijo(0,0,0, Position(x,y+espaciado,z-espaciado));
 			hijo.setNodo(nodoHijo);
-			hijo.setPadre(new NodoPadreEHijo(n));
+			hijo.setPadre(&n);
 			//PUEDE PETAAAAAAAAARRRRRR
             //hijo = new Nodo(0, 0, 0, n, n.x, n.y + espaciado);
 			NodoPathfinding aux(hijo.getNodo());

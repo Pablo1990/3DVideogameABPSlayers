@@ -4,7 +4,7 @@ NodoPadreEHijo::NodoPadreEHijo(NodoPathfinding n, NodoPadreEHijo* padre)
 {
 	this->nodo = n;
 	if(padre!=NULL){
-		this->padre = new NodoPadreEHijo(padre->getNodo(), padre->getPadre());
+		this->padre = new NodoPadreEHijo(padre);
 	}
 	else{
 		this->padre = NULL;
@@ -56,7 +56,7 @@ void NodoPadreEHijo::setNodo(NodoPathfinding n){
 
 void NodoPadreEHijo::setPadre(NodoPadreEHijo* padre){
 	if(padre!=NULL){
-		this->padre = new NodoPadreEHijo(padre->getNodo(), padre->getPadre());
+		this->padre = new NodoPadreEHijo(padre);
 	}
 	else{
 		this->padre = NULL;
