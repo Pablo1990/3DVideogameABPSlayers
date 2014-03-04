@@ -1,7 +1,7 @@
 #include "Pathfinding.h"
 #include <iostream>
 #include <math.h>
-#define espaciado 5
+#define espaciado 10
 
 using namespace std;
 
@@ -101,10 +101,10 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 	int minY = 0;
 	int maxY = 1;
 	
-	int*** expandidos = new int **[maxX];
+	int*** expandidos = new int **[maxX+1];
         //Recorremos el mapa y lo sacamos por pantalla y llenamos de -1 el array expandidos
 	for (int i = minX; i < maxX; i++) {
-		expandidos[i] = new int *[maxZ];
+		expandidos[i] = new int *[maxZ+1];
 		for (int j = minZ; j < maxZ; j++) {
 			expandidos[i][j] = new int[1];
 			expandidos[i][j][0] = -1;
@@ -134,11 +134,6 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 		while (!listaFrontera.empty()) {
             //Buscamos el NodoPathfinding con menor F es decir, el mejor (camino más corto)
 			NodoPadreEHijo n(menorF(listaFrontera));
-
-			if(n.getPadre()!=NULL)
-			{
-				cout<<"hola"<<endl;
-			}
             //NodoPathfinding encontrado lo ponemos en expandidos
 			int x = n.getNodo().getPosition().getX();
 			int z = n.getNodo().getPosition().getZ();
@@ -340,7 +335,7 @@ void Pathfinding::imprimirCamino(){
                 n = nuevo;
 				menor = nuevo.getF();
 				nPadreEHijo.setNodo(n);
-				nPadreEHijo.setPadre(&nuevoPadreEHijo);
+				nPadreEHijo.setPadre(nuevoPadreEHijo.getPadre());
             }
         }
         //Devolvemos el NodoPathfinding con menor f
@@ -399,7 +394,7 @@ void Pathfinding::imprimirCamino(){
 				hijosM.push_back(hijo);
 			}
 		}
-		if(x+espaciado < maxX && z-espaciado>=minZ)
+		if(x+espaciado < maxX && z-espaciado>minZ)
 		{
 			if (mapa[x+espaciado][z-espaciado][y] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x+espaciado,y,z-espaciado));
@@ -443,7 +438,7 @@ void Pathfinding::imprimirCamino(){
 		}
         //Izquierda, comprobamos que esté vacío y que no nos salgamos del mapa
 		
-		if(x-espaciado > minX && z+espaciado>=maxZ)
+		if(x-espaciado > minX && z+espaciado<maxZ)
 		{
 			if (mapa[x-espaciado][z+espaciado][y] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x-espaciado,y,z+espaciado));
@@ -464,7 +459,7 @@ void Pathfinding::imprimirCamino(){
 			}
 		}
 		
-		if(x-espaciado > minX && z-espaciado>=minZ)
+		if(x-espaciado > minX && z-espaciado>minZ)
 		{
 			if (mapa[x-espaciado][z-espaciado][y] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x-espaciado,y,z-espaciado));
@@ -485,7 +480,7 @@ void Pathfinding::imprimirCamino(){
 			}
 		}
 		
-		if(z+espaciado<minZ)
+		if(z+espaciado<maxZ)
 		{
 			if (mapa[x][z+espaciado][y] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x,y,z+espaciado));
@@ -506,7 +501,7 @@ void Pathfinding::imprimirCamino(){
 			}
 		}
 
-		if(z-espaciado>=minZ)
+		if(z-espaciado>minZ)
 		{
 			if (mapa[x][z-espaciado][y] == 0) {
 				NodoPathfinding nodoHijo(0,0,0, Position(x,y,z-espaciado));
