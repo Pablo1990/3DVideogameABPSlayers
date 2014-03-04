@@ -4,11 +4,13 @@
 Npc::Npc(ISceneManager *sm,vector3df pos): Character(knight_path, sm)
 {
 	posHealth=pos;
+	is_dead = false;
 }
 
 Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos): Character(knight_path, sm, w)
 {
 	posHealth=pos;
+	is_dead = false;
 }
 
 Npc::~Npc(void)
@@ -28,12 +30,10 @@ void Npc::manage_collision(Weapon *w)
 				if (detect_collision(w->get_weapon_node(), this->head))
 				{
 					w->set_collision_flag(true);
-					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
+					//this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
+					this->health = 0;
 					
-					if((int)health <= 0)
-					{
-						
-					}
+					
 
 					if(scene_manager)
 					{
@@ -122,6 +122,18 @@ void Npc::manage_collision(Weapon *w)
 				}
 			}
 		}
+
+		if((int)health <= 0 && !is_dead)
+		{
+			std::cout << "FIRST FRAME" << character_node->getStartFrame() << endl;
+			std::cout << "END FRAME: " << character_node->getEndFrame() << endl;
+			
+			//character_node->setFrameLoop(1822,1928);
+			//character_node->setAnimationSpeed(1);
+			//character_node->setLoopMode(false);
+			is_dead = true;
+			
+		}
 	}
 	catch(...)
 	{
@@ -147,7 +159,7 @@ vector3df  Npc::DarPosSalud()
 vector3df  Npc::DarPosArmaCercana()
 {
 	int distancia=9999.9;
-
+	
 	vector3df v3=vector3df();
 	for (std::list<Weapon*>::iterator it = items.begin();
        it != items.end();
@@ -161,6 +173,7 @@ vector3df  Npc::DarPosArmaCercana()
 				{
 					distancia=distaux;
 					v3=(*it)->get_absolute_position();
+					this->near_weapon = (*it);
 				}
 			
 		}
@@ -260,4 +273,23 @@ void Npc::attack(int type)
 	{
 	}
 
+}
+
+void Npc::pick_weapon()
+{
+	try
+	{
+		this->weapon->get_weapon_node()->drop();
+		this->weapon = this->near_weapon;
+
+		this->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02));
+		this->get_weapon()->set_resist(15);
+		//NECESITO UN METODO QUE ME DIGA SI EL ARMA VA CON O SIN ESCUDO, BOOLEANO QUE SE INICIE EN EL CONSTRUCTOR
+		//DE CADA ARMA AL VALOR QUE TOQUE; LUEGO RECUPERAR CON UN GET
+
+		//TAMBIEN ES NECESARIO QUE LOS VALORES DE AÑADIR AL NODO LOS PONGA LA CLASE DE CADA ARMA, PARA ABSTRAER Y QUE NO SEA
+		//NECESARIO CONOCER EL ARMA PARA AÑADIRLA
+	}
+	catch(...)
+	{}
 }

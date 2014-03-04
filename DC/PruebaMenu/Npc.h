@@ -47,10 +47,15 @@ public:
 	//Lista de items de arma
 	std::list<Weapon*> getItems();
 	void setItems(std::list<Weapon*> );
+
+	void pick_weapon();
 private:
 	Goal_Think *mente;
 	Player *player;
 	std::list<Weapon*> items;
 	vector3df posHealth;
+	Weapon* near_weapon;
+	bool is_dead;
+	
 };
 

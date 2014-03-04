@@ -89,8 +89,8 @@ void Juego::run()
 			if(npc)
 			{
 				npc->manage_collision(player->get_weapon());
-				mente->Arbitrate();
-				mente->ProcessSubgoals();
+				//mente->Arbitrate();
+				//mente->ProcessSubgoals();
 				swprintf(tmp, 255, L"NpcHealth %f", npc->get_health());
 				statusText->setText(tmp);
 
@@ -360,9 +360,10 @@ void Juego::loadSceneData()
 	//Sword *sw3 = new Sword(4,7,sm);
 	Spear *sw3 = new Spear(4,5,sm);
 	npc->set_weapon(sw3);
-	npc->add_weapon_to_node(core::vector3df(40,100,0), core::vector3df(180,-50,90), core::vector3df(2.5, 2.5 , 2.5));
+	npc->add_weapon_to_node(core::vector3df(10,100,-20), core::vector3df(90,-50,90), core::vector3df(2.5, 2.5 , 2.5));
 	
-
+	//SWORD: position 40, 100, 0; rotation 180, -50, 90; scale 0.02, 0.02, 0.02
+	//SPEAR: position 10, 100, -20; rotation 90,-50,90, scale 2.5, 2.5, 2.5
 	std::list<Weapon*> armas =std::list<Weapon*>();
 	dropped_sword = new Sword(0,0,sm);
 	dropped_sword->add_to_scene(core::vector3df(180,5,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);
