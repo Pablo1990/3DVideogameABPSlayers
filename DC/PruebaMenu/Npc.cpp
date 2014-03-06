@@ -5,12 +5,17 @@ Npc::Npc(ISceneManager *sm,vector3df pos): Character(knight_path, sm)
 {
 	posHealth=pos;
 	is_dead = false;
+	is_moving = false;
+	steps_count = 0;
 }
 
 Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos): Character(knight_path, sm, w)
 {
 	posHealth=pos;
 	is_dead = false;
+	is_moving = false;
+	steps_count = 0;
+
 }
 
 Npc::~Npc(void)
@@ -296,5 +301,46 @@ void Npc::pick_weapon()
 
 void Npc::move_to(Position p)
 {
-	this->character_node->addAnimator(scene_manager->createFlyStraightAnimator(character_node->getPosition(), vector3df(p.getX(), p.getY(), p.getZ()), 1000, false, false));
+	
+		/*this->character_node->removeAnimators();
+		this->character_node->addAnimator(scene_manager->createFlyStraightAnimator(character_node->getPosition(), vector3df(p.getX(), p.getY(), p.getZ()), 1000, false, false));*/
+		//this->get_character_node()->removeAnimators();
+		 ISceneNodeAnimator *anim = scene_manager->createFlyStraightAnimator(
+		this->get_position(), vector3df(p.getX(), p.getY() + 40, p.getZ()), 20, false);
+		 this->get_character_node()->addAnimator(anim);
+		anim->drop();
+		//this->is_moving = true;
+	
+}
+
+void Npc::way_to(vector<Position> vp)
+{
+
+	try
+	{
+		if (character_node && character_node->getAnimators().size() > 0)
+		{
+			core::list<ISceneNodeAnimator*>::ConstIterator it = character_node->getAnimators().begin();
+			if ((*it)->hasFinished())
+			{
+				character_node->removeAnimators();
+				if(steps_count < vp.size())
+				{
+					this->move_to(vp[steps_count]);
+					steps_count++;
+				}
+			}
+		}
+		else
+		{
+			if(steps_count < vp.size())
+			{
+				this->move_to(vp[steps_count]);
+				steps_count++;
+			}
+		}
+	}
+	catch(...)
+	{}
+
 }
