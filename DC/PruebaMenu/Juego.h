@@ -9,6 +9,9 @@
 #include "Bow.h"
 #include "ThrowableItem.h"
 #include "Spear.h"
+#include "Pathfinding.h"
+#include "Position.h"
+#include "Mapa.h";
 using namespace std;
 
 

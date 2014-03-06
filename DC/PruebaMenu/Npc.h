@@ -8,6 +8,7 @@
 #include <utility>
 #include <iomanip>
 #include "Player.h"
+#include "Position.h"
 
 #include "Goal_Think.h"
 
@@ -49,6 +50,9 @@ public:
 	void setItems(std::list<Weapon*> );
 
 	void pick_weapon();
+
+	//Moverse a un punto
+	void move_to(Position p);
 private:
 	Goal_Think *mente;
 	Player *player;

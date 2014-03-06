@@ -74,6 +74,19 @@ void Juego::run()
 		scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 		core::line3d<f32> ray;
 		int attack_count = 0;
+		
+		Position p1(npc->get_position().X, 0, npc->get_position().Z);
+		Position p2(npc->get_position().X + 300, 0, npc->get_position().Z);
+		Pathfinding pf(p1, p2);
+		Position last_corner(1894.93, 1, 1294.88);
+		vector<vector<Position>> obstacles;
+		vector<Position> v2;
+		v2.push_back(last_corner);
+		obstacles.push_back(v2);
+		pf.setMapa(obstacles);
+
+		vector<Position> way_points = pf.AEstrella(125);
+		pf.imprimirCamino();
 	while(device->run() && driver)
 	{
 		if (device->isWindowActive())
