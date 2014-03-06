@@ -52,16 +52,18 @@ void RangeWeapon::attack(float first_x, float first_y, float last_x, float last_
 
 }
 
-void RangeWeapon::shoot_anim(vector3df scale)
+void RangeWeapon::shoot_anim(vector3df scale, vector3df rotation)
 {
 	if(!scene_manager)
 		return;
 
 	scene::ICameraSceneNode* camera = this->scene_manager->getActiveCamera();
 
+
+
 	if (!camera )
 		return;
-
+		
 	try
 	{
 		SParticleImpact imp;
@@ -74,7 +76,7 @@ void RangeWeapon::shoot_anim(vector3df scale)
 		end.normalize();
 		start += end*8.0f;
 		end = start + (end * camera->getFarValue());
-
+		
 		core::triangle3df triangle;
 
 		core::line3d<f32> line(start, end);
@@ -110,7 +112,7 @@ void RangeWeapon::shoot_anim(vector3df scale)
 		//imp.node->setScale(scale);
 		//imp.node->setDebugDataVisible(EDS_BBOX_ALL);
 
-		imp.node->setRotation(camera->getRotation());
+		imp.node->setRotation(rotation);
 
 	
 		imp.node->setMaterialFlag(video::EMF_LIGHTING, false);

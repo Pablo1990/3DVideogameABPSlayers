@@ -19,7 +19,12 @@ void Bow::attack(float first_x, float first_y, float last_x, float last_y)
 		u32 now = device->getTimer()->getTime();
 		if(now -last_shot > reload_time)
 		{
-			this->shoot_anim(vector3df(1.4,1.4,1.4));
+			scene::ICameraSceneNode* camera = this->scene_manager->getActiveCamera();
+
+			if (!camera )
+				return;
+
+			this->shoot_anim(vector3df(1.4,1.4,1.4), camera->getRotation());
 			last_shot = device->getTimer()->getTime();
 		}
 	}

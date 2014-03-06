@@ -62,7 +62,14 @@ void ThrowableItem::attack(float first_x, float first_y, float last_x, float las
 	{
 		if(!shot && weapon_node)
 		{
-			this->shoot_anim(weapon_node->getScale());
+			scene::ICameraSceneNode* camera = this->scene_manager->getActiveCamera();
+
+
+
+			if (!camera )
+				return;
+
+			this->shoot_anim(weapon_node->getScale(), camera->getRotation());
 			shot = true;
 		}
 	}

@@ -12,7 +12,7 @@ public:
 	~RangeWeapon(void);
 	void finish_animation();
 	virtual void attack(float first_x, float first_y, float last_x, float last_y);
-	void shoot_anim(vector3df rotation);
+	void shoot_anim(vector3df scale, vector3df rotation);
 	bool is_animated();
 	array<SParticleImpact> get_impacts();
 	void set_collision_flag(bool flag, int index);

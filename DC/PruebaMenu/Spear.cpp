@@ -105,7 +105,8 @@ void Spear::finish_animation()
 
 void Spear::attack(int type)
 {
-	weapon_node->setRotation(core::vector3df(0,180,0));
+	weapon_node->setRotation(core::vector3df(90,0, 0));
+	weapon_node->setPosition(core::vector3df(10,100,-20));
 	if (weapon_node != NULL && weapon_node->getAnimators().empty() && resist > 0)
 	{
 		switch(type)
@@ -122,7 +123,7 @@ void Spear::attack(int type)
 				weapon_node->setRotation(core::vector3df(180,0,90));		
 
 				weapon_node->addAnimator(scene_manager->createFlyStraightAnimator(
-					core::vector3df(weapon_node->getPosition().X -50, weapon_node->getPosition().Y + 40 , weapon_node->getPosition().Z - 30),
+					core::vector3df(weapon_node->getPosition().X -50, weapon_node->getPosition().Y + 70 , weapon_node->getPosition().Z - 30),
 					core::vector3df(weapon_node->getPosition().X -50, weapon_node->getPosition().Y - 30, weapon_node->getPosition().Z - 30),
 					300, false, true));
 
@@ -134,7 +135,7 @@ void Spear::attack(int type)
 				
 				weapon_node->addAnimator(scene_manager->createFlyStraightAnimator(
 					core::vector3df(weapon_node->getPosition().X - 50, weapon_node->getPosition().Y, weapon_node->getPosition().Z), 
-					core::vector3df(weapon_node->getPosition().X - 50, weapon_node->getPosition().Y, weapon_node->getPosition().Z - 50)
+					core::vector3df(weapon_node->getPosition().X - 50, weapon_node->getPosition().Y, weapon_node->getPosition().Z - 70)
 					, 200, false, true));
 
 				weapon_node->setLoopMode(false);

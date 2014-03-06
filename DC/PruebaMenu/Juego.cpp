@@ -102,8 +102,8 @@ void Juego::run()
 			if(npc)
 			{
 				npc->manage_collision(player->get_weapon());
-				//mente->Arbitrate();
-				//mente->ProcessSubgoals();
+				mente->Arbitrate();
+				mente->ProcessSubgoals();
 				swprintf(tmp, 255, L"NpcHealth %f", npc->get_health());
 				statusText->setText(tmp);
 

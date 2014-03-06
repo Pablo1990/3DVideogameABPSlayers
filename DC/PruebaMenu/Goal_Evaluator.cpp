@@ -97,7 +97,10 @@ Goal_Evaluator::~Goal_Evaluator(void)
   //su valor como máximo 15
   double  Goal_Evaluator::WeaponHealth(Npc* pBot)
   {
-	  double estado_arma=pBot->get_weapon()->get_resist()/15;
+
+	  double estado_arma= 0;
+	  if(pBot->get_weapon())
+		  estado_arma = pBot->get_weapon()->get_resist()/15;
 	  
 	  return estado_arma;
   }
