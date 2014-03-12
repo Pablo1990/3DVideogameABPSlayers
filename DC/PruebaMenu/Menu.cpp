@@ -64,6 +64,7 @@ bool MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 
 	
 	
+			
 
 	video::ITexture* images = driver->getTexture("../media/Titulo1.png");
 	
@@ -90,6 +91,7 @@ bool MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 						core::position2d<int>(0,0));
 			driver->draw2DImage(images,
 						core::position2d<int>(80,100));
+			
 			env->drawAll();
     
 			driver->endScene();

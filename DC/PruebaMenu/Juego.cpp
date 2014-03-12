@@ -1,4 +1,5 @@
 #include "Juego.h"
+#include "Hud.h"
 #include <iostream>
 using namespace std;
 
@@ -8,6 +9,7 @@ Juego::Juego(video::E_DRIVER_TYPE d)
 	this->skyboxNode = 0;
 	crouch = false;
 }
+// Values used to identify individual GUI elements
 
 
 Juego::~Juego(void)
@@ -22,13 +24,13 @@ Juego::~Juego(void)
 void Juego::run()
 {
 	bool collision_flag = false;
-	core::dimension2d<u32> resolution(580, 456);
+	core::dimension2d<u32> resolution(1366, 768);
 	
 	irr::SIrrlichtCreationParameters params;
 	params.DriverType=driverType;
 	params.WindowSize=resolution;
 	params.Bits=32;
-	params.Fullscreen=false;
+	params.Fullscreen=true;
 	params.EventReceiver = this;
 
 	device = createDeviceEx(params);
@@ -51,9 +53,14 @@ void Juego::run()
 	const int lwidth = size.Width - 20;
 	const int lheight = 16;
 	core::rect<int> pos(10, size.Height-lheight-10, 10+lwidth, size.Height-10);
+	
+	core::rect<int> pos2(80, 150, 80, size.Height-10);
 
 	device->getGUIEnvironment()->addImage(pos);
 	statusText = device->getGUIEnvironment()->addStaticText(L"Loading...",	pos, true);
+
+	 
+
 	statusText->setOverrideColor(video::SColor(255,205,200,200));
 
 	s32 now = 0;
@@ -112,8 +119,7 @@ void Juego::run()
 						npc->get_weapon()->finish_animation();
 					}
 			}
-				
-
+			
 			if(player)
 				player->heal_or_fire(campFire, heal_camp, device);
 
@@ -136,6 +142,13 @@ void Juego::run()
 				}*/
 			
 			driver->beginScene(timeForThisScene != -1, true, backColor);
+
+
+			
+			Hud hud=Hud();
+			hud.drawHud(device);
+
+			
 			smgr->drawAll();
 			guienv->drawAll();
 			driver->endScene();

@@ -42,6 +42,7 @@ private:
 	IrrlichtDevice *device;
 	s32 sceneStartTime;
 	gui::IGUIStaticText* statusText;
+	gui::IGUIStaticText* statusText2;
 	scene::IQ3LevelMesh* quakeLevelMesh;
 
 	scene::IMetaTriangleSelector* metaSelector;
