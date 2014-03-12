@@ -53,6 +53,7 @@ public:
 
 	//Moverse a un punto
 	void move_to(Position p);
+	void way_to(vector<Position> vp);
 private:
 	Goal_Think *mente;
 	Player *player;
@@ -60,6 +61,8 @@ private:
 	vector3df posHealth;
 	Weapon* near_weapon;
 	bool is_dead;
+	bool is_moving;
+	int steps_count;
 	
 };
 

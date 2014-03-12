@@ -115,6 +115,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
         int cont = 0;
         //variable auxiliar
         int gprima;
+		int mayorG=0;
         //Array para la Lista Interior
 		vector<NodoPadreEHijo> listaInterior;
         //Array para la lista Frontera
@@ -133,7 +134,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
         //Recorremos esta hasta que sea vacia
 		while (!listaFrontera.empty()) {
             //Buscamos el NodoPathfinding con menor F es decir, el mejor (camino más corto)
-			NodoPadreEHijo n(menorF(listaFrontera));
+			NodoPadreEHijo n(menorF(listaFrontera, mayorG));
             //NodoPathfinding encontrado lo ponemos en expandidos
 			int x = n.getNodo().getPosition().getX();
 			int z = n.getNodo().getPosition().getZ();
@@ -152,7 +153,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
             //Y lo añadimos a nuestra listaInterior como fijo
 			listaInterior.push_back(n);
             //En el caso de que este NodoPathfinding sea estado solución
-			if (n.getNodo().getG() >= pasos || ( n.getNodo().getPosition().getX() == pFin.getX() && n.getNodo().getPosition().getY() == pFin.getY() && n.getNodo().getPosition().getZ() == pFin.getZ())) {
+			if (n.getNodo().getG()*espaciado >= pasos || ( n.getNodo().getPosition().getX() == pFin.getX() && n.getNodo().getPosition().getY() == pFin.getY() && n.getNodo().getPosition().getZ() == pFin.getZ())) {
                 //Sacamos por pantalla expandidos y el camino
                 return reconstruirCamino(n, expandidos);
             }
@@ -172,6 +173,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 				if (!encon) {
                     //Obtemos el hijo i
 					NodoPadreEHijo m(hijosM[i]);
+					mayorG = m.getNodo().getG();
                     //Calculamos su g, para ver si es mejor de lo que ya tenemos
 					gprima = n.getNodo().getG() + calcularG(n, m);
                     //Si no está en lista frontera
@@ -249,7 +251,7 @@ void Pathfinding::imprimirCamino(){
      * @return
      */
 	int Pathfinding::calcularG(NodoPadreEHijo n, NodoPadreEHijo m) {
-        int g = 0;
+        int g;
 		if (m.getPadre() == NULL) {
             g = 1;
         } else {
@@ -317,7 +319,7 @@ void Pathfinding::imprimirCamino(){
      * @param listaFrontera
      * @return
      */
-	NodoPadreEHijo Pathfinding::menorF(vector<NodoPadreEHijo> listaFrontera) {
+	NodoPadreEHijo Pathfinding::menorF(vector<NodoPadreEHijo> listaFrontera, int mayorG) {
         //Cogemos el primer NodoPathfinding de la lista
 		NodoPadreEHijo nPadreEHijo(listaFrontera[0]);
 		NodoPathfinding n = nPadreEHijo.getNodo();
@@ -330,7 +332,7 @@ void Pathfinding::imprimirCamino(){
 			NodoPathfinding nuevo = nuevoPadreEHijo.getNodo();
             //Comprobamos que es mejor o igual que el que tenemos
             //ya que así tenderemos a coger los que sean  insertado últimos
-			if (menor >= nuevo.getF()) {
+			if (menor >= nuevo.getF() && mayorG<=nuevo.getG()) {
                 //Si es mejor que el que tenemos nos lo quedamos 
                 n = nuevo;
 				menor = nuevo.getF();
@@ -365,7 +367,7 @@ void Pathfinding::imprimirCamino(){
 				//hijo.g = calcularG(n, hijo);
 				aux.setH(calcularH(hijo.getNodo()));
 				//hijo.h = calcularH(hijo);
-				aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+				aux.setF(calcularF(aux.getG(), aux.getH()));
 				//hijo.f = calcularF(hijo.g, hijo.h);
 				//hijo.padre = n;
 				hijo.setNodo(aux);
@@ -387,7 +389,7 @@ void Pathfinding::imprimirCamino(){
 				//hijo.g = calcularG(n, hijo);
 				aux.setH(calcularH(hijo.getNodo()));
 				//hijo.h = calcularH(hijo);
-				aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+				aux.setF(calcularF(aux.getG(), aux.getH()));
 				//hijo.f = calcularF(hijo.g, hijo.h);
 				//hijo.padre = n;
 				hijo.setNodo(aux);
@@ -407,7 +409,7 @@ void Pathfinding::imprimirCamino(){
 				//hijo.g = calcularG(n, hijo);
 				aux.setH(calcularH(hijo.getNodo()));
 				//hijo.h = calcularH(hijo);
-				aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+				aux.setF(calcularF(aux.getG(), aux.getH()));
 				//hijo.f = calcularF(hijo.g, hijo.h);
 				//hijo.padre = n;
 				hijo.setNodo(aux);
@@ -429,7 +431,7 @@ void Pathfinding::imprimirCamino(){
 				//hijo.g = calcularG(n, hijo);
 				aux.setH(calcularH(hijo.getNodo()));
 				//hijo.h = calcularH(hijo);
-				aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+				aux.setF(calcularF(aux.getG(), aux.getH()));
 				//hijo.f = calcularF(hijo.g, hijo.h);
 				//hijo.padre = n;
 				hijo.setNodo(aux);
@@ -451,7 +453,7 @@ void Pathfinding::imprimirCamino(){
 				//hijo.g = calcularG(n, hijo);
 				aux.setH(calcularH(hijo.getNodo()));
 				//hijo.h = calcularH(hijo);
-				aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+				aux.setF(calcularF(aux.getG(), aux.getH()));
 				//hijo.f = calcularF(hijo.g, hijo.h);
 				//hijo.padre = n;
 				hijo.setNodo(aux);
@@ -472,7 +474,7 @@ void Pathfinding::imprimirCamino(){
 				//hijo.g = calcularG(n, hijo);
 				aux.setH(calcularH(hijo.getNodo()));
 				//hijo.h = calcularH(hijo);
-				aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+				aux.setF(calcularF(aux.getG(), aux.getH()));
 				//hijo.f = calcularF(hijo.g, hijo.h);
 				//hijo.padre = n;
 				hijo.setNodo(aux);
@@ -493,7 +495,7 @@ void Pathfinding::imprimirCamino(){
 				//hijo.g = calcularG(n, hijo);
 				aux.setH(calcularH(hijo.getNodo()));
 				//hijo.h = calcularH(hijo);
-				aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+				aux.setF(calcularF(aux.getG(), aux.getH()));
 				//hijo.f = calcularF(hijo.g, hijo.h);
 				//hijo.padre = n;
 				hijo.setNodo(aux);
@@ -514,7 +516,7 @@ void Pathfinding::imprimirCamino(){
 				//hijo.g = calcularG(n, hijo);
 				aux.setH(calcularH(hijo.getNodo()));
 				//hijo.h = calcularH(hijo);
-				aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+				aux.setF(calcularF(aux.getG(), aux.getH()));
 				//hijo.f = calcularF(hijo.g, hijo.h);
 				//hijo.padre = n;
 				hijo.setNodo(aux);
@@ -535,7 +537,7 @@ void Pathfinding::imprimirCamino(){
 				//hijo.g = calcularG(n, hijo);
 				aux.setH(calcularH(hijo.getNodo()));
 				//hijo.h = calcularH(hijo);
-				aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+				aux.setF(calcularF(aux.getG(), aux.getH()));
 				//hijo.f = calcularF(hijo.g, hijo.h);
 				//hijo.padre = n;
 				hijo.setNodo(aux);
@@ -556,7 +558,7 @@ void Pathfinding::imprimirCamino(){
 				//hijo.g = calcularG(n, hijo);
 				aux.setH(calcularH(hijo.getNodo()));
 				//hijo.h = calcularH(hijo);
-				aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+				aux.setF(calcularF(aux.getG(), aux.getH()));
 				//hijo.f = calcularF(hijo.g, hijo.h);
 				//hijo.padre = n;
 				hijo.setNodo(aux);
@@ -576,7 +578,7 @@ void Pathfinding::imprimirCamino(){
 				//hijo.g = calcularG(n, hijo);
 				aux.setH(calcularH(hijo.getNodo()));
 				//hijo.h = calcularH(hijo);
-				aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+				aux.setF(calcularF(aux.getG(), aux.getH()));
 				//hijo.f = calcularF(hijo.g, hijo.h);
 				//hijo.padre = n;
 				hijo.setNodo(aux);
@@ -597,7 +599,7 @@ void Pathfinding::imprimirCamino(){
 				//hijo.g = calcularG(n, hijo);
 				aux.setH(calcularH(hijo.getNodo()));
 				//hijo.h = calcularH(hijo);
-				aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+				aux.setF(calcularF(aux.getG(), aux.getH()));
 				//hijo.f = calcularF(hijo.g, hijo.h);
 				//hijo.padre = n;
 				hijo.setNodo(aux);
@@ -618,7 +620,7 @@ void Pathfinding::imprimirCamino(){
 				//hijo.g = calcularG(n, hijo);
 				aux.setH(calcularH(hijo.getNodo()));
 				//hijo.h = calcularH(hijo);
-				aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+				aux.setF(calcularF(aux.getG(), aux.getH()));
 				//hijo.f = calcularF(hijo.g, hijo.h);
 				//hijo.padre = n;
 				hijo.setNodo(aux);
@@ -638,7 +640,7 @@ void Pathfinding::imprimirCamino(){
             //hijo.g = calcularG(n, hijo);
 			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(aux.getG(), aux.getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
 			hijo.setNodo(aux);
@@ -658,7 +660,7 @@ void Pathfinding::imprimirCamino(){
             //hijo.g = calcularG(n, hijo);
 			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(aux.getG(), aux.getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
 			hijo.setNodo(aux);
@@ -678,7 +680,7 @@ void Pathfinding::imprimirCamino(){
             //hijo.g = calcularG(n, hijo);
 			aux.setH(calcularH(hijo.getNodo()));
             //hijo.h = calcularH(hijo);
-			aux.setF(calcularF(hijo.getNodo().getG(), hijo.getNodo().getH()));
+			aux.setF(calcularF(aux.getG(), aux.getH()));
             //hijo.f = calcularF(hijo.g, hijo.h);
             //hijo.padre = n;
 			hijo.setNodo(aux);
@@ -704,6 +706,7 @@ void Pathfinding::imprimirCamino(){
             //Cogemos el padre y lo que convertimos en el actual
 			m = m->getPadre();
         }
+		std::reverse(camino.begin(), camino.end());
 		return camino;
     }
      

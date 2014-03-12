@@ -54,7 +54,7 @@ public:
 
 	int calcularH(NodoPathfinding);
 
-	NodoPadreEHijo menorF(vector<NodoPadreEHijo>);
+	NodoPadreEHijo menorF(vector<NodoPadreEHijo>, int);
 
 	vector<Position> reconstruirCamino(NodoPadreEHijo n, int ***expandidos);
 

@@ -83,7 +83,7 @@ void Juego::run()
 		int attack_count = 0;
 		
 		Position p1(npc->get_position().X, 0, npc->get_position().Z);
-		Position p2(npc->get_position().X + 300, 0, npc->get_position().Z);
+		Position p2(npc->get_position().X + 700, 0, npc->get_position().Z);
 		Pathfinding pf(p1, p2);
 		Position last_corner(1894.93, 1, 1294.88);
 		vector<vector<Position>> obstacles;
@@ -92,8 +92,10 @@ void Juego::run()
 		obstacles.push_back(v2);
 		pf.setMapa(obstacles);
 
-		vector<Position> way_points = pf.AEstrella(125);
+		vector<Position> way_points = pf.AEstrella(250);
 		pf.imprimirCamino();
+
+		
 	while(device->run() && driver)
 	{
 		if (device->isWindowActive())
@@ -111,12 +113,14 @@ void Juego::run()
 				npc->manage_collision(player->get_weapon());
 				mente->Arbitrate();
 				mente->ProcessSubgoals();
+				//npc->way_to(pf.getCamino());
 				swprintf(tmp, 255, L"NpcHealth %f", npc->get_health());
 				statusText->setText(tmp);
 
 					if(npc->get_weapon())
 					{
 						npc->get_weapon()->finish_animation();
+
 					}
 			}
 			
@@ -142,14 +146,8 @@ void Juego::run()
 				}*/
 			
 			driver->beginScene(timeForThisScene != -1, true, backColor);
-
-
-			
-			Hud hud=Hud();
-			hud.drawHud(device);
-
-			
-			smgr->drawAll();
+Hud hud=Hud();
+			hud.drawHud(device);			smgr->drawAll();
 			guienv->drawAll();
 			driver->endScene();
 
@@ -375,18 +373,21 @@ void Juego::loadSceneData()
 	
 
 
-	npc->add_to_scene(core::vector3df(100,70,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
+	npc->add_to_scene(core::vector3df(100,10,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 
-	collider =
+	/*collider =
 			sm->createCollisionResponseAnimator(
 			metaSelector,npc->get_character_node(), core::vector3df(15,1,15),
 			core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0));
 
-	npc->get_character_node()->addAnimator(collider);
+	npc->get_character_node()->addAnimator(collider);*/
+
 	//Sword *sw3 = new Sword(4,7,sm);
-	Spear *sw3 = new Spear(4,5,sm);
+	//Spear *sw3 = new Spear(4,5,sm);
+	Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
 	npc->set_weapon(sw3);
-	npc->add_weapon_to_node(core::vector3df(10,100,-20), core::vector3df(90,-50,90), core::vector3df(2.5, 2.5 , 2.5));
+	npc->add_weapon_to_node(core::vector3df(30,100,-20), core::vector3df(0,90,0), core::vector3df(0.07,0.07,0.07));
+	//npc->add_weapon_to_node(core::vector3df(40,100,0), core::vector3df(180,-50,90), core::vector3df(0.02, 0.02, 0.02));
 	
 	//SWORD: position 40, 100, 0; rotation 180, -50, 90; scale 0.02, 0.02, 0.02
 	//SPEAR: position 10, 100, -20; rotation 90,-50,90, scale 2.5, 2.5, 2.5
@@ -400,24 +401,24 @@ void Juego::loadSceneData()
 	armas.push_front(dropped_bow);
 
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
-	dropped_red_shroom->add_to_scene(core::vector3df(280,70,180), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
+	dropped_red_shroom->add_to_scene(core::vector3df(280,8,180), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
 	armas.push_front(dropped_red_shroom);
 
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM);
-	dropped_red_shroom->add_to_scene(core::vector3df(280,70,230), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
+	dropped_red_shroom->add_to_scene(core::vector3df(280,8,230), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
 
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM);
-	dropped_red_shroom->add_to_scene(core::vector3df(280,70,280), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
+	dropped_red_shroom->add_to_scene(core::vector3df(280,8,280), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
 
 	dropped_spear = new Spear(0,0,sm);
-	dropped_spear->add_to_scene( core::vector3df(330,90,180), core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true);
+	dropped_spear->add_to_scene( core::vector3df(330,8,180), core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true);
 
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE);
-	dropped_red_shroom->add_to_scene(core::vector3df(280,70,330), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
+	dropped_red_shroom->add_to_scene(core::vector3df(280,8,330), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
 
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::TORCH);
-	dropped_red_shroom->add_to_scene(core::vector3df(-500,70,200), core::vector3df(90,0,0), core::vector3df(4,4,4), true);
-	dropped_red_shroom->add_to_scene(core::vector3df(-500,70,500), core::vector3df(90,180,0), core::vector3df(4,4,4), true);
+	dropped_red_shroom->add_to_scene(core::vector3df(-500,8,200), core::vector3df(90,0,0), core::vector3df(4,4,4), true);
+	dropped_red_shroom->add_to_scene(core::vector3df(-500,8,500), core::vector3df(90,180,0), core::vector3df(4,4,4), true);
 	
 
 	//Meto armas

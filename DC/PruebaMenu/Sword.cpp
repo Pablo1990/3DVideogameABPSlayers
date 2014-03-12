@@ -90,7 +90,6 @@ void Sword::finish_animation()
 				weapon_node->setPosition(main_position/*core::vector3df(15, -10, 20)*/);
 				weapon_node->setRotation(main_rotation/*core::vector3df(0, 50, 90)*/);
 				weapon_node->removeAnimators();
-				weapon_node->removeAnimators();
 				collision_flag = false;
 			}
 		}
@@ -100,7 +99,7 @@ void Sword::finish_animation()
 	}
 }
 
-void Sword::attack(int type)
+void Sword::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position)
 {
 	weapon_node->setRotation(core::vector3df(0,180,0));
 	if (weapon_node != NULL && weapon_node->getAnimators().empty() && resist > 0)

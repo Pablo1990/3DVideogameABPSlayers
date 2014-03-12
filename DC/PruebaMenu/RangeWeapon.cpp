@@ -52,7 +52,7 @@ void RangeWeapon::attack(float first_x, float first_y, float last_x, float last_
 
 }
 
-void RangeWeapon::shoot_anim(vector3df scale, vector3df rotation)
+void RangeWeapon::shoot_anim(vector3df scale, vector3df rotation, vector3df start, vector3df end, f32 far_value)
 {
 	if(!scene_manager)
 		return;
@@ -71,11 +71,11 @@ void RangeWeapon::shoot_anim(vector3df scale, vector3df rotation)
 
 		// get line of camera
 
-		core::vector3df start = camera->getPosition();
-		core::vector3df end = (camera->getTarget() - start);
+		//core::vector3df start = camera->getPosition();
+		//core::vector3df end = (camera->getTarget() - start);
 		end.normalize();
 		start += end*8.0f;
-		end = start + (end * camera->getFarValue());
+		end = start + (end * far_value);
 		
 		core::triangle3df triangle;
 
@@ -98,11 +98,11 @@ void RangeWeapon::shoot_anim(vector3df scale, vector3df rotation)
 		else
 		{
 			// doesnt collide with wall
-			core::vector3df start = camera->getPosition();
-			core::vector3df end = (camera->getTarget() - start);
+			//core::vector3df start = camera->getPosition();
+			//core::vector3df end = (camera->getTarget() - start);
 			end.normalize();
 			start += end*8.0f;
-			end = start + (end * camera->getFarValue());
+			end = start + (end * far_value);
 		}
 
 		// create fire ball
@@ -226,4 +226,8 @@ void RangeWeapon::set_ammo_mesh(const char* path)
 	catch(...)
 	{}
 
+}
+
+void RangeWeapon::attack(int type,IAnimatedMeshSceneNode* node)
+{
 }
