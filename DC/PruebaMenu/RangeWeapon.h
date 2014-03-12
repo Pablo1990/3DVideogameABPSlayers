@@ -12,7 +12,8 @@ public:
 	~RangeWeapon(void);
 	void finish_animation();
 	virtual void attack(float first_x, float first_y, float last_x, float last_y);
-	void shoot_anim(vector3df scale, vector3df rotation);
+	virtual void attack(int type, IAnimatedMeshSceneNode* node);
+	void shoot_anim(vector3df scale, vector3df rotation, vector3df start, vector3df end, f32 far_value);
 	bool is_animated();
 	array<SParticleImpact> get_impacts();
 	void set_collision_flag(bool flag, int index);

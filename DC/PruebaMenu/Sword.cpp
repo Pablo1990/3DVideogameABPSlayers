@@ -99,7 +99,7 @@ void Sword::finish_animation()
 	}
 }
 
-void Sword::attack(int type)
+void Sword::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position)
 {
 	weapon_node->setRotation(core::vector3df(0,180,0));
 	if (weapon_node != NULL && weapon_node->getAnimators().empty() && resist > 0)

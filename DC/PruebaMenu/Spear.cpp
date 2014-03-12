@@ -103,7 +103,7 @@ void Spear::finish_animation()
 }
 
 
-void Spear::attack(int type)
+void Spear::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position)
 {
 	weapon_node->setRotation(core::vector3df(90,0, 0));
 	weapon_node->setPosition(core::vector3df(10,100,-20));

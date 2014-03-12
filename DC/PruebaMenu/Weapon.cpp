@@ -167,6 +167,6 @@ void Weapon::add_to_node(vector3df position, vector3df rotation, vector3df scale
 	{}
 }
 
-void Weapon::attack(int type)
+void Weapon::attack(int type,IAnimatedMeshSceneNode* node, vector3df player_position)
 {
 }

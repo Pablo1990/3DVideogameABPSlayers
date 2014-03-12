@@ -28,15 +28,15 @@ void Npc::manage_collision(Weapon *w)
 	{
 		
 		RangeWeapon* rw2 = dynamic_cast<RangeWeapon*>(w);
-		if (w != NULL) 
+		if (w != NULL && !is_dead) 
 		{
 			if(!dynamic_cast<RangeWeapon*>(w) && !w->get_collision_flag() && w->is_animated())
 			{
 				if (detect_collision(w->get_weapon_node(), this->head))
 				{
 					w->set_collision_flag(true);
-					//this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
-					this->health = 0;
+					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
+					//this->health = 0;
 					
 					
 
@@ -126,18 +126,20 @@ void Npc::manage_collision(Weapon *w)
 					}
 				}
 			}
-		}
+		
 
-		if((int)health <= 0 && !is_dead)
-		{
-			std::cout << "FIRST FRAME" << character_node->getStartFrame() << endl;
-			std::cout << "END FRAME: " << character_node->getEndFrame() << endl;
+			if((int)health <= 0 && !is_dead)
+			{
+				this->health = 0;
+				std::cout << "FIRST FRAME" << character_node->getStartFrame() << endl;
+				std::cout << "END FRAME: " << character_node->getEndFrame() << endl;
 			
-			//character_node->setFrameLoop(1822,1928);
-			//character_node->setAnimationSpeed(1);
-			//character_node->setLoopMode(false);
-			is_dead = true;
+				//character_node->setFrameLoop(62,211);
+				//character_node->setAnimationSpeed(15);
+				//character_node->setLoopMode(true);
+				is_dead = true;
 			
+			}
 		}
 	}
 	catch(...)
@@ -271,7 +273,7 @@ void Npc::attack(int type)
 	{
 		if(weapon)
 		{
-			weapon->attack(type);
+			weapon->attack(type, this->character_node, this->player->get_position());
 		}
 	}
 	catch(...)
@@ -306,7 +308,7 @@ void Npc::move_to(Position p)
 		this->character_node->addAnimator(scene_manager->createFlyStraightAnimator(character_node->getPosition(), vector3df(p.getX(), p.getY(), p.getZ()), 1000, false, false));*/
 		//this->get_character_node()->removeAnimators();
 		 ISceneNodeAnimator *anim = scene_manager->createFlyStraightAnimator(
-		this->get_position(), vector3df(p.getX(), p.getY() + 40, p.getZ()), 20, false);
+		this->get_position(), vector3df(p.getX(), p.getY(), p.getZ()), 70, false);
 		 this->get_character_node()->addAnimator(anim);
 		anim->drop();
 		//this->is_moving = true;
