@@ -7,6 +7,7 @@ ThrowableItem::ThrowableItem(ISceneManager *sm, ITriangleSelector *ms, IrrlichtD
 	try
 	{
 		shot = false;
+		shield = true;
 		switch(typ)
 		{
 		case RED_SHROOM:
@@ -76,4 +77,17 @@ void ThrowableItem::attack(float first_x, float first_y, float last_x, float las
 	}
 	catch(...)
 	{}
+}
+
+void ThrowableItem::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position)
+{
+	if(device)
+	{
+		if(!shot && weapon_node)
+		{
+
+			this->shoot_anim(weapon_node->getScale(), node->getRotation(), node->getPosition(), player_position, 3000);
+			this->resist = 0;
+		}
+	}
 }

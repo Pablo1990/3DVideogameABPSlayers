@@ -61,9 +61,15 @@ void Character::add_to_scene(vector3df position, vector3df rotation, vector3df s
 	try
 	{
 		this->character_node = scene_manager->addAnimatedMeshSceneNode(this->character_mesh);
+
+		
+
 		if (this->character_node)
 		{
 			do_transformations_and_joints(position, rotation, scale);
+
+			if((!weapon || (weapon && weapon->with_shield())) && sh)
+				sh->add_to_camera(vector3df(-30,110,-30), vector3df(0,180,0), vector3df(30,30,30), this->character_node);
 		}
 	}
 	catch(...)
@@ -82,7 +88,8 @@ void Character::add_to_camera(vector3df position, vector3df rotation, vector3df 
 		character_node->setMaterialFlag(EMF_COLOR_MASK, 0);
 		//character_node->setDebugDataVisible(EDS_BBOX_ALL);
 
-		sh->add_to_camera(vector3df(-5,-5,5), vector3df(0,0,0), vector3df(3,3,3), camera);
+		if(!weapon || (weapon && weapon->with_shield()))
+			sh->add_to_camera(vector3df(-5,-5,5), vector3df(0,0,0), vector3df(3,3,3), camera);
 		//sh->get_weapon_node()->setDebugDataVisible(EDS_BBOX_ALL);
 		//camera->setParent(character_node);
 		if (this->character_node)

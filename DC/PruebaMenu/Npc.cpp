@@ -274,6 +274,14 @@ void Npc::attack(int type)
 		if(weapon)
 		{
 			weapon->attack(type, this->character_node, this->player->get_position());
+			if(dynamic_cast<ThrowableItem*>(this->weapon))
+			{
+				if(weapon->get_weapon_node())
+				{
+					this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
+					this->weapon->set_weapon_node(NULL);
+				}
+			}
 		}
 	}
 	catch(...)

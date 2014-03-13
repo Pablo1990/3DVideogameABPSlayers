@@ -3,11 +3,13 @@
 
 Spear::Spear(int dmg, int sp, ISceneManager *sm):Weapon(spear_path, dmg, sp, sm, SPEAR_TYPE)
 {
+	shield = false;
 }
 
 
 Spear::~Spear(void)
 {
+	shield = false;
 }
 
 void Spear::attack(float first_x, float first_y, float last_x, float last_y)

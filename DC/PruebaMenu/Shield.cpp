@@ -1,7 +1,3 @@
-
-
-
-
 #include "Shield.h"
 
 
