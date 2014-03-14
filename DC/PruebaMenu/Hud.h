@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "Player.h"
+#include "Npc.h"
 using namespace irr;
 
 using namespace core;
@@ -72,9 +74,25 @@ enum
 class Hud
 {
 public:
-	Hud(void);
+	Hud(IrrlichtDevice* device);
+	Hud();
 	~Hud(void);
-	void drawHud(IrrlichtDevice*);
+	void drawHud(IrrlichtDevice*,Npc* npc, Player* player);
+	void  setSkinTransparency(irr::gui::IGUISkin * skin);
+	void setHud(Npc* npc, Player* player);
+	 IGUIEnvironment* env ;
+	IGUISkin* skin ;
+	IGUITabControl* tab;
+	IGUIStaticText* titulo;
+	IGUIStaticText* textSalud;
+	IGUIStaticText* VSalud;
+	IGUIStaticText* textDesgaste;
+	IGUIStaticText* Desgaste;
+	IGUIStaticText* textCansancio;
+	IGUIStaticText* Cansancio;
+	IGUIStaticText* SaludBot;
+	core::dimension2d<u32> size;
+   gui::IGUIFont* font2 ;
 	static
 void drawHudText
 (

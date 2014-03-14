@@ -5,6 +5,7 @@
 #include "Npc.h"
 #include "Sword.h"
 #include "Weapon.h"
+
 #include "Player.h"
 #include "Bow.h"
 #include "ThrowableItem.h"
@@ -12,6 +13,7 @@
 #include "Pathfinding.h"
 #include "Position.h"
 #include "Mapa.h";
+#include "Hud.h";
 using namespace std;
 
 
@@ -40,6 +42,7 @@ public:
 private:
 	video::E_DRIVER_TYPE driverType;
 	IrrlichtDevice *device;
+	Hud hud;
 	s32 sceneStartTime;
 	gui::IGUIStaticText* statusText;
 	gui::IGUIStaticText* statusText2;

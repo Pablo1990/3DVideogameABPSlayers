@@ -1,5 +1,5 @@
 #include "Juego.h"
-#include "Hud.h"
+
 #include <iostream>
 using namespace std;
 
@@ -52,24 +52,24 @@ void Juego::run()
 	core::dimension2d<u32> size = device->getVideoDriver()->getScreenSize();
 	const int lwidth = size.Width - 20;
 	const int lheight = 16;
+	
 	core::rect<int> pos(10, size.Height-lheight-10, 10+lwidth, size.Height-10);
 	
 	core::rect<int> pos2(80, 150, 80, size.Height-10);
 
+
 	device->getGUIEnvironment()->addImage(pos);
 	statusText = device->getGUIEnvironment()->addStaticText(L"Loading...",	pos, true);
-
-	 
-
+	
 	statusText->setOverrideColor(video::SColor(255,205,200,200));
 
 	s32 now = 0;
-
 	s32 lastfps = 0;
 	sceneStartTime = device->getTimer()->getTime();
 	wchar_t tmp[255];
+	
 	backColor.set(255,90,90,156);
-
+	
 	loadSceneData();
 	switchToNextScene();
 	s32 timeForThisScene = -1;
@@ -91,10 +91,14 @@ void Juego::run()
 		v2.push_back(last_corner);
 		obstacles.push_back(v2);
 		pf.setMapa(obstacles);
-
+		
+			
 		vector<Position> way_points = pf.AEstrella(250);
 		pf.imprimirCamino();
-
+		
+		
+	int unavez=0;
+		hud=Hud(device);
 		
 	while(device->run() && driver)
 	{
@@ -116,6 +120,7 @@ void Juego::run()
 				//npc->way_to(pf.getCamino());
 				swprintf(tmp, 255, L"NpcHealth %f", npc->get_health());
 				statusText->setText(tmp);
+			
 
 					if(npc->get_weapon())
 					{
@@ -144,11 +149,19 @@ void Juego::run()
 						statusText->setText(tmp);
 						break;
 				}*/
-			
+				
 			driver->beginScene(timeForThisScene != -1, true, backColor);
-Hud hud=Hud();
-			hud.drawHud(device);			smgr->drawAll();
+			if(unavez>3 && unavez<51)
+			{
+				hud.drawHud(device,npc,player);
+			
+			}
+				//hud.setHud(npc,player);
+			unavez++;
+			smgr->drawAll();
+			
 			guienv->drawAll();
+			
 			driver->endScene();
 
 
@@ -423,6 +436,8 @@ void Juego::loadSceneData()
 
 	//Meto armas
 	npc->setItems(armas);
+	
+	
 }
 
 bool Juego::OnEvent(const SEvent& event)
