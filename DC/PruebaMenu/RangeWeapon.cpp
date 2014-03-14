@@ -60,7 +60,7 @@ void RangeWeapon::shoot_anim(vector3df scale, vector3df rotation, vector3df star
 	scene::ICameraSceneNode* camera = this->scene_manager->getActiveCamera();
 
 
-
+	
 	if (!camera )
 		return;
 		
@@ -94,6 +94,8 @@ void RangeWeapon::shoot_anim(vector3df scale, vector3df rotation, vector3df star
 			imp.outVector = out;
 			imp.pos = end;
 			imp.collision_flag  = false;
+			imp.x = start.X;
+			imp.z = start.Z;
 		}
 		else
 		{

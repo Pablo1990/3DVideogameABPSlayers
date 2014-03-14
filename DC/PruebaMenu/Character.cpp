@@ -12,6 +12,12 @@ Character::Character(const char* path, ISceneManager *sm)
 		this->heal_count = 0;
 		this->health=100;
 		sh = new Shield(scene_manager);
+
+		this->slow = 1;
+		this->slow_start = -1;
+		this->paralysis = false;
+		this->paralysis_start = -1;
+
 	}
 	catch(...)
 	{}
@@ -199,7 +205,7 @@ bool Character::no_weapon()
 	else return this->weapon->get_weapon_node() == NULL;
 }
 
-void Character::manage_collision(Weapon *)
+void Character::manage_collision(Weapon *, IrrlichtDevice* d)
 {
 }
 
@@ -207,7 +213,7 @@ void Character::attack(float first_x, float first_y, float last_x, float last_y)
 {
 	try
 	{
-		if (this->weapon && !sh->get_cover())
+		if (this->weapon && !sh->get_cover() && !this->paralysis)
 		{
 				this->weapon->attack(first_x, first_y,  last_x,  last_y);
 				if(dynamic_cast<ThrowableItem*>(this->weapon))
@@ -327,4 +333,19 @@ void Character::set_position(double x,double y ,double z)
 	vector3df v3=vector3df(x,y,z);
 	
 	character_node->addAnimator(scene_manager->createFlyStraightAnimator(character_node->getPosition(),v3,150,false,false));
+}
+
+void Character::restore_condition(IrrlichtDevice* d)
+{
+	if(slow_start != -1 && d->getTimer()->getTime() - slow_start > 3000)
+	{
+		slow = 1;
+		slow_start = -1;
+	}
+
+	if(paralysis_start != -1 && d->getTimer()->getTime() - paralysis_start > 3000)
+	{
+		paralysis = false;
+		paralysis_start = -1;
+	}
 }

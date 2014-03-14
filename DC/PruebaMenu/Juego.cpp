@@ -115,10 +115,11 @@ void Juego::run()
 
 			if(npc)
 			{
-				npc->manage_collision(player->get_weapon());
+				npc->manage_collision(player->get_weapon(), device);
 				mente->Arbitrate();
 				mente->ProcessSubgoals();
 				npc->way_to(pf.getCamino());
+				npc->restore_condition(device);
 				/*swprintf(tmp, 255, L"NpcHealth %f", npc->get_health());
 				
 				statusText->setText(tmp);*/
@@ -239,6 +240,11 @@ void Juego::switchToNextScene()
 				core::vector3df(0,45,0), 0.005f);
 	
 		camera->addAnimator(collider);
+		//((ISceneNodeAnimatorCameraFPS*)camera)->setMoveSpeed();
+		//IDEA:
+		/* Para la ralentizar el movimiento dividirlo entre dos, para paralizar poner a 0 y ver que pasa.
+		   El valor por defecto es .4f */
+		
 	}
 	catch(...)
 	{}
@@ -405,7 +411,7 @@ void Juego::loadSceneData()
 	//Spear *sw3 = new Spear(4,5,sm);
 	//Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
 	ThrowableItem *sw3 = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
-
+	
 	npc->set_weapon(sw3);
 	npc->add_weapon_to_node(core::vector3df(0,120,-20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
 	

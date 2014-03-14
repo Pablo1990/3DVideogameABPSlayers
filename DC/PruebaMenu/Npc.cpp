@@ -22,7 +22,7 @@ Npc::~Npc(void)
 {
 }
 
-void Npc::manage_collision(Weapon *w)
+void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 {
 	try
 	{
@@ -81,7 +81,39 @@ void Npc::manage_collision(Weapon *w)
 			}
 			else
 			{
-				if(dynamic_cast<RangeWeapon*>(w))
+				if(dynamic_cast<ThrowableItem*>(w))
+				{
+					ThrowableItem* rw = dynamic_cast<ThrowableItem*>(w);
+					array<SParticleImpact> imp = rw->get_impacts();
+					for(int i = 0; i < imp.size(); i++)
+					{
+						if(!imp[i].collision_flag && (detect_collision(imp[i].node, this->head) || detect_collision(imp[i].node, this->body)
+							|| detect_collision(imp[i].node, this->extremity)))
+						{
+							switch(rw->get_type())
+							{
+								case RED_SHROOM_TYPE:
+									this->slow_start = d->getTimer()->getTime();
+									this->slow = 2;
+									break;
+								case YELLOW_SHROOM_TYPE:
+									this->paralysis_start = d->getTimer()->getTime();
+									this->paralysis = true;
+									break;
+								case BLUE_SHROOM_TYPE:
+									//restan cansancio, aun no hecho
+									break;
+								case TORCH_TYPE:
+									this->health = this->health - 1;
+									break;
+								case STONE_TYPE:
+									this->health = this->health - 1;
+									break;
+							}
+						}
+					}
+				}
+				else if(dynamic_cast<RangeWeapon*>(w))
 				{
 					RangeWeapon* rw = dynamic_cast<RangeWeapon*>(w);
 					array<SParticleImpact> imp = rw->get_impacts();
@@ -97,6 +129,17 @@ void Npc::manage_collision(Weapon *w)
 								{
 									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 0,   0));//RED
 								}
+
+							}
+
+							if(sqrt(pow(imp[i].x - this->character_node->getPosition().X, 2) +
+								pow(imp[i].z - this->character_node->getPosition().Z, 2)) > 2)
+							{
+								this->health = this->health - ((w->get_damage() + 0.50 * w->get_damage()) / 2);
+							}
+							else
+							{
+								this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
 							}
 						}
 						else if(!imp[i].collision_flag && detect_collision(imp[i].node, this->body))
@@ -109,6 +152,18 @@ void Npc::manage_collision(Weapon *w)
 								{
 									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 0,   0,  255));//BLUE
 								}
+
+
+							}
+
+							if(sqrt(pow(imp[i].x - this->character_node->getPosition().X, 2) +
+								pow(imp[i].z - this->character_node->getPosition().Z, 2)) > 2)
+							{
+								this->health = this->health - ((w->get_damage() - 0.40 * w->get_damage()) / 2);
+							}
+							else
+							{
+								this->health = this->health - (w->get_damage() - 0.40 * w->get_damage());
 							}
 						}
 						else if(!imp[i].collision_flag && detect_collision(imp[i].node, this->extremity))
@@ -121,6 +176,16 @@ void Npc::manage_collision(Weapon *w)
 								{
 									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 255, 0));//YELLOW
 								}
+							}
+
+							if(sqrt(pow(imp[i].x - this->character_node->getPosition().X, 2) +
+								pow(imp[i].z - this->character_node->getPosition().Z, 2)) > 2)
+							{
+								this->health = this->health - ((w->get_damage() - 0.20 * w->get_damage()) / 2);
+							}
+							else
+							{
+								this->health = this->health - (w->get_damage() - 0.20 * w->get_damage());
 							}
 						}
 					}
@@ -271,7 +336,7 @@ void Npc::attack(int type)
 {
 	try
 	{
-		if(weapon)
+		if(weapon && !this->paralysis)
 		{
 			weapon->attack(type, this->character_node, this->player->get_position());
 			if(dynamic_cast<ThrowableItem*>(this->weapon))
@@ -312,14 +377,13 @@ void Npc::pick_weapon()
 void Npc::move_to(Position p)
 {
 	
-		/*this->character_node->removeAnimators();
-		this->character_node->addAnimator(scene_manager->createFlyStraightAnimator(character_node->getPosition(), vector3df(p.getX(), p.getY(), p.getZ()), 1000, false, false));*/
-		//this->get_character_node()->removeAnimators();
-		 ISceneNodeAnimator *anim = scene_manager->createFlyStraightAnimator(
-		this->get_position(), vector3df(p.getX(), p.getY(), p.getZ()), 70, false);
-		 this->get_character_node()->addAnimator(anim);
+	if(!paralysis)
+	{
+		ISceneNodeAnimator *anim = scene_manager->createFlyStraightAnimator(
+		this->get_position(), vector3df(p.getX(), p.getY(), p.getZ()), 70 / slow, false);
+		this->get_character_node()->addAnimator(anim);
 		anim->drop();
-		//this->is_moving = true;
+	}
 	
 }
 

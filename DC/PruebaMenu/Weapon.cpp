@@ -175,3 +175,8 @@ bool Weapon::with_shield()
 {
 	return shield;
 }
+
+int Weapon::get_type()
+{
+	return this->ty;
+}

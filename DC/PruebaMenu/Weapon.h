@@ -36,6 +36,7 @@ public:
 	void set_resist(double);
 	double get_resist();
 
+	int get_type();
 
 
 protected:

@@ -23,7 +23,7 @@ public:
 	Npc(ISceneManager *sm, Weapon* w,vector3df);
 	~Npc(void);
 
-	void manage_collision(Weapon *w); 
+	void manage_collision(Weapon *w, IrrlichtDevice* d); 
 
 	bool MoverseAItemSalud();
 	bool MoverseAItemArma();

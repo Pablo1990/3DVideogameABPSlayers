@@ -154,14 +154,14 @@ void Player::defend()
 {
 	try
 	{
-		if(weapon)
+		if(weapon && !this->paralysis)
 		{
 			if((weapon->get_weapon_node() && !weapon->is_animated()) || !weapon->get_weapon_node())
 			{
 				sh->attack(0,0,0,0);
 			}
 		}
-		else
+		else if(!this->paralysis)
 		{
 			sh->attack(0,0,0,0);
 		}

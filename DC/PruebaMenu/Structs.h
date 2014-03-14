@@ -11,6 +11,8 @@ struct SParticleImpact
 	vector3df outVector;
 	bool collision_flag;
 	ISceneNode* node;
+	int x;
+	int z;
 };
 
 enum

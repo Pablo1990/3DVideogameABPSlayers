@@ -22,7 +22,7 @@ public:
 	Weapon* get_weapon();
 	void set_weapon(Weapon* w);
 	
-	virtual void manage_collision(Weapon* w);
+	virtual void manage_collision(Weapon* w, IrrlichtDevice* d);
 	virtual void calculate_joint();
 	virtual void defend();
 	virtual void no_defend();
@@ -47,6 +47,8 @@ public:
 	vector3df get_position();
 	void set_position(double,double,double);
 
+	//Usado para controlar cambios de estado
+	void restore_condition(IrrlichtDevice* d);
 protected:
 	IAnimatedMesh *character_mesh;
 	IAnimatedMeshSceneNode *character_node;
@@ -60,5 +62,9 @@ protected:
 	bool heal_flag;
 	int heal_count;
 	float heal_time;
+	int slow;
+	bool paralysis;
+	int paralysis_start;
+	int slow_start;
 };
 
