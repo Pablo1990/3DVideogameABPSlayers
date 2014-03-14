@@ -91,9 +91,10 @@ void Juego::run()
 		v2.push_back(last_corner);
 		obstacles.push_back(v2);
 		pf.setMapa(obstacles);
-		
-			
-		vector<Position> way_points = pf.AEstrella(250);
+
+
+		vector<Position> way_points = pf.AEstrella(500);
+
 		pf.imprimirCamino();
 		
 		
@@ -117,7 +118,7 @@ void Juego::run()
 				npc->manage_collision(player->get_weapon());
 				mente->Arbitrate();
 				mente->ProcessSubgoals();
-				//npc->way_to(pf.getCamino());
+				npc->way_to(pf.getCamino());
 				swprintf(tmp, 255, L"NpcHealth %f", npc->get_health());
 				statusText->setText(tmp);
 			
@@ -151,6 +152,7 @@ void Juego::run()
 				}*/
 				
 			driver->beginScene(timeForThisScene != -1, true, backColor);
+
 			if(unavez>3 && unavez<51)
 			{
 				hud.drawHud(device,npc,player);
@@ -160,6 +162,7 @@ void Juego::run()
 			unavez++;
 			smgr->drawAll();
 			
+
 			guienv->drawAll();
 			
 			driver->endScene();
@@ -397,13 +400,15 @@ void Juego::loadSceneData()
 
 	//Sword *sw3 = new Sword(4,7,sm);
 	//Spear *sw3 = new Spear(4,5,sm);
-	Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
+	//Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
+	ThrowableItem *sw3 = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
+
 	npc->set_weapon(sw3);
-	npc->add_weapon_to_node(core::vector3df(30,100,-20), core::vector3df(0,90,0), core::vector3df(0.07,0.07,0.07));
-	//npc->add_weapon_to_node(core::vector3df(40,100,0), core::vector3df(180,-50,90), core::vector3df(0.02, 0.02, 0.02));
+	npc->add_weapon_to_node(core::vector3df(0,120,-20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
 	
 	//SWORD: position 40, 100, 0; rotation 180, -50, 90; scale 0.02, 0.02, 0.02
 	//SPEAR: position 10, 100, -20; rotation 90,-50,90, scale 2.5, 2.5, 2.5
+	//BOW: position 40, 100, 0; rotation 180, -50, 90, scale 0.02, 0.02, 0.02
 	std::list<Weapon*> armas =std::list<Weapon*>();
 	dropped_sword = new Sword(0,0,sm);
 	dropped_sword->add_to_scene(core::vector3df(180,5,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);

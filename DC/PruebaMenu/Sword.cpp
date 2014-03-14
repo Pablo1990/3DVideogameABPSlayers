@@ -3,10 +3,12 @@
 
 Sword::Sword(int dmg, int sp, ISceneManager *sm):Weapon(sword_path, dmg, sp, sm, SWORD_TYPE)
 {
+	shield = true;
 }
 
 Sword::~Sword(void)
 {
+		shield = true;
 }
 
 void Sword::attack(float first_x, float first_y, float last_x, float last_y)

@@ -228,6 +228,6 @@ void RangeWeapon::set_ammo_mesh(const char* path)
 
 }
 
-void RangeWeapon::attack(int type,IAnimatedMeshSceneNode* node)
+void RangeWeapon::attack(int type,IAnimatedMeshSceneNode* node, vector3df player_position)
 {
 }
