@@ -233,3 +233,31 @@ void RangeWeapon::set_ammo_mesh(const char* path)
 void RangeWeapon::attack(int type,IAnimatedMeshSceneNode* node, vector3df player_position)
 {
 }
+
+void RangeWeapon::set_impact_at(int index, bool flag)
+{
+	this->Impacts[index].collision_flag = flag;
+}
+
+bool RangeWeapon::get_impact_at(int index)
+{
+	return Impacts[index].collision_flag;
+}
+
+ISceneNode* RangeWeapon::get_impact_node_at(int index)
+{
+	return Impacts[index].node;
+}
+
+int RangeWeapon::get_distance_multiplier(int index, int x, int z)
+{
+	if(sqrt(pow(Impacts[index].x - x, 2) +
+		pow(Impacts[index].z - z, 2)) > 2)
+	{
+		return 2;
+	}
+	else
+	{
+		return 1;
+	}
+}

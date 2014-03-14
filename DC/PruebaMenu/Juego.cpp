@@ -24,13 +24,13 @@ Juego::~Juego(void)
 void Juego::run()
 {
 	bool collision_flag = false;
-	core::dimension2d<u32> resolution(1366, 768);
+	core::dimension2d<u32> resolution(600, 400);
 	
 	irr::SIrrlichtCreationParameters params;
 	params.DriverType=driverType;
 	params.WindowSize=resolution;
 	params.Bits=32;
-	params.Fullscreen=true;
+	params.Fullscreen=false;
 	params.EventReceiver = this;
 
 	device = createDeviceEx(params);
@@ -116,9 +116,9 @@ void Juego::run()
 			if(npc)
 			{
 				npc->manage_collision(player->get_weapon(), device);
-				mente->Arbitrate();
+				/*mente->Arbitrate();
 				mente->ProcessSubgoals();
-				npc->way_to(pf.getCamino());
+				npc->way_to(pf.getCamino());*/
 				npc->restore_condition(device);
 				/*swprintf(tmp, 255, L"NpcHealth %f", npc->get_health());
 				
@@ -418,18 +418,18 @@ void Juego::loadSceneData()
 	//SWORD: position 40, 100, 0; rotation 180, -50, 90; scale 0.02, 0.02, 0.02
 	//SPEAR: position 10, 100, -20; rotation 90,-50,90, scale 2.5, 2.5, 2.5
 	//BOW: position 40, 100, 0; rotation 180, -50, 90, scale 0.02, 0.02, 0.02
-	std::list<Weapon*> armas =std::list<Weapon*>();
+	armas =std::list<Weapon*>();
 	dropped_sword = new Sword(0,0,sm);
 	dropped_sword->add_to_scene(core::vector3df(180,5,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);
-	armas.push_front(dropped_sword);
+	//armas.push_front(dropped_sword);
 
 	dropped_bow = new Bow(0,0,sm, mapSelector, device);
 	dropped_bow->add_to_scene(core::vector3df(230,5,180), core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
-	armas.push_front(dropped_bow);
+	//armas.push_front(dropped_bow);
 
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
 	dropped_red_shroom->add_to_scene(core::vector3df(280,8,180), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
-	armas.push_front(dropped_red_shroom);
+	//armas.push_front(dropped_red_shroom);
 
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM);
 	dropped_red_shroom->add_to_scene(core::vector3df(280,8,230), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
@@ -449,6 +449,11 @@ void Juego::loadSceneData()
 	
 
 	//Meto armas
+	this->add_random_item(vector3df(100,0,100));
+	this->add_random_item(vector3df(500,0,100));
+	this->add_random_item(vector3df(1000,0,100));
+	this->add_random_item(vector3df(700,0,700));
+	this->add_random_item(vector3df(100,0,700));
 	npc->setItems(armas);
 	
 	
@@ -603,5 +608,44 @@ bool Juego::OnEvent(const SEvent& event)
 	}
 
 	return false;
+}
+
+void Juego::add_random_item(vector3df position)
+{
+
+	scene::ISceneManager* sm = device->getSceneManager();
+	position.Y = 8;
+
+	switch(rand() % 7)
+	{
+		case 0:
+			armas.push_front( new Spear(0,0,sm));
+			(*armas.begin())->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true);
+			break;
+		case 1:
+			armas.push_front( new Sword(0,0,sm));
+			(*armas.begin())->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true);
+			break;
+		case 2:
+			armas.push_front(new Bow(0,0,sm, mapSelector, device));
+			(*armas.begin())->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
+			break;
+		case 3:
+			armas.push_front(new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM));
+			(*armas.begin())->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
+			break;
+		case 4:
+			armas.push_front(new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM));
+			(*armas.begin())->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
+			break;
+		case 5:
+			armas.push_front(new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM));
+			(*armas.begin())->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
+			break;
+		case 6:
+			armas.push_front(new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE));
+			(*armas.begin())->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
+			break;
+	}
 }
 

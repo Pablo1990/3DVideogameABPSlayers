@@ -1,4 +1,5 @@
 #include "Character.h"
+#include <iostream>
 
 Character::Character(const char* path, ISceneManager *sm)
 {
@@ -36,6 +37,10 @@ Character::Character(const char* path, ISceneManager *sm, Weapon* w)
 
 		this->health=100;
 		sh = new Shield(scene_manager);
+
+		this->slow = 1;
+		this->slow_start = -1;
+		this->paralysis = false;
 	}
 	catch(...)
 	{

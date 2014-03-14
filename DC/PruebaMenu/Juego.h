@@ -39,6 +39,8 @@ public:
 	virtual bool OnEvent(const SEvent& event);
 	void loadSceneData();
 
+	void add_random_item(vector3df position);
+
 private:
 	video::E_DRIVER_TYPE driverType;
 	IrrlichtDevice *device;
@@ -80,6 +82,7 @@ private:
 	scene::ITriangleSelector* model1_selector;
 	scene::ITriangleSelector* selector;
 	scene::ISceneNodeAnimatorCollisionResponse* collider;
+	std::list<Weapon*> armas;
 
 	enum
 {

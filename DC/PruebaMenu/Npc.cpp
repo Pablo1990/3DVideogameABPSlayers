@@ -84,12 +84,14 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 				if(dynamic_cast<ThrowableItem*>(w))
 				{
 					ThrowableItem* rw = dynamic_cast<ThrowableItem*>(w);
-					array<SParticleImpact> imp = rw->get_impacts();
-					for(int i = 0; i < imp.size(); i++)
+					//array<SParticleImpact> imp = rw->get_impacts();
+					if(!rw->get_impacts().empty())
 					{
-						if(!imp[i].collision_flag && (detect_collision(imp[i].node, this->head) || detect_collision(imp[i].node, this->body)
-							|| detect_collision(imp[i].node, this->extremity)))
+						if((!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->head))
+							|| (!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->body))
+							|| (!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->extremity)))
 						{
+							rw->set_impact_at(0, true);
 							switch(rw->get_type())
 							{
 								case RED_SHROOM_TYPE:
@@ -116,12 +118,12 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 				else if(dynamic_cast<RangeWeapon*>(w))
 				{
 					RangeWeapon* rw = dynamic_cast<RangeWeapon*>(w);
-					array<SParticleImpact> imp = rw->get_impacts();
-					for(int i = 0; i < imp.size(); i++)
+					//array<SParticleImpact> imp = rw->get_impacts();
+					for(int i = 0; i < rw->get_impacts().size(); i++)
 					{
-						if(!imp[i].collision_flag && detect_collision(imp[i].node, this->head))
+						if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->head))
 						{
-							imp[i].collision_flag = true;
+							rw->set_impact_at(i, true);
 							if(scene_manager)
 							{
 								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
@@ -132,19 +134,13 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 
 							}
 
-							if(sqrt(pow(imp[i].x - this->character_node->getPosition().X, 2) +
-								pow(imp[i].z - this->character_node->getPosition().Z, 2)) > 2)
-							{
-								this->health = this->health - ((w->get_damage() + 0.50 * w->get_damage()) / 2);
-							}
-							else
-							{
-								this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
-							}
+								this->health = this->health - ((w->get_damage() + 0.50 * w->get_damage()) 
+								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
+								this->character_node->getPosition().Z));
 						}
-						else if(!imp[i].collision_flag && detect_collision(imp[i].node, this->body))
+						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->body))
 						{
-							imp[i].collision_flag = true;
+							rw->set_impact_at(i, true);
 							if(scene_manager)
 							{
 								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
@@ -156,19 +152,14 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 
 							}
 
-							if(sqrt(pow(imp[i].x - this->character_node->getPosition().X, 2) +
-								pow(imp[i].z - this->character_node->getPosition().Z, 2)) > 2)
-							{
-								this->health = this->health - ((w->get_damage() - 0.40 * w->get_damage()) / 2);
-							}
-							else
-							{
-								this->health = this->health - (w->get_damage() - 0.40 * w->get_damage());
-							}
+							this->health = this->health - ((w->get_damage() - 0.40 * w->get_damage()) 
+								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
+								this->character_node->getPosition().Z));
+							
 						}
-						else if(!imp[i].collision_flag && detect_collision(imp[i].node, this->extremity))
+						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->extremity))
 						{
-							imp[i].collision_flag = true;
+							rw->set_impact_at(i, true);
 							if(scene_manager)
 							{
 								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
@@ -178,15 +169,9 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 								}
 							}
 
-							if(sqrt(pow(imp[i].x - this->character_node->getPosition().X, 2) +
-								pow(imp[i].z - this->character_node->getPosition().Z, 2)) > 2)
-							{
-								this->health = this->health - ((w->get_damage() - 0.20 * w->get_damage()) / 2);
-							}
-							else
-							{
-								this->health = this->health - (w->get_damage() - 0.20 * w->get_damage());
-							}
+								this->health = this->health - ((w->get_damage() - 0.20 * w->get_damage())  
+								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
+								this->character_node->getPosition().Z));
 						}
 					}
 				}

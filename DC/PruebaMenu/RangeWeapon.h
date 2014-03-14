@@ -18,6 +18,10 @@ public:
 	array<SParticleImpact> get_impacts();
 	void set_collision_flag(bool flag, int index);
 	void set_ammo_mesh(const char* path);
+	void set_impact_at(int index, bool flag);
+	bool get_impact_at(int index);
+	ISceneNode* get_impact_node_at(int index);
+	int get_distance_multiplier(int index, int x, int z);
 protected:
 	array<SParticleImpact> Impacts;
 	ITriangleSelector* mapSelector;
