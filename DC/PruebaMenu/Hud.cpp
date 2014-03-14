@@ -16,6 +16,8 @@ Hud::Hud(IrrlichtDevice* device)
 	skin->setColor(EGDC_3D_FACE  , video::SColor(1,25,250,15));
 	skin->setColor(EGDC_3D_HIGH_LIGHT   , video::SColor(2,175,238,238));
 
+
+
 	
 
 	
@@ -30,11 +32,11 @@ Hud::Hud()
 {
 
 }
-void Hud::setSkinTransparency(irr::gui::IGUISkin * skin)
+void Hud::setSkinTransparency( irr::gui::IGUISkin * skin)
 {
-    skin->setColor(EGDC_3D_SHADOW  , video::SColor(1,25,250,15));
-	skin->setColor(EGDC_3D_FACE  , video::SColor(1,25,250,15));
-	skin->setColor(EGDC_3D_HIGH_LIGHT   , video::SColor(2,175,238,238));
+   skin->setColor(EGDC_3D_SHADOW  , video::SColor(50,25,250,15));
+	skin->setColor(EGDC_3D_FACE  , video::SColor(50,25,250,15));
+	skin->setColor(EGDC_3D_HIGH_LIGHT   , video::SColor(50,175,238,238));
 }
 void Hud:: drawHud(IrrlichtDevice* device,Npc* npc, Player* player)
 {
@@ -51,16 +53,16 @@ void Hud:: drawHud(IrrlichtDevice* device,Npc* npc, Player* player)
 	//Salud
 	textSalud=  device ->getGUIEnvironment()->addStaticText(L"Salud:", core::rect<s32>(5,55,80,86), false, false, tab);
 	textSalud ->setOverrideColor(video::SColor(250,0,0,78));
-	swprintf(tmp, 255, L"%.2f / 100", player->get_health());
+	swprintf(tmp, 255, L"", player->get_health());
 	
-		VSalud= device ->getGUIEnvironment()->addStaticText(tmp, core::rect<s32>(50,75,150,96), false, false, tab);
+		VSalud= device ->getGUIEnvironment()->addStaticText(L"", core::rect<s32>(50,75,150,96), false, false, tab);
 	VSalud ->setOverrideColor(video::SColor(250,78,15,8));
 
 	//Desgaste Arma:
 	textDesgaste=  device ->getGUIEnvironment()->addStaticText(L"Desgaste Arma:", core::rect<s32>(5,105,100,136), false, false, tab);
 	textDesgaste ->setOverrideColor(video::SColor(250,0,0,78));
-	swprintf(tmp, 255, L"%.2f / 15", player->get_weapon()->get_resist());
-	Desgaste =device ->getGUIEnvironment()->addStaticText(tmp, core::rect<s32>(50,135,150,176), false, false, tab);
+	swprintf(tmp, 255, L"", player->get_weapon()->get_resist());
+	Desgaste =device ->getGUIEnvironment()->addStaticText(L"", core::rect<s32>(50,135,150,176), false, false, tab);
 	Desgaste ->setOverrideColor(video::SColor(250,78,15,8));
 
 	//Cansancio
@@ -71,32 +73,44 @@ void Hud:: drawHud(IrrlichtDevice* device,Npc* npc, Player* player)
 
 	//Info de enemigo
 	device ->getGUIEnvironment()->addImage( core::rect<s32>(0,205,250,209),tab,0,0);
-	swprintf(tmp, 255, L"Salud Enemigo: %.2f / 100", npc->get_health());
-	SaludBot= device ->getGUIEnvironment()->addStaticText(tmp, core::rect<s32>(10,215,200,286), false, false, tab);
-	SaludBot ->setOverrideColor(video::SColor(250,75,0,130));
+	swprintf(tmp, 255, L"", npc->get_health());
+	SaludBot= device ->getGUIEnvironment()->addStaticText(L"", core::rect<s32>(10,215,200,286), false, false, tab);
+	SaludBot ->setOverrideColor(video::SColor(250,255,255,255));
       	
 }
 
 void Hud::setHud(Npc* npc, Player* player)
 {
 	wchar_t tmp[255];
-	swprintf(tmp, 255, L"%.2f / 100", player->get_health());
+	if(player)
+	{
+		
+		swprintf(tmp, 255, L"%.2f / 100",player->get_health());
+		if(VSalud)
+			VSalud->setText(tmp);
 
-	if(VSalud)
-		VSalud->setText(tmp);
+		if(player->get_weapon() !=NULL)
+		{
+			swprintf(tmp, 255, L" %.2f / 15", player->get_weapon()->get_resist());
 
-	swprintf(tmp, 255, L"%.2f / 15",  player->get_weapon()->get_resist());
-
-	if(Desgaste)
-		Desgaste->setText(tmp);
+			if(Desgaste)
+				Desgaste->setText(tmp);
+				
+		}
+			
+	}
+	
 
 
 	//Falta Cansancio
+	if(npc)
+	{
+		swprintf(tmp, 255, L"Salud Enemigo: %.2f / 100", npc->get_health());
 
-	swprintf(tmp, 255, L"%.2f / 100", npc->get_health());
-
-	if(SaludBot)
-		SaludBot->setText(tmp);
+		if(SaludBot)
+			SaludBot->setText(tmp);
+	}
+		
 
 }
 void Hud::drawHudText

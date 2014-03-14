@@ -42,7 +42,7 @@ public:
 private:
 	video::E_DRIVER_TYPE driverType;
 	IrrlichtDevice *device;
-	Hud hud;
+	Hud * hud;
 	s32 sceneStartTime;
 	gui::IGUIStaticText* statusText;
 	gui::IGUIStaticText* statusText2;
