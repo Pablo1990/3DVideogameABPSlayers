@@ -24,7 +24,7 @@ void Weapon::add_to_scene(vector3df position, vector3df rotation, vector3df scal
 	{
 		if(scene_manager)
 			this->weapon_node = scene_manager->addAnimatedMeshSceneNode(this->weapon_mesh, 0, IDFlag_IsPickable);
-	
+			
 		if(this->weapon_node)
 		{
 			this->weapon_node->setScale(scale);

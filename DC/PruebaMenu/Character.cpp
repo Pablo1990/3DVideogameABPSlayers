@@ -220,15 +220,15 @@ void Character::attack(float first_x, float first_y, float last_x, float last_y)
 	{
 		if (this->weapon && !sh->get_cover() && !this->paralysis)
 		{
-				this->weapon->attack(first_x, first_y,  last_x,  last_y);
-				if(dynamic_cast<ThrowableItem*>(this->weapon))
+			this->weapon->attack(first_x, first_y,  last_x,  last_y);
+			if(dynamic_cast<ThrowableItem*>(this->weapon))
+			{
+				if(weapon->get_weapon_node())
 				{
-					if(weapon->get_weapon_node())
-					{
-						this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
-						this->weapon->set_weapon_node(NULL);
-					}
+					this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
+					this->weapon->set_weapon_node(NULL);
 				}
+			}
 		}
 	}
 	catch(...)

@@ -73,6 +73,7 @@ void ThrowableItem::attack(float first_x, float first_y, float last_x, float las
 			this->shoot_anim(weapon_node->getScale(), camera->getRotation(), camera->getPosition(), 
 				camera->getTarget() - camera->getPosition(), camera->getFarValue());
 			shot = true;
+			resist = 0;
 		}
 	}
 	catch(...)

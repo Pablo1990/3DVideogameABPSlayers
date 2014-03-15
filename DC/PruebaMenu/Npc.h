@@ -60,7 +60,6 @@ private:
 	std::list<Weapon*> items;
 	vector3df posHealth;
 	Weapon* near_weapon;
-	bool is_dead;
 	bool is_moving;
 	int steps_count;
 	

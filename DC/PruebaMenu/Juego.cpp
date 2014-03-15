@@ -78,29 +78,31 @@ void Juego::run()
 	int spine_hit = 0;
 	int ex_hit = 0;
 
-		scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
-		core::line3d<f32> ray;
-		int attack_count = 0;
+	scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
+	core::line3d<f32> ray;
+	int attack_count = 0;
 		
-		Position p1(npc->get_position().X, 0, npc->get_position().Z);
-		Position p2(npc->get_position().X + 700, 0, npc->get_position().Z);
-		Pathfinding pf(p1, p2);
-		Position last_corner(1894.93, 1, 1294.88);
-		vector<vector<Position>> obstacles;
-		vector<Position> v2;
-		v2.push_back(last_corner);
-		obstacles.push_back(v2);
-		pf.setMapa(obstacles);
+	Position p1(npc->get_position().X, 0, npc->get_position().Z);
+	Position p2(npc->get_position().X + 700, 0, npc->get_position().Z);
+	Pathfinding pf(p1, p2);
+	Position last_corner(1894.93, 1, 1294.88);
+	vector<vector<Position>> obstacles;
+	vector<Position> v2;
+	v2.push_back(last_corner);
+	obstacles.push_back(v2);
+	pf.setMapa(obstacles);
 
 
-		vector<Position> way_points = pf.AEstrella(500);
+	vector<Position> way_points = pf.AEstrella(500);
 
-		pf.imprimirCamino();
+	pf.imprimirCamino();
 		
 		
 	int unavez=0;
 	hud=new Hud(device);
 		hud->drawHud(device,npc,player);
+
+
 	while(device->run() && driver)
 	{
 		if (device->isWindowActive())
@@ -632,19 +634,19 @@ void Juego::add_random_item(vector3df position)
 			break;
 		case 3:
 			armas.push_front(new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM));
-			(*armas.begin())->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
+			(*armas.begin())->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
 			break;
 		case 4:
 			armas.push_front(new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM));
-			(*armas.begin())->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
+			(*armas.begin())->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
 			break;
 		case 5:
 			armas.push_front(new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM));
-			(*armas.begin())->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
+			(*armas.begin())->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
 			break;
 		case 6:
 			armas.push_front(new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE));
-			(*armas.begin())->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true);
+			(*armas.begin())->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true);
 			break;
 	}
 }

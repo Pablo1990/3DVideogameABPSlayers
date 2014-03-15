@@ -8,10 +8,10 @@ Player::Player(ISceneManager *sm, ITriangleSelector* ms, ICameraSceneNode *camer
 	cam = camera;
 }
 
-Player::Player(ISceneManager *sm, Weapon* w, ITriangleSelector* ms,ICameraSceneNode *camera): Character(knight_path, sm, w)
+Player::Player(ISceneManager *sm, Weapon* w, ITriangleSelector* ms, ICameraSceneNode *camera): Character(knight_path, sm, w)
 {
 		mapSelector = ms;
-		cam = camera;
+		cam = camera;;
 }
 
 
@@ -19,28 +19,180 @@ Player::~Player(void)
 {
 }
 
-void Player::manage_collision(Weapon *w)
+void Player::manage_collision(Weapon *w, IrrlichtDevice* d)
 {
 	try
 	{
-		if(!w->get_collision_flag())
+		
+		//RangeWeapon* rw2 = dynamic_cast<RangeWeapon*>(w);
+		if (w != NULL && !is_dead) 
 		{
-			if(this->detect_collision(w->get_weapon_node(), this->head))
+			if(!dynamic_cast<RangeWeapon*>(w) && !w->get_collision_flag() && w->is_animated())
 			{
-				w->set_collision_flag(true);
+				if (detect_collision(w->get_weapon_node(), this->head))
+				{
+					w->set_collision_flag(true);
+					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
+					//this->health = 0;
+					
+					
+
+					if(scene_manager)
+					{
+						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
+						if(mesh_manipulator)
+						{
+							mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 0,   0));//RED
+						}
+					}
+				}
+				else if (detect_collision(w->get_weapon_node(), this->body))
+				{
+					w->set_collision_flag(true);
+					this->health = this->health - (w->get_damage() - 0.20 * w->get_damage());
+
+					if(scene_manager)
+					{
+						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
+						if(mesh_manipulator)
+						{
+							mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 0,   0,  255));//BLUE
+						}
+					}
+				}
+				else if (detect_collision(w->get_weapon_node(), this->extremity))
+				{
+					w->set_collision_flag(true);
+					int restar = w->get_damage() - 0.40 * w->get_damage();
+					this->health = this->health - (w->get_damage() - 0.40 * w->get_damage());
+
+					if(scene_manager)
+					{
+						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
+						if(mesh_manipulator)
+						{
+							mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 255, 0));//YELLOW
+						}
+					}
+				}
 			}
-			else if(this->detect_collision(w->get_weapon_node(), this->body))
+			else
 			{
-				w->set_collision_flag(true);
+				if(dynamic_cast<ThrowableItem*>(w))
+				{
+					ThrowableItem* rw = dynamic_cast<ThrowableItem*>(w);
+					//array<SParticleImpact> imp = rw->get_impacts();
+					if(!rw->get_impacts().empty())
+					{
+						if((!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->head))
+							|| (!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->body))
+							|| (!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->extremity)))
+						{
+							rw->set_impact_at(0, true);
+							switch(rw->get_type())
+							{
+								case RED_SHROOM_TYPE:
+									this->slow_start = d->getTimer()->getTime();
+									this->slow = 2;
+									((ISceneNodeAnimatorCameraFPS*)cam)->setMoveSpeed(.2f);
+									break;
+								case YELLOW_SHROOM_TYPE:
+									this->paralysis_start = d->getTimer()->getTime();
+									this->paralysis = true;
+									((ISceneNodeAnimatorCameraFPS*)cam)->setMoveSpeed(0);
+									break;
+								case BLUE_SHROOM_TYPE:
+									//restan cansancio, aun no hecho
+									break;
+								case TORCH_TYPE:
+									this->health = this->health - 1;
+									break;
+								case STONE_TYPE:
+									this->health = this->health - 1;
+									break;
+							}
+						}
+					}
+				}
+				else if(dynamic_cast<RangeWeapon*>(w))
+				{
+					RangeWeapon* rw = dynamic_cast<RangeWeapon*>(w);
+					//array<SParticleImpact> imp = rw->get_impacts();
+					for(int i = 0; i < rw->get_impacts().size(); i++)
+					{
+						if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->head))
+						{
+							rw->set_impact_at(i, true);
+							if(scene_manager)
+							{
+								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
+								if(mesh_manipulator)
+								{
+									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 0,   0));//RED
+								}
+
+							}
+
+								this->health = this->health - ((w->get_damage() + 0.50 * w->get_damage()) 
+								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
+								this->character_node->getPosition().Z));
+						}
+						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->body))
+						{
+							rw->set_impact_at(i, true);
+							if(scene_manager)
+							{
+								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
+								if(mesh_manipulator)
+								{
+									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 0,   0,  255));//BLUE
+								}
+
+
+							}
+
+							this->health = this->health - ((w->get_damage() - 0.40 * w->get_damage()) 
+								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
+								this->character_node->getPosition().Z));
+							
+						}
+						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->extremity))
+						{
+							rw->set_impact_at(i, true);
+							if(scene_manager)
+							{
+								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
+								if(mesh_manipulator)
+								{
+									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 255, 0));//YELLOW
+								}
+							}
+
+								this->health = this->health - ((w->get_damage() - 0.20 * w->get_damage())  
+								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
+								this->character_node->getPosition().Z));
+						}
+					}
+				}
 			}
-			else if(this->detect_collision(w->get_weapon_node(), this->body))
+		
+
+			if((int)health <= 0 && !is_dead)
 			{
-				w->set_collision_flag(true);
+				this->health = 0;
+		
+				//character_node->setFrameLoop(62,211);
+				//character_node->setAnimationSpeed(15);
+				//character_node->setLoopMode(true);
+				is_dead = true;
+			
 			}
 		}
 	}
 	catch(...)
-	{}
+	{
+
+	}
 }
 
 void Player::drop_weapon(ISceneNode* cam)
@@ -189,5 +341,22 @@ void Player::no_defend()
 	}
 	catch(...)
 	{
+	}
+}
+
+void Player::restore_condition(IrrlichtDevice* d)
+{
+	if(slow_start != -1 && d->getTimer()->getTime() - slow_start > 3000)
+	{
+		slow = 1;
+		slow_start = -1;
+		((ISceneNodeAnimatorCameraFPS*)cam)->setMoveSpeed(.4f);
+	}
+
+	if(paralysis_start != -1 && d->getTimer()->getTime() - paralysis_start > 3000)
+	{
+		paralysis = false;
+		paralysis_start = -1;
+		((ISceneNodeAnimatorCameraFPS*)cam)->setMoveSpeed(.4f);
 	}
 }

@@ -73,6 +73,7 @@ void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 						weapon_node->setLoopMode(false);
 				}
 			}
+			resist = resist - 1;
 	}
 	}
 	catch(...)

@@ -27,7 +27,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 	try
 	{
 		
-		RangeWeapon* rw2 = dynamic_cast<RangeWeapon*>(w);
+		//RangeWeapon* rw2 = dynamic_cast<RangeWeapon*>(w);
 		if (w != NULL && !is_dead) 
 		{
 			if(!dynamic_cast<RangeWeapon*>(w) && !w->get_collision_flag() && w->is_animated())

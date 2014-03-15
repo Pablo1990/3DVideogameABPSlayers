@@ -12,11 +12,13 @@ public:
 	Player(ISceneManager *sm, Weapon* w, ITriangleSelector *ms, ICameraSceneNode *camera);
 	~Player(void);
 	
-	void manage_collision(Weapon *w); 
+	void manage_collision(Weapon *w, IrrlichtDevice* d); 
 	void drop_weapon(ISceneNode* cam);
 	void pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, IrrlichtDevice *device);
 	void defend();
 	void no_defend();
+
+	void restore_condition(IrrlichtDevice* d);
 
 private:
 	ICameraSceneNode *cam;

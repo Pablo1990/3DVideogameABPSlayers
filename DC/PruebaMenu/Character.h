@@ -48,7 +48,7 @@ public:
 	void set_position(double,double,double);
 
 	//Usado para controlar cambios de estado
-	void restore_condition(IrrlichtDevice* d);
+	virtual void restore_condition(IrrlichtDevice* d);
 protected:
 	IAnimatedMesh *character_mesh;
 	IAnimatedMeshSceneNode *character_node;
@@ -66,5 +66,6 @@ protected:
 	bool paralysis;
 	int paralysis_start;
 	int slow_start;
+	bool is_dead;
 };
 
