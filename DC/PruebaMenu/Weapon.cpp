@@ -1,4 +1,5 @@
 #include "Weapon.h"
+#include <iostream>
 
 Weapon::Weapon(const char* path, int dmg = 0, int sp = 0, ISceneManager *sm = 0, int t = -1)
 {
@@ -18,7 +19,7 @@ Weapon::Weapon(const char* path, int dmg = 0, int sp = 0, ISceneManager *sm = 0,
 	{}
 }
 
-void Weapon::add_to_scene(vector3df position, vector3df rotation, vector3df scale, bool pickable)
+void Weapon::add_to_scene(vector3df position, vector3df rotation, vector3df scale, bool pickable, int index)
 {
 	try
 	{
@@ -37,7 +38,10 @@ void Weapon::add_to_scene(vector3df position, vector3df rotation, vector3df scal
 			selector->drop();
 			main_position = position;
 			main_rotation = rotation;
-			weapon_node->setName(std::to_string(ty).c_str());
+			weapon_node->setName((std::to_string(ty) + '_' + std::to_string(index)).c_str());
+			cout << weapon_node->getName() << endl;
+						weapon_node->setDebugDataVisible(EDS_BBOX_ALL);
+
 		}
 	}
 	catch(...)
@@ -58,7 +62,7 @@ void Weapon::add_to_camera(vector3df position, vector3df rotation, vector3df sca
 			this->weapon_node->setRotation(rotation);
 			main_position = position;
 			main_rotation = rotation;
-		//	weapon_node->setDebugDataVisible(EDS_BBOX_ALL);
+			weapon_node->setDebugDataVisible(EDS_BBOX_ALL);
 
 		}
 	}
@@ -126,6 +130,8 @@ vector3df Weapon::get_absolute_position()
 
 Weapon::~Weapon(void)
 {
+	weapon_mesh->drop();
+	weapon_node->remove();
 }
 
 void Weapon::attack(float first_x, float first_y, float last_x, float last_y)
@@ -179,4 +185,9 @@ bool Weapon::with_shield()
 int Weapon::get_type()
 {
 	return this->ty;
+}
+
+vector3df Weapon::get_main_position()
+{
+	return main_position;
 }

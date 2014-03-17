@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <string.h>
+#include <iostream>;
 using namespace std;
 
 Player::Player(ISceneManager *sm, ITriangleSelector* ms, ICameraSceneNode *camera): Character(knight_path, sm)
@@ -217,51 +218,53 @@ void Player::pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, 	IrrlichtDe
 {
 	try
 	{
+		int pick_type = atoi(((std::string)w->getName()).substr(0, strcspn(w->getName(), "_")).c_str()); // strcspn (str,keys);//strtok(((std::string)w->getName()), "_");
+		cout << "Recojo " << pick_type << endl;
 		if (no_weapon() && cam != NULL && (cam = dynamic_cast<ICameraSceneNode*>(cam)))
 		{
-			if(atoi(w->getName()) == SWORD_TYPE)
+			if(pick_type == SWORD_TYPE)
 			{
 				weapon = new Sword(0,0,scene_manager);
 				weapon -> add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), cam);
 				pick_shield();
 			}
-			else if(atoi(w->getName()) ==  BOW_TYPE)
+			else if(pick_type ==  BOW_TYPE)
 			{
 				weapon = new Bow(0,0,scene_manager, mapSelector, device);
 				weapon->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,-90,0), core::vector3df(0.02,0.02,0.02), cam);
 				drop_shield();
 			}	
-			else if(atoi(w->getName()) ==  RED_SHROOM_TYPE)
+			else if(pick_type ==  RED_SHROOM_TYPE)
 			{
 				weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::RED_SHROOM);
 				weapon->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,-90,0), core::vector3df(0.02,0.02,0.02), cam);
 				pick_shield();
 			}	
-			else if(atoi(w->getName()) == SPEAR_TYPE)
+			else if(pick_type == SPEAR_TYPE)
 			{
 				weapon = new Spear(0,0,scene_manager);
 				weapon -> add_to_camera(core::vector3df(10,-30,20), core::vector3df(-140,0,0), core::vector3df(1.4,1.4,1.4), cam);
 				drop_shield();
 			}
-			else if(atoi(w->getName()) ==  BLUE_SHROOM_TYPE)
+			else if(pick_type ==  BLUE_SHROOM_TYPE)
 			{
 				weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::BLUE_SHROOM);
 				weapon->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,-90,0), core::vector3df(0.02,0.02,0.02), cam);
 				pick_shield();
 			}	
-			else if(atoi(w->getName()) ==  YELLOW_SHROOM_TYPE)
+			else if(pick_type ==  YELLOW_SHROOM_TYPE)
 			{
 				weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::YELLOW_SHROOM);
 				weapon->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,-90,0), core::vector3df(0.02,0.02,0.02), cam);
 				pick_shield();
 			}
-			else if(atoi(w->getName()) ==  STONE_TYPE)
+			else if(pick_type ==  STONE_TYPE)
 			{
 				weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::STONE);
 				weapon->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,-90,0), core::vector3df(0.05,0.05,0.05), cam);
 				pick_shield();
 			}
-			else if(atoi(w->getName()) ==  TORCH_TYPE)
+			else if(pick_type ==  TORCH_TYPE)
 			{
 				weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::TORCH);
 				weapon->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,-90,0), core::vector3df(1,1,1), cam);

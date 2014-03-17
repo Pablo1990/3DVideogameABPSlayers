@@ -7,7 +7,7 @@ RangeWeapon::RangeWeapon(const char* path, int dmg, int sp, ISceneManager *sm, I
 	device = d;
 
 	//Obtener mesh
-	ammo_mesh = sm->getMesh(ammo_path);
+	this->ammo_mesh = sm->getMesh(ammo_path);
 
 	try
 	{

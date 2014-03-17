@@ -2,8 +2,12 @@
 #include <irrlicht.h>
 #include <vector>
 #include "Weapon.h"
+#include <list>
 #include "ThrowableItem.h"
 #include "Shield.h"
+#include "Bow.h"
+#include "Spear.h"
+#include "Sword.h"
 #include <string>
 using namespace irr;
 using namespace scene;
@@ -49,6 +53,8 @@ public:
 
 	//Usado para controlar cambios de estado
 	virtual void restore_condition(IrrlichtDevice* d);
+	void replace_random_item(std::list<Weapon*> armas, int index, IrrlichtDevice *device, ITriangleSelector* mapSelector);
+
 protected:
 	IAnimatedMesh *character_mesh;
 	IAnimatedMeshSceneNode *character_node;

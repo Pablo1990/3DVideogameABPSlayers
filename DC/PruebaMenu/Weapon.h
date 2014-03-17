@@ -1,6 +1,8 @@
 #pragma once
 #include <irrlicht.h>
 #include <string>
+#include <iostream>
+using namespace std;
 using namespace irr;
 using namespace std;
 using namespace core;
@@ -27,7 +29,7 @@ public:
 	virtual void attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position);
 	bool with_shield();
 
-	void add_to_scene(vector3df position, vector3df rotation, vector3df scale, bool pickable);
+	void add_to_scene(vector3df position, vector3df rotation, vector3df scale, bool pickable, int index);
 	void add_to_camera(vector3df position,vector3df rotation, vector3df scale, ISceneNode* camera);
 	void add_to_node(vector3df position,vector3df rotation, vector3df scale, ISceneNode* node);
 	virtual bool is_animated();
@@ -38,6 +40,7 @@ public:
 
 	int get_type();
 
+	vector3df get_main_position();
 
 protected:
 	int damage;

@@ -41,6 +41,9 @@ public:
 
 	void add_random_item(vector3df position);
 
+	void replace_random_item( int index);
+
+
 private:
 	video::E_DRIVER_TYPE driverType;
 	IrrlichtDevice *device;
@@ -83,6 +86,7 @@ private:
 	scene::ITriangleSelector* selector;
 	scene::ISceneNodeAnimatorCollisionResponse* collider;
 	std::list<Weapon*> armas;
+	int last_drop;
 
 	enum
 {

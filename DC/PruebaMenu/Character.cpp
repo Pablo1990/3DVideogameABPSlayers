@@ -1,6 +1,7 @@
 #include "Character.h"
 #include <iostream>
 
+
 Character::Character(const char* path, ISceneManager *sm)
 {
 	try
@@ -354,3 +355,4 @@ void Character::restore_condition(IrrlichtDevice* d)
 		paralysis_start = -1;
 	}
 }
+
