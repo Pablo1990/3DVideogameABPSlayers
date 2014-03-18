@@ -125,7 +125,8 @@ void Juego::run()
 				/*swprintf(tmp, 255, L"NpcHealth %f", npc->get_health());
 				
 				statusText->setText(tmp);*/
-			
+				if(player)
+					npc->face_target(player->get_character_node());
 
 					if(npc->get_weapon())
 					{
@@ -683,7 +684,7 @@ void Juego::replace_random_item( int index)
 		{
 			//(*it)->get_weapon_node()->setVisible(false);
 			//sm->addToDeletionQueue((*it)->get_weapon_node());
-			(*it)->get_weapon_node()->drop();
+			(*it)->get_weapon_node()->remove();
 			//delete (*it);
 		}
 		Weapon *w;
@@ -695,6 +696,7 @@ void Juego::replace_random_item( int index)
 		{
 			case 0:
 			armas.push_back( new Spear(0,0,sm));
+			position.Y = 25;
 			(*(--armas.end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas.size() - 1);
 			break;
 		case 1:
@@ -728,7 +730,7 @@ void Juego::replace_random_item( int index)
 		int i = 0;
 		for(it = armas.begin(); it != armas.end(); ++it)
 		{
-			if(i > index && it != --armas.end())
+			if(i >= index && it != --armas.end())
 			{
 				number = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(strcspn((*it)->get_weapon_node()->getName(), "_") + 1).c_str());
 				number--;

@@ -54,6 +54,9 @@ public:
 	//Moverse a un punto
 	void move_to(Position p);
 	void way_to(vector<Position> vp);
+
+	void face_target(ISceneNode* target);
+	void face_target(vector3df targt_pos);
 private:
 	Goal_Think *mente;
 	Player *player;

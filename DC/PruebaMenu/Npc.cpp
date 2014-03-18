@@ -403,3 +403,48 @@ void Npc::way_to(vector<Position> vp)
 	{}
 
 }
+
+void Npc::face_target(ISceneNode* target)
+{
+	vector3df target_pos = target->getPosition();
+	vector3df my_rotation = this->character_node->getRotation();
+
+	vector3df node_pos = target_pos - this->character_node->getPosition();
+	my_rotation.Y = atan(node_pos.Z/node_pos.X) * (180.0/irr::core::PI);
+
+	if((target_pos.X - this->character_node->getPosition().X) > 0)
+	{
+		my_rotation.Y = 90 - my_rotation.Y;
+	}
+	else if((target_pos.X - this->character_node->getPosition().X) < 0)
+	{
+		my_rotation.Y = -90 - my_rotation.Y;
+	}
+
+	my_rotation.Y -= 180;
+
+	this->character_node->setRotation(my_rotation);
+
+}
+
+void Npc::face_target(vector3df target_pos)
+{
+	vector3df my_rotation = this->character_node->getRotation();
+
+	vector3df node_pos = target_pos - this->character_node->getPosition();
+	my_rotation.Y = atan(node_pos.Z/node_pos.X) * (180.0/irr::core::PI);
+
+	if((target_pos.X - this->character_node->getPosition().X) > 0)
+	{
+		my_rotation.Y = 90 - my_rotation.Y;
+	}
+	else if((target_pos.X - this->character_node->getPosition().X) < 0)
+	{
+		my_rotation.Y = -90 - my_rotation.Y;
+	}
+
+	my_rotation.Y -= 180;
+
+	this->character_node->setRotation(my_rotation);
+
+}
