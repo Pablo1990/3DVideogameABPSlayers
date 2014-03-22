@@ -19,7 +19,8 @@ Character::Character(const char* path, ISceneManager *sm)
 		this->slow_start = -1;
 		this->paralysis = false;
 		this->paralysis_start = -1;
-
+		this->last_fall_time = 0;
+		this->last_height = 0;
 	}
 	catch(...)
 	{}
@@ -73,12 +74,13 @@ void Character::add_to_scene(vector3df position, vector3df rotation, vector3df s
 	try
 	{
 		this->character_node = scene_manager->addAnimatedMeshSceneNode(this->character_mesh);
-
+		this->last_height = this->character_node->getPosition().Y;
 		
 
 		if (this->character_node)
 		{
 			do_transformations_and_joints(position, rotation, scale);
+			this->last_height = character_node->getPosition().Y;
 
 			if((!weapon || (weapon && weapon->with_shield())) && sh)
 				sh->add_to_camera(vector3df(-30,110,-30), vector3df(0,180,0), vector3df(30,30,30), this->character_node);
@@ -99,6 +101,7 @@ void Character::add_to_camera(vector3df position, vector3df rotation, vector3df 
 		character_node->setMaterialType(EMT_TRANSPARENT_ALPHA_CHANNEL);
 		character_node->setMaterialFlag(EMF_COLOR_MASK, 0);
 		//character_node->setDebugDataVisible(EDS_BBOX_ALL);
+		this->last_height = this->character_node->getPosition().Y;
 
 		if(!weapon || (weapon && weapon->with_shield()))
 			sh->add_to_camera(vector3df(-5,-5,5), vector3df(0,0,0), vector3df(3,3,3), camera);
@@ -108,6 +111,7 @@ void Character::add_to_camera(vector3df position, vector3df rotation, vector3df 
 		{
 			do_transformations_and_joints(position, rotation, scale);
 			this->character_node->addShadowVolumeSceneNode();
+			this->last_height = character_node->getPosition().Y;
 		}
 	}
 	catch(...)
@@ -234,6 +238,43 @@ void Character::attack(float first_x, float first_y, float last_x, float last_y)
 	}
 	catch(...)
 	{}
+}
+
+void Character::fall_down(IrrlichtDevice* device)
+{
+
+	int character_position = this->character_node->getPosition().Y;
+	
+	if(this->character_node->getPosition().Y > last_height)
+	{
+		last_height = this->character_node->getPosition().Y;
+	}
+
+	if(last_height - this->character_node->getPosition().Y > 140 /*device->getTimer()->getTime() - last_fall_time > 1000*/)
+	{
+		if(device->getTimer()->getTime() - last_fall_time > 1000)
+		{
+			this->health = this->health - 10;
+			last_fall_time = device->getTimer()->getTime();
+			last_height = this->character_node->getPosition().Y;
+		}
+
+	}
+	else if(this->character_node->getPosition().Y == last_height && device->getTimer()->getTime() - last_fall_time > 1000)
+	{
+		last_fall_time = device->getTimer()->getTime();
+	}
+
+	if((int)health <= 0 && !is_dead)
+	{
+		this->health = 0;
+		
+		//character_node->setFrameLoop(62,211);
+		//character_node->setAnimationSpeed(15);
+		//character_node->setLoopMode(true);
+		is_dead = true;
+			
+	}
 }
 
 //0 Nada, 1 Fuego, 2 Cura
