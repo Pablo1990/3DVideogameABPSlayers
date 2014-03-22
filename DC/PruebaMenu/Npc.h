@@ -38,7 +38,9 @@ public:
 	
 	//Enemigo
 	void setEnem(Player*);
+	void setEnem(Npc*);
 	Player* getEnem();
+	Npc* getEnemigo();
 	bool isEnemigoPresent();
 
 	//Mente
@@ -57,9 +59,15 @@ public:
 
 	void face_target(ISceneNode* target);
 	void face_target(vector3df targt_pos);
+
+	//Aprendizaje
+
+	//resetea los valores a los iniciales, para la siguiente iteracion
+	void Reset(vector3df p); 
 private:
 	Goal_Think *mente;
 	Player *player;
+	Npc* enemigo;
 	std::list<Weapon*> items;
 	vector3df posHealth;
 	Weapon* near_weapon;

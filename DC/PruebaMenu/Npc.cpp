@@ -198,6 +198,16 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 	}
 }
 
+void Npc::Reset(vector3df p){
+	is_dead = false;
+	is_moving = false;
+	steps_count = 0;
+	heal_flag = false;
+	heal_count = 0;
+	health=100;
+	this->character_node->setPosition(p);
+}
+
 std::list<Weapon*> Npc::getItems()
 {
 	return items;
@@ -253,6 +263,7 @@ void Npc::setEnem(Player* p)
 {
 	player=p;
 }
+
 Player* Npc::getEnem()
 {
 	return player;

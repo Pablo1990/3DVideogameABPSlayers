@@ -17,11 +17,10 @@
 #include <fstream>
 #include <windows.h>
 
-#include "CMinesweeper.h"
+#include "../Npc.h"
 #include "CGenAlg.h"
 #include "utils.h"
-#include "C2DMatrix.h"
-#include "SVector2D.h"
+//#include "C2DMatrix.h"
 #include "CParams.h"
 
 using namespace std;
@@ -37,25 +36,18 @@ private:
 	vector<SGenome>	     m_vecThePopulation;
 
 	//and the minesweepers
-  vector<CMinesweeper> m_vecSweepers;
+	vector<Npc*> m_vecNpc;
 
-	//and the mines
-	vector<SVector2D>	   m_vecMines;
+	vector<double> m_vecNpcHealth;
+
+	vector<double> m_vecNpcEnemiesHealth;
 
 	//pointer to the GA
 	CGenAlg*		         m_pGA;
 
-	int					         m_NumSweepers;
-
-	int					         m_NumMines;
+	int					         m_NumNpc;
 
 	int					         m_NumWeightsInNN;
-
-	//vertex buffer for the sweeper shape's vertices
-	vector<SPoint>		   m_SweeperVB;
-
-	//vertex buffer for the mine shape's vertices
-	vector<SPoint>		   m_MineVB;
 
 	//stores the average fitness per generation for use 
 	//in graphing.
@@ -63,8 +55,6 @@ private:
 
 	//stores the best fitness per generation
 	vector<double>		   m_vecBestFitness;
-
-
 
 	//pens we use for the stats
 	HPEN				m_RedPen;
@@ -84,32 +74,28 @@ private:
 	//generation counter
 	int					m_iGenerations;
 
-  //window dimensions
-  int         cxClient, cyClient;
+	//window dimensions
+	int         cxClient, cyClient;
 
-  //this function plots a graph of the average and best fitnesses
-  //over the course of a run
-  void   PlotStats(HDC surface);
+	//this function plots a graph of the average and best fitnesses
+	//over the course of a run
+	void   PlotStats(HDC surface);
+
+	bool firstBlood; //le dara un bonus y acabará el ciclo
 
 public:
 
-	CController(HWND hwndMain);
+	CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth);
 
 	~CController();
 
 	void		Render(HDC surface);
 
-	void		WorldTransform(vector<SPoint> &VBuffer,
-                         SVector2D      vPos);
-	
 	bool		Update();
 
+	void updateNpcFitness(int numNpc);
 
-	//accessor methods
-	bool		FastRender()const	  {return m_bFastRender;}
-	void		FastRender(bool arg){m_bFastRender = arg;}
-	void		FastRenderToggle()  {m_bFastRender = !m_bFastRender;}
-
+	void assignEnemies();
 };
 
 
