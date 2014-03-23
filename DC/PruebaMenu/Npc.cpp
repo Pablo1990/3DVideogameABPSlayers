@@ -462,9 +462,42 @@ void Npc::face_target(vector3df target_pos)
 
 //Aprendizaje
 
-	bool			Npc::Update()
+	bool Npc::Update()
 	{
-		return true;
+		vector<double> inputs;
+		//metemos los inputs:
+		inputs.push_back(this->get_health()); //mi vida
+		inputs.push_back(this->getEnemigo()->get_health()); //vida enemigo
+		//mi posicion, habria que ver como lo metemos, porque asi son muchos parametros
+		inputs.push_back(this->get_position().X); 
+		inputs.push_back(this->get_position().Y);
+		inputs.push_back(this->get_position().Z);
+		//posicion enemigo, a lo mejor habria que ver la distancia al enemigo en vez de esto
+		inputs.push_back(this->getEnemigo()->get_position().X);
+		inputs.push_back(this->getEnemigo()->get_position().Y);
+		inputs.push_back(this->getEnemigo()->get_position().Z);
+		//posiciones de objetos?
+
+		inputs.push_back(this->get_weapon()->get_resist()); //resistencia arma
+		vector<double> output = m_ItsBrain.Update(inputs);
+		//make sure there were no errors in calculating the 
+		//output
+		if (output.size() < CParams::iNumOutputs) 
+		{
+			return false;
+		}
+
+		//manda al juego lo que tiene que hacer en función del output
+		//en plan atacar, defender etcc..
+		for(int i = 0; i<output.size(); i++)
+		{
+			if(output[i] == 1){
+				//actuar
+				return true;
+			}
+		}
+		//aqui se se supone que debería actualizar inputs, pero eso
+		//se debera hacer al actuar (se encarga irrlicht)
 	}
 
 	void Npc::setEnem(Npc* enem)
