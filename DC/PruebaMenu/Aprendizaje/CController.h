@@ -20,7 +20,6 @@
 #include "../Npc.h"
 #include "CGenAlg.h"
 #include "utils.h"
-//#include "C2DMatrix.h"
 #include "CParams.h"
 
 using namespace std;
