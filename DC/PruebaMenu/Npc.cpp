@@ -35,8 +35,8 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 				if (detect_collision(w->get_weapon_node(), this->head))
 				{
 					w->set_collision_flag(true);
-					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
-					//this->health = 0;
+					//this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
+					this->health = 0;
 					
 					
 
@@ -181,13 +181,16 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 			if((int)health <= 0 && !is_dead)
 			{
 				this->health = 0;
-				std::cout << "FIRST FRAME" << character_node->getStartFrame() << endl;
-				std::cout << "END FRAME: " << character_node->getEndFrame() << endl;
-			
-				//character_node->setFrameLoop(62,211);
+				
+				
+				
 				//character_node->setAnimationSpeed(15);
 				//character_node->setLoopMode(true);
+				
 				is_dead = true;
+
+				std::cout << "FIRST FRAME" << character_node->getStartFrame() << endl;
+				std::cout << "END FRAME: " << character_node->getEndFrame() << endl;
 			
 			}
 		}

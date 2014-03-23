@@ -122,9 +122,9 @@ void Juego::run()
 				mente->ProcessSubgoals();
 				npc->way_to(pf.getCamino());*/
 				npc->restore_condition(device);
-				/*swprintf(tmp, 255, L"NpcHealth %f", npc->get_health());
+				//swprintf(tmp, 255, L"NpcHealth %f", player->get_position().Y);
 				
-				statusText->setText(tmp);*/
+				//statusText->setText(tmp);
 				if(player)
 					npc->face_target(player->get_character_node());
 
@@ -134,10 +134,12 @@ void Juego::run()
 
 					}
 			}
-			
+		
 			if(player)
+			{
 				player->heal_or_fire(campFire, heal_camp, device);
-
+				player->fall_down(device);
+			}
 				/*switch(player->heal_or_fire(campFire, heal_camp, device))
 				{
 
