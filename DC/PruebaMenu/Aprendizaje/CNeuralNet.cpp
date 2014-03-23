@@ -241,3 +241,33 @@ double CNeuralNet::Sigmoid(double netinput, double response)
 }
 
 
+//--------------------------- CalculateSplitPoints -----------------------
+//
+//  this method calculates all points in the vector of weights which 
+//  represent the start and end points of individual neurons
+//------------------------------------------------------------------------
+vector<int> CNeuralNet::CalculateSplitPoints() const
+{
+	vector<int> SplitPoints;
+
+  int WeightCounter = 0;
+	
+	//for each layer
+	for (int i=0; i<m_NumHiddenLayers + 1; ++i)
+	{
+		//for each neuron
+		for (int j=0; j<m_vecLayers[i].m_NumNeurons; ++j)
+		{
+			//for each weight
+			for (int k=0; k<m_vecLayers[i].m_vecNeurons[j].m_NumInputs; ++k)
+      {
+				++WeightCounter;			
+      }
+
+      SplitPoints.push_back(WeightCounter - 1);
+		}
+	}
+
+	return SplitPoints;
+}
+

@@ -24,7 +24,7 @@ Juego::~Juego(void)
 void Juego::run()
 {
 	bool collision_flag = false;
-	core::dimension2d<u32> resolution(600, 400);
+	core::dimension2d<u32> resolution(1250, 940);
 	
 	irr::SIrrlichtCreationParameters params;
 	params.DriverType=driverType;

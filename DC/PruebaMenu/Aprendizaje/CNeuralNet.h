@@ -95,6 +95,9 @@ public:
 	//sigmoid response curve
 	inline double	  Sigmoid(double activation, double response);
 
+	//calculate the points which define the individual neurons
+  vector<int>     CalculateSplitPoints() const;
+
 };
 				
 

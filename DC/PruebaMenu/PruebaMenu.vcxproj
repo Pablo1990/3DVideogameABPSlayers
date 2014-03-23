@@ -69,6 +69,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Aprendizaje\CController.h" />
+    <ClInclude Include="Aprendizaje\CGenAlg.h" />
+    <ClInclude Include="Aprendizaje\CNeuralNet.h" />
+    <ClInclude Include="Aprendizaje\CParams.h" />
+    <ClInclude Include="Aprendizaje\utils.h" />
     <ClInclude Include="AttackTargetGoal_Evaluator.h" />
     <ClInclude Include="Bow.h" />
     <ClInclude Include="Hud.h" />
@@ -113,6 +118,11 @@
     <ClInclude Include="MyEventReceiver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Aprendizaje\CController.cpp" />
+    <ClCompile Include="Aprendizaje\CGenAlg.cpp" />
+    <ClCompile Include="Aprendizaje\CNeuralNet.cpp" />
+    <ClCompile Include="Aprendizaje\CParams.cpp" />
+    <ClCompile Include="Aprendizaje\utils.cpp" />
     <ClCompile Include="AttackTargetGoal_Evaluator.cpp" />
     <ClCompile Include="Bow.cpp" />
     <ClCompile Include="Hud.cpp" />

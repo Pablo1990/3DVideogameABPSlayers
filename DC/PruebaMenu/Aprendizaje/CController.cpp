@@ -172,7 +172,7 @@ bool CController::Update()
 void CController::Render(HDC surface)
 {
 	//render the stats
-	string s = "Generation:          " + itos(m_iGenerations);
+	std::string s = "Generation:          " + itos(m_iGenerations);
 	TextOut(surface, 5, 0, s.c_str(), s.size());
 
 	PlotStats(surface);
@@ -184,7 +184,7 @@ void CController::Render(HDC surface)
 //------------------------------------------------------------------------
 void CController::PlotStats(HDC surface)
 {
-	string s = "Best Fitness:       " + ftos(m_pGA->BestFitness());
+	std::string s = "Best Fitness:       " + ftos(m_pGA->BestFitness());
 	TextOut(surface, 5, 20, s.c_str(), s.size());
 
 	s = "Average Fitness: " + ftos(m_pGA->AverageFitness());

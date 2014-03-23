@@ -459,3 +459,20 @@ void Npc::face_target(vector3df target_pos)
 	this->character_node->setRotation(my_rotation);
 
 }
+
+//Aprendizaje
+
+	bool			Npc::Update()
+	{
+		return true;
+	}
+
+	void Npc::setEnem(Npc* enem)
+	{
+		enemigo=enem;	
+	}
+	
+	Npc* Npc::getEnemigo()
+	{
+		return enemigo;
+	}

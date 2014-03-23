@@ -11,6 +11,7 @@
 #include "Position.h"
 
 #include "Goal_Think.h"
+#include "Aprendizaje\CNeuralNet.h"
 
 #include <IMeshManipulator.h>
 
@@ -32,6 +33,7 @@ public:
 	bool Move_ToFreeAttack();
 	vector3df DarPosSalud();
 	vector3df DarPosArmaCercana();
+
 	void attack(int type);
 	
 	void add_weapon_to_node(vector3df position, vector3df rotation, vector3df scale);
@@ -64,7 +66,24 @@ public:
 
 	//resetea los valores a los iniciales, para la siguiente iteracion
 	void Reset(vector3df p); 
-private:
+
+	//Metodos Aprendizaje
+	
+	//updates the ANN with information from the sweepers enviroment
+	bool			Update();
+
+	void			IncrementFitness(){++m_dFitness;}
+
+	double		    Fitness()const{return m_dFitness;}
+	void			setFitness(double fit) {m_dFitness=fit;}
+
+  void              PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
+
+  int               GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
+
+  vector<int>       CalculateSplitPoints()const{return m_ItsBrain.CalculateSplitPoints();}
+
+	private:
 	Goal_Think *mente;
 	Player *player;
 	Npc* enemigo;
@@ -73,6 +92,11 @@ private:
 	Weapon* near_weapon;
 	bool is_moving;
 	int steps_count;
+
+	//Aprendizaje
+	CNeuralNet  m_ItsBrain;
 	
+	//the npc fitness score. 
+	double			m_dFitness;
 };
 
