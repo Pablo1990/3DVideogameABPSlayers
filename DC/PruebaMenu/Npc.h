@@ -35,9 +35,9 @@ public:
 	vector3df DarPosArmaCercana();
 
 	void attack(int type);
-	
+
 	void add_weapon_to_node(vector3df position, vector3df rotation, vector3df scale);
-	
+
 	//Enemigo
 	void setEnem(Player*);
 	void setEnem(Npc*);
@@ -85,7 +85,7 @@ double Clamp(double arg, double min, double max)
 	void Reset(vector3df p); 
 
 	//Metodos Aprendizaje
-	
+
 	//updates the ANN with information from the sweepers enviroment
 	bool			Update();
 
@@ -94,13 +94,13 @@ double Clamp(double arg, double min, double max)
 	double		    Fitness()const{return m_dFitness;}
 	void			setFitness(double fit) {m_dFitness=fit;}
 
-  void              PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
+	void              PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
 
-  int               GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
+	int               GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
 
-  vector<int>       CalculateSplitPoints()const{return m_ItsBrain.CalculateSplitPoints();}
+	vector<int>       CalculateSplitPoints()const{return m_ItsBrain.CalculateSplitPoints();}
 
-	private:
+private:
 	Goal_Think *mente;
 	Player *player;
 	Npc* enemigo;
@@ -117,6 +117,7 @@ double Clamp(double arg, double min, double max)
 
 	//Aprendizaje
 	CNeuralNet  m_ItsBrain;
+
 
 	//Inputs npc
 	double getPosPrX()
@@ -182,6 +183,7 @@ double Clamp(double arg, double min, double max)
 	{
 		return itemsType;
 	}
+
 	//the npc fitness score. 
 	double			m_dFitness;
 };

@@ -36,6 +36,7 @@ public:
 	void add_to_camera(vector3df position, vector3df rotation, vector3df scale, ICameraSceneNode* camera);
 
 	bool detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b);
+	void fall_down(IrrlichtDevice* device);
 
 	bool no_weapon();
 	void attack(float first_x, float first_y, float last_x, float last_y);
@@ -62,6 +63,8 @@ protected:
 	vector<IBoneSceneNode *> extremity;
 	vector<IBoneSceneNode *> head;
 	vector<IBoneSceneNode *> body;
+	f32 last_height;
+	int last_fall_time;
 	Shield *sh;
 	Weapon *weapon;
 	double health;

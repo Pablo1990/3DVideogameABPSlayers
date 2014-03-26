@@ -1,3 +1,4 @@
+
 #include "Npc.h"
 
 
@@ -7,7 +8,6 @@ Npc::Npc(ISceneManager *sm,vector3df pos): Character(knight_path, sm)
 	is_dead = false;
 	is_moving = false;
 	steps_count = 0;
-
 }
 
 Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos): Character(knight_path, sm, w)
@@ -27,7 +27,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 {
 	try
 	{
-		
+
 		//RangeWeapon* rw2 = dynamic_cast<RangeWeapon*>(w);
 		if (w != NULL && !is_dead) 
 		{
@@ -36,10 +36,10 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 				if (detect_collision(w->get_weapon_node(), this->head))
 				{
 					w->set_collision_flag(true);
-					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
-					//this->health = 0;
-					
-					
+					//this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
+					this->health = 0;
+
+
 
 					if(scene_manager)
 					{
@@ -95,23 +95,23 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 							rw->set_impact_at(0, true);
 							switch(rw->get_type())
 							{
-								case RED_SHROOM_TYPE:
-									this->slow_start = d->getTimer()->getTime();
-									this->slow = 2;
-									break;
-								case YELLOW_SHROOM_TYPE:
-									this->paralysis_start = d->getTimer()->getTime();
-									this->paralysis = true;
-									break;
-								case BLUE_SHROOM_TYPE:
-									//restan cansancio, aun no hecho
-									break;
-								case TORCH_TYPE:
-									this->health = this->health - 1;
-									break;
-								case STONE_TYPE:
-									this->health = this->health - 1;
-									break;
+							case RED_SHROOM_TYPE:
+								this->slow_start = d->getTimer()->getTime();
+								this->slow = 2;
+								break;
+							case YELLOW_SHROOM_TYPE:
+								this->paralysis_start = d->getTimer()->getTime();
+								this->paralysis = true;
+								break;
+							case BLUE_SHROOM_TYPE:
+								//restan cansancio, aun no hecho
+								break;
+							case TORCH_TYPE:
+								this->health = this->health - 1;
+								break;
+							case STONE_TYPE:
+								this->health = this->health - 1;
+								break;
 							}
 						}
 					}
@@ -135,7 +135,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 
 							}
 
-								this->health = this->health - ((w->get_damage() + 0.50 * w->get_damage()) 
+							this->health = this->health - ((w->get_damage() + 0.50 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
 								this->character_node->getPosition().Z));
 						}
@@ -156,7 +156,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 							this->health = this->health - ((w->get_damage() - 0.40 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
 								this->character_node->getPosition().Z));
-							
+
 						}
 						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->extremity))
 						{
@@ -170,26 +170,29 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 								}
 							}
 
-								this->health = this->health - ((w->get_damage() - 0.20 * w->get_damage())  
+							this->health = this->health - ((w->get_damage() - 0.20 * w->get_damage())  
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
 								this->character_node->getPosition().Z));
 						}
 					}
 				}
 			}
-		
+
 
 			if((int)health <= 0 && !is_dead)
 			{
 				this->health = 0;
-				std::cout << "FIRST FRAME" << character_node->getStartFrame() << endl;
-				std::cout << "END FRAME: " << character_node->getEndFrame() << endl;
-			
-				//character_node->setFrameLoop(62,211);
+
+
+
 				//character_node->setAnimationSpeed(15);
 				//character_node->setLoopMode(true);
+
 				is_dead = true;
-			
+
+				std::cout << "FIRST FRAME" << character_node->getStartFrame() << endl;
+				std::cout << "END FRAME: " << character_node->getEndFrame() << endl;
+
 			}
 		}
 	}
@@ -243,24 +246,24 @@ vector3df  Npc::DarPosSalud()
 vector3df  Npc::DarPosArmaCercana()
 {
 	int distancia=9999.9;
-	
+
 	vector3df v3=vector3df();
 	for (std::list<Weapon*>::iterator it = items.begin();
-       it != items.end();
-       ++it)
+		it != items.end();
+		++it)
+	{
+
+
+		double distaux=sqrt((pow((get_position().X-(*it)->get_absolute_position().X),2))+(pow((get_position().Z-(*it)->get_absolute_position().Z),2)));
+		//Estandarizamos
+		if(distaux <=distancia)
 		{
-			
-				
-			double distaux=sqrt((pow((get_position().X-(*it)->get_absolute_position().X),2))+(pow((get_position().Z-(*it)->get_absolute_position().Z),2)));
-				//Estandarizamos
-				if(distaux <=distancia)
-				{
-					distancia=distaux;
-					v3=(*it)->get_absolute_position();
-					this->near_weapon = (*it);
-				}
-			
+			distancia=distaux;
+			v3=(*it)->get_absolute_position();
+			this->near_weapon = (*it);
 		}
+
+	}
 	return v3;
 }
 
@@ -273,7 +276,7 @@ void Npc::setBrain(Goal_Think* mente_)
 Goal_Think* Npc::getBrain()
 {
 	return mente;
-	
+
 }
 
 void Npc::setEnem(Player* p)
@@ -289,21 +292,21 @@ Player* Npc::getEnem()
 bool Npc::isEnemigoPresent()
 {
 	if(player !=NULL)
-{
-	int x_E=player->get_position().X;
-	int y_E=player->get_position().Z;
-	int x=get_position().X;
-	int y=get_position().Z;
-	int distaux=sqrt(pow((x-x_E),2)+pow((y-y_E),2));
-
-	//POner distancia máxima de visión
-	if(distaux <=500)
 	{
-		return true;
+		int x_E=player->get_position().X;
+		int y_E=player->get_position().Z;
+		int x=get_position().X;
+		int y=get_position().Z;
+		int distaux=sqrt(pow((x-x_E),2)+pow((y-y_E),2));
+
+		//POner distancia máxima de visión
+		if(distaux <=500)
+		{
+			return true;
+		}
+		//cout<<"entro Distancia:"<<distaux<<endl;
 	}
-	//cout<<"entro Distancia:"<<distaux<<endl;
-}
-return false;
+	return false;
 }
 
 
@@ -389,15 +392,15 @@ void Npc::pick_weapon()
 
 void Npc::move_to(Position p)
 {
-	
+
 	if(!paralysis)
 	{
 		ISceneNodeAnimator *anim = scene_manager->createFlyStraightAnimator(
-		this->get_position(), vector3df(p.getX(), p.getY(), p.getZ()), 70 / slow, false);
+			this->get_position(), vector3df(p.getX(), p.getY(), p.getZ()), 70 / slow, false);
 		this->get_character_node()->addAnimator(anim);
 		anim->drop();
 	}
-	
+
 }
 
 void Npc::way_to(vector<Position> vp)
@@ -479,17 +482,57 @@ void Npc::face_target(vector3df target_pos)
 
 //Aprendizaje
 
-	bool			Npc::Update()
+bool Npc::Update()
+{
+	vector<double> inputs;
+	//metemos los inputs:
+	inputs.push_back(this->get_health()); //mi vida
+	inputs.push_back(this->getEnemigo()->get_health()); //vida enemigo
+	//mi posicion, habria que ver como lo metemos, porque asi son muchos parametros
+	inputs.push_back(this->get_position().X); 
+	inputs.push_back(this->get_position().Y);
+	inputs.push_back(this->get_position().Z);
+	//posicion enemigo, a lo mejor habria que ver la distancia al enemigo en vez de esto
+	inputs.push_back(this->getEnemigo()->get_position().X);
+	inputs.push_back(this->getEnemigo()->get_position().Y);
+	inputs.push_back(this->getEnemigo()->get_position().Z);
+	//posiciones de objetos?
+
+	inputs.push_back(this->get_weapon()->get_resist()); //resistencia arma
+	vector<double> output = m_ItsBrain.Update(inputs);
+	//make sure there were no errors in calculating the 
+	//output
+	if (output.size() < CParams::iNumOutputs) 
 	{
-		return true;
+		return false;
 	}
 
-	void Npc::setEnem(Npc* enem)
-	{
-		enemigo=enem;	
+	//manda al juego lo que tiene que hacer en función del output
+	//en plan atacar, defender etcc..
+	Position pIzq(get_position().X, get_position().Y, get_position().Z);
+	Position pDer(get_position().X, get_position().Y, get_position().Z);
+	Position pDelante(get_position().X, get_position().Y, get_position().Z);
+	Position pAtras(get_position().X, get_position().Y, get_position().Z);
+	if(output[0])
+		this->attack(0);//distintos ataques??
+	else if(output[1])
+		this->defend();
+	else if(output[2]){
+		this->face_target(vector3df(pIzq.getX(),pIzq.getY(),pIzq.getZ()));
+		this->move_to(pIzq);
 	}
-	
-	Npc* Npc::getEnemigo()
-	{
-		return enemigo;
-	}
+	return true;
+	//aqui se se supone que debería actualizar inputs, pero eso
+	//se debera hacer al actuar (se encarga irrlicht)
+}
+
+void Npc::setEnem(Npc* enem)
+{
+	enemigo=enem;	
+}
+
+Npc* Npc::getEnemigo()
+{
+	return enemigo;
+}
+

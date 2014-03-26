@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Archivos de código fuente\Aprendizaje">
+      <UniqueIdentifier>{43494193-ab1f-4ec6-875f-b4a9f44c9905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Aprendizaje">
+      <UniqueIdentifier>{86c84d4d-55d2-4664-8357-97d00311c023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ini files">
+      <UniqueIdentifier>{5f51e12e-a732-4ddc-a646-8bbd80429331}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyEventReceiver.cpp">
@@ -132,20 +141,20 @@
     <ClCompile Include="Hud.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="Aprendizaje\CController.cpp">
-      <Filter>Archivos de código fuente</Filter>
+    <ClCompile Include="Aprendizaje\CNeuralNet.cpp">
+      <Filter>Archivos de código fuente\Aprendizaje</Filter>
     </ClCompile>
     <ClCompile Include="Aprendizaje\CGenAlg.cpp">
-      <Filter>Archivos de código fuente</Filter>
-    </ClCompile>
-    <ClCompile Include="Aprendizaje\CNeuralNet.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Aprendizaje</Filter>
     </ClCompile>
     <ClCompile Include="Aprendizaje\CParams.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Aprendizaje</Filter>
     </ClCompile>
     <ClCompile Include="Aprendizaje\utils.cpp">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Aprendizaje</Filter>
+    </ClCompile>
+    <ClCompile Include="Aprendizaje\CController.cpp">
+      <Filter>Archivos de código fuente\Aprendizaje</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,25 +284,30 @@
     <ClInclude Include="Hud.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Aprendizaje\CController.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="Aprendizaje\CGenAlg.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Aprendizaje</Filter>
     </ClInclude>
     <ClInclude Include="Aprendizaje\CNeuralNet.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Aprendizaje</Filter>
     </ClInclude>
     <ClInclude Include="Aprendizaje\CParams.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Aprendizaje</Filter>
     </ClInclude>
     <ClInclude Include="Aprendizaje\utils.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Aprendizaje</Filter>
+    </ClInclude>
+    <ClInclude Include="Aprendizaje\CController.h">
+      <Filter>Archivos de encabezado\Aprendizaje</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DC1.rc">
       <Filter>Archivos de recursos</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Aprendizaje\params.ini">
+      <Filter>ini files</Filter>
+    </None>
   </ItemGroup>
 </Project>
