@@ -45,7 +45,8 @@ Goal_Evaluator::~Goal_Evaluator(void)
 		{
 			
 			double distaux=sqrt((pow((pBot->get_position().X-(*it)->get_absolute_position().X),2))+(pow((pBot->get_position().Z-(*it)->get_absolute_position().Z),2)));
-				//Estandarizamos
+				
+			//Estandarizamos
 				
 				distaux=distaux/distanciae_maxima;
 				if(distaux <=distancia)

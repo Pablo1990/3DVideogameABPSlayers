@@ -7,6 +7,7 @@ Npc::Npc(ISceneManager *sm,vector3df pos): Character(knight_path, sm)
 	is_dead = false;
 	is_moving = false;
 	steps_count = 0;
+
 }
 
 Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos): Character(knight_path, sm, w)
@@ -213,9 +214,25 @@ std::list<Weapon*> Npc::getItems()
 	return items;
 
 }
-void Npc::setItems(std::list<Weapon*> armas)
+void Npc::setItems(std::list<Weapon*> armas,double * tipos)
 {
 	items=armas;
+
+	int cont=0;
+		for (std::list<Weapon*>::iterator it = items.begin();
+			  it != items.end();
+       it++)
+		{
+			
+				itemsPx[cont] =Clamp((*it)->get_absolute_position().X/1894.93,0,1);
+				itemsPy[cont]=Clamp((*it)->get_absolute_position().Z/1294.88,0,1);
+
+				cont++;
+			
+		}
+		itemsPx[5] = Clamp(this->DarPosSalud().X/1894.93,0,1);
+		itemsPy[5] = (this->DarPosSalud().Z/1294.88,0,1);
+		itemsType=tipos;
 }
 vector3df  Npc::DarPosSalud()
 {

@@ -51,7 +51,7 @@ public:
 
 	//Lista de items de arma
 	std::list<Weapon*> getItems();
-	void setItems(std::list<Weapon*> );
+	void setItems(std::list<Weapon*> ,double *);
 
 	void pick_weapon();
 
@@ -61,7 +61,24 @@ public:
 
 	void face_target(ISceneNode* target);
 	void face_target(vector3df targt_pos);
+	//-------------------------------------Clamp()-----------------------------------------
+//
+//	clamps the first argument between the second two
+//
+//-------------------------------------------------------------------------------------
+double Clamp(double arg, double min, double max)
+{
+	if (arg < min)
+	{
+		arg = min;
+	}
 
+	if (arg > max)
+	{
+		arg = max;
+	}
+	return arg;
+}
 	//Aprendizaje
 
 	//resetea los valores a los iniciales, para la siguiente iteracion
@@ -88,6 +105,11 @@ public:
 	Player *player;
 	Npc* enemigo;
 	std::list<Weapon*> items;
+	double desgastes[4];
+	double itemsPx[6];
+	double itemsPy[6];
+	double* itemsType;
+
 	vector3df posHealth;
 	Weapon* near_weapon;
 	bool is_moving;
@@ -95,7 +117,71 @@ public:
 
 	//Aprendizaje
 	CNeuralNet  m_ItsBrain;
+
+	//Inputs npc
+	double getPosPrX()
+	{
+		return Clamp(this->get_position().X/1894.93,0,1);
+	}
+	double getPosPrY()
+	{
+		return Clamp(this->get_position().Z/1294.88,0,1);
+	}
+
+	//Inputs enemigo
+	double getPosEnemX()
+	{
+		return Clamp(enemigo->get_position().X/1894.93,0,1);
+	}
+	double getPosEnemY()
+	{
+		return Clamp(enemigo->get_position().Z/1294.88,0,1);
+	}
+	double getOrienPr()
+	{
+		return fmod(this->character_node->getRotation().Y,360)/360;
+	}
+
+	double getOrienEnem()
+	{
+		return fmod(enemigo->character_node->getRotation().Y,360)/360;
+	}
+
+	//Inputs salud
+	double getSaludEnem()
+	{
+		return Clamp(enemigo->get_health()/100,0,1);
+	}
+	double getSaludPr()
+	{
+		return Clamp(this->get_health()/100,0,1);
+	}
+
+	//Inputs desgaste
 	
+	double* getDesgastePr()
+	{
+		desgastes[0] = dynamic_cast<Sword*>(this->get_weapon()) ? get_weapon()->get_resist()/15 : 0;
+		desgastes[1] = dynamic_cast<Bow*>(this->get_weapon()) ? get_weapon()->get_resist()/15 : 0;
+		desgastes[2] = dynamic_cast<Spear*>(this->get_weapon()) ? get_weapon()->get_resist()/15 : 0;
+		desgastes[3] = dynamic_cast<ThrowableItem*>(this->get_weapon()) ? get_weapon()->get_resist() : 0;
+
+		
+		return desgastes;
+	}
+
+	double* getPosXItems()
+	{
+		return itemsPx;
+	}
+	double* getPosYItems()
+	{
+		return itemsPy;
+	}
+	double* getTypeItems()
+	{
+		return itemsType;
+	}
 	//the npc fitness score. 
 	double			m_dFitness;
 };
