@@ -64,7 +64,6 @@ private:
 	vector3df posHealth;
 	Weapon* near_weapon;
 	bool is_moving;
-	int steps_count;
-	
+	int steps_count;	
 };
 

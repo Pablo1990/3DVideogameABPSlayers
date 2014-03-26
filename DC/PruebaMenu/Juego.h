@@ -87,6 +87,8 @@ private:
 	scene::ISceneNodeAnimatorCollisionResponse* collider;
 	std::list<Weapon*> armas;
 	int last_drop;
+	double* types;
+
 
 	enum
 {

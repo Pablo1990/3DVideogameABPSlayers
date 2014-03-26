@@ -102,7 +102,7 @@ void Character::add_to_camera(vector3df position, vector3df rotation, vector3df 
 		character_node->setMaterialFlag(EMF_COLOR_MASK, 0);
 		//character_node->setDebugDataVisible(EDS_BBOX_ALL);
 		this->last_height = this->character_node->getPosition().Y;
-
+		
 		if(!weapon || (weapon && weapon->with_shield()))
 			sh->add_to_camera(vector3df(-5,-5,5), vector3df(0,0,0), vector3df(3,3,3), camera);
 		//sh->get_weapon_node()->setDebugDataVisible(EDS_BBOX_ALL);
@@ -250,7 +250,7 @@ void Character::fall_down(IrrlichtDevice* device)
 		last_height = this->character_node->getPosition().Y;
 	}
 
-	if(last_height - this->character_node->getPosition().Y > 140 /*device->getTimer()->getTime() - last_fall_time > 1000*/)
+	if(last_height - this->character_node->getPosition().Y > 150 /*device->getTimer()->getTime() - last_fall_time > 1000*/)
 	{
 		if(device->getTimer()->getTime() - last_fall_time > 1000)
 		{
@@ -275,6 +275,11 @@ void Character::fall_down(IrrlichtDevice* device)
 		is_dead = true;
 			
 	}
+}
+
+void Character::reset_fall_time(IrrlichtDevice* device)
+{
+			last_fall_time = device->getTimer()->getTime();
 }
 
 //0 Nada, 1 Fuego, 2 Cura

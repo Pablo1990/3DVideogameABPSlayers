@@ -37,6 +37,7 @@ public:
 
 	bool detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b);
 	void fall_down(IrrlichtDevice* device);
+	void reset_fall_time(IrrlichtDevice* device);
 
 	bool no_weapon();
 	void attack(float first_x, float first_y, float last_x, float last_y);
