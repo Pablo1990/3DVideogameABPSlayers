@@ -18,8 +18,9 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth): 
 	//let's create the bots
 	for (int i=0; i<m_NumNpc; ++i)
 	{
-		m_vecNpcHealth.push_back(100);
-		m_vecNpc.push_back(new Npc(sm,new Sword(0,0,sm),posHealth));
+		Npc* n = new Npc(sm,new Sword(0,0,sm),posHealth);
+		n->add_to_scene(core::vector3df(0,100,0), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
+		m_vecNpc.push_back(n);
 	}
 	
 	//asociar enemigos unos con otros
@@ -28,7 +29,7 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth): 
 	//get the total number of weights used in the sweepers
 	//NN so we can initialise the GA
 	m_NumWeightsInNN = m_vecNpc[0]->GetNumberOfWeights();
-
+	
 	//initialize the Genetic Algorithm class
 	m_pGA = new CGenAlg(m_NumNpc,
 		CParams::dMutationRate,
@@ -38,8 +39,12 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth): 
 	//Get the weights from the GA and insert into the sweepers brains
 	m_vecThePopulation = m_pGA->GetChromos();
 
-	for (int i=0; i<m_NumNpc; i++)
+	for (int i=0; i<m_NumNpc; i++) {
 		m_vecNpc[i]->PutWeights(m_vecThePopulation[i].vecWeights);
+		invisPlayers(i);
+	}
+	
+	asignarEnemigo(0);
 
 
 	//create a pen for the graph drawing
@@ -68,33 +73,40 @@ CController::~CController()
 }
 
 void CController::assignEnemies(){
-	int v1 = rand()%m_NumNpc;
-	int v2 = rand()%m_NumNpc;
-
-	while(v1==v2){
-		v1 = rand()%m_NumNpc;
-		v2 = rand()%m_NumNpc;
-	}
-
-	for(int i=0; i<m_NumNpc/2; i++)
-	{
-		m_vecNpc[v1%m_NumNpc]->setEnem(m_vecNpc[v2%m_NumNpc]);
-		m_vecNpc[v2%m_NumNpc]->setEnem(m_vecNpc[v1%m_NumNpc]);
-		v1++;
-		v2++;
+	for(int i=0; i<m_NumNpc; i++){
+		for(int j=i; j<m_NumNpc; j++){
+			if(j!=i){
+				m_vecJornadasVisitantes.push_back(j);
+				m_vecJornadasLocales.push_back(i);
+				duelosRestantes++;
+			}
+		}
 	}
 	
 }
 
+void CController::asignarEnemigo(int num){
+	m_vecNpc[m_vecJornadasLocales[num]]->setEnem(m_vecNpc[m_vecJornadasVisitantes[num]]);
+	m_vecNpc[m_vecJornadasVisitantes[num]]->setEnem(m_vecNpc[m_vecJornadasLocales[num]]);
+	
+	m_vecNpc[m_vecJornadasLocales[num]]->set_position(100, 10, 100);
+	m_vecNpc[m_vecJornadasVisitantes[num]]->set_position(1000,10,300);
+}
+
+void CController::invisPlayers(int num){
+	m_vecNpc[m_vecJornadasLocales[num]]->set_position(0, 100, 0);
+	m_vecNpc[m_vecJornadasVisitantes[num]]->set_position(0,100,0);
+}
+
 void CController::updateNpcFitness(int numNpc){
 	//my health decrease or increase
-	m_vecNpc[numNpc]->setFitness(m_vecNpc[numNpc]->Fitness()-(m_vecNpcHealth[numNpc]-m_vecNpc[numNpc]->get_health()));
+	m_vecNpc[numNpc]->setFitness(m_vecNpc[numNpc]->Fitness()-(m_vecNpcHealth[numNpc]-m_vecNpc[numNpc]->get_health())/10);
 	m_vecNpcHealth[numNpc] = m_vecNpc[numNpc]->get_health();
 
 	//enemy health decrease
 	//value of the difference will increase fitness twice
 	if(m_vecNpc[numNpc]->getEnemigo()->get_health()<m_vecNpcEnemiesHealth[numNpc]){
-		m_vecNpc[numNpc]->setFitness(m_vecNpc[numNpc]->Fitness()+(m_vecNpcEnemiesHealth[numNpc]-m_vecNpc[numNpc]->getEnemigo()->get_health())*2);
+		m_vecNpc[numNpc]->setFitness(m_vecNpc[numNpc]->Fitness()+(m_vecNpcEnemiesHealth[numNpc]-m_vecNpc[numNpc]->getEnemigo()->get_health())/5);
 		m_vecNpcEnemiesHealth[numNpc] = m_vecNpc[numNpc]->getEnemigo()->get_health();
 	}
 
@@ -117,6 +129,8 @@ bool CController::Update()
 	{
 		for (int i=0; i<m_NumNpc; ++i)
 		{
+			if(m_vecNpc[i]->get_position().X == 0 && m_vecNpc[i]->get_position().Y == 100 && m_vecNpc[i]->get_position().Z == 0)
+				continue;
 			//update the NN and position
 			if (!m_vecNpc[i]->Update())
 			{
@@ -137,31 +151,44 @@ bool CController::Update()
 	//Time to run the GA and update the sweepers with their new NNs
 	else
 	{
-		//update the stats to be used in our stat window
-		m_vecAvFitness.push_back(m_pGA->AverageFitness());
-		m_vecBestFitness.push_back(m_pGA->BestFitness());
+		invisPlayers(m_vecJornadasLocales.size() - duelosRestantes);
+		duelosRestantes--;
+		if(duelosRestantes==0){
+			//update the stats to be used in our stat window
+			m_vecAvFitness.push_back(m_pGA->AverageFitness());
+			m_vecBestFitness.push_back(m_pGA->BestFitness());
 
-		//increment the generation counter
-		++m_iGenerations;
+			//increment the generation counter
+			++m_iGenerations;
 
-		//reset cycles
-		m_iTicks = 0;
+			//reset cycles
+			m_iTicks = 0;
 
-		//run the GA to create a new population
-		m_vecThePopulation = m_pGA->Epoch(m_vecThePopulation);
+			//run the GA to create a new population
+			m_vecThePopulation = m_pGA->Epoch(m_vecThePopulation);
 
-		//insert the new (hopefully)improved brains back into the sweepers
-		//and reset their positions etc
-		for (int i=0; i<m_NumNpc; ++i)
-		{
-			m_vecNpc[i]->PutWeights(m_vecThePopulation[i].vecWeights);
-
-			m_vecNpc[i]->Reset(core::vector3df((((rand()%100) * 10)+(i+1*10)),10,((rand()%100) * 10)+10));
-			m_vecNpcHealth[i] = 100;
-			m_vecNpcEnemiesHealth[i]=100;
+			//insert the new (hopefully)improved brains back into the sweepers
+			//and reset their positions etc
+			for (int i=0; i<m_NumNpc; ++i)
+			{
+				m_vecNpc[i]->PutWeights(m_vecThePopulation[i].vecWeights);
+				m_vecNpc[i]->Reset(core::vector3df((((rand()%100) * 10)+(i+1*10)),10,((rand()%100) * 10)+10));
+				m_vecNpcHealth[i] = 100;
+				m_vecNpcEnemiesHealth[i]=100;
+				invisPlayers(i);
+			}
+			asignarEnemigo(0);
 		}
-		
-		assignEnemies();
+		else{
+			m_iTicks = 0;
+			asignarEnemigo(m_vecJornadasLocales.size() - duelosRestantes);
+			m_vecNpcHealth[m_vecJornadasLocales[m_vecJornadasLocales.size() - duelosRestantes]] = 100;
+			m_vecNpcEnemiesHealth[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - duelosRestantes]]=100;
+			
+			m_vecNpcHealth[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - duelosRestantes]] = 100;
+			m_vecNpcEnemiesHealth[m_vecJornadasLocales[m_vecJornadasLocales.size() - duelosRestantes]]=100;
+
+		}
 	}
 
 	return true;

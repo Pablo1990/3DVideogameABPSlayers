@@ -34,8 +34,10 @@ private:
 	//storage for the population of genomes
 	vector<SGenome>	     m_vecThePopulation;
 
-	//and the minesweepers
+	//los npcs
 	vector<Npc*> m_vecNpc;
+	vector<int> m_vecJornadasLocales;
+	vector<int> m_vecJornadasVisitantes;
 
 	vector<double> m_vecNpcHealth;
 
@@ -82,6 +84,8 @@ private:
 
 	bool firstBlood; //le dara un bonus y acabará el ciclo
 
+	int duelosRestantes;
+
 public:
 
 	CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth);
@@ -95,6 +99,10 @@ public:
 	void updateNpcFitness(int numNpc);
 
 	void assignEnemies();
+
+	void asignarEnemigo(int num);
+
+	void invisPlayers(int num);
 };
 
 
