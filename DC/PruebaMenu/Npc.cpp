@@ -522,7 +522,7 @@ bool Npc::Update()
 	{
 		if(output[4]>0.25)
 		{
-			ISceneNodeAnimator *anim = this->get_character_node->createRotationAnimator(vector3df(0, -output[4]*10, 0));
+			ISceneNodeAnimator *anim = scene_manager->createRotationAnimator(vector3df(0, -output[4]*10, 0));
 			get_character_node()->addAnimator(anim);
 			anim->drop();
 		}
@@ -530,7 +530,7 @@ bool Npc::Update()
 	else{
 		if(output[5]>0.25)
 		{
-			ISceneNodeAnimator *anim = this->get_character_node->createRotationAnimator(vector3df(0, output[5]*10, 0));
+			ISceneNodeAnimator *anim = scene_manager->createRotationAnimator(vector3df(0, output[5]*10, 0));
 			get_character_node()->addAnimator(anim);
 			anim->drop();
 		}
