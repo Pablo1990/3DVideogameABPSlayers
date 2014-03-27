@@ -23,6 +23,7 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,st
 		n->setItems(armas, types);
 		m_vecNpc.push_back(n);
 	}
+	firstBlood = false;
 	
 	//asociar enemigos unos con otros
 	assignEnemies();
