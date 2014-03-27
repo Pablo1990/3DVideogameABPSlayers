@@ -32,6 +32,7 @@ int Juego::getEstado()
 }
 void Juego::run()
 {
+	
 	bool collision_flag = false;
 	core::dimension2d<u32> resolution(1366, 768);
 	
@@ -184,8 +185,7 @@ void Juego::run()
 	}
 	else if(estado==2)
 	{
-		CParams params=CParams();
-		CController* controller=new CController(NULL,smgr,heal_camp->getAbsolutePosition(),armas,types);
+CParams();		CController* controller=new CController(NULL,smgr,heal_camp->getAbsolutePosition(),armas,types);
 		while(device->run() && driver)
 			{
 				if (device->isWindowActive())
