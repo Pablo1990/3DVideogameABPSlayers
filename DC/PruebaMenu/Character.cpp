@@ -21,6 +21,9 @@ Character::Character(const char* path, ISceneManager *sm)
 		this->paralysis_start = -1;
 		this->last_fall_time = 0;
 		this->last_height = 0;
+
+		this->heal_tick = 0;
+		this->fire_tick;
 	}
 	catch(...)
 	{}
@@ -294,6 +297,13 @@ int Character::heal_or_fire(ISceneNode* camp_fire, ISceneNode* heal, IrrlichtDev
 				intersectsWithBox(character_node->getTransformedBoundingBox()))
 			{
 				heal_flag = false;
+
+				if(this->health > 0 && (d->getTimer()->getTime() - fire_tick > 1000))
+				{
+					this->health = this->health - 1;
+					this->fire_tick = d->getTimer()->getTime();
+				}
+
 				return 1;
 			}
 			else if(heal && heal->getTransformedBoundingBox().
@@ -301,9 +311,16 @@ int Character::heal_or_fire(ISceneNode* camp_fire, ISceneNode* heal, IrrlichtDev
 			{
 				if(heal_flag)
 				{
+					if(this->health < 100 && (d->getTimer()->getTime() - heal_tick > 1000))
+					{
+						this->health = this->health + 1;
+						this->heal_tick = d->getTimer()->getTime();
+					}
+
 					if(d->getTimer()->getTime() - heal_time < 5000)
 					{
 						return 2;
+
 					}
 					else
 					{
@@ -312,6 +329,13 @@ int Character::heal_or_fire(ISceneNode* camp_fire, ISceneNode* heal, IrrlichtDev
 				}
 				else if(heal_count < 5)
 				{
+					
+					if(this->health < 100 && (d->getTimer()->getTime() - heal_tick > 1000))
+					{
+						this->health = this->health + 1;
+						this->heal_tick = d->getTimer()->getTime();
+					}
+
 					heal_time = d->getTimer()->getTime();
 					heal_count++;
 					heal_flag = true;

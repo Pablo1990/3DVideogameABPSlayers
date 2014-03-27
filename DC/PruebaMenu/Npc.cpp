@@ -1,3 +1,4 @@
+//<<<<<<< HEAD
 
 #include "Npc.h"
 
@@ -23,11 +24,12 @@ Npc::~Npc(void)
 {
 }
 
+
 void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 {
 	try
 	{
-
+		
 		//RangeWeapon* rw2 = dynamic_cast<RangeWeapon*>(w);
 		if (w != NULL && !is_dead) 
 		{
@@ -36,9 +38,10 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 				if (detect_collision(w->get_weapon_node(), this->head))
 				{
 					w->set_collision_flag(true);
-
 					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
 					//this->health = 0;
+					
+					
 
 					if(scene_manager)
 					{
@@ -94,23 +97,23 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 							rw->set_impact_at(0, true);
 							switch(rw->get_type())
 							{
-							case RED_SHROOM_TYPE:
-								this->slow_start = d->getTimer()->getTime();
-								this->slow = 2;
-								break;
-							case YELLOW_SHROOM_TYPE:
-								this->paralysis_start = d->getTimer()->getTime();
-								this->paralysis = true;
-								break;
-							case BLUE_SHROOM_TYPE:
-								//restan cansancio, aun no hecho
-								break;
-							case TORCH_TYPE:
-								this->health = this->health - 1;
-								break;
-							case STONE_TYPE:
-								this->health = this->health - 1;
-								break;
+								case RED_SHROOM_TYPE:
+									this->slow_start = d->getTimer()->getTime();
+									this->slow = 2;
+									break;
+								case YELLOW_SHROOM_TYPE:
+									this->paralysis_start = d->getTimer()->getTime();
+									this->paralysis = true;
+									break;
+								case BLUE_SHROOM_TYPE:
+									//restan cansancio, aun no hecho
+									break;
+								case TORCH_TYPE:
+									this->health = this->health - 1;
+									break;
+								case STONE_TYPE:
+									this->health = this->health - 1;
+									break;
 							}
 						}
 					}
@@ -134,7 +137,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 
 							}
 
-							this->health = this->health - ((w->get_damage() + 0.50 * w->get_damage()) 
+								this->health = this->health - ((w->get_damage() + 0.50 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
 								this->character_node->getPosition().Z));
 						}
@@ -155,7 +158,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 							this->health = this->health - ((w->get_damage() - 0.40 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
 								this->character_node->getPosition().Z));
-
+							
 						}
 						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->extremity))
 						{
@@ -169,29 +172,29 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 								}
 							}
 
-							this->health = this->health - ((w->get_damage() - 0.20 * w->get_damage())  
+								this->health = this->health - ((w->get_damage() - 0.20 * w->get_damage())  
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
 								this->character_node->getPosition().Z));
 						}
 					}
 				}
 			}
-
+		
 
 			if((int)health <= 0 && !is_dead)
 			{
 				this->health = 0;
-
-
-
+				
+				
+				
 				//character_node->setAnimationSpeed(15);
 				//character_node->setLoopMode(true);
-
+				
 				is_dead = true;
 
 				std::cout << "FIRST FRAME" << character_node->getStartFrame() << endl;
 				std::cout << "END FRAME: " << character_node->getEndFrame() << endl;
-
+			
 			}
 		}
 	}
@@ -200,6 +203,8 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 
 	}
 }
+
+
 
 void Npc::Reset(vector3df p){
 	is_dead = false;
@@ -350,6 +355,9 @@ void Npc::add_weapon_to_node(vector3df position, vector3df rotation, vector3df s
 
 }
 
+
+
+
 void Npc::attack(int type)
 {
 	try
@@ -396,6 +404,7 @@ void Npc::attackBot(int type)
 
 }
 
+
 void Npc::pick_weapon()
 {
 	try
@@ -414,7 +423,6 @@ void Npc::pick_weapon()
 	catch(...)
 	{}
 }
-
 void Npc::move_to(Position p)
 {
 
@@ -427,6 +435,8 @@ void Npc::move_to(Position p)
 	}
 
 }
+
+
 
 void Npc::way_to(vector<Position> vp)
 {
@@ -619,4 +629,3 @@ Npc* Npc::getEnemigo()
 {
 	return enemigo;
 }
-
