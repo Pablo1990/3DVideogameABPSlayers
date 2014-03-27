@@ -82,7 +82,7 @@ public:
   //ctor
   CParams()
   {
-    if(!LoadInParameters("params.ini"))
+    if(!LoadInParameters("Aprendizaje/params.ini"))
     {
       MessageBox(NULL, "Cannot find ini file!", "Error", 0);
     }

@@ -184,6 +184,7 @@ void Juego::run()
 	}
 	else if(estado==2)
 	{
+		CParams params=CParams();
 		CController* controller=new CController(NULL,smgr,heal_camp->getAbsolutePosition(),armas,types);
 		while(device->run() && driver)
 			{

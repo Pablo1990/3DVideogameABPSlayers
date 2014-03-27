@@ -15,6 +15,8 @@
 #include "Mapa.h";
 #include "Hud.h";
 #include "Aprendizaje\CController.h"
+#include  "Aprendizaje\CParams.h"
+
 using namespace std;
 
 

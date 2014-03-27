@@ -15,8 +15,9 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,st
 {
 	//Debemos definiir para cada npc un enemigo
 	Position last_corner(1894.93, 1, 1294.88);
+
 	//let's create the bots
-	for (int i=0; i<m_NumNpc; ++i)
+	for (int i=0; i<20; ++i)
 	{
 		Npc* n = new Npc(sm,new Sword(0,0,sm),posHealth);
 		n->add_to_scene(core::vector3df(0,100,0), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
