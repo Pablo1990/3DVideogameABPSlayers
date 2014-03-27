@@ -7,6 +7,7 @@ Juego::Juego(video::E_DRIVER_TYPE d)
 {
 	this->driverType = d;
 	this->skyboxNode = 0;
+	this->types = new double[6];
 	crouch = false;
 }
 // Values used to identify individual GUI elements
@@ -347,7 +348,7 @@ void Juego::loadSceneData()
 	// create camp fire
 
 	campFire = sm->addParticleSystemSceneNode(false,0,IDFlag_IsPickable);
-	campFire->setPosition(core::vector3df(-500,70,340));
+	campFire->setPosition(core::vector3df(800,0,700));
 	campFire->setScale(core::vector3df(20,20,20));
 	campFire->setName(std::to_string(TORCH_TYPE).c_str());
 
@@ -373,7 +374,7 @@ void Juego::loadSceneData()
 	//Zona de curacion
 	
 	heal_camp = sm->addParticleSystemSceneNode(false);
-	heal_camp->setPosition(core::vector3df(-1000,70,-200));
+	heal_camp->setPosition(core::vector3df(1000,0,200));
 	heal_camp->setScale(core::vector3df(20,20,20));
 
 	em = heal_camp->createBoxEmitter(
@@ -447,8 +448,8 @@ void Juego::loadSceneData()
 	dropped_red_shroom->add_to_scene(core::vector3df(280,8,330), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, -1);
 
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::TORCH);
-	dropped_red_shroom->add_to_scene(core::vector3df(-500,8,200), core::vector3df(90,0,0), core::vector3df(4,4,4), true, -1);
-	dropped_red_shroom->add_to_scene(core::vector3df(-500,8,500), core::vector3df(90,180,0), core::vector3df(4,4,4), true, -1);
+	dropped_red_shroom->add_to_scene(core::vector3df(800,8,550), core::vector3df(90,0,0), core::vector3df(4,4,4), true, -1);
+	dropped_red_shroom->add_to_scene(core::vector3df(800,8,850), core::vector3df(90,180,0), core::vector3df(4,4,4), true, -1);
 	
 
 	//Meto armas
@@ -457,8 +458,8 @@ void Juego::loadSceneData()
 	this->add_random_item(vector3df(100,0,100));
 	this->add_random_item(vector3df(500,0,100));
 	this->add_random_item(vector3df(1000,0,100));
-	this->add_random_item(vector3df(700,0,700));
-	this->add_random_item(vector3df(100,0,700));
+	this->add_random_item(vector3df(700,0,1000));
+	this->add_random_item(vector3df(100,0,1000));
 	npc->setItems(armas);
 	
 	
@@ -582,6 +583,10 @@ bool Juego::OnEvent(const SEvent& event)
 			{}
 		}
 	}
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_J)
+	{
+		player->reset_fall_time(this->device);
+	}
 	else if (event.EventType == EET_MOUSE_INPUT_EVENT &&
 		 event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP)
 	{
@@ -664,6 +669,12 @@ void Juego::add_random_item(vector3df position)
 			(*(--armas.end()))->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas.size() - 1);
 			break;
 	}
+
+	if(armas.size() - 1 < 6 && armas.size() >= 0)
+	{
+		types[armas.size()] = (*(--armas.end()))->get_type();
+	}
+
 	cout << "ACABO ACABO " << endl;
 	cout << (*armas.begin())->get_weapon_node()->getName() << endl;
 }
@@ -675,6 +686,7 @@ void Juego::replace_random_item( int index)
 		
 		scene::ISceneManager* sm = device->getSceneManager();
 		std::list<Weapon*>::iterator it = armas.begin();
+
 
 		for(int i = 0; i < index; i++)
 		{
@@ -694,57 +706,78 @@ void Juego::replace_random_item( int index)
 		srand((unsigned)time(0)); 
 		int r = rand();
 		r = r % 7;
+
+		it = armas.begin();
+		for(int i = 0; i < index; i++)
+		{
+			it++;
+		}
+		
 		switch(r)
 		{
 			case 0:
-			armas.push_back( new Spear(0,0,sm));
+				it = armas.insert(it, new Spear(0,0,sm));
+				position.Y = 25;
+				(*it)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas.size() - 1);
+			/*armas.push_back( new Spear(0,0,sm));
 			position.Y = 25;
-			(*(--armas.end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas.size() - 1);
+			(*(--armas.end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas.size() - 1);*/
 			break;
 		case 1:
-			armas.push_back( new Sword(0,0,sm));
-			(*(--armas.end()))->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas.size() - 1);
+			it = armas.insert(it, new Sword(0,0,sm));
+			(*it)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas.size() - 1);
 			break;
 		case 2:
-			armas.push_back(new Bow(0,0,sm, mapSelector, device));
-			(*(--armas.end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas.size() - 1);
+			it = armas.insert(it, new Bow(0,0,sm, mapSelector, device));
+			(*it)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas.size() - 1);
 			break;
 		case 3:
-			armas.push_back(new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM));
-			(*(--armas.end()))->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas.size() - 1);
+			it = armas.insert(it, new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM));
+			(*it)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas.size() - 1);
 			break;
 		case 4:
-			armas.push_back(new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM));
-			(*(--armas.end()))->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas.size() - 1);
+			it = armas.insert(it, new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM));
+			(*it)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas.size() - 1);
 			break;
 		case 5:
-			armas.push_back(new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM));
-			(*(--armas.end()))->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas.size() - 1);
+			it = armas.insert(it, new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM));
+			(*it)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas.size() - 1);
 			break;
 		case 6:
-			armas.push_back(new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE));
-			(*(--armas.end()))->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas.size() - 1);
+			it = armas.insert(it, new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE));
+			(*it)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas.size() - 1);
 			break;
 		}
+		
+		(*it)->get_weapon_node()->setName((std::to_string((*it)->get_type()) + '_' + std::to_string(index)).c_str());
+		types[index] = (*it)->get_type();
 
-		int number;
-		int type;
+
+		//int number;
+		//int type;
+
+		//number = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(strcspn((*it)->get_weapon_node()->getName(), "_") + 1).c_str());
+		//type = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(0, strcspn((*it)->get_weapon_node()->getName(), "_")).c_str());
+		
+		
 		int i = 0;
 		for(it = armas.begin(); it != armas.end(); ++it)
 		{
-			if(i >= index && it != --armas.end())
+			/*if(i >= index && it != --armas.end())
 			{
 				number = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(strcspn((*it)->get_weapon_node()->getName(), "_") + 1).c_str());
 				number--;
 				type = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(0, strcspn((*it)->get_weapon_node()->getName(), "_")).c_str());
 				//cout << "DA NAME " << type << "_" << number << endl;
 				(*it)->get_weapon_node()->setName((std::to_string(type) + '_' + std::to_string(number)).c_str());
-			}
+			}*/
 			cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
 	
 
 			i++;
 		}
+		
+//		cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
 
 	}
 	catch(...)

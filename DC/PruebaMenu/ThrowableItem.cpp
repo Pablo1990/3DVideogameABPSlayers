@@ -45,6 +45,7 @@ ThrowableItem::ThrowableItem(ISceneManager *sm, ITriangleSelector *ms, IrrlichtD
 			this->set_ammo_mesh(torch_path);
 			break;
 		}
+		this->resist = 1;
 	}
 	catch(...)
 	{}
