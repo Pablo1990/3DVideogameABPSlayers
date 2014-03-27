@@ -47,7 +47,7 @@ public:
 
 	//Lista de items de arma
 	std::list<Weapon*> getItems();
-	void setItems(std::list<Weapon*> );
+	void setItems(std::list<Weapon*>, double* );
 
 	void pick_weapon();
 

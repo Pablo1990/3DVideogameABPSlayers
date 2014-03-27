@@ -460,7 +460,9 @@ void Juego::loadSceneData()
 	this->add_random_item(vector3df(1000,0,100));
 	this->add_random_item(vector3df(700,0,1000));
 	this->add_random_item(vector3df(100,0,1000));
-	npc->setItems(armas);
+	types[5] = HEAL_TYPE;
+
+	npc->setItems(armas, types);
 	
 	
 }

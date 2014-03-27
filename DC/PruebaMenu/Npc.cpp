@@ -206,9 +206,10 @@ std::list<Weapon*> Npc::getItems()
 	return items;
 
 }
-void Npc::setItems(std::list<Weapon*> armas)
+void Npc::setItems(std::list<Weapon*> armas, double* tipos)
 {
 	items=armas;
+
 }
 vector3df  Npc::DarPosSalud()
 {
