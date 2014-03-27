@@ -38,7 +38,7 @@ public:
 	vector3df DarPosArmaCercana();
 
 	void attack(int type);
-
+	void attackBot(int type);
 	void add_weapon_to_node(vector3df position, vector3df rotation, vector3df scale);
 
 	//Enemigo
