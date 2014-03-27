@@ -107,6 +107,7 @@ void Character::add_to_camera(vector3df position, vector3df rotation, vector3df 
 			sh->add_to_camera(vector3df(-5,-5,5), vector3df(0,0,0), vector3df(3,3,3), camera);
 		//sh->get_weapon_node()->setDebugDataVisible(EDS_BBOX_ALL);
 		//camera->setParent(character_node);
+		
 		if (this->character_node)
 		{
 			do_transformations_and_joints(position, rotation, scale);

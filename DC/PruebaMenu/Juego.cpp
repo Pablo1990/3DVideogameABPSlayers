@@ -90,109 +90,118 @@ void Juego::run()
 	scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 	core::line3d<f32> ray;
 	int attack_count = 0;
-		
-	Position p1(npc->get_position().X, 0, npc->get_position().Z);
-	Position p2(npc->get_position().X + 700, 0, npc->get_position().Z);
-	Pathfinding pf(p1, p2);
-	Position last_corner(1894.93, 1, 1294.88);
-	vector<vector<Position>> obstacles;
-	vector<Position> v2;
-	v2.push_back(last_corner);
-	obstacles.push_back(v2);
-	pf.setMapa(obstacles);
+	if(estado==1)
+	{
+		Position p1(npc->get_position().X, 0, npc->get_position().Z);
+		Position p2(npc->get_position().X + 700, 0, npc->get_position().Z);
+		Pathfinding pf(p1, p2);
+		Position last_corner(1894.93, 1, 1294.88);
+		vector<vector<Position>> obstacles;
+		vector<Position> v2;
+		v2.push_back(last_corner);
+		obstacles.push_back(v2);
+		pf.setMapa(obstacles);
 
 
 	vector<Position> way_points = pf.AEstrella(500);
 
 	pf.imprimirCamino();
-		
-		
-	int unavez=0;
-	hud=new Hud(device);
-		
+	}
 	
-		hud->drawHud(device,npc,player);
-
-
-	while(device->run() && driver)
-	{
-		if (device->isWindowActive())
-		{
-
-			now = device->getTimer()->getTime();
-
-
-			player->movement(camera);
-			if(player->get_weapon())
-				player->get_weapon()->finish_animation();
-
-			if(npc)
-			{
-				npc->manage_collision(player->get_weapon(), device);
-				/*mente->Arbitrate();
-				mente->ProcessSubgoals();
-				npc->way_to(pf.getCamino());*/
-				npc->restore_condition(device);
-				//swprintf(tmp, 255, L"NpcHealth %f", player->get_position().Y);
-				
-				//statusText->setText(tmp);
-				if(player)
-					npc->face_target(player->get_character_node());
-
-					if(npc->get_weapon())
-					{
-						npc->get_weapon()->finish_animation();
-
-					}
-			}
 		
-			if(player)
+		
+	if(estado==1)
+	{
+			hud=new Hud(device);
+			hud->drawHud(device,npc,player);
+
+
+			while(device->run() && driver)
 			{
-				player->heal_or_fire(campFire, heal_camp, device);
-				player->fall_down(device);
-			}
-				/*switch(player->heal_or_fire(campFire, heal_camp, device))
+				if (device->isWindowActive())
 				{
 
-					case 0:
-						swprintf(tmp, 255, L"NORMAL", head_hit);
-						statusText->setText(tmp);
-						break;
-					case 1:
-						swprintf(tmp, 255, L"ARDO", head_hit);
-						statusText->setText(tmp);
-						break;
-				
-					case 2:
-						swprintf(tmp, 255, L"CURACION", head_hit);
-						statusText->setText(tmp);
-						break;
-				}*/
-				
-			driver->beginScene(timeForThisScene != -1, true, backColor);
-/*
-			if(unavez>3 && unavez<51)
-			{
-				
-			
-			}*/
-			hud->setSkinTransparency( guienv->getSkin());
-			hud->setHud(npc,player);
-				
-			unavez++;
-
-			smgr->drawAll();
-			guienv->drawAll();
-			driver->endScene();
+					now = device->getTimer()->getTime();
 
 
+					player->movement(camera);
+					if(player->get_weapon())
+						player->get_weapon()->finish_animation();
+
+					if(npc)
+					{
+						npc->manage_collision(player->get_weapon(), device);
+						/*mente->Arbitrate();
+						mente->ProcessSubgoals();
+						npc->way_to(pf.getCamino());*/
+						npc->restore_condition(device);
+						//swprintf(tmp, 255, L"NpcHealth %f", player->get_position().Y);
+				
+						//statusText->setText(tmp);
+						if(player)
+							npc->face_target(player->get_character_node());
+
+							if(npc->get_weapon())
+							{
+								npc->get_weapon()->finish_animation();
+
+							}
+					}
 		
-			
+					if(player)
+					{
+						player->heal_or_fire(campFire, heal_camp, device);
+						player->fall_down(device);
+					}
+						/*switch(player->heal_or_fire(campFire, heal_camp, device))
+						{
 
-			
-	
-		}
+							case 0:
+								swprintf(tmp, 255, L"NORMAL", head_hit);
+								statusText->setText(tmp);
+								break;
+							case 1:
+								swprintf(tmp, 255, L"ARDO", head_hit);
+								statusText->setText(tmp);
+								break;
+				
+							case 2:
+								swprintf(tmp, 255, L"CURACION", head_hit);
+								statusText->setText(tmp);
+								break;
+						}*/
+				
+					driver->beginScene(timeForThisScene != -1, true, backColor);
+		
+					hud->setSkinTransparency( guienv->getSkin());
+					hud->setHud(npc,player);
+					smgr->drawAll();
+					guienv->drawAll();
+					driver->endScene();
+
+				}
+			}
 	}
+	else if(estado==2)
+	{
+		while(device->run() && driver)
+			{
+				if (device->isWindowActive())
+				{
+
+					now = device->getTimer()->getTime();
+
+					driver->beginScene(timeForThisScene != -1, true, backColor);
+					smgr->drawAll();
+					guienv->drawAll();
+					driver->endScene();
+
+
+				}
+			}
+	
+	}
+	
 }
 
 void Juego::switchToNextScene()
@@ -234,18 +243,23 @@ void Juego::switchToNextScene()
 		camera->bindTargetAndRotation(true);
 		camera->setPosition(core::vector3df(25,140,25));
 		camera->setFarValue(5000.0f);
+			if(estado==1)
+			{
+				Sword *sw2 = new Sword(4,7,sm);
+				player = new Player(sm, sw2, mapSelector, camera);
+				player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
+				player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
 	
-		Sword *sw2 = new Sword(4,7,sm);
-		player = new Player(sm, sw2, mapSelector, camera);
-		player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
-		player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
+				//IA
+				npc->setEnem(player);
+				mente=new Goal_Think();
+				npc->setBrain(mente);
+				mente->setDueño(npc);
+			}
 		
 		
-		//IA
-		npc->setEnem(player);
-		mente=new Goal_Think();
-		npc->setBrain(mente);
-		mente->setDueño(npc);
+		
+		
 
 			collider =
 			sm->createCollisionResponseAnimator(
@@ -406,28 +420,31 @@ void Juego::loadSceneData()
 	heal_camp->setMaterialTexture(0, driver->getTexture("../media/particlegreen.jpg"));
 	heal_camp->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 
+	if(estado==1)
+	{
+		npc = new Npc(sm,new Sword(0,0,sm),heal_camp->getAbsolutePosition());
 	
-	npc = new Npc(sm,new Sword(0,0,sm),heal_camp->getAbsolutePosition());
+		npc->add_to_scene(core::vector3df(100,10,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
+			/*collider =
+				sm->createCollisionResponseAnimator(
+				metaSelector,npc->get_character_node(), core::vector3df(15,1,15),
+				core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0));
+
+		npc->get_character_node()->addAnimator(collider);*/
+
+		//Sword *sw3 = new Sword(4,7,sm);
+		//Spear *sw3 = new Spear(4,5,sm);
+		//Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
 	
+		ThrowableItem *sw3 = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
 	
+		npc->set_weapon(sw3);
+		npc->add_weapon_to_node(core::vector3df(0,120,-20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+	}
+
 	
 
-	npc->add_to_scene(core::vector3df(100,10,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
-
-	/*collider =
-			sm->createCollisionResponseAnimator(
-			metaSelector,npc->get_character_node(), core::vector3df(15,1,15),
-			core::vector3df(0, quakeLevelMesh ? -10.f : 0.0f,0));
-
-	npc->get_character_node()->addAnimator(collider);*/
-
-	//Sword *sw3 = new Sword(4,7,sm);
-	//Spear *sw3 = new Spear(4,5,sm);
-	//Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
-	ThrowableItem *sw3 = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
 	
-	npc->set_weapon(sw3);
-	npc->add_weapon_to_node(core::vector3df(0,120,-20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
 	
 	//SWORD: position 40, 100, 0; rotation 180, -50, 90; scale 0.02, 0.02, 0.02
 	//SPEAR: position 10, 100, -20; rotation 90,-50,90, scale 2.5, 2.5, 2.5
@@ -472,8 +489,8 @@ void Juego::loadSceneData()
 	this->add_random_item(vector3df(100,0,1000));
 
 	types[5] = HEAL_TYPE;
-
-	npc->setItems(armas, types);
+	if(estado==1)
+		npc->setItems(armas, types);
 	
 }
 
