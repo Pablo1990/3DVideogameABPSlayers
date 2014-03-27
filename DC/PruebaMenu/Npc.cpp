@@ -488,19 +488,24 @@ bool Npc::Update()
 {
 	vector<double> inputs;
 	//metemos los inputs:
-	inputs.push_back(this->get_health()); //mi vida
-	inputs.push_back(this->getEnemigo()->get_health()); //vida enemigo
-	//mi posicion, habria que ver como lo metemos, porque asi son muchos parametros
-	inputs.push_back(this->get_position().X); 
-	inputs.push_back(this->get_position().Y);
-	inputs.push_back(this->get_position().Z);
-	//posicion enemigo, a lo mejor habria que ver la distancia al enemigo en vez de esto
-	inputs.push_back(this->getEnemigo()->get_position().X);
-	inputs.push_back(this->getEnemigo()->get_position().Y);
-	inputs.push_back(this->getEnemigo()->get_position().Z);
-	//posiciones de objetos?
+	inputs.push_back(getPosPrX());
+	inputs.push_back(getPosPrY());
+	inputs.push_back(getPosEnemX());
+	inputs.push_back(getPosEnemY());
+	inputs.push_back(getOrienPr());
+	inputs.push_back(getOrienEnem());
+	inputs.push_back(getSaludEnem());
+	inputs.push_back(getSaludPr());
+	for(int i=0; i<4; i++)
+		inputs.push_back(getDesgastePr()[i]);
 
-	inputs.push_back(this->get_weapon()->get_resist()); //resistencia arma
+	for(int i=0; i<6; i++)
+	{
+		inputs.push_back(getPosXItems()[i]);
+		inputs.push_back(getPosYItems()[i]);
+		inputs.push_back(getTypeItems()[i]);
+	}
+
 	//cambiar el sigmoid y el activationResponse 
 	vector<double> output = m_ItsBrain.Update(inputs);
 	//make sure there were no errors in calculating the 
