@@ -77,5 +77,7 @@ protected:
 	int paralysis_start;
 	int slow_start;
 	bool is_dead;
+	int heal_tick;
+	int fire_tick;
 };
 

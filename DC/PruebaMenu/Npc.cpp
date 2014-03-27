@@ -371,6 +371,7 @@ void Npc::move_to(Position p)
 		ISceneNodeAnimator *anim = scene_manager->createFlyStraightAnimator(
 		this->get_position(), vector3df(p.getX(), p.getY(), p.getZ()), 70 / slow, false);
 		this->get_character_node()->addAnimator(anim);
+
 		anim->drop();
 	}
 	
