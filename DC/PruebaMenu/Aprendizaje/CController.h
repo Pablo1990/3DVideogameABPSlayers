@@ -103,6 +103,8 @@ public:
 	void asignarEnemigo(int num);
 
 	void invisPlayers(int num);
+	void updateFitnessFinal(Npc*,Npc*);
+
 };
 
 

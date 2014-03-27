@@ -22,10 +22,18 @@ Juego::~Juego(void)
 		metaSelector->drop();
 }
 
+void Juego::setEstado(int es)
+{
+	estado=es;
+}
+int Juego::getEstado()
+{
+	return estado;
+}
 void Juego::run()
 {
 	bool collision_flag = false;
-	core::dimension2d<u32> resolution(1250, 940);
+	core::dimension2d<u32> resolution(1366, 768);
 	
 	irr::SIrrlichtCreationParameters params;
 	params.DriverType=driverType;
@@ -101,6 +109,8 @@ void Juego::run()
 		
 	int unavez=0;
 	hud=new Hud(device);
+		
+	
 		hud->drawHud(device,npc,player);
 
 
@@ -400,7 +410,7 @@ void Juego::loadSceneData()
 	npc = new Npc(sm,new Sword(0,0,sm),heal_camp->getAbsolutePosition());
 	
 	
-
+	
 
 	npc->add_to_scene(core::vector3df(100,10,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 
@@ -460,8 +470,10 @@ void Juego::loadSceneData()
 	this->add_random_item(vector3df(1000,0,100));
 	this->add_random_item(vector3df(700,0,1000));
 	this->add_random_item(vector3df(100,0,1000));
-	npc->setItems(armas);
-	
+
+	types[5] = HEAL_TYPE;
+
+	npc->setItems(armas, types);
 	
 }
 

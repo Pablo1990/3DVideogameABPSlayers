@@ -27,11 +27,11 @@ class MyMenu: public IEventReceiver
 public:
 	MyMenu();
 	~MyMenu(void);
-	bool AddMenu(video::E_DRIVER_TYPE&);
+	int AddMenu(video::E_DRIVER_TYPE&);
 	void setStart();
 	virtual bool OnEvent(const SEvent& event);
 private:
-	bool start;
+	int start;
 	IrrlichtDevice * device;
 };
 

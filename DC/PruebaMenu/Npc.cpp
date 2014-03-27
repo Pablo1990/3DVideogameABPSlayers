@@ -216,6 +216,8 @@ std::list<Weapon*> Npc::getItems()
 	return items;
 
 }
+
+
 void Npc::setItems(std::list<Weapon*> armas,double * tipos)
 {
 	items=armas;
@@ -235,6 +237,7 @@ void Npc::setItems(std::list<Weapon*> armas,double * tipos)
 		itemsPx[5] = Clamp(this->DarPosSalud().X/1894.93,0,1);
 		itemsPy[5] = (this->DarPosSalud().Z/1294.88,0,1);
 		itemsType=tipos;
+		
 }
 vector3df  Npc::DarPosSalud()
 {
