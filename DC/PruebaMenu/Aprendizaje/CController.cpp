@@ -5,7 +5,7 @@
 //	initilaize the npc, their brains and the GA factory
 //
 //-----------------------------------------------------------------------
-CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth): m_NumNpc(CParams::iNumSweepers), 
+CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,std::list<Weapon*> armas, double* types): m_NumNpc(CParams::iNumSweepers), 
 	m_pGA(NULL),
 	m_iTicks(0),
 	m_hwndMain(hwndMain),
@@ -20,6 +20,7 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth): 
 	{
 		Npc* n = new Npc(sm,new Sword(0,0,sm),posHealth);
 		n->add_to_scene(core::vector3df(0,100,0), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
+		n->setItems(armas, types);
 		m_vecNpc.push_back(n);
 	}
 	
