@@ -184,13 +184,13 @@ void Juego::run()
 	}
 	else if(estado==2)
 	{
+		CController* controller=new CController(NULL,smgr,heal_camp->getAbsolutePosition(),armas,types);
 		while(device->run() && driver)
 			{
 				if (device->isWindowActive())
 				{
-
 					now = device->getTimer()->getTime();
-
+					controller->Update();
 					driver->beginScene(timeForThisScene != -1, true, backColor);
 					smgr->drawAll();
 					guienv->drawAll();
@@ -243,19 +243,19 @@ void Juego::switchToNextScene()
 		camera->bindTargetAndRotation(true);
 		camera->setPosition(core::vector3df(25,140,25));
 		camera->setFarValue(5000.0f);
-			if(estado==1)
-			{
-				Sword *sw2 = new Sword(4,7,sm);
-				player = new Player(sm, sw2, mapSelector, camera);
-				player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
-				player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
+		if(estado==1)
+		{
+			Sword *sw2 = new Sword(4,7,sm);
+			player = new Player(sm, sw2, mapSelector, camera);
+			player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
+			player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
 	
-				//IA
-				npc->setEnem(player);
-				mente=new Goal_Think();
-				npc->setBrain(mente);
-				mente->setDueño(npc);
-			}
+			//IA
+			npc->setEnem(player);
+			mente=new Goal_Think();
+			npc->setBrain(mente);
+			mente->setDueño(npc);
+		}
 		
 		
 		
@@ -491,6 +491,7 @@ void Juego::loadSceneData()
 	types[5] = HEAL_TYPE;
 	if(estado==1)
 		npc->setItems(armas, types);
+
 	
 }
 

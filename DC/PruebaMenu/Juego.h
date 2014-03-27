@@ -14,6 +14,7 @@
 #include "Position.h"
 #include "Mapa.h";
 #include "Hud.h";
+#include "Aprendizaje\CController.h"
 using namespace std;
 
 
