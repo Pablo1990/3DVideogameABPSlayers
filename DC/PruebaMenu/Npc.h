@@ -9,11 +9,14 @@
 #include <iomanip>
 #include "Player.h"
 #include "Position.h"
+#include <math.h>
 
 #include "Goal_Think.h"
 #include "Aprendizaje\CNeuralNet.h"
 
 #include <IMeshManipulator.h>
+
+using namespace std;
 
 class Goal_Think;
 

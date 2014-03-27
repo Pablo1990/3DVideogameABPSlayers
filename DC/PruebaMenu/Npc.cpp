@@ -501,6 +501,7 @@ bool Npc::Update()
 	//posiciones de objetos?
 
 	inputs.push_back(this->get_weapon()->get_resist()); //resistencia arma
+	//cambiar el sigmoid y el activationResponse 
 	vector<double> output = m_ItsBrain.Update(inputs);
 	//make sure there were no errors in calculating the 
 	//output
@@ -510,19 +511,72 @@ bool Npc::Update()
 	}
 
 	//manda al juego lo que tiene que hacer en función del output
-	//en plan atacar, defender etcc..
-	Position pIzq(get_position().X, get_position().Y, get_position().Z);
-	Position pDer(get_position().X, get_position().Y, get_position().Z);
-	Position pDelante(get_position().X, get_position().Y, get_position().Z);
-	Position pAtras(get_position().X, get_position().Y, get_position().Z);
-	if(output[0])
-		this->attack(0);//distintos ataques??
-	else if(output[1])
-		this->defend();
-	else if(output[2]){
-		this->face_target(vector3df(pIzq.getX(),pIzq.getY(),pIzq.getZ()));
-		this->move_to(pIzq);
+	
+	//outputs:  //en cada linea no simultaneos entre ellos
+	//Cubrirse: 0; ataque1: 1; ataque2: 2; ataque3: 3;
+	//VRotacion derecha: 4; VRotacion izquierda: 5;
+	//VMovimientoDelante: 6; VMovimientoAtrás: 7;
+	
+	
+	if(output[4]>output[5])
+	{
+		if(output[4]>0.25)
+		{
+			ISceneNodeAnimator *anim = this->get_character_node->createRotationAnimator(vector3df(0, -output[4]*10, 0));
+			get_character_node()->addAnimator(anim);
+			anim->drop();
+		}
 	}
+	else{
+		if(output[5]>0.25)
+		{
+			ISceneNodeAnimator *anim = this->get_character_node->createRotationAnimator(vector3df(0, output[5]*10, 0));
+			get_character_node()->addAnimator(anim);
+			anim->drop();
+		}
+	}
+
+	if(output[6]>output[7])
+	{
+		if(output[6]>0.25)
+		{
+			vector3df p = get_position();
+			double Theta = character_node->getAbsoluteTransformation().getRotationDegrees().Y;
+			double xp = p.X * cos(Theta) - p.Z * sin(Theta);
+			double zp = p.X * sin(Theta) + p.Z * cos(Theta);
+			p.set(xp, p.Y, zp);
+			ISceneNodeAnimator *anim = scene_manager->createFlyStraightAnimator(	this->get_position(), p , output[6]*10 / slow, false);
+			get_character_node()->addAnimator(anim);
+			anim->drop();
+		}
+	}
+	else{
+		if(output[7]>0.25)
+		{
+			vector3df p = get_position();
+			double Theta = -character_node->getAbsoluteTransformation().getRotationDegrees().Y;
+			double xp = p.X * cos(Theta) - p.Z * sin(Theta);
+			double zp = p.X * sin(Theta) + p.Z * cos(Theta);
+			p.set(xp, p.Y, zp);
+			ISceneNodeAnimator *anim = scene_manager->createFlyStraightAnimator(	this->get_position(), p , output[6]*10 / slow, false);
+			get_character_node()->addAnimator(anim);
+			anim->drop();
+		}
+	}
+
+	double pAtaque = max(max(output[0], output[1]), max(output[2], output[3]));
+	if(pAtaque>=0.8){
+		if(pAtaque==output[0])
+			this->defend();
+		else if(pAtaque == output[1])
+			this->attack(0);
+		else if(pAtaque == output[2])
+			this->attack(1);
+		else if(pAtaque == output[3])
+			this->attack(2);
+	}
+
+	
 	return true;
 	//aqui se se supone que debería actualizar inputs, pero eso
 	//se debera hacer al actuar (se encarga irrlicht)
