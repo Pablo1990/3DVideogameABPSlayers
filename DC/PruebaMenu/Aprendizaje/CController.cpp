@@ -24,6 +24,8 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,st
 		n->add_weapon_to_node(core::vector3df(0,120,-20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
 		n->setItems(armas, types);
 		m_vecNpc.push_back(n);
+		m_vecNpcHealth.push_back(100);
+		m_vecNpcEnemiesHealth.push_back(100);
 	}
 	firstBlood = false;
 	
@@ -204,6 +206,7 @@ void CController::updateFitnessFinal(Npc* uno,Npc* dos)
 }
 void CController::updateNpcFitness(int numNpc){
 	//my health decrease or increase
+
 	m_vecNpc[numNpc]->setFitness(m_vecNpc[numNpc]->Fitness()-(m_vecNpcHealth[numNpc]-m_vecNpc[numNpc]->get_health())/10);
 	m_vecNpcHealth[numNpc] = m_vecNpc[numNpc]->get_health();
 
