@@ -86,6 +86,106 @@ void CController::assignEnemies(){
 	
 }
 
+void CController::updateFitnessFinal(Npc* uno,Npc* dos)
+{
+	//Daremos 20 por victoria x victoria se toma que la diferencia con respecto al otro sea mayor
+	double diff=uno->get_health()-dos->get_health();
+	double difFit=0;
+	double premio1=0;
+	double premio2=0;
+	if(diff<0)
+	{
+		//Gana el dos
+		premio2=premio2+20;
+		if(uno->Fitness()>=dos->Fitness())
+		{
+			difFit=abs(uno->Fitness()-dos->Fitness());
+			if(difFit>50)
+			{
+				premio2=premio2+20;
+				premio1=premio1-20;
+			}
+				
+		}
+		else
+		{
+			difFit=abs(uno->Fitness()-dos->Fitness());
+			if(difFit>50)
+			{
+				premio2=premio2-15;
+				premio1=premio1-5;
+			}		
+					
+		}
+		
+	}
+
+	else if(diff>0)
+	{
+		
+		//Gana el uno
+		premio1=premio1+20;
+		if(uno->Fitness()>=dos->Fitness())
+		{
+			difFit=abs(uno->Fitness()-dos->Fitness());
+			if(difFit>50)
+			{
+				premio1=premio1-15;
+				premio2=premio2-5;
+			}
+			
+				
+		}
+		else
+		{
+			difFit=abs(uno->Fitness()-dos->Fitness());
+			if(difFit>50)
+			{
+				premio1=premio1+20;
+				premio2=premio2-20;
+			}		
+					
+		}
+	}
+		
+	else
+	{
+		//Empate
+
+		if(uno->Fitness()>=dos->Fitness())
+		{
+			difFit=abs(uno->Fitness()-dos->Fitness());
+			if(difFit>50)
+			{
+				premio1=premio1-10;
+				premio2=premio2+10;
+			}
+			
+				
+		}
+		else
+		{
+			difFit=abs(uno->Fitness()-dos->Fitness());
+			if(difFit>50)
+			{
+				premio1=premio1+10;
+				premio2=premio2-10;
+			}		
+					
+		}
+	}
+	if(uno->Fitness()+premio1>0)
+		uno->setFitness(uno->Fitness()+premio1);
+	else
+		uno->setFitness(0);
+
+	if(dos->Fitness()+premio2>0)
+		dos->setFitness(dos->Fitness()+premio2);
+	else
+		dos->setFitness(0);
+
+
+}
 void CController::updateNpcFitness(int numNpc){
 	//my health decrease or increase
 	m_vecNpc[numNpc]->setFitness(m_vecNpc[numNpc]->Fitness()-(m_vecNpcHealth[numNpc]-m_vecNpc[numNpc]->get_health()));

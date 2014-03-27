@@ -43,6 +43,8 @@ public:
 
 	void replace_random_item( int index);
 
+	void setEstado(int estado);
+	int getEstado();
 
 private:
 	video::E_DRIVER_TYPE driverType;
@@ -52,6 +54,7 @@ private:
 	gui::IGUIStaticText* statusText;
 	gui::IGUIStaticText* statusText2;
 	scene::IQ3LevelMesh* quakeLevelMesh;
+	int estado;
 
 	scene::IMetaTriangleSelector* metaSelector;
 	scene::IMetaTriangleSelector* metaModelSelector;

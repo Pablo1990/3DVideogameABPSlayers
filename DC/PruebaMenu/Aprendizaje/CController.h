@@ -95,6 +95,9 @@ public:
 	void updateNpcFitness(int numNpc);
 
 	void assignEnemies();
+
+	void updateFitnessFinal(Npc*,Npc*);
+
 };
 
 
