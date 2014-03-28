@@ -472,7 +472,7 @@ void Character::replace_random_item( int index, std::list<Weapon*>* armas, Irrli
 		switch(r)
 		{
 			case 0:
-				it = armas->insert(it, new Spear(0,0,sm));
+				it = armas->insert(it, new Spear(6,5,sm));
 				position.Y = 25;
 				(*it)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas->size() - 1);
 			/*armas.push_back( new Spear(0,0,sm));
@@ -480,11 +480,11 @@ void Character::replace_random_item( int index, std::list<Weapon*>* armas, Irrli
 			(*(--armas.end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas.size() - 1);*/
 			break;
 		case 1:
-			it = armas->insert(it, new Sword(0,0,sm));
+			it = armas->insert(it, new Sword(4,7,sm));
 			(*it)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas->size() - 1);
 			break;
 		case 2:
-			it = armas->insert(it, new Bow(0,0,sm, mapSelector, device));
+			it = armas->insert(it, new Bow(4,4,sm, mapSelector, device));
 			(*it)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
 			break;
 		case 3:
@@ -506,7 +506,7 @@ void Character::replace_random_item( int index, std::list<Weapon*>* armas, Irrli
 		}
 		
 		(*it)->get_weapon_node()->setName((std::to_string((*it)->get_type()) + '_' + std::to_string(index)).c_str());
-		types[index] = (*it)->get_type();
+		this->types[index] = (*it)->get_type();
 
 
 		//int number;

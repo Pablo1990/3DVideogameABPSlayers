@@ -110,8 +110,8 @@ void Juego::run()
 			if(npc)
 			{
 				npc->manage_collision(player->get_weapon(), device);
-				mente->Arbitrate();
-				mente->ProcessSubgoals();
+				//mente->Arbitrate();
+				//mente->ProcessSubgoals();
 				//npc->way_to(pf.getCamino());
 				npc->restore_condition(device);
 				//swprintf(tmp, 255, L"NpcHealth %f", player->get_position().Y);
@@ -220,7 +220,7 @@ void Juego::switchToNextScene()
 		player = new Player(sm, sw2, mapSelector, camera);
 		player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
 		player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
-		
+		player->set_types(types);
 		
 		//IA
 		npc->setEnem(player);
@@ -470,6 +470,7 @@ void Juego::loadSceneData()
 	types[5] = HEAL_TYPE;
 
 	npc->setItems(armas, types);
+//	npc->set_types(types);
 	
 	
 }
@@ -649,16 +650,16 @@ void Juego::add_random_item(vector3df position)
 	switch(rand()%7)
 	{
 		case 0:
-			armas->push_back( new Spear(0,0,sm));
+			armas->push_back( new Spear(6,5,sm));
 			position.Y = 25;
 			(*(--armas->end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas->size() - 1);
 			break;
 		case 1:
-			armas->push_back( new Sword(0,0,sm));
+			armas->push_back( new Sword(4,7,sm));
 			(*(--armas->end()))->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas->size() - 1);
 			break;
 		case 2:
-			armas->push_back(new Bow(0,0,sm, mapSelector, device));
+			armas->push_back(new Bow(4,4,sm, mapSelector, device));
 			(*(--armas->end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
 			break;
 		case 3:

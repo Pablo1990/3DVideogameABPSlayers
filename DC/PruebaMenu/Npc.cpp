@@ -141,10 +141,13 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 								}
 
 							}
-
-								this->health = this->health - ((w->get_damage() + 0.50 * w->get_damage()) 
+								double resto = (2 * ((w->get_damage() + 0.50 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
-								this->character_node->getPosition().Z));
+								this->character_node->getPosition().Z)));
+
+								this->health = this->health - (2 * ((w->get_damage() + 0.50 * w->get_damage()) 
+								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
+								this->character_node->getPosition().Z)));
 						}
 						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->body))
 						{
@@ -160,9 +163,12 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 
 							}
 
-							this->health = this->health - ((w->get_damage() - 0.40 * w->get_damage()) 
+							double resto = (2 * ((w->get_damage() - 0.40 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
-								this->character_node->getPosition().Z));
+								this->character_node->getPosition().Z)));
+							this->health = this->health - (2 * ((w->get_damage() - 0.40 * w->get_damage()) 
+								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
+								this->character_node->getPosition().Z)));
 							
 						}
 						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->extremity))
@@ -177,9 +183,13 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 								}
 							}
 
-								this->health = this->health - ((w->get_damage() - 0.20 * w->get_damage())  
+								double resto = (((w->get_damage() - 0.20 * w->get_damage())  
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
-								this->character_node->getPosition().Z));
+								this->character_node->getPosition().Z)) * 2);
+
+								this->health = this->health - (((w->get_damage() - 0.20 * w->get_damage())  
+								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
+								this->character_node->getPosition().Z)) * 2);
 						}
 					}
 				}
@@ -217,6 +227,7 @@ std::list<Weapon*>* Npc::getItems()
 void Npc::setItems(std::list<Weapon*>* armas, double* tipos)
 {
 	items=armas;
+	this->types = tipos;
 
 }
 vector3df  Npc::DarPosSalud()
