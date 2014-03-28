@@ -28,7 +28,7 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,st
 		m_vecNpcEnemiesHealth.push_back(100);
 	}
 	firstBlood = false;
-	
+	device1=device;
 	//asociar enemigos unos con otros
 	assignEnemies();
 
@@ -93,8 +93,10 @@ void CController::assignEnemies(){
 
 void CController::asignarEnemigo(int num){
 	m_vecNpc[m_vecJornadasLocales[num]]->setEnem(m_vecNpc[m_vecJornadasVisitantes[num]]);
+
 	m_vecNpc[m_vecJornadasVisitantes[num]]->setEnem(m_vecNpc[m_vecJornadasLocales[num]]);
-	
+	m_vecNpc[m_vecJornadasLocales[num]]->manage_collision(m_vecNpc[m_vecJornadasVisitantes[num]]->get_weapon(), device1);
+	m_vecNpc[m_vecJornadasVisitantes[num]]->manage_collision(m_vecNpc[m_vecJornadasLocales[num]]->get_weapon(), device1);
 	m_vecNpc[m_vecJornadasLocales[num]]->get_character_node()->setPosition(vector3df(100, 10, 100));
 	m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(1000,10,300));
 }
