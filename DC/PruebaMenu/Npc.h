@@ -87,7 +87,7 @@ double Clamp(double arg, double min, double max)
 	//Aprendizaje
 
 	//resetea los valores a los iniciales, para la siguiente iteracion
-	void Reset(vector3df p); 
+	void Reset(); 
 
 	//Metodos Aprendizaje
 

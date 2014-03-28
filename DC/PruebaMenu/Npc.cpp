@@ -9,6 +9,7 @@ Npc::Npc(ISceneManager *sm,vector3df pos, IrrlichtDevice* d, ITriangleSelector* 
 	steps_count = 0;
 	device = d;
 	mapSelector = mp;
+	m_dFitness = 1000;
 }
 
 Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangleSelector* mp): Character(knight_path, sm, w)
@@ -19,6 +20,7 @@ Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangl
 	steps_count = 0;
 	device = d;
 	mapSelector = mp;
+	m_dFitness = 1000;
 }
 
 Npc::~Npc(void)
@@ -210,14 +212,13 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 }
 
 
-void Npc::Reset(vector3df p){
+void Npc::Reset(){
 	is_dead = false;
 	is_moving = false;
 	steps_count = 0;
 	heal_flag = false;
 	heal_count = 0;
 	health=100;
-	this->character_node->setPosition(p);
 }
 
 
