@@ -19,7 +19,7 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,st
 	//let's create the bots
 	for (int i=0; i<20; ++i)
 	{
-		Npc* n = new Npc(sm,new Sword(0,0,sm),posHealth, device, mapSelector);
+		Npc* n = new Npc(sm,new Sword(4,7,sm),posHealth, device, mapSelector);
 		n->add_to_scene(core::vector3df(0,100,0), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 		n->add_weapon_to_node(core::vector3df(0,120,-20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
 		n->setItems(armas, types);
@@ -95,10 +95,9 @@ void CController::asignarEnemigo(int num){
 	m_vecNpc[m_vecJornadasLocales[num]]->setEnem(m_vecNpc[m_vecJornadasVisitantes[num]]);
 
 	m_vecNpc[m_vecJornadasVisitantes[num]]->setEnem(m_vecNpc[m_vecJornadasLocales[num]]);
-	m_vecNpc[m_vecJornadasLocales[num]]->manage_collision(m_vecNpc[m_vecJornadasVisitantes[num]]->get_weapon(), device1);
-	m_vecNpc[m_vecJornadasVisitantes[num]]->manage_collision(m_vecNpc[m_vecJornadasLocales[num]]->get_weapon(), device1);
+	
 	m_vecNpc[m_vecJornadasLocales[num]]->get_character_node()->setPosition(vector3df(100, 10, 100));
-	m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(1000,10,300));
+	m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(1000,10,100));
 }
 
 void CController::invisPlayers(int num){

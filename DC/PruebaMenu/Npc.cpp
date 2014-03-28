@@ -40,8 +40,10 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 		//RangeWeapon* rw2 = dynamic_cast<RangeWeapon*>(w);
 		if (w != NULL && !is_dead) 
 		{
+			
 			if(!dynamic_cast<RangeWeapon*>(w) && !w->get_collision_flag() && w->is_animated())
 			{
+
 				if (detect_collision(w->get_weapon_node(), this->head))
 				{
 					w->set_collision_flag(true);
@@ -250,28 +252,6 @@ void Npc::setEnem(Player* p)
 	player=p;
 }
 
-void Npc::attackBot(int type)
-{
-	try
-	{
-		if(weapon && !this->paralysis)
-		{
-			weapon->attack(type, this->character_node, this->enemigo->get_position());
-			if(dynamic_cast<ThrowableItem*>(this->weapon))
-			{
-				if(weapon->get_weapon_node())
-				{
-					this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
-					this->weapon->set_weapon_node(NULL);
-				}
-			}
-		}
-	}
-	catch(...)
-	{
-	}
-
-}
 
 
 std::list<Weapon*>* Npc::getItems()
@@ -423,6 +403,29 @@ void Npc::attack(int type)
 		if(weapon && !this->paralysis)
 		{
 			weapon->attack(type, this->character_node, this->player->get_position());
+			if(dynamic_cast<ThrowableItem*>(this->weapon))
+			{
+				if(weapon->get_weapon_node())
+				{
+					this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
+					this->weapon->set_weapon_node(NULL);
+				}
+			}
+		}
+	}
+	catch(...)
+	{
+	}
+
+}
+
+void Npc::attackBot(int type)
+{
+	try
+	{
+		if(weapon && !this->paralysis)
+		{
+			weapon->attack(type, this->character_node, this->enemigo->get_position());
 			if(dynamic_cast<ThrowableItem*>(this->weapon))
 			{
 				if(weapon->get_weapon_node())
@@ -703,7 +706,7 @@ bool Npc::Update()
 	}
 
 	double pAtaque = max(max(output[0], output[1]), max(output[2], output[3]));
-	if(pAtaque>=0.8){
+	if(pAtaque>=0.5){
 		if(pAtaque==output[0])
 		{
 			this->defend();
@@ -730,7 +733,7 @@ bool Npc::Update()
 		}
 			
 	}
-
+	this->manage_collision(this->getEnemigo()->get_weapon(),device);
 	
 	return true;
 	//aqui se se supone que debería actualizar inputs, pero eso
