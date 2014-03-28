@@ -15,7 +15,7 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,st
 {
 	//Debemos definiir para cada npc un enemigo
 	Position last_corner(1894.93, 1, 1294.88);
-
+	duelosRestantes = 0;
 	//let's create the bots
 	for (int i=0; i<20; ++i)
 	{
@@ -260,7 +260,9 @@ bool CController::Update()
 	{
 		invisPlayers(m_vecJornadasLocales.size() - duelosRestantes);
 		duelosRestantes--;
+		cout<<"Duelos restantes "<<duelosRestantes<<endl;
 		if(duelosRestantes==0){
+			cout<<"Generacion " <<m_iGenerations<<endl;
 			//update the stats to be used in our stat window
 			m_vecAvFitness.push_back(m_pGA->AverageFitness());
 			m_vecBestFitness.push_back(m_pGA->BestFitness());
@@ -276,6 +278,7 @@ bool CController::Update()
 
 			//insert the new (hopefully)improved brains back into the sweepers
 			//and reset their positions etc
+			duelosRestantes = (m_NumNpc-1)* (m_NumNpc/2);
 			for (int i=0; i<m_NumNpc; ++i)
 			{
 				m_vecNpc[i]->PutWeights(m_vecThePopulation[i].vecWeights);
@@ -285,8 +288,10 @@ bool CController::Update()
 				invisPlayers(i);
 			}
 			asignarEnemigo(0);
+
 		}
 		else{
+
 			m_iTicks = 0;
 			asignarEnemigo(m_vecJornadasLocales.size() - duelosRestantes);
 			m_vecNpcHealth[m_vecJornadasLocales[m_vecJornadasLocales.size() - duelosRestantes]] = 100;
