@@ -678,8 +678,8 @@ bool Npc::Update()
 		{
 			vector3df p = get_position();
 			double Theta = character_node->getAbsoluteTransformation().getRotationDegrees().Y;
-			double xp = p.X * cos(Theta) - p.Z * sin(Theta);
-			double zp = p.X * sin(Theta) + p.Z * cos(Theta);
+			double xp = (p.X+output[6]*10) * cos(Theta) - (p.Z+output[6]*10) * sin(Theta);
+			double zp = (p.X+output[6]*10) * sin(Theta) + (p.Z+output[6]*10) * cos(Theta);
 			p.set(xp, p.Y, zp);
 			ISceneNodeAnimator *anim = scene_manager->createFlyStraightAnimator(	this->get_position(), p , output[6]*10 / slow, false);
 			get_character_node()->addAnimator(anim);

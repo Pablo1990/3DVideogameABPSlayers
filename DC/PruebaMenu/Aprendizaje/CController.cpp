@@ -92,6 +92,10 @@ void CController::assignEnemies(){
 }
 
 void CController::asignarEnemigo(int num){
+	for(int i=0; i<m_NumNpc; i++){
+		invisPlayers(i);
+	}
+
 	m_vecNpc[m_vecJornadasLocales[num]]->setEnem(m_vecNpc[m_vecJornadasVisitantes[num]]);
 	m_vecNpc[m_vecJornadasVisitantes[num]]->setEnem(m_vecNpc[m_vecJornadasLocales[num]]);
 	
