@@ -236,7 +236,7 @@ bool CController::Update()
 	{
 		for (int i=0; i<m_NumNpc; ++i)
 		{
-			if(m_vecNpc[i]->get_position().X == 0 && m_vecNpc[i]->get_position().Y == 100 && m_vecNpc[i]->get_position().Z == 0)
+			if(m_vecJornadasLocales[m_vecJornadasLocales.size()-duelosRestantes]!=i && m_vecJornadasVisitantes[m_vecJornadasVisitantes.size()-duelosRestantes]!=i)
 				continue;
 			//update the NN and position
 			if (!m_vecNpc[i]->Update())
@@ -291,6 +291,7 @@ bool CController::Update()
 
 		}
 		else{
+			updateFitnessFinal(m_vecNpc[m_vecJornadasLocales[m_vecJornadasLocales.size() - duelosRestantes+1]], m_vecNpc[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - duelosRestantes+1]]);
 
 			m_iTicks = 0;
 			asignarEnemigo(m_vecJornadasLocales.size() - duelosRestantes);
