@@ -66,6 +66,8 @@ private:
 	//handle to the application window
 	HWND				m_hwndMain;
 
+
+	IrrlichtDevice *device1;
 	//toggles the speed at which the simulation runs
 	bool				m_bFastRender;
 	
