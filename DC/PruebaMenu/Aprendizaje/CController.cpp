@@ -5,7 +5,7 @@
 //	initilaize the npc, their brains and the GA factory
 //
 //-----------------------------------------------------------------------
-CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,std::list<Weapon*>* armas, double* types, ITriangleSelector* mapSelector): m_NumNpc(CParams::iNumSweepers), 
+CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,std::list<Weapon*>* armas, double* types, ITriangleSelector* mapSelector,IrrlichtDevice *device): m_NumNpc(CParams::iNumSweepers), 
 	m_pGA(NULL),
 	m_iTicks(0),
 	m_hwndMain(hwndMain),
@@ -19,7 +19,7 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,st
 	//let's create the bots
 	for (int i=0; i<20; ++i)
 	{
-		Npc* n = new Npc(sm,new Sword(0,0,sm),posHealth,  mapSelector);
+		Npc* n = new Npc(sm,new Sword(0,0,sm),posHealth, device, mapSelector);
 		n->add_to_scene(core::vector3df(0,100,0), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 		n->add_weapon_to_node(core::vector3df(0,120,-20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
 		n->setItems(armas, types);
