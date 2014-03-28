@@ -29,9 +29,7 @@ int Goal_GetArma::Process()
 	if((std::abs(pos.X-d->get_position().X)<=100 ) && std::abs(pos.Y-d->get_position().Z)<=100)
 		{
 
-			// Se hara cada clase de arma con distintos valores de resist
 			d->pick_weapon();
-			//d->get_weapon()->set_resist(10);
 			estado=completed;
 		}
 		else

@@ -31,7 +31,7 @@ public:
 
 	void add_to_scene(vector3df position, vector3df rotation, vector3df scale, bool pickable, int index);
 	void add_to_camera(vector3df position,vector3df rotation, vector3df scale, ISceneNode* camera);
-	void add_to_node(vector3df position,vector3df rotation, vector3df scale, ISceneNode* node);
+	virtual void add_to_node(vector3df position,vector3df rotation, vector3df scale, ISceneNode* node);
 	virtual bool is_animated();
 
 	//Obtener y cambiar el desgaste de arma
@@ -54,6 +54,7 @@ protected:
 	int ty;
 	vector3df main_rotation;
 	vector3df main_position;
+
 	bool shield;
 
 private:

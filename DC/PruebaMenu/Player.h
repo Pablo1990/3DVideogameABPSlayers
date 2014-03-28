@@ -14,7 +14,7 @@ public:
 	
 	void manage_collision(Weapon *w, IrrlichtDevice* d); 
 	void drop_weapon(ISceneNode* cam);
-	void pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, IrrlichtDevice *device);
+	void pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, IrrlichtDevice *device, std::list<Weapon*>* armas);
 	void defend();
 	void no_defend();
 

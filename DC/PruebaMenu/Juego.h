@@ -41,7 +41,6 @@ public:
 
 	void add_random_item(vector3df position);
 
-	void replace_random_item( int index);
 
 
 private:
@@ -85,7 +84,7 @@ private:
 	scene::ITriangleSelector* model1_selector;
 	scene::ITriangleSelector* selector;
 	scene::ISceneNodeAnimatorCollisionResponse* collider;
-	std::list<Weapon*> armas;
+	std::list<Weapon*>* armas;
 	int last_drop;
 	double* types;
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <irrlicht.h>
 #include <vector>
+#include <iostream>
 #include "Weapon.h"
 #include <list>
 #include "ThrowableItem.h"
@@ -55,9 +56,15 @@ public:
 
 	//Usado para controlar cambios de estado
 	virtual void restore_condition(IrrlichtDevice* d);
-	void replace_random_item(std::list<Weapon*> armas, int index, IrrlichtDevice *device, ITriangleSelector* mapSelector);
+
+	void set_types(double* ty);
+	void replace_random_item(int index, std::list<Weapon*>* armas, IrrlichtDevice* device, 	scene::ITriangleSelector* mapSelector);
+
+
 
 protected:
+
+	
 	IAnimatedMesh *character_mesh;
 	IAnimatedMeshSceneNode *character_node;
 	ISceneManager *scene_manager;
@@ -79,5 +86,7 @@ protected:
 	bool is_dead;
 	int heal_tick;
 	int fire_tick;
+	double* types;
+
 };
 

@@ -1,6 +1,6 @@
 #include "Character.h"
 #include <iostream>
-
+#include <time.h>  
 
 Character::Character(const char* path, ISceneManager *sm)
 {
@@ -402,7 +402,11 @@ void Character::set_health(double h)
 
 vector3df Character::get_position()
 {
-	return character_node->getPosition();
+	ISceneNode* cosa = character_node;
+
+	if(character_node)
+		return character_node->getPosition();
+	else return vector3df(0,0,0);
 }
 void Character::set_position(double x,double y ,double z)
 {
@@ -426,3 +430,113 @@ void Character::restore_condition(IrrlichtDevice* d)
 	}
 }
 
+void Character::set_types(double* ty)
+{
+	this->types = ty;
+}
+
+void Character::replace_random_item( int index, std::list<Weapon*>* armas, IrrlichtDevice *device, 	scene::ITriangleSelector* mapSelector)
+{
+	try
+	{
+		
+		scene::ISceneManager* sm = device->getSceneManager();
+		std::list<Weapon*>::iterator it = armas->begin();
+
+
+		for(int i = 0; i < index; i++)
+		{
+			it++;
+		}
+
+		vector3df position = (*it)->get_main_position();
+		if((*it) && (*it)->get_weapon_node())
+		{
+			//(*it)->get_weapon_node()->setVisible(false);
+			//sm->addToDeletionQueue((*it)->get_weapon_node());
+			(*it)->get_weapon_node()->remove();
+			//delete (*it);
+		}
+		Weapon *w;
+		armas->remove(*it);
+		srand((unsigned)time(0)); 
+		int r = rand();
+		r = r % 7;
+
+		it = armas->begin();
+		for(int i = 0; i < index; i++)
+		{
+			it++;
+		}
+		
+		switch(r)
+		{
+			case 0:
+				it = armas->insert(it, new Spear(0,0,sm));
+				position.Y = 25;
+				(*it)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas->size() - 1);
+			/*armas.push_back( new Spear(0,0,sm));
+			position.Y = 25;
+			(*(--armas.end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas.size() - 1);*/
+			break;
+		case 1:
+			it = armas->insert(it, new Sword(0,0,sm));
+			(*it)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas->size() - 1);
+			break;
+		case 2:
+			it = armas->insert(it, new Bow(0,0,sm, mapSelector, device));
+			(*it)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+			break;
+		case 3:
+			it = armas->insert(it, new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM));
+			(*it)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+			break;
+		case 4:
+			it = armas->insert(it, new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM));
+			(*it)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+			break;
+		case 5:
+			it = armas->insert(it, new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM));
+			(*it)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+			break;
+		case 6:
+			it = armas->insert(it, new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE));
+			(*it)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+			break;
+		}
+		
+		(*it)->get_weapon_node()->setName((std::to_string((*it)->get_type()) + '_' + std::to_string(index)).c_str());
+		types[index] = (*it)->get_type();
+
+
+		//int number;
+		//int type;
+
+		//number = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(strcspn((*it)->get_weapon_node()->getName(), "_") + 1).c_str());
+		//type = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(0, strcspn((*it)->get_weapon_node()->getName(), "_")).c_str());
+		
+		
+		int i = 0;
+		for(it = armas->begin(); it != armas->end(); ++it)
+		{
+			/*if(i >= index && it != --armas.end())
+			{
+				number = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(strcspn((*it)->get_weapon_node()->getName(), "_") + 1).c_str());
+				number--;
+				type = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(0, strcspn((*it)->get_weapon_node()->getName(), "_")).c_str());
+				//cout << "DA NAME " << type << "_" << number << endl;
+				(*it)->get_weapon_node()->setName((std::to_string(type) + '_' + std::to_string(number)).c_str());
+			}*/
+			cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
+	
+
+			i++;
+		}
+		
+//		cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
+
+	}
+	catch(...)
+	{}
+	
+}

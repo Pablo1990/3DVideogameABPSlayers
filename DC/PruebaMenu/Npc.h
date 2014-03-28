@@ -9,6 +9,7 @@
 #include <iomanip>
 #include "Player.h"
 #include "Position.h"
+#include "Pathfinding.h"
 
 #include "Goal_Think.h"
 
@@ -19,8 +20,8 @@ class Goal_Think;
 class Npc: public Character
 {
 public:
-	Npc(ISceneManager *sm,vector3df);
-	Npc(ISceneManager *sm, Weapon* w,vector3df);
+	Npc(ISceneManager *sm,vector3df, IrrlichtDevice* d, ITriangleSelector* mp);
+	Npc(ISceneManager *sm, Weapon* w,vector3df, IrrlichtDevice* d, ITriangleSelector* mp);
 	~Npc(void);
 
 	void manage_collision(Weapon *w, IrrlichtDevice* d); 
@@ -46,8 +47,8 @@ public:
 	Goal_Think* getBrain();
 
 	//Lista de items de arma
-	std::list<Weapon*> getItems();
-	void setItems(std::list<Weapon*>, double* );
+	std::list<Weapon*>* getItems();
+	void setItems(std::list<Weapon*>*, double* );
 
 	void pick_weapon();
 
@@ -57,13 +58,21 @@ public:
 
 	void face_target(ISceneNode* target);
 	void face_target(vector3df targt_pos);
+
+	void drop_shield();
+	void pick_shield();
+
+	void set_pathfinding(Pathfinding *pf);
 private:
 	Goal_Think *mente;
 	Player *player;
-	std::list<Weapon*> items;
+	std::list<Weapon*>* items;
 	vector3df posHealth;
 	Weapon* near_weapon;
 	bool is_moving;
-	int steps_count;	
+	int steps_count;
+	IrrlichtDevice* device;
+	ITriangleSelector* mapSelector;
+	Pathfinding* path;
 };
 
