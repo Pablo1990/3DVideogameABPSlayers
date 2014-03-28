@@ -100,7 +100,7 @@ void CController::asignarEnemigo(int num){
 
 	m_vecNpc[m_vecJornadasVisitantes[num]]->setEnem(m_vecNpc[m_vecJornadasLocales[num]]);
 	
-	m_vecNpc[m_vecJornadasLocales[num]]->get_character_node()->setPosition(vector3df(100, 10, 100));
+	m_vecNpc[m_vecJornadasLocales[num]]->get_character_node()->setPosition(vector3df(1000, 10, 100));
 	m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(1000,10,100));
 }
 

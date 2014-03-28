@@ -476,30 +476,35 @@ void Npc::pick_weapon()
 {
 	try
 	{
-		if(this->weapon && this->weapon->get_weapon_node())
+		if(this->near_weapon != NULL)
+		{
+			if(this->weapon && this->weapon->get_weapon_node())
 			this->weapon->get_weapon_node()->drop();
 
-		this->weapon = this->near_weapon;
-		ISceneNode* aux = this->near_weapon->get_weapon_node();
+				this->weapon = this->near_weapon;
+		
+				ISceneNode* aux = this->near_weapon->get_weapon_node();
 
-		this->add_weapon_to_node(aux->getPosition(), aux->getRotation(), aux->getScale()/*core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02)*/);
-		this->get_weapon()->set_resist(15);
+				this->add_weapon_to_node(aux->getPosition(), aux->getRotation(), aux->getScale()/*core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02)*/);
+				this->get_weapon()->set_resist(15);
 
-		if(this->weapon->with_shield())
-		{
-			this->pick_shield();
-		}
-		else
-		{
-			this->drop_shield();
-		}
-		//NECESITO UN METODO QUE ME DIGA SI EL ARMA VA CON O SIN ESCUDO, BOOLEANO QUE SE INICIE EN EL CONSTRUCTOR
-		//DE CADA ARMA AL VALOR QUE TOQUE; LUEGO RECUPERAR CON UN GET
+				if(this->weapon->with_shield())
+				{
+					this->pick_shield();
+				}
+				else
+				{
+					this->drop_shield();
+				}
+				//NECESITO UN METODO QUE ME DIGA SI EL ARMA VA CON O SIN ESCUDO, BOOLEANO QUE SE INICIE EN EL CONSTRUCTOR
+				//DE CADA ARMA AL VALOR QUE TOQUE; LUEGO RECUPERAR CON UN GET
 
-		//TAMBIEN ES NECESARIO QUE LOS VALORES DE AÑADIR AL NODO LOS PONGA LA CLASE DE CADA ARMA, PARA ABSTRAER Y QUE NO SEA
-		//NECESARIO CONOCER EL ARMA PARA AÑADIRLA
+				//TAMBIEN ES NECESARIO QUE LOS VALORES DE AÑADIR AL NODO LOS PONGA LA CLASE DE CADA ARMA, PARA ABSTRAER Y QUE NO SEA
+				//NECESARIO CONOCER EL ARMA PARA AÑADIRLA
 
-		this->replace_random_item(atoi(((std::string)this->near_weapon->get_weapon_node()->getName()).substr(strcspn(this->near_weapon->get_weapon_node()->getName(), "_") + 1).c_str()), items, device, mapSelector);
+				this->replace_random_item(atoi(((std::string)this->near_weapon->get_weapon_node()->getName()).substr(strcspn(this->near_weapon->get_weapon_node()->getName(), "_") + 1).c_str()), items, device, mapSelector);
+			}
+		
 
 	}
 	catch(...)
@@ -734,7 +739,17 @@ bool Npc::Update()
 			
 	}
 	this->manage_collision(this->getEnemigo()->get_weapon(),device);
-	
+
+	if(this->get_weapon())
+	{
+			this->get_weapon()->finish_animation();
+
+	}
+/*	vector3df pos=this->DarPosArmaCercana();
+	if((std::abs(pos.X-this->get_position().X)<=100 ) && std::abs(pos.Y-this->get_position().Z)<=100)
+		{
+			this->pick_weapon();
+		}*/
 	return true;
 	//aqui se se supone que debería actualizar inputs, pero eso
 	//se debera hacer al actuar (se encarga irrlicht)
