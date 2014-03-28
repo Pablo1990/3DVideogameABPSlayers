@@ -29,7 +29,7 @@ Goal_Evaluator::~Goal_Evaluator(void)
    double Goal_Evaluator:: DistanceToItem(Npc* pBot)
   {
 	  double distancia=1.0;
-	  if(pBot->getItems().empty())
+	  if(pBot->getItems()->empty())
 	  {
 		
 		return 1.0;
@@ -38,7 +38,7 @@ Goal_Evaluator::~Goal_Evaluator(void)
 
 	  else
 	  {
-			std::list<Weapon*> lista= pBot->getItems();
+			std::list<Weapon*> lista= *pBot->getItems();
 			for (std::list<Weapon*>::iterator it = lista.begin();
 			  it != lista.end();
        it++)

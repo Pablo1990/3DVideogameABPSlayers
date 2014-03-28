@@ -26,7 +26,7 @@ int Goal_GetSalud::Process()
 	vector3df pos=d->DarPosSalud();
 	if((std::abs(pos.X-d->get_position().X)<=25 ) && std::abs(pos.Y-d->get_position().Z)<=25)
 		{
-			d->set_health(100);
+			//d->set_health(100);
 			estado=completed;
 		}
 		else

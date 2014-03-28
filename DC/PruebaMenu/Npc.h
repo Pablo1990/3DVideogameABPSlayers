@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Position.h"
 #include <math.h>
+#include "Pathfinding.h"
 
 #include "Goal_Think.h"
 #include "Aprendizaje\CNeuralNet.h"
@@ -23,8 +24,8 @@ class Goal_Think;
 class Npc: public Character
 {
 public:
-	Npc(ISceneManager *sm,vector3df);
-	Npc(ISceneManager *sm, Weapon* w,vector3df);
+	Npc(ISceneManager *sm,vector3df, IrrlichtDevice* d, ITriangleSelector* mp);
+	Npc(ISceneManager *sm, Weapon* w,vector3df, IrrlichtDevice* d, ITriangleSelector* mp);
 	~Npc(void);
 
 	void manage_collision(Weapon *w, IrrlichtDevice* d); 
@@ -53,10 +54,8 @@ public:
 	Goal_Think* getBrain();
 
 	//Lista de items de arma
-	std::list<Weapon*> getItems();
-
-	void setItems(std::list<Weapon*> ,double *);
-
+	std::list<Weapon*>* getItems();
+	void setItems(std::list<Weapon*>*, double* );
 
 	void pick_weapon();
 
@@ -66,6 +65,7 @@ public:
 
 	void face_target(ISceneNode* target);
 	void face_target(vector3df targt_pos);
+    
 	//-------------------------------------Clamp()-----------------------------------------
 //
 //	clamps the first argument between the second two
@@ -104,12 +104,17 @@ double Clamp(double arg, double min, double max)
 	int               GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
 
 	vector<int>       CalculateSplitPoints()const{return m_ItsBrain.CalculateSplitPoints();}
+    
+    
+	void drop_shield();
+	void pick_shield();
+    void set_pathfinding(Pathfinding *pf);
 
 private:
 	Goal_Think *mente;
 	Player *player;
 	Npc* enemigo;
-	std::list<Weapon*> items;
+	std::list<Weapon*>* items;
 	double desgastes[4];
 	double itemsPx[6];
 	double itemsPy[6];
@@ -191,5 +196,9 @@ private:
 
 	//the npc fitness score. 
 	double			m_dFitness;
+    
+	IrrlichtDevice* device;
+	ITriangleSelector* mapSelector;
+	Pathfinding* path;
 };
 

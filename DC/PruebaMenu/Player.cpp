@@ -214,7 +214,7 @@ void Player::drop_weapon(ISceneNode* cam)
 	
 }
 
-void Player::pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, 	IrrlichtDevice *device)
+void Player::pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, 	IrrlichtDevice *device, std::list<Weapon*>* armas)
 {
 	try
 	{
@@ -270,6 +270,8 @@ void Player::pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, 	IrrlichtDe
 				weapon->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,-90,0), core::vector3df(1,1,1), cam);
 				pick_shield();
 			}
+
+			this->replace_random_item(atoi(((std::string)w->getName()).substr(strcspn(w->getName(), "_") + 1).c_str()), armas, device, mapSelector);
 		}
 	}
 	catch(...)

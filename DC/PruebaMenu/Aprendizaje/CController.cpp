@@ -5,7 +5,7 @@
 //	initilaize the npc, their brains and the GA factory
 //
 //-----------------------------------------------------------------------
-CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,std::list<Weapon*> armas, double* types): m_NumNpc(CParams::iNumSweepers), 
+CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,std::list<Weapon*>* armas, double* types): m_NumNpc(CParams::iNumSweepers), 
 	m_pGA(NULL),
 	m_iTicks(0),
 	m_hwndMain(hwndMain),
