@@ -682,15 +682,26 @@ bool Npc::Update()
 	{
 		if(output[6]>0.25)
 		{
-			vector3df p = get_position();
+			vector3df p = this->get_position();
 			double Theta = character_node->getAbsoluteTransformation().getRotationDegrees().Y;
-			double xp = (p.X+output[6]*10) * cos(Theta) - (p.Z+output[6]*10) * sin(Theta);
-			double zp = (p.X+output[6]*10) * sin(Theta) + (p.Z+output[6]*10) * cos(Theta);
+			double xp = (p.X+output[6]) * cos(Theta) - (p.Z+output[6]) * sin(Theta);
+			double zp = (p.X+output[6]) * sin(Theta) + (p.Z+output[6]) * cos(Theta);
+			xp = p.X + xp;
+			zp = p.Z + zp;
+
 			p.set(xp, p.Y, zp);
-			ISceneNodeAnimator *anim = scene_manager->createFlyStraightAnimator(	this->get_position(), p , output[6]*10 / slow, false);
-			get_character_node()->addAnimator(anim);
-			anim->drop();
-			//cout<<"MovimientoDelante"<<endl;
+			if(zp>=1290)
+				zp = 1250;
+			if(xp>=1890)
+				xp = 1850;
+			if(xp<0)
+				xp = 10;
+			if(zp<0)
+				zp = 10;
+
+				this->get_character_node()->setPosition(p);
+				this->set_position(xp, p.Y, zp);
+				//cout<<"MovimientoDelante "<<xp<<" "<<zp<<endl;
 		}
 	}
 	else{
@@ -698,13 +709,25 @@ bool Npc::Update()
 		{
 			vector3df p = get_position();
 			double Theta = -character_node->getAbsoluteTransformation().getRotationDegrees().Y;
-			double xp = p.X * cos(Theta) - p.Z * sin(Theta);
-			double zp = p.X * sin(Theta) + p.Z * cos(Theta);
+			double xp = p.X+(output[6]) * cos(Theta) - p.Z+(output[6]) * sin(Theta);
+			double zp = p.X+(output[6]) * sin(Theta) + p.Z+(output[6]) * cos(Theta);
+			xp = p.X - xp;
+			zp = p.Z - zp;
 			p.set(xp, p.Y, zp);
-			ISceneNodeAnimator *anim = scene_manager->createFlyStraightAnimator(	this->get_position(), p , output[6]*10 / slow, false);
-			get_character_node()->addAnimator(anim);
-			anim->drop();
-			//cout<<"MovimientoDetrás"<<endl;
+			
+			if(zp>=1290)
+				zp = 1250;
+			if(xp>=1890)
+				xp = 1850;
+			if(xp<0)
+				xp = 10;
+			if(zp<0)
+				zp = 10;
+
+				this->get_character_node()->setPosition(p);
+				this->set_position(xp, p.Y, zp);
+				//cout<<"MovimientoDetrás "<<xp<<" "<<zp<<endl;
+			
 		}
 	}
 
