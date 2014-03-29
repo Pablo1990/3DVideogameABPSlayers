@@ -268,10 +268,14 @@ bool CController::Update()
 	//Time to run the GA and update the sweepers with their new NNs
 	else
 	{
+		
+
 		invisPlayers(m_vecJornadasLocales.size() - duelosRestantes);
 		duelosRestantes--;
 		cout<<"Duelos restantes "<<duelosRestantes<<endl;
 		if(duelosRestantes==0){
+			updateFitnessFinal(m_vecNpc[m_vecJornadasLocales[m_vecJornadasLocales.size() - (duelosRestantes+1)]], m_vecNpc[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - (duelosRestantes+1)]]);
+
 			cout<<"Generacion " <<m_iGenerations<<endl;
 			//update the stats to be used in our stat window
 			m_vecAvFitness.push_back(m_pGA->AverageFitness());
@@ -301,7 +305,10 @@ bool CController::Update()
 
 		}
 		else{
-			updateFitnessFinal(m_vecNpc[m_vecJornadasLocales[m_vecJornadasLocales.size() - duelosRestantes+1]], m_vecNpc[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - duelosRestantes+1]]);
+			m_vecJornadasLocales[m_vecJornadasLocales.size() - (duelosRestantes+1)];
+			m_vecNpc[m_vecJornadasLocales[m_vecJornadasLocales.size() - (duelosRestantes+1)]];
+			m_vecNpc[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - (duelosRestantes+1)]];
+			updateFitnessFinal(m_vecNpc[m_vecJornadasLocales[m_vecJornadasLocales.size() - (duelosRestantes+1)]], m_vecNpc[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - (duelosRestantes+1)]]);
 
 			m_iTicks = 0;
 			asignarEnemigo(m_vecJornadasLocales.size() - duelosRestantes);
