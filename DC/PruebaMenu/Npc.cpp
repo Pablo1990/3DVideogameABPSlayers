@@ -201,8 +201,6 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 				
 				is_dead = true;
 
-				std::cout << "FIRST FRAME" << character_node->getStartFrame() << endl;
-				std::cout << "END FRAME: " << character_node->getEndFrame() << endl;
 			
 			}
 		}
@@ -613,14 +611,14 @@ void Npc::face_target(vector3df target_pos)
 bool Npc::Update()
 {
 
-	cout<<"<<<<<<<<Vida>>>>>>>"<<endl;
-	cout<<"Vida enemigo"<<endl;
-	cout<<this->getEnemigo()->get_health()<<endl;
+	//cout<<"<<<<<<<<Vida>>>>>>>"<<endl;
+	//cout<<"Vida enemigo"<<endl;
+	//cout<<this->getEnemigo()->get_health()<<endl;
 
-	cout<<"Vida propia"<<endl;
-	cout<<this->get_health()<<endl;
-	cout<<"Desgaste arma enem: "<<this->getEnemigo()->get_weapon()->get_resist()<<endl;
-	cout<<"Desgaste arma propia: "<<this->get_weapon()->get_resist()<<endl;
+	//cout<<"Vida propia"<<endl;
+	//cout<<this->get_health()<<endl;
+	//cout<<"Desgaste arma enem: "<<this->getEnemigo()->get_weapon()->get_resist()<<endl;
+	//cout<<"Desgaste arma propia: "<<this->get_weapon()->get_resist()<<endl;
 	
 
 	vector<double> inputs;
@@ -667,7 +665,7 @@ bool Npc::Update()
 			ISceneNodeAnimator *anim = scene_manager->createRotationAnimator(vector3df(0, -output[4]*10, 0));
 			get_character_node()->addAnimator(anim);
 			anim->drop();
-			cout<<"Rotacion Derecha"<<endl;
+			//cout<<"Rotacion Derecha"<<endl;
 		}
 	}
 	else{
@@ -676,7 +674,7 @@ bool Npc::Update()
 			ISceneNodeAnimator *anim = scene_manager->createRotationAnimator(vector3df(0, output[5]*10, 0));
 			get_character_node()->addAnimator(anim);
 			anim->drop();
-			cout<<"Rotacion Izq"<<endl;
+			//cout<<"Rotacion Izq"<<endl;
 		}
 	}
 
@@ -692,7 +690,7 @@ bool Npc::Update()
 			ISceneNodeAnimator *anim = scene_manager->createFlyStraightAnimator(	this->get_position(), p , output[6]*10 / slow, false);
 			get_character_node()->addAnimator(anim);
 			anim->drop();
-			cout<<"MovimientoDelante"<<endl;
+			//cout<<"MovimientoDelante"<<endl;
 		}
 	}
 	else{
@@ -706,7 +704,7 @@ bool Npc::Update()
 			ISceneNodeAnimator *anim = scene_manager->createFlyStraightAnimator(	this->get_position(), p , output[6]*10 / slow, false);
 			get_character_node()->addAnimator(anim);
 			anim->drop();
-			cout<<"MovimientoDetrás"<<endl;
+			//cout<<"MovimientoDetrás"<<endl;
 		}
 	}
 
@@ -715,26 +713,26 @@ bool Npc::Update()
 		if(pAtaque==output[0])
 		{
 			this->defend();
-			cout<<"Cubro"<<endl;
+			//cout<<"Cubro"<<endl;
 		}
 			
 		else if(pAtaque == output[1])
 		{
 			this->attackBot(0);
 			
-			cout<<"Ataque 1"<<endl;
+			//cout<<"Ataque 1"<<endl;
 		}
 			
 		else if(pAtaque == output[2])
 		{
-			cout<<"Ataque 2"<<endl;
-			this->attackBot(0);
+			//cout<<"Ataque 2"<<endl;
+			this->attackBot(1);
 		}
 			
 		else if(pAtaque == output[3])
 		{
-			cout<<"Ataque 3"<<endl;
-			this->attackBot(0);
+			//cout<<"Ataque 3"<<endl;
+			this->attackBot(2);
 		}
 			
 	}

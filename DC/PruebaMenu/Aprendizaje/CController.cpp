@@ -100,13 +100,17 @@ void CController::asignarEnemigo(int num){
 
 	m_vecNpc[m_vecJornadasVisitantes[num]]->setEnem(m_vecNpc[m_vecJornadasLocales[num]]);
 	
-	m_vecNpc[m_vecJornadasLocales[num]]->get_character_node()->setPosition(vector3df(1000, 10, 100));
-	m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(1000,10,100));
+	m_vecNpc[m_vecJornadasLocales[num]]->get_character_node()->setPosition(vector3df(100, 10, 300));
+	m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(1400,10,100));
+	m_vecNpc[m_vecJornadasLocales[num]]->set_position(100, 10, 300);
+	m_vecNpc[m_vecJornadasVisitantes[num]]->set_position(1400,10,100);
 }
 
 void CController::invisPlayers(int num){
 	m_vecNpc[m_vecJornadasLocales[num]]->get_character_node()->setPosition(vector3df(0, 100, 0));
 	m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(0,100,0));
+	m_vecNpc[m_vecJornadasLocales[num]]->set_position(0, 100, 0);
+	m_vecNpc[m_vecJornadasVisitantes[num]]->set_position(0,100,0);
 }
 
 void CController::updateFitnessFinal(Npc* uno,Npc* dos)
@@ -272,7 +276,7 @@ bool CController::Update()
 			//update the stats to be used in our stat window
 			m_vecAvFitness.push_back(m_pGA->AverageFitness());
 			m_vecBestFitness.push_back(m_pGA->BestFitness());
-
+			cout<<"Best fitness: " <<m_pGA->BestFitness()<<endl;
 			//increment the generation counter
 			++m_iGenerations;
 
