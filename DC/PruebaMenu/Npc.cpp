@@ -51,7 +51,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 					//this->health = 0;
 					
 					
-
+					cout<<"Me han dado en la cabeza" <<endl;
 					if(scene_manager)
 					{
 						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
@@ -65,7 +65,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 				{
 					w->set_collision_flag(true);
 					this->health = this->health - (w->get_damage() - 0.20 * w->get_damage());
-
+					cout<<"Me han dado en el cuerpo" <<endl;
 					if(scene_manager)
 					{
 						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
@@ -80,7 +80,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 					w->set_collision_flag(true);
 					int restar = w->get_damage() - 0.40 * w->get_damage();
 					this->health = this->health - (w->get_damage() - 0.40 * w->get_damage());
-
+					cout<<"Me han dado en alguna extremidad" <<endl;
 					if(scene_manager)
 					{
 						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
