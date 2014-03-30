@@ -81,10 +81,6 @@ void Juego::run()
 	
 	backColor.set(255,90,90,156);
 	
-
-	
-
-
 	loadSceneData();
 	switchToNextScene();
 	s32 timeForThisScene = -1;
@@ -108,10 +104,12 @@ void Juego::run()
 		hud->drawHud(device,npc,player);
 	
 
-			while(device->run() && driver)
-			{
-				if (device->isWindowActive())
-				{
+	cycles = 0;
+	while(device->run() && driver)
+	{
+		if (device->isWindowActive())
+		{
+
 
 					now = device->getTimer()->getTime();
 
@@ -123,15 +121,19 @@ void Juego::run()
 			if(npc)
 			{
 				npc->manage_collision(player->get_weapon(), device);
-				mente->Arbitrate();
-				mente->ProcessSubgoals();
+				if(cycles % 500)
+				{
+					mente->Arbitrate();
+					mente->ProcessSubgoals();
+				}
 				//npc->way_to(pf.getCamino());
 				npc->restore_condition(device);
 				//swprintf(tmp, 255, L"NpcHealth %f", player->get_position().Y);
 				
-						//statusText->setText(tmp);
-						if(player)
-							npc->face_target(player->get_character_node());
+
+				//statusText->setText(tmp);
+				//if(player)
+					//npc->face_target(player->get_character_node());
 
 							if(npc->get_weapon())
 							{
@@ -170,14 +172,20 @@ void Juego::run()
 					smgr->drawAll();
 					guienv->drawAll();
 					driver->endScene();
+					if(cycles + 1 == INT_MAX)
+					{
+						cycles = 0;
+					}
+					cycles++;
+
 
 				}
 			}
 	}
 	else if(estado==2)
 	{
-	CParams();		
-	CController* controller=new CController(NULL,smgr,heal_camp->getAbsolutePosition(),armas,types, mapSelector, device);
+		CParams();		
+		CController* controller=new CController(NULL,smgr,heal_camp->getAbsolutePosition(),armas,types, mapSelector, device);
 		while(device->run() && driver)
 			{
 				if (device->isWindowActive())
@@ -188,7 +196,6 @@ void Juego::run()
 					smgr->drawAll();
 					guienv->drawAll();
 					driver->endScene();
-
 
 				}
 			}
@@ -234,7 +241,7 @@ void Juego::switchToNextScene()
 	{
 		camera = sm->addCameraSceneNodeFPS(0, 100.0f, .4f, ID_IsNotPickable, keyMap, 10, false, 3.f);
 		camera->bindTargetAndRotation(true);
-		camera->setPosition(core::vector3df(25,140,25));
+		camera->setPosition(core::vector3df(1000,100,1000));
 		camera->setFarValue(5000.0f);
 		if(estado==1)
 		{
@@ -242,7 +249,9 @@ void Juego::switchToNextScene()
 			player = new Player(sm, sw2, mapSelector, camera);
 			player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
 			player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
+			player->set_types(types);
 	
+
 			//IA
 			npc->setEnem(player);
 			mente=new Goal_Think();
@@ -250,10 +259,6 @@ void Juego::switchToNextScene()
 			mente->setDueño(npc);
 		}
 		
-		
-		
-		
-
 			collider =
 			sm->createCollisionResponseAnimator(
 			metaSelector, camera, core::vector3df(25,50,25),
@@ -415,10 +420,6 @@ void Juego::loadSceneData()
 
 	if(estado==1)
 	{
-		
-
-
-
 	
 	npc = new Npc(sm,new Sword(0,0,sm),heal_camp->getAbsolutePosition(), device, mapSelector);
 	
@@ -437,28 +438,32 @@ void Juego::loadSceneData()
 
 	//pf.imprimirCamino();
 
-	npc->set_pathfinding(pf);
-	npc->add_to_scene(core::vector3df(100,10,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
+		npc->set_pathfinding(pf);
+		npc->add_to_scene(core::vector3df(100,10,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 
 		//Sword *sw3 = new Sword(4,7,sm);
 		//Spear *sw3 = new Spear(4,5,sm);
 		//Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
 	
-		ThrowableItem *sw3 = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
 	
-		npc->set_weapon(sw3);
-		npc->add_weapon_to_node(core::vector3df(0,120,-20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+	
+
+			Sword *sw3 = new Sword(4,7,sm);
+			//Spear *sw3 = new Spear(4,5,sm);
+			//Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
+			//ThrowableItem *sw3 = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
+	
+			npc->set_weapon(sw3);
+			npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df( 0.02, 0.02, 0.02));
+			npc->get_weapon()->set_resist(0);
+
 	}
 
-	
-
-	
-	
 	//SWORD: position 40, 100, 0; rotation 180, -50, 90; scale 0.02, 0.02, 0.02
 	//SPEAR: position 10, 100, -20; rotation 90,-50,90, scale 2.5, 2.5, 2.5
 	//BOW: position 40, 100, 0; rotation 180, -50, 90, scale 0.02, 0.02, 0.02
 	//armas =std::list<Weapon*>();
-	dropped_sword = new Sword(0,0,sm);
+/*	dropped_sword = new Sword(0,0,sm);
 	dropped_sword->add_to_scene(core::vector3df(180,5,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, -1);
 	//armas.push_front(dropped_sword);
 
@@ -485,7 +490,7 @@ void Juego::loadSceneData()
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::TORCH);
 	dropped_red_shroom->add_to_scene(core::vector3df(800,8,550), core::vector3df(90,0,0), core::vector3df(4,4,4), true, -1);
 	dropped_red_shroom->add_to_scene(core::vector3df(800,8,850), core::vector3df(90,180,0), core::vector3df(4,4,4), true, -1);
-	
+	*/
 
 	//Meto armas
 		srand((unsigned)time(0)); 
@@ -497,9 +502,9 @@ void Juego::loadSceneData()
 	this->add_random_item(vector3df(100,0,1000));
 
 	types[5] = HEAL_TYPE;
+
 	if(estado==1)
 		npc->setItems(armas, types);
-
 	
 }
 
@@ -678,16 +683,16 @@ void Juego::add_random_item(vector3df position)
 	switch(rand()%7)
 	{
 		case 0:
-			armas->push_back( new Spear(0,0,sm));
+			armas->push_back( new Spear(6,5,sm));
 			position.Y = 25;
 			(*(--armas->end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas->size() - 1);
 			break;
 		case 1:
-			armas->push_back( new Sword(0,0,sm));
+			armas->push_back( new Sword(4,7,sm));
 			(*(--armas->end()))->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas->size() - 1);
 			break;
 		case 2:
-			armas->push_back(new Bow(0,0,sm, mapSelector, device));
+			armas->push_back(new Bow(4,4,sm, mapSelector, device));
 			(*(--armas->end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
 			break;
 		case 3:

@@ -133,6 +133,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 					//array<SParticleImpact> imp = rw->get_impacts();
 					for(int i = 0; i < rw->get_impacts().size(); i++)
 					{
+						cout << "Bucle1" << endl;
 						if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->head))
 						{
 							rw->set_impact_at(i, true);
@@ -145,10 +146,13 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 								}
 
 							}
-
-								this->health = this->health - ((w->get_damage() + 0.50 * w->get_damage()) 
+								double resto = (2 * ((w->get_damage() + 0.50 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
-								this->character_node->getPosition().Z));
+								this->character_node->getPosition().Z)));
+
+								this->health = this->health - (2 * ((w->get_damage() + 0.50 * w->get_damage()) 
+								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
+								this->character_node->getPosition().Z)));
 						}
 						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->body))
 						{
@@ -164,9 +168,12 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 
 							}
 
-							this->health = this->health - ((w->get_damage() - 0.40 * w->get_damage()) 
+							double resto = (2 * ((w->get_damage() - 0.40 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
-								this->character_node->getPosition().Z));
+								this->character_node->getPosition().Z)));
+							this->health = this->health - (2 * ((w->get_damage() - 0.40 * w->get_damage()) 
+								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
+								this->character_node->getPosition().Z)));
 							
 						}
 						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->extremity))
@@ -181,9 +188,13 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 								}
 							}
 
-								this->health = this->health - ((w->get_damage() - 0.20 * w->get_damage())  
+								double resto = (((w->get_damage() - 0.20 * w->get_damage())  
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
-								this->character_node->getPosition().Z));
+								this->character_node->getPosition().Z)) * 2);
+
+								this->health = this->health - (((w->get_damage() - 0.20 * w->get_damage())  
+								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
+								this->character_node->getPosition().Z)) * 2);
 						}
 					}
 				}
@@ -225,6 +236,7 @@ void Npc::Reset(){
 void Npc::setItems(std::list<Weapon*>* armas,double * tipos)
 {
 	items=armas;
+	this->types = tipos;
 
 	int cont=0;
 		for (std::list<Weapon*>::iterator it = items->begin();
@@ -327,16 +339,55 @@ return false;
 bool Npc::MoverseAItemSalud()
 {
 
-	path->setPosInicio(Position(this->character_node->getPosition().X, 0, this->character_node->getPosition().Z));
-	path->setPosFin(Position(posHealth.X, 0, posHealth.Z));
+	
+	/*if(!is_moving || status != 0)
+	{
+		init_pos.setX(this->character_node->getPosition().X);
+		init_pos.setY(0);
+		init_pos.setZ(this->character_node->getPosition().Z);
 
-	vector<Position> way_points= path->AEstrella(250);
-	this->way_to(way_points);
+		//vector3df p_position = player->get_character_node()->getPosition();
+		end_pos.setX(this->posHealth.X);
+		end_pos.setY(0);
+		end_pos.setZ(this->posHealth.Z);
+
+		path->setPosInicio(init_pos);
+		path->setPosFin(end_pos);
+
+		path->AEstrella(100);
+		steps_count = 0;
+		status = 0;
+	}
+
+	this->way_to(path->getCamino());*/
 
 	return true;
 }
 bool Npc::MoverseAItemArma()
 {
+/*	if(!is_moving || status != 1)
+	{
+		//if(!this->near_weapon)
+		this->DarPosArmaCercana();
+
+		init_pos.setX(this->character_node->getPosition().X);
+		init_pos.setY(0);
+		init_pos.setZ(this->character_node->getPosition().Z);
+
+		//vector3df p_position = player->get_character_node()->getPosition();
+		end_pos.setX(this->near_weapon->get_weapon_node()->getPosition().X);
+		end_pos.setY(0);
+		end_pos.setZ(this->near_weapon->get_weapon_node()->getPosition().Z);
+
+		path->setPosInicio(init_pos);
+		path->setPosFin(end_pos);
+
+		path->AEstrella(100);
+		steps_count = 0;
+		status = 1;
+	}
+
+	this->way_to(path->getCamino());*/
 	return true;
 }
 bool Npc::MoverseAEnemigo()
@@ -357,24 +408,121 @@ bool Npc::MoverseAEnemigo()
 	vector<Position> way_points = pf.AEstrella(250);
 	this->way_to(way_points);*/
 
-	if(!is_moving)
+	if(!is_moving || status != 2)
 	{
-		path->setPosInicio(Position(this->character_node->getPosition().X, 0, this->character_node->getPosition().Z));
-		vector3df p_position = player->get_character_node()->getPosition();
-		path->setPosFin(Position(p_position.X, 0, p_position.Z));
+		init_pos.setX(this->character_node->getPosition().X);
+		init_pos.setY(0);
+		init_pos.setZ(this->character_node->getPosition().Z);
 
-		vector<Position> way_points= path->AEstrella(100);
+		//vector3df p_position = player->get_character_node()->getPosition();
+		end_pos.setX(player->get_character_node()->getPosition().X);
+		end_pos.setY(0);
+		end_pos.setZ(player->get_character_node()->getPosition().Z);
+
+		path->setPosInicio(init_pos);
+		path->setPosFin(end_pos);
+
+		path->AEstrella(100);
 		steps_count = 0;
+		status = 2;
 	}
+
 	this->way_to(path->getCamino());
 	return true;
 }
 bool Npc::Move_Explore()
 {
+
+	/*if(!is_moving || status != 3)
+	{
+		//if(!this->near_weapon)
+
+		init_pos.setX(this->character_node->getPosition().X);
+		init_pos.setY(0);
+		init_pos.setZ(this->character_node->getPosition().Z);
+
+		//vector3df p_position = player->get_character_node()->getPosition();
+
+		srand((unsigned)time(0)); 
+		int r = rand();
+		r = r % 200;
+		r = r +60;
+
+		if(init_pos.getX() + r > 1894)
+		{
+			end_pos.setX(init_pos.getX() - r);
+		}
+		else
+		{
+			end_pos.setX(init_pos.getX() + r);
+		}
+
+		if(init_pos.getZ() + r > 1294)
+		{
+			end_pos.setZ(init_pos.getZ() - r);
+		}
+		else
+		{
+			end_pos.setZ(init_pos.getZ() + r);
+		}
+
+		end_pos.setY(0);
+
+		path->setPosInicio(init_pos);
+		path->setPosFin(end_pos);
+
+		path->AEstrella(50);
+		steps_count = 0;
+		status = 3;
+	}
+
+	this->way_to(path->getCamino());*/
 	return true;
 }
 bool Npc::Move_ToFreeAttack()
 {
+/*	if(!is_moving || status != 4)
+	{
+		//if(!this->near_weapon)
+		this->DarPosArmaCercana();
+
+		init_pos.setX(this->character_node->getPosition().X);
+		init_pos.setY(0);
+		init_pos.setZ(this->character_node->getPosition().Z);
+
+		//vector3df p_position = player->get_character_node()->getPosition();
+
+		end_pos.setX(init_pos.getX());
+		if(init_pos.getX() > player->get_position().X && init_pos.getX() + 100 < 1894)
+		{
+			end_pos.setX(init_pos.getX() + 100);
+		}
+		else if(init_pos.getX() < player->get_position().X && init_pos.getX() - 100 > 0)
+		{
+			end_pos.setX(init_pos.getX() - 100);
+		}
+
+		end_pos.setZ(init_pos.getZ());
+		if(init_pos.getZ() > player->get_position().Z && init_pos.getZ() + 100 < 1294)
+		{
+			end_pos.setZ(init_pos.getZ() + 100);
+		}
+		else if(init_pos.getZ() < player->get_position().Z && init_pos.getZ() - 100 > 0)
+		{
+			end_pos.setZ(init_pos.getZ() - 100);
+		}
+
+		end_pos.setY(0);
+
+		path->setPosInicio(init_pos);
+		path->setPosFin(end_pos);
+
+		path->AEstrella(100);
+		steps_count = 0;
+		status = 4;
+	}
+
+	this->way_to(path->getCamino());*/
 
 	return true;
 
@@ -400,13 +548,16 @@ void Npc::attack(int type)
 	{
 		if(weapon && !this->paralysis)
 		{
+			//this->face_target(player->get_character_node());
 			weapon->attack(type, this->character_node, this->player->get_position());
 			if(dynamic_cast<ThrowableItem*>(this->weapon))
 			{
 				if(weapon->get_weapon_node())
 				{
-					this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
-					this->weapon->set_weapon_node(NULL);
+					this->weapon->set_resist(0);
+					this->weapon->get_weapon_node()->remove();
+					//this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
+					//this->weapon->set_weapon_node(NULL);
 				}
 			}
 		}
@@ -472,36 +623,106 @@ void Npc::drop_shield()
 
 void Npc::pick_weapon()
 {
+
+	//try
+	//{
+	//	if(this->weapon && this->weapon->get_weapon_node())
+	//		this->weapon->get_weapon_node()->remove();
+
+	//	this->weapon = this->near_weapon;
+	//	ISceneNode* aux = this->near_weapon->get_weapon_node();
+
+	//	this->add_weapon_to_node(aux->getPosition(), aux->getRotation(), aux->getScale()/*core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02)*/);
+	//	this->get_weapon()->set_resist(15);
+
+	//	if(this->weapon->with_shield())
+	//	{
+	//		this->pick_shield();
+	//	}
+	//	else
+	//	{
+	//		this->drop_shield();
+	//	}
+	//	//NECESITO UN METODO QUE ME DIGA SI EL ARMA VA CON O SIN ESCUDO, BOOLEANO QUE SE INICIE EN EL CONSTRUCTOR
+	//	//DE CADA ARMA AL VALOR QUE TOQUE; LUEGO RECUPERAR CON UN GET
+
+	//	//TAMBIEN ES NECESARIO QUE LOS VALORES DE AÑADIR AL NODO LOS PONGA LA CLASE DE CADA ARMA, PARA ABSTRAER Y QUE NO SEA
+	//	//NECESARIO CONOCER EL ARMA PARA AÑADIRLA
+
+	//	this->replace_random_item(atoi(((std::string)this->near_weapon->get_weapon_node()->getName()).substr(strcspn(this->near_weapon->get_weapon_node()->getName(), "_") + 1).c_str()), items, device, mapSelector);
+
+	//}
+	//catch(...)
+	//{}
+
 	try
 	{
-		if(this->near_weapon != NULL)
+
+		if(this->weapon && this->weapon->get_weapon_node())
 		{
-			if(this->weapon && this->weapon->get_weapon_node())
-			this->weapon->get_weapon_node()->drop();
-
-				this->weapon = this->near_weapon;
+			character_node->removeChild(weapon->get_weapon_node());
+			/*
+			this->weapon->get_weapon_node()->setVisible(false);
+			this->weapon->get_weapon_node()->removeAll();
+			this->weapon->get_weapon_node()->removeAnimators();
+			this->weapon->get_weapon_node()->remove();
+			*/
+		}
+		//SWORD: position 40, 100, 0; rotation 180, -50, 90; scale 0.02, 0.02, 0.02
+	//SPEAR: position 10, 100, -20; rotation 90,-50,90, scale 2.5, 2.5, 2.5
+	//BOW: position 40, 100, 0; rotation 180, -50, 90, scale 0.02, 0.02, 0.02
+		int pick_type = atoi(((std::string)this->near_weapon->get_weapon_node()->getName()).substr(0, strcspn(this->near_weapon->get_weapon_node()->getName(), "_")).c_str()); // strcspn (str,keys);//strtok(((std::string)w->getName()), "_");
 		
-				ISceneNode* aux = this->near_weapon->get_weapon_node();
+		if(pick_type == SWORD_TYPE)
+		{
+			weapon = new Sword(4,7,scene_manager);
+			this->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02));
+			pick_shield();
+		}
+		else if(pick_type ==  BOW_TYPE)
+		{
+			weapon = new Bow(4,4,scene_manager, mapSelector, device);
+			this->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02,0.02,0.02));
+			drop_shield();
+		}	
+		else if(pick_type ==  RED_SHROOM_TYPE)
+		{
+			weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::RED_SHROOM);
+			this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+			pick_shield();
+		}	
+		else if(pick_type == SPEAR_TYPE)
+		{
+			weapon = new Spear(7,5,scene_manager);
+			this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+			drop_shield();
+		}
+		else if(pick_type ==  BLUE_SHROOM_TYPE)
+		{
+			weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::BLUE_SHROOM);
+			this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+			pick_shield();
+		}	
+		else if(pick_type ==  YELLOW_SHROOM_TYPE)
+		{
+			weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::YELLOW_SHROOM);
+			this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+			pick_shield();
+		}
+		else if(pick_type ==  STONE_TYPE)
+		{
+			weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::STONE);
+			this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+			pick_shield();
+		}
+		else if(pick_type ==  TORCH_TYPE)
+		{
+			weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::TORCH);
+			this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+			pick_shield();
+		}
 
-				this->add_weapon_to_node(aux->getPosition(), aux->getRotation(), aux->getScale()/*core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02)*/);
-				this->get_weapon()->set_resist(15);
-
-				if(this->weapon->with_shield())
-				{
-					this->pick_shield();
-				}
-				else
-				{
-					this->drop_shield();
-				}
-				//NECESITO UN METODO QUE ME DIGA SI EL ARMA VA CON O SIN ESCUDO, BOOLEANO QUE SE INICIE EN EL CONSTRUCTOR
-				//DE CADA ARMA AL VALOR QUE TOQUE; LUEGO RECUPERAR CON UN GET
-
-				//TAMBIEN ES NECESARIO QUE LOS VALORES DE AÑADIR AL NODO LOS PONGA LA CLASE DE CADA ARMA, PARA ABSTRAER Y QUE NO SEA
-				//NECESARIO CONOCER EL ARMA PARA AÑADIRLA
-
-				this->replace_random_item(atoi(((std::string)this->near_weapon->get_weapon_node()->getName()).substr(strcspn(this->near_weapon->get_weapon_node()->getName(), "_") + 1).c_str()), items, device, mapSelector);
-			}
+		this->replace_random_item(atoi(((std::string)this->near_weapon->get_weapon_node()->getName()).substr(strcspn(this->near_weapon->get_weapon_node()->getName(), "_") + 1).c_str()), items, device, mapSelector);
 		
 
 	}

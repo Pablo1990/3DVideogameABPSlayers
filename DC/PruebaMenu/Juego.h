@@ -93,7 +93,7 @@ private:
 	std::list<Weapon*>* armas;
 	int last_drop;
 	double* types;
-
+	int cycles;
 
 	enum
 {

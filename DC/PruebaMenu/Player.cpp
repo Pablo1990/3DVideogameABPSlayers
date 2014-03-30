@@ -224,13 +224,13 @@ void Player::pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, 	IrrlichtDe
 		{
 			if(pick_type == SWORD_TYPE)
 			{
-				weapon = new Sword(0,0,scene_manager);
+				weapon = new Sword(4,7,scene_manager);
 				weapon -> add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), cam);
 				pick_shield();
 			}
 			else if(pick_type ==  BOW_TYPE)
 			{
-				weapon = new Bow(0,0,scene_manager, mapSelector, device);
+				weapon = new Bow(4,4,scene_manager, mapSelector, device);
 				weapon->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,-90,0), core::vector3df(0.02,0.02,0.02), cam);
 				drop_shield();
 			}	
@@ -242,7 +242,7 @@ void Player::pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, 	IrrlichtDe
 			}	
 			else if(pick_type == SPEAR_TYPE)
 			{
-				weapon = new Spear(0,0,scene_manager);
+				weapon = new Spear(7,5,scene_manager);
 				weapon -> add_to_camera(core::vector3df(10,-30,20), core::vector3df(-140,0,0), core::vector3df(1.4,1.4,1.4), cam);
 				drop_shield();
 			}

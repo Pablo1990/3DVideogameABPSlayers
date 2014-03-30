@@ -172,6 +172,7 @@ bool Character::detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b)
 
 	for(unsigned int i = 0; i < b.size(); i++)
 	{
+		cout << "Bucle4" << endl;
 		try
 		{
 			if(a && b[i] && a->getTransformedBoundingBox().intersectsWithBox(b[i]->getTransformedBoundingBox()))
@@ -234,8 +235,9 @@ void Character::attack(float first_x, float first_y, float last_x, float last_y)
 			{
 				if(weapon->get_weapon_node())
 				{
-					this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
-					this->weapon->set_weapon_node(NULL);
+					this->weapon->get_weapon_node()->remove();
+					//this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
+					//this->weapon->set_weapon_node(NULL);
 				}
 			}
 		}
@@ -447,6 +449,7 @@ void Character::replace_random_item( int index, std::list<Weapon*>* armas, Irrli
 
 		for(int i = 0; i < index; i++)
 		{
+			cout << "Bucle5" << endl;
 			it++;
 		}
 
@@ -467,13 +470,14 @@ void Character::replace_random_item( int index, std::list<Weapon*>* armas, Irrli
 		it = armas->begin();
 		for(int i = 0; i < index; i++)
 		{
+			cout << "Bucle2" << endl;
 			it++;
 		}
 		
 		switch(r)
 		{
 			case 0:
-				it = armas->insert(it, new Spear(0,0,sm));
+				it = armas->insert(it, new Spear(6,5,sm));
 				position.Y = 25;
 				(*it)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas->size() - 1);
 			/*armas.push_back( new Spear(0,0,sm));
@@ -481,11 +485,11 @@ void Character::replace_random_item( int index, std::list<Weapon*>* armas, Irrli
 			(*(--armas.end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas.size() - 1);*/
 			break;
 		case 1:
-			it = armas->insert(it, new Sword(0,0,sm));
+			it = armas->insert(it, new Sword(4,7,sm));
 			(*it)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas->size() - 1);
 			break;
 		case 2:
-			it = armas->insert(it, new Bow(0,0,sm, mapSelector, device));
+			it = armas->insert(it, new Bow(4,4,sm, mapSelector, device));
 			(*it)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
 			break;
 		case 3:
@@ -507,7 +511,7 @@ void Character::replace_random_item( int index, std::list<Weapon*>* armas, Irrli
 		}
 		
 		(*it)->get_weapon_node()->setName((std::to_string((*it)->get_type()) + '_' + std::to_string(index)).c_str());
-		types[index] = (*it)->get_type();
+		this->types[index] = (*it)->get_type();
 
 
 		//int number;
@@ -520,6 +524,7 @@ void Character::replace_random_item( int index, std::list<Weapon*>* armas, Irrli
 		int i = 0;
 		for(it = armas->begin(); it != armas->end(); ++it)
 		{
+			cout << "Bucle3" << endl;
 			/*if(i >= index && it != --armas.end())
 			{
 				number = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(strcspn((*it)->get_weapon_node()->getName(), "_") + 1).c_str());
