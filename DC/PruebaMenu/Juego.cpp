@@ -64,15 +64,15 @@ void Juego::run()
 	const int lwidth = size.Width - 20;
 	const int lheight = 16;
 	
-	/*core::rect<int> pos(10, size.Height-lheight-10, 10+lwidth, size.Height-10);
+	core::rect<int> pos(10, size.Height-lheight-10, 10+lwidth, size.Height-10);
 	
 	core::rect<int> pos2(80, 150, 80, size.Height-10);
-
+	
 
 	device->getGUIEnvironment()->addImage(pos);
 	statusText = device->getGUIEnvironment()->addStaticText(L"Loading...",	pos, true);
 	
-	statusText->setOverrideColor(video::SColor(255,205,200,200));*/
+	statusText->setOverrideColor(video::SColor(255,205,200,200));
 
 	s32 now = 0;
 	s32 lastfps = 0;
@@ -121,11 +121,11 @@ void Juego::run()
 			if(npc)
 			{
 				npc->manage_collision(player->get_weapon(), device);
-				if(cycles % 500)
+				/*if(cycles % 500)
 				{
 					mente->Arbitrate();
 					mente->ProcessSubgoals();
-				}
+				}*/
 				//npc->way_to(pf.getCamino());
 				npc->restore_condition(device);
 				//swprintf(tmp, 255, L"NpcHealth %f", player->get_position().Y);
@@ -142,22 +142,38 @@ void Juego::run()
 							}
 					}
 		
-					if(player)
-					{
-						player->heal_or_fire(campFire, heal_camp, device);
-						player->fall_down(device);
-					}
-						/*switch(player->heal_or_fire(campFire, heal_camp, device))
-						{
 
-							case 0:
-								swprintf(tmp, 255, L"NORMAL", head_hit);
-								statusText->setText(tmp);
-								break;
-							case 1:
-								swprintf(tmp, 255, L"ARDO", head_hit);
-								statusText->setText(tmp);
-								break;
+			if(player)
+			{
+				player->heal_or_fire(campFire, heal_camp, device);
+				player->fall_down(device);
+				swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f", player->get_position().X, player->get_position().Y, 
+					player->get_position().Z);
+				
+				statusText->setText(tmp);
+			}
+				/*switch(player->heal_or_fire(campFire, heal_camp, device))
+				{
+
+					case 0:
+						swprintf(tmp, 255, L"NORMAL", head_hit);
+						statusText->setText(tmp);
+						break;
+					case 1:
+						swprintf(tmp, 255, L"ARDO", head_hit);
+						statusText->setText(tmp);
+						break;
+				
+					case 2:
+						swprintf(tmp, 255, L"CURACION", head_hit);
+						statusText->setText(tmp);
+						break;
+				}*/
+	
+/*
+			if(unavez>3 && unavez<51)
+			{
+
 				
 							case 2:
 								swprintf(tmp, 255, L"CURACION", head_hit);
