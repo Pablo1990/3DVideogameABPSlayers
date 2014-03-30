@@ -277,23 +277,29 @@ bool CController::Update()
 	
 		if(duelosRestantes==0){
 			updateFitnessFinal(m_vecNpc[m_vecJornadasLocales[m_vecJornadasLocales.size() - (duelosRestantes+1)]], m_vecNpc[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - (duelosRestantes+1)]]);
-
+			ofstream fs("pesos.txt"); 
 			cout<<"Generacion " <<m_iGenerations<<endl;
+			fs<<"Generacion " <<m_iGenerations<<endl;
 			//update the stats to be used in our stat window
 			m_vecAvFitness.push_back(m_pGA->AverageFitness());
 			m_vecBestFitness.push_back(m_pGA->BestFitness());
 
-
-			cout<<"Best fitness: " <<m_pGA->BestFitness()<<endl;
-			cout<<"Best pesos: ";
+			 
+			
+			fs<<"Best fitness: " <<m_pGA->BestFitness()<<endl;
+			
+			fs<<"Best pesos: ";
 			for(int i = 0; i<m_pGA->GetBestWeights().size(); i++){
-				cout<<m_pGA->GetBestWeights()[i]<<" ";
+				//cout<<m_pGA->GetBestWeights()[i]<<" ";
+				fs<<m_pGA->GetBestWeights()[i]<<" ";
 			}
 			cout<<endl;
+
+			fs.close();
 			//increment the generation counter
 			++m_iGenerations;
 				/*	 // Crea un fichero de salida
-			   ofstream fs("nombre.txt"); 
+			  
 
 			   // Enviamos una cadena al fichero de salida:
 			   fs <<"Best fitness: " <<m_pGA->BestFitness()<<endl;
