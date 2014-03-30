@@ -281,6 +281,11 @@ bool CController::Update()
 			m_vecAvFitness.push_back(m_pGA->AverageFitness());
 			m_vecBestFitness.push_back(m_pGA->BestFitness());
 			cout<<"Best fitness: " <<m_pGA->BestFitness()<<endl;
+			cout<<"Best pesos: ";
+			for(int i = 0; i<m_pGA->GetBestWeights().size(); i++){
+				cout<<m_pGA->GetBestWeights()[i]<<" ";
+			}
+			cout<<endl;
 			//increment the generation counter
 			++m_iGenerations;
 

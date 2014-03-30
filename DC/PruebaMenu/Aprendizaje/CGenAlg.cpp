@@ -56,6 +56,19 @@ void CGenAlg::Mutate(vector<double> &chromo)
 	}
 }
 
+vector<double> CGenAlg::GetBestWeights(){
+	double best = 1000000000000000000;
+	int bestI = 0;
+	for(int i = 0; i< m_iPopSize; i++){
+		if(m_vecPop[i].dFitness>best){
+			bestI = i;
+			best = m_vecPop[i].dFitness;
+		}
+	}
+
+	return m_vecPop[bestI].vecWeights;
+}
+
 //----------------------------------GetChromoRoulette()------------------
 //
 //	returns a chromo based on roulette wheel sampling

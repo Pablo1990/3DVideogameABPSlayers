@@ -119,6 +119,7 @@ public:
 	//this runs the GA for one generation.
 	vector<SGenome>	Epoch(vector<SGenome> &old_pop);
 
+	vector<double> GetBestWeights();
 
 	//-------------------accessor methods
 	vector<SGenome>	GetChromos()const{return m_vecPop;}
