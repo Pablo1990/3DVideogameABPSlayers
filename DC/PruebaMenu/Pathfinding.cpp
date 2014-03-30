@@ -132,10 +132,14 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
         //Y lo añadimos a la lista frontera
 		listaFrontera.push_back(n);
         //Recorremos esta hasta que sea vacia
-		
-		cout << "Bucle7 Entro" << endl;
+		double dx = pow(pIni.getX() - pFin.getX(), 2);
+		double dz = pow(pIni.getZ() - pFin.getZ(), 2);
+		vector<Position> p2;
+		if(sqrt(dx + dz) < 40)
+			return p2;
 
 		while (!listaFrontera.empty()) {
+			//cout<<"hola"<<endl;
             //Buscamos el NodoPathfinding con menor F es decir, el mejor (camino más corto)
 			NodoPadreEHijo n(menorF(listaFrontera, mayorG));
             //NodoPathfinding encontrado lo ponemos en expandidos
