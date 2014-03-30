@@ -910,7 +910,7 @@ bool Npc::Update()
 			xp = p.X + xp;
 			zp = p.Z + zp;
 
-			p.set(xp, p.Y, zp);
+			
 			if(zp>=1290)
 				zp = 1250;
 			if(xp>=1890)
@@ -919,8 +919,9 @@ bool Npc::Update()
 				xp = 10;
 			if(zp<0)
 				zp = 10;
-
-				this->get_character_node()->setPosition(p);
+			
+			p.set(xp, p.Y, zp);
+			this->get_character_node()->setPosition(p);
 				//this->set_position(xp, p.Y, zp);
 				//cout<<"MovimientoDelante "<<xp<<" "<<zp<<endl;
 		}
@@ -934,7 +935,6 @@ bool Npc::Update()
 			double zp = (output[7]*10) * sin(Theta) + (output[7]*10) * cos(Theta);
 			xp = p.X - xp;
 			zp = p.Z - zp;
-			p.set(xp, p.Y, zp);
 			
 			if(zp>=1290)
 				zp = 1250;
@@ -944,7 +944,8 @@ bool Npc::Update()
 				xp = 10;
 			if(zp<0)
 				zp = 10;
-
+			
+			p.set(xp, p.Y, zp);
 				this->get_character_node()->setPosition(p);
 				//this->set_position(xp, p.Y, zp);
 				//cout<<"MovimientoDetrás "<<xp<<" "<<zp<<endl;
