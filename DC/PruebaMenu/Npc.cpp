@@ -700,7 +700,7 @@ bool Npc::Update()
 				zp = 10;
 
 				this->get_character_node()->setPosition(p);
-				this->set_position(xp, p.Y, zp);
+				//this->set_position(xp, p.Y, zp);
 				//cout<<"MovimientoDelante "<<xp<<" "<<zp<<endl;
 		}
 	}
@@ -725,7 +725,7 @@ bool Npc::Update()
 				zp = 10;
 
 				this->get_character_node()->setPosition(p);
-				this->set_position(xp, p.Y, zp);
+				//this->set_position(xp, p.Y, zp);
 				//cout<<"MovimientoDetrás "<<xp<<" "<<zp<<endl;
 			
 		}
