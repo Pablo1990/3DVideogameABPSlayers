@@ -94,7 +94,7 @@ void Juego::run()
 	hud=new Hud(device);
 		hud->drawHud(device,npc,player);
 	
-
+	cycles = 0;
 	while(device->run() && driver)
 	{
 		if (device->isWindowActive())
@@ -110,15 +110,18 @@ void Juego::run()
 			if(npc)
 			{
 				npc->manage_collision(player->get_weapon(), device);
-				//mente->Arbitrate();
-				//mente->ProcessSubgoals();
+				if(cycles % 500)
+				{
+					mente->Arbitrate();
+					mente->ProcessSubgoals();
+				}
 				//npc->way_to(pf.getCamino());
 				npc->restore_condition(device);
 				//swprintf(tmp, 255, L"NpcHealth %f", player->get_position().Y);
 				
 				//statusText->setText(tmp);
-				if(player)
-					npc->face_target(player->get_character_node());
+				//if(player)
+					//npc->face_target(player->get_character_node());
 
 					if(npc->get_weapon())
 					{
@@ -166,7 +169,11 @@ void Juego::run()
 			guienv->drawAll();
 			driver->endScene();
 
-
+			if(cycles + 1 == INT_MAX)
+			{
+				cycles = 0;
+			}
+			cycles++;
 		
 			
 
@@ -213,7 +220,7 @@ void Juego::switchToNextScene()
 	{
 		camera = sm->addCameraSceneNodeFPS(0, 100.0f, .4f, ID_IsNotPickable, keyMap, 10, false, 3.f);
 		camera->bindTargetAndRotation(true);
-		camera->setPosition(core::vector3df(25,140,25));
+		camera->setPosition(core::vector3df(1000,100,1000));
 		camera->setFarValue(5000.0f);
 	
 		Sword *sw2 = new Sword(4,7,sm);
@@ -418,19 +425,19 @@ void Juego::loadSceneData()
 
 	npc->get_character_node()->addAnimator(collider);*/
 
-	//Sword *sw3 = new Sword(4,7,sm);
+	Sword *sw3 = new Sword(4,7,sm);
 	//Spear *sw3 = new Spear(4,5,sm);
 	//Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
-	ThrowableItem *sw3 = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
+	//ThrowableItem *sw3 = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
 	
 	npc->set_weapon(sw3);
-	npc->add_weapon_to_node(core::vector3df(0,120,-20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
-	
+	npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df( 0.02, 0.02, 0.02));
+	npc->get_weapon()->set_resist(0);
 	//SWORD: position 40, 100, 0; rotation 180, -50, 90; scale 0.02, 0.02, 0.02
 	//SPEAR: position 10, 100, -20; rotation 90,-50,90, scale 2.5, 2.5, 2.5
 	//BOW: position 40, 100, 0; rotation 180, -50, 90, scale 0.02, 0.02, 0.02
 	//armas =std::list<Weapon*>();
-	dropped_sword = new Sword(0,0,sm);
+/*	dropped_sword = new Sword(0,0,sm);
 	dropped_sword->add_to_scene(core::vector3df(180,5,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, -1);
 	//armas.push_front(dropped_sword);
 
@@ -457,7 +464,7 @@ void Juego::loadSceneData()
 	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::TORCH);
 	dropped_red_shroom->add_to_scene(core::vector3df(800,8,550), core::vector3df(90,0,0), core::vector3df(4,4,4), true, -1);
 	dropped_red_shroom->add_to_scene(core::vector3df(800,8,850), core::vector3df(90,180,0), core::vector3df(4,4,4), true, -1);
-	
+	*/
 
 	//Meto armas
 		srand((unsigned)time(0)); 

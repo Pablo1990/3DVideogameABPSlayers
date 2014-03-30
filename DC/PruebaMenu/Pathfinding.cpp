@@ -132,6 +132,9 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
         //Y lo añadimos a la lista frontera
 		listaFrontera.push_back(n);
         //Recorremos esta hasta que sea vacia
+		
+		cout << "Bucle7 Entro" << endl;
+
 		while (!listaFrontera.empty()) {
             //Buscamos el NodoPathfinding con menor F es decir, el mejor (camino más corto)
 			NodoPadreEHijo n(menorF(listaFrontera, mayorG));
@@ -146,6 +149,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 			for(std::vector<NodoPadreEHijo>::iterator it = listaFrontera.begin(); it != listaFrontera.end(); ++it) {
 				if(it->getNodo() == n.getNodo())
 				{
+					//cout << "Bucle10" << endl;
 					listaFrontera.erase(it);
 					break;
 				}
@@ -166,6 +170,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 				for(std::vector<NodoPadreEHijo>::iterator it = listaInterior.begin(); it != listaInterior.end(); ++it) {
 					if(it->getNodo() == hijosM[i].getNodo())
 					{
+						//cout << "Bucle11" << endl;
 						encon = true;
 						break;
 					}
@@ -181,6 +186,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 					for(std::vector<NodoPadreEHijo>::iterator it = listaFrontera.begin(); it != listaFrontera.end(); ++it) {
 						if(it->getNodo() == m.getNodo())
 						{
+							//cout << "Bucle12" << endl;
 							encon = true;
 							break;
 						}
@@ -196,6 +202,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 						for(std::vector<NodoPadreEHijo>::iterator it = listaFrontera.begin(); it != listaFrontera.end(); ++it) {
 							if(it->getNodo() == m.getNodo())
 							{
+								//cout << "Bucle13" << endl;
 								np.setNodo(it->getNodo());
 								np.setPadre(it->getPadre());
 								break;
@@ -215,6 +222,9 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
                 }
             }
         }
+					
+		cout << "Bucle7 Salgo" << endl;
+
 		vector<Position> p;
         //Si no ha encontrado solución
 		return p;
@@ -326,8 +336,11 @@ void Pathfinding::imprimirCamino(){
         //y lo tamamos como referencia
 		int menor = n.getF();
         //Recorremos la lista
+		
+		//cout << "Bucle16 Entro" << endl;
+
         for (int i = 1; i < listaFrontera.size(); i++) {
-            //Cogemos el siguiente
+			//Cogemos el siguiente
 			NodoPadreEHijo nuevoPadreEHijo(listaFrontera[i]);
 			NodoPathfinding nuevo = nuevoPadreEHijo.getNodo();
             //Comprobamos que es mejor o igual que el que tenemos
@@ -340,6 +353,9 @@ void Pathfinding::imprimirCamino(){
 				nPadreEHijo.setPadre(nuevoPadreEHijo.getPadre());
             }
         }
+				
+		//cout << "Bucle16 Salgo" << endl;
+
         //Devolvemos el NodoPathfinding con menor f
 		return nPadreEHijo;
     }
@@ -702,6 +718,7 @@ void Pathfinding::imprimirCamino(){
         //Nodo solución
         //Mientras no lleguemos al hijo origen
 		while (!(m->getPadre() == NULL)) {
+			cout << "Bucle8" << endl;
 			camino.push_back(m->getNodo().getPosition());
             //Cogemos el padre y lo que convertimos en el actual
 			m = m->getPadre();

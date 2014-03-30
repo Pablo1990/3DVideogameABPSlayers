@@ -74,5 +74,9 @@ private:
 	IrrlichtDevice* device;
 	ITriangleSelector* mapSelector;
 	Pathfinding* path;
+	Position init_pos;
+	Position end_pos;
+	int status; //0 = Hacia salud, 1 = Hacia arma, 2 = Hacia enemigo, 3 = Explorar, 4 = freeattack?
+
 };
 

@@ -15,6 +15,7 @@ int Goal_Composite::ProcessSubgoals()
   while (!m_SubGoals.empty() &&
          (m_SubGoals.front()->iscomplete() || m_SubGoals.front()->hasfailed()))
   {
+	  cout << "Bucle6" << endl;
     m_SubGoals.front()->Terminate();
     delete m_SubGoals.front();
     m_SubGoals.pop_front();
@@ -58,7 +59,7 @@ void Goal_Composite::RemoveAllSubgoals()
        ++it)
   {
     (*it)->Terminate();
-
+	cout << "Bucle9" << endl;
     delete *it;
   }
 
