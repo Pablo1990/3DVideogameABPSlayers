@@ -64,15 +64,15 @@ void Juego::run()
 	const int lwidth = size.Width - 20;
 	const int lheight = 16;
 	
-	core::rect<int> pos(10, size.Height-lheight-10, 10+lwidth, size.Height-10);
+	/*core::rect<int> pos(10, size.Height-lheight-10, 10+lwidth, size.Height-10);
 	
 	core::rect<int> pos2(80, 150, 80, size.Height-10);
-	
+
 
 	device->getGUIEnvironment()->addImage(pos);
 	statusText = device->getGUIEnvironment()->addStaticText(L"Loading...",	pos, true);
 	
-	statusText->setOverrideColor(video::SColor(255,205,200,200));
+	statusText->setOverrideColor(video::SColor(255,205,200,200));*/
 
 	s32 now = 0;
 	s32 lastfps = 0;
@@ -99,8 +99,8 @@ void Juego::run()
 		
 	
 		
-	int unavez=0;
-	hud=new Hud(device);
+		int unavez=0;
+		hud=new Hud(device);
 		hud->drawHud(device,npc,player);
 	
 
@@ -121,11 +121,11 @@ void Juego::run()
 			if(npc)
 			{
 				npc->manage_collision(player->get_weapon(), device);
-				/*if(cycles % 500)
+				if(cycles % 500)
 				{
 					mente->Arbitrate();
 					mente->ProcessSubgoals();
-				}*/
+				}
 				//npc->way_to(pf.getCamino());
 				npc->restore_condition(device);
 				//swprintf(tmp, 255, L"NpcHealth %f", player->get_position().Y);
@@ -142,38 +142,22 @@ void Juego::run()
 							}
 					}
 		
+					if(player)
+					{
+						player->heal_or_fire(campFire, heal_camp, device);
+						player->fall_down(device);
+					}
+						/*switch(player->heal_or_fire(campFire, heal_camp, device))
+						{
 
-			if(player)
-			{
-				player->heal_or_fire(campFire, heal_camp, device);
-				player->fall_down(device);
-				swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f", player->get_position().X, player->get_position().Y, 
-					player->get_position().Z);
-				
-				statusText->setText(tmp);
-			}
-				/*switch(player->heal_or_fire(campFire, heal_camp, device))
-				{
-
-					case 0:
-						swprintf(tmp, 255, L"NORMAL", head_hit);
-						statusText->setText(tmp);
-						break;
-					case 1:
-						swprintf(tmp, 255, L"ARDO", head_hit);
-						statusText->setText(tmp);
-						break;
-				
-					case 2:
-						swprintf(tmp, 255, L"CURACION", head_hit);
-						statusText->setText(tmp);
-						break;
-				}*/
-	
-/*
-			if(unavez>3 && unavez<51)
-			{
-
+							case 0:
+								swprintf(tmp, 255, L"NORMAL", head_hit);
+								statusText->setText(tmp);
+								break;
+							case 1:
+								swprintf(tmp, 255, L"ARDO", head_hit);
+								statusText->setText(tmp);
+								break;
 				
 							case 2:
 								swprintf(tmp, 255, L"CURACION", head_hit);
@@ -224,7 +208,6 @@ void Juego::switchToNextScene()
 {
 	camera = 0;
 	scene::ISceneManager* sm = device->getSceneManager();
-
 
 	SKeyMap keyMap[10];
 	keyMap[0].Action = EKA_MOVE_FORWARD;
@@ -358,10 +341,6 @@ void Juego::loadSceneData()
 			sm->addQuake3SceneNode ( meshBuffer, shader );
 		}
 
-		
-
-		
-
 		scene::ISceneNodeAnimator* anim = 0;
 
 		// create sky box
@@ -437,18 +416,18 @@ void Juego::loadSceneData()
 	if(estado==1)
 	{
 	
-	npc = new Npc(sm,new Sword(0,0,sm),heal_camp->getAbsolutePosition(), device, mapSelector);
+		npc = new Npc(sm,new Sword(0,0,sm),heal_camp->getAbsolutePosition(), device, mapSelector);
 	
 	
-	Position p1(npc->get_position().X, 0, npc->get_position().Z);
-	Position p2(npc->get_position().X, 0, npc->get_position().Z);
-	Pathfinding* pf = new Pathfinding(p1, p2);
-	Position last_corner(1894.93, 1, 1294.88);
-	vector<vector<Position>> obstacles;
-	vector<Position> v2;
-	v2.push_back(last_corner);
-	obstacles.push_back(v2);
-	pf->setMapa(obstacles);
+		Position p1(npc->get_position().X, 0, npc->get_position().Z);
+		Position p2(npc->get_position().X, 0, npc->get_position().Z);
+		Pathfinding* pf = new Pathfinding(p1, p2);
+		Position last_corner(1894.93, 1, 1294.88);
+		vector<vector<Position>> obstacles;
+		vector<Position> v2;
+		v2.push_back(last_corner);
+		obstacles.push_back(v2);
+		pf->setMapa(obstacles);
 
 	//vector<Position> way_points = pf.AEstrella(500);
 

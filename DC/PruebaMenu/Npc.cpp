@@ -988,11 +988,11 @@ bool Npc::Update()
 			this->get_weapon()->finish_animation();
 
 	}
-/*	vector3df pos=this->DarPosArmaCercana();
+	vector3df pos=this->DarPosArmaCercana();
 	if((std::abs(pos.X-this->get_position().X)<=100 ) && std::abs(pos.Y-this->get_position().Z)<=100)
 		{
 			this->pick_weapon();
-		}*/
+		}
 	return true;
 	//aqui se se supone que debería actualizar inputs, pero eso
 	//se debera hacer al actuar (se encarga irrlicht)
