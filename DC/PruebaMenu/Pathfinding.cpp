@@ -227,7 +227,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
             }
         }
 					
-		cout << "Bucle7 Salgo" << endl;
+		//cout << "Bucle7 Salgo" << endl;
 
 		vector<Position> p;
         //Si no ha encontrado solución
@@ -722,7 +722,7 @@ void Pathfinding::imprimirCamino(){
         //Nodo solución
         //Mientras no lleguemos al hijo origen
 		while (!(m->getPadre() == NULL)) {
-			cout << "Bucle8" << endl;
+			//cout << "Bucle8" << endl;
 			camino.push_back(m->getNodo().getPosition());
             //Cogemos el padre y lo que convertimos en el actual
 			m = m->getPadre();

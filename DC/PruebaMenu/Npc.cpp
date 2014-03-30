@@ -133,7 +133,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 					//array<SParticleImpact> imp = rw->get_impacts();
 					for(int i = 0; i < rw->get_impacts().size(); i++)
 					{
-						cout << "Bucle1" << endl;
+						//cout << "Bucle1" << endl;
 						if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->head))
 						{
 							rw->set_impact_at(i, true);

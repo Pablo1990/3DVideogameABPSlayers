@@ -172,7 +172,7 @@ bool Character::detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b)
 
 	for(unsigned int i = 0; i < b.size(); i++)
 	{
-		cout << "Bucle4" << endl;
+		//cout << "Bucle4" << endl;
 		try
 		{
 			if(a && b[i] && a->getTransformedBoundingBox().intersectsWithBox(b[i]->getTransformedBoundingBox()))
@@ -449,7 +449,7 @@ void Character::replace_random_item( int index, std::list<Weapon*>* armas, Irrli
 
 		for(int i = 0; i < index; i++)
 		{
-			cout << "Bucle5" << endl;
+			//cout << "Bucle5" << endl;
 			it++;
 		}
 
@@ -470,7 +470,7 @@ void Character::replace_random_item( int index, std::list<Weapon*>* armas, Irrli
 		it = armas->begin();
 		for(int i = 0; i < index; i++)
 		{
-			cout << "Bucle2" << endl;
+			//cout << "Bucle2" << endl;
 			it++;
 		}
 		
@@ -524,7 +524,7 @@ void Character::replace_random_item( int index, std::list<Weapon*>* armas, Irrli
 		int i = 0;
 		for(it = armas->begin(); it != armas->end(); ++it)
 		{
-			cout << "Bucle3" << endl;
+			//cout << "Bucle3" << endl;
 			/*if(i >= index && it != --armas.end())
 			{
 				number = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(strcspn((*it)->get_weapon_node()->getName(), "_") + 1).c_str());
