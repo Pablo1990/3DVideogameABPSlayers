@@ -101,7 +101,7 @@ void CController::asignarEnemigo(int num){
 	m_vecNpc[m_vecJornadasVisitantes[num]]->setEnem(m_vecNpc[m_vecJornadasLocales[num]]);
 	
 	m_vecNpc[m_vecJornadasLocales[num]]->get_character_node()->setPosition(vector3df(100, 10, 100));
-	m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(1000,10,100));
+	m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(200,10,600));
 	//m_vecNpc[m_vecJornadasLocales[num]]->set_position(100, 10, 300);
 	//m_vecNpc[m_vecJornadasVisitantes[num]]->set_position(1400,10,100);
 }
@@ -272,13 +272,13 @@ bool CController::Update()
 
 		invisPlayers(m_vecJornadasLocales.size() - duelosRestantes);
 		duelosRestantes--;
-		cout<<"Duelos restantes "<<duelosRestantes<<endl;
+		//cout<<"Duelos restantes "<<duelosRestantes<<endl;
 		
 	
 		if(duelosRestantes==0){
 			updateFitnessFinal(m_vecNpc[m_vecJornadasLocales[m_vecJornadasLocales.size() - (duelosRestantes+1)]], m_vecNpc[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - (duelosRestantes+1)]]);
 			ofstream fs("pesos.txt"); 
-			cout<<"Generacion " <<m_iGenerations<<endl;
+			//cout<<"Generacion " <<m_iGenerations<<endl;
 			fs<<"Generacion " <<m_iGenerations<<endl;
 			//update the stats to be used in our stat window
 			m_vecAvFitness.push_back(m_pGA->AverageFitness());
@@ -293,7 +293,7 @@ bool CController::Update()
 				//cout<<m_pGA->GetBestWeights()[i]<<" ";
 				fs<<m_pGA->GetBestWeights()[i]<<" ";
 			}
-			cout<<endl;
+			fs<<endl;
 
 			fs.close();
 			//increment the generation counter

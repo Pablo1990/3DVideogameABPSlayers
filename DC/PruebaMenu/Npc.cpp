@@ -803,8 +803,8 @@ bool Npc::Update()
 {
 
 	//cout<<"<<<<<<<<Vida>>>>>>>"<<endl;
-	cout<<"Vida enemigo"<<endl;
-	cout<<this->getEnemigo()->get_health()<<endl;
+	//cout<<"Vida enemigo"<<endl;
+	//cout<<this->getEnemigo()->get_health()<<endl;
 
 	//cout<<"Vida propia"<<endl;
 	//cout<<this->get_health()<<endl;
