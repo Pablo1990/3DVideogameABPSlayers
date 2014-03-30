@@ -39,7 +39,7 @@ void Weapon::add_to_scene(vector3df position, vector3df rotation, vector3df scal
 			main_position = position;
 			main_rotation = rotation;
 			weapon_node->setName((std::to_string(ty) + '_' + std::to_string(index)).c_str());
-			cout << weapon_node->getName() << endl;
+			//cout << weapon_node->getName() << endl;
 						weapon_node->setDebugDataVisible(EDS_BBOX_ALL);
 
 		}

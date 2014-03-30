@@ -52,28 +52,14 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 					
 					
 					cout<<"Me han dado en la cabeza" <<endl;
-					if(scene_manager)
-					{
-						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
-						if(mesh_manipulator)
-						{
-							mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 0,   0));//RED
-						}
-					}
+					
 				}
 				else if (detect_collision(w->get_weapon_node(), this->body))
 				{
 					w->set_collision_flag(true);
 					this->health = this->health - (w->get_damage() - 0.20 * w->get_damage());
 					cout<<"Me han dado en el cuerpo" <<endl;
-					if(scene_manager)
-					{
-						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
-						if(mesh_manipulator)
-						{
-							mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 0,   0,  255));//BLUE
-						}
-					}
+					
 				}
 				else if (detect_collision(w->get_weapon_node(), this->extremity))
 				{
@@ -81,14 +67,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 					int restar = w->get_damage() - 0.40 * w->get_damage();
 					this->health = this->health - (w->get_damage() - 0.40 * w->get_damage());
 					cout<<"Me han dado en alguna extremidad" <<endl;
-					if(scene_manager)
-					{
-						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
-						if(mesh_manipulator)
-						{
-							mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 255, 0));//YELLOW
-						}
-					}
+					
 				}
 			}
 			else
@@ -137,15 +116,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 						if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->head))
 						{
 							rw->set_impact_at(i, true);
-							if(scene_manager)
-							{
-								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
-								if(mesh_manipulator)
-								{
-									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 0,   0));//RED
-								}
-
-							}
+							
 								double resto = (2 * ((w->get_damage() + 0.50 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
 								this->character_node->getPosition().Z)));
@@ -157,16 +128,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->body))
 						{
 							rw->set_impact_at(i, true);
-							if(scene_manager)
-							{
-								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
-								if(mesh_manipulator)
-								{
-									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 0,   0,  255));//BLUE
-								}
-
-
-							}
+							
 
 							double resto = (2 * ((w->get_damage() - 0.40 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
@@ -179,14 +141,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->extremity))
 						{
 							rw->set_impact_at(i, true);
-							if(scene_manager)
-							{
-								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
-								if(mesh_manipulator)
-								{
-									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 255, 0));//YELLOW
-								}
-							}
+							
 
 								double resto = (((w->get_damage() - 0.20 * w->get_damage())  
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
@@ -989,7 +944,7 @@ bool Npc::Update()
 
 	}
 	vector3df pos=this->DarPosArmaCercana();
-	if((std::abs(pos.X-this->get_position().X)<=100 ) && std::abs(pos.Y-this->get_position().Z)<=100)
+	if((std::abs(pos.X-this->get_position().X)<=10 ) && std::abs(pos.Y-this->get_position().Z)<=10)
 		{
 			this->pick_weapon();
 		}
