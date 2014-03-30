@@ -305,18 +305,15 @@ bool CController::Update()
 
 		}
 		else{
-			m_vecJornadasLocales[m_vecJornadasLocales.size() - (duelosRestantes+1)];
-			m_vecNpc[m_vecJornadasLocales[m_vecJornadasLocales.size() - (duelosRestantes+1)]];
-			m_vecNpc[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - (duelosRestantes+1)]];
 			updateFitnessFinal(m_vecNpc[m_vecJornadasLocales[m_vecJornadasLocales.size() - (duelosRestantes+1)]], m_vecNpc[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - (duelosRestantes+1)]]);
-
+			m_vecNpc[m_vecJornadasLocales[m_vecJornadasLocales.size() - (duelosRestantes+1)]]->Reset();
 			m_iTicks = 0;
-			asignarEnemigo(m_vecJornadasLocales.size() - duelosRestantes);
-			m_vecNpcHealth[m_vecJornadasLocales[m_vecJornadasLocales.size() - duelosRestantes]] = 100;
-			m_vecNpcEnemiesHealth[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - duelosRestantes]]=100;
+			m_vecNpcHealth[m_vecJornadasLocales[m_vecJornadasLocales.size() - (duelosRestantes+1)]] = 100;
+			m_vecNpcEnemiesHealth[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - (duelosRestantes+1)]]=100;
 			
-			m_vecNpcHealth[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - duelosRestantes]] = 100;
-			m_vecNpcEnemiesHealth[m_vecJornadasLocales[m_vecJornadasLocales.size() - duelosRestantes]]=100;
+			m_vecNpcHealth[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - (duelosRestantes+1)]] = 100;
+			m_vecNpcEnemiesHealth[m_vecJornadasLocales[m_vecJornadasLocales.size() - (duelosRestantes+1)]]=100;
+			asignarEnemigo(m_vecJornadasLocales.size() - duelosRestantes);
 
 		}
 	}
