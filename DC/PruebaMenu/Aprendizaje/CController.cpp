@@ -285,6 +285,11 @@ bool CController::Update()
 
 
 			cout<<"Best fitness: " <<m_pGA->BestFitness()<<endl;
+			cout<<"Best pesos: ";
+			for(int i = 0; i<m_pGA->GetBestWeights().size(); i++){
+				cout<<m_pGA->GetBestWeights()[i]<<" ";
+			}
+			cout<<endl;
 			//increment the generation counter
 			++m_iGenerations;
 				/*	 // Crea un fichero de salida

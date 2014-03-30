@@ -134,8 +134,9 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
         //Recorremos esta hasta que sea vacia
 		double dx = pow(pIni.getX() - pFin.getX(), 2);
 		double dz = pow(pIni.getZ() - pFin.getZ(), 2);
+		double dy = pow(pIni.getY() - pFin.getY(), 2);
 		vector<Position> p2;
-		if(sqrt(dx + dz) < 40)
+		if(sqrt(dx + dz + dy) < 40)
 			return p2;
 
 		while (!listaFrontera.empty()) {
