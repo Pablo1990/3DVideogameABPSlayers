@@ -533,7 +533,7 @@ void Character::replace_random_item( int index, std::list<Weapon*>* armas, Irrli
 				//cout << "DA NAME " << type << "_" << number << endl;
 				(*it)->get_weapon_node()->setName((std::to_string(type) + '_' + std::to_string(number)).c_str());
 			}*/
-			cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
+			//cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
 	
 
 			i++;
