@@ -90,7 +90,7 @@ private:
 
 public:
 
-	CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth, std::list<Weapon*>*, double*, ITriangleSelector* , IrrlichtDevice *device);
+	CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth, std::list<Weapon*>*, double*, ITriangleSelector* , IrrlichtDevice *device,ISceneNode* camp_fire_,ISceneNode* heal_);
 
 	~CController();
 

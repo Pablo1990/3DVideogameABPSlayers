@@ -5,7 +5,7 @@
 //	initilaize the npc, their brains and the GA factory
 //
 //-----------------------------------------------------------------------
-CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,std::list<Weapon*>* armas, double* types, ITriangleSelector* mapSelector,IrrlichtDevice *device): m_NumNpc(CParams::iNumSweepers), 
+CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,std::list<Weapon*>* armas, double* types, ITriangleSelector* mapSelector,IrrlichtDevice *device,ISceneNode* camp_fire_,ISceneNode* heal_): m_NumNpc(CParams::iNumSweepers), 
 	m_pGA(NULL),
 	m_iTicks(0),
 	m_hwndMain(hwndMain),
@@ -19,7 +19,7 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,st
 	//let's create the bots
 	for (int i=0; i<20; ++i)
 	{
-		Npc* n = new Npc(sm,new Sword(4,7,sm),posHealth, device, mapSelector);
+		Npc* n = new Npc(sm,new Sword(4,7,sm),posHealth, device, mapSelector,camp_fire_,heal_);	
 		n->add_to_scene(core::vector3df(0,200,0), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 		n->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02));
 		n->setItems(armas, types);
@@ -101,7 +101,7 @@ void CController::asignarEnemigo(int num){
 	m_vecNpc[m_vecJornadasVisitantes[num]]->setEnem(m_vecNpc[m_vecJornadasLocales[num]]);
 	
 	m_vecNpc[m_vecJornadasLocales[num]]->get_character_node()->setPosition(vector3df(100, 10, 100));
-	m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(200,10,600));
+	m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(1000,10,100));
 	//m_vecNpc[m_vecJornadasLocales[num]]->set_position(100, 10, 300);
 	//m_vecNpc[m_vecJornadasVisitantes[num]]->set_position(1400,10,100);
 }

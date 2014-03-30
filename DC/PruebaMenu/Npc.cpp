@@ -23,6 +23,20 @@ Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangl
 	m_dFitness = 1000;
 }
 
+Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangleSelector* mp,ISceneNode* camp_fire_,ISceneNode* heal_): Character(knight_path, sm, w)
+{
+	posHealth=pos;
+	is_dead = false;
+	is_moving = false;
+	steps_count = 0;
+	device = d;
+	mapSelector = mp;
+	m_dFitness = 1000;
+	camp_fire=camp_fire_;
+	heal=heal_;
+}
+
+
 Npc::~Npc(void)
 {
 }
@@ -788,8 +802,8 @@ bool Npc::Update()
 {
 
 	//cout<<"<<<<<<<<Vida>>>>>>>"<<endl;
-	//cout<<"Vida enemigo"<<endl;
-	//cout<<this->getEnemigo()->get_health()<<endl;
+	cout<<"Vida enemigo"<<endl;
+	cout<<this->getEnemigo()->get_health()<<endl;
 
 	//cout<<"Vida propia"<<endl;
 	//cout<<this->get_health()<<endl;
@@ -948,6 +962,7 @@ bool Npc::Update()
 		{
 			this->pick_weapon();
 		}
+	this->heal_or_fire(camp_fire, heal, device);
 	return true;
 	//aqui se se supone que debería actualizar inputs, pero eso
 	//se debera hacer al actuar (se encarga irrlicht)

@@ -26,6 +26,7 @@ class Npc: public Character
 public:
 	Npc(ISceneManager *sm,vector3df, IrrlichtDevice* d, ITriangleSelector* mp);
 	Npc(ISceneManager *sm, Weapon* w,vector3df, IrrlichtDevice* d, ITriangleSelector* mp);
+	Npc(ISceneManager *sm, Weapon* w,vector3df, IrrlichtDevice* d, ITriangleSelector* mp,ISceneNode* camp_fire,ISceneNode* heal);
 	~Npc(void);
 
 	void manage_collision(Weapon *w, IrrlichtDevice* d); 
@@ -115,6 +116,8 @@ private:
 	Player *player;
 	Npc* enemigo;
 	std::list<Weapon*>* items;
+	ISceneNode* camp_fire;
+	ISceneNode* heal;
 	double desgastes[4];
 	double itemsPx[6];
 	double itemsPy[6];

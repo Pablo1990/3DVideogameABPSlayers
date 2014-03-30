@@ -185,7 +185,7 @@ void Juego::run()
 	else if(estado==2)
 	{
 		CParams();		
-		CController* controller=new CController(NULL,smgr,heal_camp->getAbsolutePosition(),armas,types, mapSelector, device);
+		CController* controller=new CController(NULL,smgr,heal_camp->getAbsolutePosition(),armas,types, mapSelector, device,campFire, heal_camp);
 		while(device->run() && driver)
 			{
 				if (device->isWindowActive())
@@ -674,7 +674,7 @@ void Juego::add_random_item(vector3df position)
 	scene::ISceneManager* sm = device->getSceneManager();
 	position.Y = 8;
 
-	cout << "EMPIEZO EMPIEZO " << endl;
+	//cout << "EMPIEZO EMPIEZO " << endl;
 	switch(rand()%7)
 	{
 		case 0:
@@ -713,7 +713,7 @@ void Juego::add_random_item(vector3df position)
 		types[armas->size()] = (*(--armas->end()))->get_type();
 	}
 
-	cout << "ACABO ACABO " << endl;
-	cout << (*armas->begin())->get_weapon_node()->getName() << endl;
+	//cout << "ACABO ACABO " << endl;
+	//cout << (*armas->begin())->get_weapon_node()->getName() << endl;
 }
 
