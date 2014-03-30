@@ -579,8 +579,8 @@ void Npc::attackBot(int type)
 			{
 				if(weapon->get_weapon_node())
 				{
-					this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
-					this->weapon->set_weapon_node(NULL);
+					this->weapon->set_resist(0);
+					this->weapon->get_weapon_node()->remove();
 				}
 			}
 		}
