@@ -21,7 +21,7 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,st
 	{
 		Npc* n = new Npc(sm,new Sword(4,7,sm),posHealth, device, mapSelector);
 		n->add_to_scene(core::vector3df(0,200,0), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
-		n->add_weapon_to_node(core::vector3df(0,120,-20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+		n->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02));
 		n->setItems(armas, types);
 		m_vecNpc.push_back(n);
 		m_vecNpcHealth.push_back(100);
