@@ -57,7 +57,7 @@ void CGenAlg::Mutate(vector<double> &chromo)
 }
 
 vector<double> CGenAlg::GetBestWeights(){
-	double best = 1000000000000000000;
+	double best = 0;
 	int bestI = 0;
 	for(int i = 0; i< m_iPopSize; i++){
 		if(m_vecPop[i].dFitness>best){
