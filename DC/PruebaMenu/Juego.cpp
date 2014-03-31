@@ -67,7 +67,7 @@ void Juego::run()
 	core::rect<int> pos(10, size.Height-lheight-10, 10+lwidth, size.Height-10);
 	
 	core::rect<int> pos2(80, 150, 80, size.Height-10);
-
+	
 
 	device->getGUIEnvironment()->addImage(pos);
 	statusText = device->getGUIEnvironment()->addStaticText(L"Loading...",	pos, true);
@@ -99,8 +99,8 @@ void Juego::run()
 		
 	
 		
-		int unavez=0;
-		hud=new Hud(device);
+	int unavez=0;
+	hud=new Hud(device);
 		hud->drawHud(device,npc,player);
 	
 
@@ -135,48 +135,56 @@ void Juego::run()
 				//if(player)
 					//npc->face_target(player->get_character_node());
 
-						if(npc->get_weapon())
-						{
-							npc->get_weapon()->finish_animation();
+							if(npc->get_weapon())
+							{
+								npc->get_weapon()->finish_animation();
 
-						}
+							}
 					}
 		
-					if(player)
-					{
-						player->heal_or_fire(campFire, heal_camp, device);
-						player->fall_down(device);
-						swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f", player->get_position().X, player->get_position().Y, 
-						player->get_position().Z);
+
+			if(player)
+			{
+				player->heal_or_fire(campFire, heal_camp, device);
+				player->fall_down(device);
+				swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f", player->get_position().X, player->get_position().Y, 
+					player->get_position().Z);
+				
+				statusText->setText(tmp);
+			}
+
+			if(cycles % 1500 == 0)
+			{
+				this->replace_random_item(this->device, this->mapSelector);
+			}
+				/*switch(player->heal_or_fire(campFire, heal_camp, device))
+				{
+
+					case 0:
+						swprintf(tmp, 255, L"NORMAL", head_hit);
 						statusText->setText(tmp);
-					}
+						break;
+					case 1:
+						swprintf(tmp, 255, L"ARDO", head_hit);
+						statusText->setText(tmp);
+						break;
+				
+					case 2:
+						swprintf(tmp, 255, L"CURACION", head_hit);
+						statusText->setText(tmp);
+						break;
+				}*/
+	
+/*
+			if(unavez>3 && unavez<51)
+			{
 
-					if(cycles % 1500 == 0)
-					{
-						this->replace_random_item(this->device, this->mapSelector);
-					}
-						/*switch(player->heal_or_fire(campFire, heal_camp, device))
-						{
-
-							case 0:
-								swprintf(tmp, 255, L"NORMAL", head_hit);
-								statusText->setText(tmp);
-								break;
-							case 1:
-								swprintf(tmp, 255, L"ARDO", head_hit);
-								statusText->setText(tmp);
-								break;
-
-								case 2:
+				
+							case 2:
 								swprintf(tmp, 255, L"CURACION", head_hit);
 								statusText->setText(tmp);
 								break;
 						}*/
-						
-			
-				
-
-							
 				
 					driver->beginScene(timeForThisScene != -1, true, backColor);
 		
@@ -200,31 +208,17 @@ void Juego::run()
 	else if(estado==2)
 	{
 		CParams();		
-		CController* controller=new CController(NULL,smgr,heal_camp->getAbsolutePosition(),armas,types, mapSelector, device,campFire, heal_camp);
-		cycles = 0;
+		CController* controller=new CController(NULL,smgr,heal_camp->getAbsolutePosition(),armas,types, mapSelector, device);
 		while(device->run() && driver)
 			{
 				if (device->isWindowActive())
 				{
 					now = device->getTimer()->getTime();
-
-					if(cycles % 100 == 0)
-					{
-						this->replace_random_item(this->device, this->mapSelector);
-					}
-
 					controller->Update();
 					driver->beginScene(timeForThisScene != -1, true, backColor);
 					smgr->drawAll();
 					guienv->drawAll();
 					driver->endScene();
-					if(cycles + 1 == INT_MAX)
-					{
-						cycles = 0;
-					}
-
-					
-					cycles++;
 
 				}
 			}
@@ -237,6 +231,7 @@ void Juego::switchToNextScene()
 {
 	camera = 0;
 	scene::ISceneManager* sm = device->getSceneManager();
+
 
 	SKeyMap keyMap[10];
 	keyMap[0].Action = EKA_MOVE_FORWARD;
@@ -370,6 +365,10 @@ void Juego::loadSceneData()
 			sm->addQuake3SceneNode ( meshBuffer, shader );
 		}
 
+		
+
+		
+
 		scene::ISceneNodeAnimator* anim = 0;
 
 		// create sky box
@@ -420,7 +419,7 @@ void Juego::loadSceneData()
 	//Zona de curacion
 	
 	heal_camp = sm->addParticleSystemSceneNode(false);
-	heal_camp->setPosition(core::vector3df(1000,0,200));
+	heal_camp->setPosition(core::vector3df(1650,0,1000));
 	heal_camp->setScale(core::vector3df(20,20,20));
 
 	em = heal_camp->createBoxEmitter(
@@ -445,18 +444,17 @@ void Juego::loadSceneData()
 	if(estado==1)
 	{
 	
-		npc = new Npc(sm,new Sword(0,0,sm),heal_camp->getAbsolutePosition(), device, mapSelector);
+	npc = new Npc(sm,new Sword(0,0,sm),heal_camp->getPosition(), device, mapSelector);
 	
-	
-		Position p1(npc->get_position().X, 0, npc->get_position().Z);
-		Position p2(npc->get_position().X, 0, npc->get_position().Z);
-		Pathfinding* pf = new Pathfinding(p1, p2);
-		Position last_corner(1894.93, 1, 1294.88);
-		vector<vector<Position>> obstacles;
-		vector<Position> v2;
-		v2.push_back(last_corner);
-		obstacles.push_back(v2);
-		pf->setMapa(obstacles);
+	Position p1(npc->get_position().X, 0, npc->get_position().Z);
+	Position p2(npc->get_position().X, 0, npc->get_position().Z);
+	Pathfinding* pf = new Pathfinding(p1, p2);
+	Position last_corner(1894.93, 1, 1294.88);
+	vector<vector<Position>> obstacles;
+	vector<Position> v2;
+	v2.push_back(last_corner);
+	obstacles.push_back(v2);
+	pf->setMapa(obstacles);
 
 	//vector<Position> way_points = pf.AEstrella(500);
 
@@ -520,8 +518,8 @@ void Juego::loadSceneData()
 		srand((unsigned)time(0)); 
 
 	this->add_random_item(vector3df(100,0,100));
-	this->add_random_item(vector3df(500,0,100));
 	this->add_random_item(vector3df(1000,0,100));
+	this->add_random_item(vector3df(1700,0,100));
 	this->add_random_item(vector3df(700,0,1000));
 	this->add_random_item(vector3df(100,0,1000));
 
@@ -703,7 +701,7 @@ void Juego::add_random_item(vector3df position)
 	scene::ISceneManager* sm = device->getSceneManager();
 	position.Y = 8;
 
-	//cout << "EMPIEZO EMPIEZO " << endl;
+	cout << "EMPIEZO EMPIEZO " << endl;
 	switch(rand()%7)
 	{
 		case 0:
@@ -742,8 +740,8 @@ void Juego::add_random_item(vector3df position)
 		types[armas->size()] = (*(--armas->end()))->get_type();
 	}
 
-	//cout << "ACABO ACABO " << endl;
-	//cout << (*armas->begin())->get_weapon_node()->getName() << endl;
+	cout << "ACABO ACABO " << endl;
+	cout << (*armas->begin())->get_weapon_node()->getName() << endl;
 }
 
 void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelector* mapSelector)
@@ -850,7 +848,7 @@ void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelecto
 					//cout << "DA NAME " << type << "_" << number << endl;
 					(*it)->get_weapon_node()->setName((std::to_string(type) + '_' + std::to_string(number)).c_str());
 				}*/
-				//cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
+				cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
 	
 
 			}
