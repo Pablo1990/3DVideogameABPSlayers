@@ -272,13 +272,16 @@ bool CController::Update()
 
 		invisPlayers(m_vecJornadasLocales.size() - duelosRestantes);
 		duelosRestantes--;
-		//cout<<"Duelos restantes "<<duelosRestantes<<endl;
+		cout<<"Duelos restantes "<<duelosRestantes<<endl;
 		
 	
 		if(duelosRestantes==0){
 			updateFitnessFinal(m_vecNpc[m_vecJornadasLocales[m_vecJornadasLocales.size() - (duelosRestantes+1)]], m_vecNpc[m_vecJornadasVisitantes[m_vecJornadasLocales.size() - (duelosRestantes+1)]]);
-			ofstream fs("pesos.txt"); 
-			//cout<<"Generacion " <<m_iGenerations<<endl;
+			std::ofstream fs;
+
+			fs.open("pesos.txt", std::ios_base::app);
+			//ofstream fs("pesos.txt"); 
+			cout<<"Generacion " <<m_iGenerations<<endl;
 			fs<<"Generacion " <<m_iGenerations<<endl;
 			//update the stats to be used in our stat window
 			m_vecAvFitness.push_back(m_pGA->AverageFitness());
