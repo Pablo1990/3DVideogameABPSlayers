@@ -38,7 +38,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 	{
 		
 		//RangeWeapon* rw2 = dynamic_cast<RangeWeapon*>(w);
-		if (w != NULL && !is_dead) 
+		if (w != NULL && !is_dead && !w->no_weapon()) 
 		{
 			
 			if(!dynamic_cast<RangeWeapon*>(w) && !w->get_collision_flag() && w->is_animated())
@@ -557,6 +557,7 @@ void Npc::attack(int type)
 				{
 					this->weapon->set_resist(0);
 					this->weapon->get_weapon_node()->remove();
+					this->weapon->set_no_weapon(true);
 					//this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
 					//this->weapon->set_weapon_node(NULL);
 				}
@@ -580,8 +581,9 @@ void Npc::attackBot(int type)
 			{
 				if(weapon->get_weapon_node())
 				{
-					this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
-					this->weapon->set_weapon_node(NULL);
+					this->weapon->set_resist(0);
+					this->weapon->get_weapon_node()->remove();
+					this->weapon->set_no_weapon(true);
 				}
 			}
 		}

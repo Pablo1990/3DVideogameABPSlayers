@@ -26,7 +26,7 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d)
 	{
 		
 		//RangeWeapon* rw2 = dynamic_cast<RangeWeapon*>(w);
-		if (w != NULL && !is_dead) 
+		if (w != NULL && !w->no_weapon() && !is_dead) 
 		{
 			if(!dynamic_cast<RangeWeapon*>(w) && !w->get_collision_flag() && w->is_animated())
 			{
@@ -205,6 +205,7 @@ void Player::drop_weapon(ISceneNode* cam)
 		{
 			cam->removeChild(weapon->get_weapon_node());
 			weapon->set_weapon_node(NULL);
+			weapon->set_no_weapon(true);
 			pick_shield();
 		}
 	}
