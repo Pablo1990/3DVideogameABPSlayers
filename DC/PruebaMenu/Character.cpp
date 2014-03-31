@@ -235,9 +235,10 @@ void Character::attack(float first_x, float first_y, float last_x, float last_y)
 			{
 				if(weapon->get_weapon_node())
 				{
-					this->weapon->get_weapon_node()->remove();
-					//this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
-					//this->weapon->set_weapon_node(NULL);
+					//this->weapon->get_weapon_node()->remove();
+					
+					this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
+					this->weapon->set_weapon_node(NULL);
 				}
 			}
 		}
