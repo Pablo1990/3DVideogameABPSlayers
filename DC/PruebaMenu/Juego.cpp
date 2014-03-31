@@ -850,7 +850,7 @@ void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelecto
 					//cout << "DA NAME " << type << "_" << number << endl;
 					(*it)->get_weapon_node()->setName((std::to_string(type) + '_' + std::to_string(number)).c_str());
 				}*/
-				cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
+				//cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
 	
 
 			}
