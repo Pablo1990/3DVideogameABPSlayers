@@ -419,7 +419,7 @@ void Juego::loadSceneData()
 	//Zona de curacion
 	
 	heal_camp = sm->addParticleSystemSceneNode(false);
-	heal_camp->setPosition(core::vector3df(1000,0,200));
+	heal_camp->setPosition(core::vector3df(1650,0,1000));
 	heal_camp->setScale(core::vector3df(20,20,20));
 
 	em = heal_camp->createBoxEmitter(
@@ -444,8 +444,7 @@ void Juego::loadSceneData()
 	if(estado==1)
 	{
 	
-	npc = new Npc(sm,new Sword(0,0,sm),heal_camp->getAbsolutePosition(), device, mapSelector);
-	
+	npc = new Npc(sm,new Sword(0,0,sm),heal_camp->getPosition(), device, mapSelector);
 	
 	Position p1(npc->get_position().X, 0, npc->get_position().Z);
 	Position p2(npc->get_position().X, 0, npc->get_position().Z);
@@ -519,8 +518,8 @@ void Juego::loadSceneData()
 		srand((unsigned)time(0)); 
 
 	this->add_random_item(vector3df(100,0,100));
-	this->add_random_item(vector3df(500,0,100));
 	this->add_random_item(vector3df(1000,0,100));
+	this->add_random_item(vector3df(1700,0,100));
 	this->add_random_item(vector3df(700,0,1000));
 	this->add_random_item(vector3df(100,0,1000));
 

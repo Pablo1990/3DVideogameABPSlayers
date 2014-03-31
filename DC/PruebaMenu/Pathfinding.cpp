@@ -137,6 +137,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 		vector<Position> p2;
 		if(sqrt(dx + dz) < 40)
 			return p2;
+		cout << "Bucle7 entro" << endl;
 
 		while (!listaFrontera.empty()) {
 			//cout<<"hola"<<endl;
@@ -161,7 +162,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
             //Y lo añadimos a nuestra listaInterior como fijo
 			listaInterior.push_back(n);
             //En el caso de que este NodoPathfinding sea estado solución
-			if (n.getNodo().getG()*espaciado >= pasos || ( n.getNodo().getPosition().getX() == pFin.getX() && n.getNodo().getPosition().getY() == pFin.getY() && n.getNodo().getPosition().getZ() == pFin.getZ())) {
+			if (listaInterior.size()>=400 || n.getNodo().getG()*espaciado >= pasos || ( n.getNodo().getPosition().getX() == pFin.getX() && n.getNodo().getPosition().getY() == pFin.getY() && n.getNodo().getPosition().getZ() == pFin.getZ())) {
                 //Sacamos por pantalla expandidos y el camino
                 return reconstruirCamino(n, expandidos);
             }

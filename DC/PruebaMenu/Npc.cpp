@@ -49,7 +49,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 					w->set_collision_flag(true);
 					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
 					//this->health = 0;
-					
+					this->health = health - 70;
 					
 
 					if(scene_manager)
@@ -341,7 +341,7 @@ bool Npc::MoverseAItemSalud()
 {
 
 	
-	/*if(!is_moving || status != 0)
+	if(!is_moving || status != 0)
 	{
 		init_pos.setX(this->character_node->getPosition().X);
 		init_pos.setY(0);
@@ -355,18 +355,18 @@ bool Npc::MoverseAItemSalud()
 		path->setPosInicio(init_pos);
 		path->setPosFin(end_pos);
 
-		path->AEstrella(100);
+		path->AEstrella(250);
 		steps_count = 0;
 		status = 0;
 	}
 
-	this->way_to(path->getCamino());*/
+	this->way_to(path->getCamino());
 
 	return true;
 }
 bool Npc::MoverseAItemArma()
 {
-/*	if(!is_moving || status != 1)
+	if(!is_moving || status != 1)
 	{
 		//if(!this->near_weapon)
 		this->DarPosArmaCercana();
@@ -383,12 +383,12 @@ bool Npc::MoverseAItemArma()
 		path->setPosInicio(init_pos);
 		path->setPosFin(end_pos);
 
-		path->AEstrella(100);
+		path->AEstrella(250);
 		steps_count = 0;
 		status = 1;
 	}
 
-	this->way_to(path->getCamino());*/
+	this->way_to(path->getCamino());
 	return true;
 }
 bool Npc::MoverseAEnemigo()
@@ -409,7 +409,7 @@ bool Npc::MoverseAEnemigo()
 	vector<Position> way_points = pf.AEstrella(250);
 	this->way_to(way_points);*/
 
-	/*if(!is_moving || status != 2)
+	if(!is_moving || status != 2)
 	{
 		init_pos.setX(this->character_node->getPosition().X);
 		init_pos.setY(0);
@@ -423,18 +423,18 @@ bool Npc::MoverseAEnemigo()
 		path->setPosInicio(init_pos);
 		path->setPosFin(end_pos);
 
-		path->AEstrella(100);
+		path->AEstrella(250);
 		steps_count = 0;
 		status = 2;
 	}
 
-	this->way_to(path->getCamino());*/
+	this->way_to(path->getCamino());
 	return true;
 }
 bool Npc::Move_Explore()
 {
 
-	/*if(!is_moving || status != 3)
+	if(!is_moving || status != 3)
 	{
 		//if(!this->near_weapon)
 
@@ -446,25 +446,64 @@ bool Npc::Move_Explore()
 
 		srand((unsigned)time(0)); 
 		int r = rand();
+		int r2 = rand();
 		r = r % 200;
 		r = r +60;
 
-		if(init_pos.getX() + r > 1894)
+		r2 = r2%200;
+		r2 = r +60;
+
+		if(r % 2 == 0)
 		{
-			end_pos.setX(init_pos.getX() - r);
+
+
+			if(init_pos.getX() + r > 1894)
+			{
+				end_pos.setX(init_pos.getX() - r);
+			}
+			else
+			{
+				end_pos.setX(init_pos.getX() + r);
+			}
+
+			
 		}
 		else
 		{
-			end_pos.setX(init_pos.getX() + r);
+			if(init_pos.getX() - r <= 40)
+			{
+				end_pos.setX(init_pos.getX() + r);
+			}
+			else
+			{
+				end_pos.setX(init_pos.getX() - r);
+			}
+
+			
 		}
 
-		if(init_pos.getZ() + r > 1294)
+		if(r2 % 2 == 0)
 		{
-			end_pos.setZ(init_pos.getZ() - r);
+
+			if(init_pos.getZ() + r2 > 1294)
+			{
+				end_pos.setZ(init_pos.getZ() - r2);
+			}
+			else
+			{
+				end_pos.setZ(init_pos.getZ() + r2);
+			}
 		}
 		else
 		{
-			end_pos.setZ(init_pos.getZ() + r);
+			if(init_pos.getZ() - r2 < 40)
+			{
+				end_pos.setZ(init_pos.getZ() + r2);
+			}
+			else
+			{
+				end_pos.setZ(init_pos.getZ() - r2);
+			}
 		}
 
 		end_pos.setY(0);
@@ -477,12 +516,12 @@ bool Npc::Move_Explore()
 		status = 3;
 	}
 
-	this->way_to(path->getCamino());*/
+	this->way_to(path->getCamino());
 	return true;
 }
 bool Npc::Move_ToFreeAttack()
 {
-/*	if(!is_moving || status != 4)
+	if(!is_moving || status != 4)
 	{
 		//if(!this->near_weapon)
 		this->DarPosArmaCercana();
@@ -518,12 +557,12 @@ bool Npc::Move_ToFreeAttack()
 		path->setPosInicio(init_pos);
 		path->setPosFin(end_pos);
 
-		path->AEstrella(100);
+		path->AEstrella(250);
 		steps_count = 0;
 		status = 4;
 	}
 
-	this->way_to(path->getCamino());*/
+	this->way_to(path->getCamino());
 
 	return true;
 

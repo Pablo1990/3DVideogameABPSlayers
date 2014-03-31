@@ -25,8 +25,8 @@ int Goal_GetArma::Process()
 	Activate();
 	vector3df pos=d->DarPosArmaCercana();
 	float p1 = std::abs(pos.X-d->get_position().X);
-	float p2 = std::abs(pos.Y-d->get_position().Z);
-	if((std::abs(pos.X-d->get_position().X)<=100 ) && std::abs(pos.Y-d->get_position().Z)<=100)
+	float p2 = std::abs(pos.Z-d->get_position().Z);
+	if((std::abs(pos.X-d->get_position().X)<=100 ) && std::abs(pos.Z-d->get_position().Z)<=100)
 		{
 
 			d->pick_weapon();
