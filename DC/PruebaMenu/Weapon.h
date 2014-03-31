@@ -41,11 +41,14 @@ public:
 	int get_type();
 
 	vector3df get_main_position();
-
+	void set_no_weapon(bool nw);
+	bool no_weapon();
+	void set_main_position(vector3df pos);
 protected:
 	int damage;
 	int speed;
 	double resist;
+	bool no_weapon_flag;
 
 	bool collision_flag;
 	IAnimatedMesh* weapon_mesh;

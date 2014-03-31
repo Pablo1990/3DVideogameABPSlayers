@@ -121,11 +121,11 @@ void Juego::run()
 			if(npc)
 			{
 				npc->manage_collision(player->get_weapon(), device);
-				/*if(cycles % 500)
+				if(cycles % 500)
 				{
 					mente->Arbitrate();
 					mente->ProcessSubgoals();
-				}*/
+				}
 				//npc->way_to(pf.getCamino());
 				npc->restore_condition(device);
 				//swprintf(tmp, 255, L"NpcHealth %f", player->get_position().Y);
@@ -151,6 +151,11 @@ void Juego::run()
 					player->get_position().Z);
 				
 				statusText->setText(tmp);
+			}
+
+			if(cycles % 1500 == 0)
+			{
+				this->replace_random_item(this->device, this->mapSelector);
 			}
 				/*switch(player->heal_or_fire(campFire, heal_camp, device))
 				{
@@ -192,6 +197,8 @@ void Juego::run()
 					{
 						cycles = 0;
 					}
+
+					
 					cycles++;
 
 
@@ -471,7 +478,7 @@ void Juego::loadSceneData()
 	
 			npc->set_weapon(sw3);
 			npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df( 0.02, 0.02, 0.02));
-			npc->get_weapon()->set_resist(0);
+			//npc->get_weapon()->set_resist(0);
 
 	}
 
@@ -738,3 +745,119 @@ void Juego::add_random_item(vector3df position)
 	cout << (*armas->begin())->get_weapon_node()->getName() << endl;
 }
 
+void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelector* mapSelector)
+{
+	try
+	{
+		
+		scene::ISceneManager* sm = device->getSceneManager();
+		std::list<Weapon*>::iterator it = armas->begin();
+		std::list<Weapon*>::iterator it_aux = armas->begin();
+
+		Weapon *w;
+		for(int i = 0; i < armas->size(); i++)
+		{
+
+			if((*it)->no_weapon())
+			{
+				vector3df position = (*it)->get_main_position();
+			
+			
+				armas->remove(*it);
+				srand((unsigned)time(0)); 
+				int r = rand();
+				r = r % 7;
+
+			/*	if(i == 0)
+				{
+					it_aux = armas->begin();
+				}
+				else
+				{
+					it_aux++;
+				}*/
+
+				it_aux = armas->begin();
+				for(int j = 0; j < i; j++)
+				{
+					it_aux++;
+				}
+		
+				switch(r)
+				{
+					case 0:
+						it_aux = armas->insert(it_aux, new Spear(6,5,sm));
+						position.Y = 25;
+						(*it_aux)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas->size() - 1);
+					/*armas.push_back( new Spear(0,0,sm));
+					position.Y = 25;
+					(*(--armas.end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas.size() - 1);*/
+					break;
+				case 1:
+					it_aux = armas->insert(it_aux, new Sword(4,7,sm));
+					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas->size() - 1);
+					break;
+				case 2:
+					it_aux = armas->insert(it_aux, new Bow(4,4,sm, mapSelector, device));
+					(*it_aux)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+					break;
+				case 3:
+					it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM));
+					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+					break;
+				case 4:
+					it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM));
+					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+					break;
+				case 5:
+					it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM));
+					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+					break;
+				case 6:
+					it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE));
+					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+					break;
+				}
+		
+				(*it_aux)->set_main_position(position);
+				(*it_aux)->set_no_weapon(false);
+				(*it_aux)->get_weapon_node()->setName((std::to_string((*it_aux)->get_type()) + '_' + std::to_string(i)).c_str());
+				this->types[i] = (*it_aux)->get_type();
+
+				it = it_aux;
+			}
+			else
+			{
+				it++;
+			}
+
+
+			//int number;
+			//int type;
+
+			//number = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(strcspn((*it)->get_weapon_node()->getName(), "_") + 1).c_str());
+			//type = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(0, strcspn((*it)->get_weapon_node()->getName(), "_")).c_str());
+		
+		}
+			for(it = armas->begin(); it != armas->end(); ++it)
+			{
+				/*if(i >= index && it != --armas.end())
+				{
+					number = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(strcspn((*it)->get_weapon_node()->getName(), "_") + 1).c_str());
+					number--;
+					type = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(0, strcspn((*it)->get_weapon_node()->getName(), "_")).c_str());
+					//cout << "DA NAME " << type << "_" << number << endl;
+					(*it)->get_weapon_node()->setName((std::to_string(type) + '_' + std::to_string(number)).c_str());
+				}*/
+				cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
+	
+
+			}
+		
+	//		cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
+		
+	}
+	catch(...)
+	{}
+	
+}

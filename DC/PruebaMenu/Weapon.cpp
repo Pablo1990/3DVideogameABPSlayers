@@ -13,10 +13,20 @@ Weapon::Weapon(const char* path, int dmg = 0, int sp = 0, ISceneManager *sm = 0,
 		this->weapon_mesh = sm->getMesh(path); 
 		this->weapon_mesh->setMaterialFlag(video::EMF_LIGHTING, false);
 		this->ty = t;
+		this->no_weapon_flag = false;
 		this->resist=15;
 	}
 	catch(...)
 	{}
+}
+void Weapon::set_no_weapon(bool wp)
+{
+	this->no_weapon_flag = wp;
+}
+
+bool Weapon::no_weapon()
+{
+	return this->no_weapon_flag;
 }
 
 void Weapon::add_to_scene(vector3df position, vector3df rotation, vector3df scale, bool pickable, int index)
@@ -118,7 +128,7 @@ vector3df Weapon::get_absolute_position()
 {
 	try
 	{
-		if(this->weapon_node)
+		if(this->weapon_node && !no_weapon_flag)
 		{
 			return this->weapon_node->getAbsolutePosition();
 		}
@@ -150,6 +160,11 @@ void Weapon::set_resist(double r)
 double Weapon::get_resist()
 {
 	return resist;
+}
+
+void Weapon::set_main_position(vector3df pos)
+{
+	main_position = pos;
 }
 
 void Weapon::add_to_node(vector3df position, vector3df rotation, vector3df scale, ISceneNode* node)
