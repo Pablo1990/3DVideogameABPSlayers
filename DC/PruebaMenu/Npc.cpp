@@ -23,20 +23,6 @@ Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangl
 	m_dFitness = 1000;
 }
 
-Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangleSelector* mp,ISceneNode* camp_fire_,ISceneNode* heal_): Character(knight_path, sm, w)
-{
-	posHealth=pos;
-	is_dead = false;
-	is_moving = false;
-	steps_count = 0;
-	device = d;
-	mapSelector = mp;
-	m_dFitness = 1000;
-	camp_fire=camp_fire_;
-	heal=heal_;
-}
-
-
 Npc::~Npc(void)
 {
 }
@@ -52,7 +38,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 	{
 		
 		//RangeWeapon* rw2 = dynamic_cast<RangeWeapon*>(w);
-		if (w != NULL && !is_dead) 
+		if (w != NULL && !is_dead && !w->no_weapon()) 
 		{
 			
 			if(!dynamic_cast<RangeWeapon*>(w) && !w->get_collision_flag() && w->is_animated())
@@ -65,23 +51,44 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 					//this->health = 0;
 					
 					
-					cout<<"Me han dado en la cabeza" <<endl;
-					
+
+					if(scene_manager)
+					{
+						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
+						if(mesh_manipulator)
+						{
+							mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 0,   0));//RED
+						}
+					}
 				}
 				else if (detect_collision(w->get_weapon_node(), this->body))
 				{
 					w->set_collision_flag(true);
 					this->health = this->health - (w->get_damage() - 0.20 * w->get_damage());
-					cout<<"Me han dado en el cuerpo" <<endl;
-					
+
+					if(scene_manager)
+					{
+						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
+						if(mesh_manipulator)
+						{
+							mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 0,   0,  255));//BLUE
+						}
+					}
 				}
 				else if (detect_collision(w->get_weapon_node(), this->extremity))
 				{
 					w->set_collision_flag(true);
 					int restar = w->get_damage() - 0.40 * w->get_damage();
 					this->health = this->health - (w->get_damage() - 0.40 * w->get_damage());
-					cout<<"Me han dado en alguna extremidad" <<endl;
-					
+
+					if(scene_manager)
+					{
+						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
+						if(mesh_manipulator)
+						{
+							mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 255, 0));//YELLOW
+						}
+					}
 				}
 			}
 			else
@@ -126,11 +133,19 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 					//array<SParticleImpact> imp = rw->get_impacts();
 					for(int i = 0; i < rw->get_impacts().size(); i++)
 					{
-						//cout << "Bucle1" << endl;
+						cout << "Bucle1" << endl;
 						if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->head))
 						{
 							rw->set_impact_at(i, true);
-							
+							if(scene_manager)
+							{
+								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
+								if(mesh_manipulator)
+								{
+									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 0,   0));//RED
+								}
+
+							}
 								double resto = (2 * ((w->get_damage() + 0.50 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
 								this->character_node->getPosition().Z)));
@@ -142,7 +157,16 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->body))
 						{
 							rw->set_impact_at(i, true);
-							
+							if(scene_manager)
+							{
+								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
+								if(mesh_manipulator)
+								{
+									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 0,   0,  255));//BLUE
+								}
+
+
+							}
 
 							double resto = (2 * ((w->get_damage() - 0.40 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
@@ -155,7 +179,14 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->extremity))
 						{
 							rw->set_impact_at(i, true);
-							
+							if(scene_manager)
+							{
+								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
+								if(mesh_manipulator)
+								{
+									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 255, 0));//YELLOW
+								}
+							}
 
 								double resto = (((w->get_damage() - 0.20 * w->get_damage())  
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
@@ -526,6 +557,7 @@ void Npc::attack(int type)
 				{
 					this->weapon->set_resist(0);
 					this->weapon->get_weapon_node()->remove();
+					this->weapon->set_no_weapon(true);
 					//this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
 					//this->weapon->set_weapon_node(NULL);
 				}
@@ -549,9 +581,9 @@ void Npc::attackBot(int type)
 			{
 				if(weapon->get_weapon_node())
 				{
-					this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
-					this->weapon->set_weapon_node(NULL);
-
+					this->weapon->set_resist(0);
+					this->weapon->get_weapon_node()->remove();
+					this->weapon->set_no_weapon(true);
 				}
 			}
 		}
@@ -882,7 +914,7 @@ bool Npc::Update()
 			xp = p.X + xp;
 			zp = p.Z + zp;
 
-			
+			p.set(xp, p.Y, zp);
 			if(zp>=1290)
 				zp = 1250;
 			if(xp>=1890)
@@ -891,9 +923,8 @@ bool Npc::Update()
 				xp = 10;
 			if(zp<0)
 				zp = 10;
-			
-			p.set(xp, p.Y, zp);
-			this->get_character_node()->setPosition(p);
+
+				this->get_character_node()->setPosition(p);
 				//this->set_position(xp, p.Y, zp);
 				//cout<<"MovimientoDelante "<<xp<<" "<<zp<<endl;
 		}
@@ -907,6 +938,7 @@ bool Npc::Update()
 			double zp = (output[7]*10) * sin(Theta) + (output[7]*10) * cos(Theta);
 			xp = p.X - xp;
 			zp = p.Z - zp;
+			p.set(xp, p.Y, zp);
 			
 			if(zp>=1290)
 				zp = 1250;
@@ -916,8 +948,7 @@ bool Npc::Update()
 				xp = 10;
 			if(zp<0)
 				zp = 10;
-			
-			p.set(xp, p.Y, zp);
+
 				this->get_character_node()->setPosition(p);
 				//this->set_position(xp, p.Y, zp);
 				//cout<<"MovimientoDetrás "<<xp<<" "<<zp<<endl;
@@ -960,12 +991,11 @@ bool Npc::Update()
 			this->get_weapon()->finish_animation();
 
 	}
-	vector3df pos=this->DarPosArmaCercana();
-	if((std::abs(pos.X-this->get_position().X)<=10 ) && std::abs(pos.Y-this->get_position().Z)<=10)
+/*	vector3df pos=this->DarPosArmaCercana();
+	if((std::abs(pos.X-this->get_position().X)<=100 ) && std::abs(pos.Y-this->get_position().Z)<=100)
 		{
 			this->pick_weapon();
-		}
-	this->heal_or_fire(camp_fire, heal, device);
+		}*/
 	return true;
 	//aqui se se supone que debería actualizar inputs, pero eso
 	//se debera hacer al actuar (se encarga irrlicht)
