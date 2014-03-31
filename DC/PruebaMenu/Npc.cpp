@@ -23,6 +23,20 @@ Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangl
 	m_dFitness = 1000;
 }
 
+Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangleSelector* mp,ISceneNode* camp_fire_,ISceneNode* heal_): Character(knight_path, sm, w)
+{
+	posHealth=pos;
+	is_dead = false;
+	is_moving = false;
+	steps_count = 0;
+	device = d;
+	mapSelector = mp;
+	m_dFitness = 1000;
+	camp_fire=camp_fire_;
+	heal=heal_;
+}
+
+
 Npc::~Npc(void)
 {
 }
