@@ -450,10 +450,44 @@ void Juego::loadSceneData()
 	Position p2(npc->get_position().X, 0, npc->get_position().Z);
 	Pathfinding* pf = new Pathfinding(p1, p2);
 	Position last_corner(1894.93, 1, 1294.88);
+	
 	vector<vector<Position>> obstacles;
 	vector<Position> v2;
+		vector<Position> bridge;
+	vector<Position> obs_1;
+	vector<Position> obs_2;
+	vector<Position> obs_3; 
 	v2.push_back(last_corner);
+	//Puente
+	//bridge.push_back(Position(347,0,578));
+	//bridge.push_back(Position(1290,72,755));
+
+	////Primer obstaculo
+	Position p3(890,0,137);
+	Position p4(1024,136,289);
+
+	obs_1.push_back(p3);
+	obs_1.push_back(p4);
+
+	////Segundo obstaculo
+	obs_2.push_back(Position(890,0,1023));
+	obs_2.push_back(Position(1024,136,1180));
+
+	////TercerObstaculo
+	obs_3.push_back(Position(1547,0,626));
+	obs_3.push_back(Position(1830,72,720));
+
+
 	obstacles.push_back(v2);
+
+	//obstacles.push_back(v2);
+	//obstacles.push_back(bridge);
+	obstacles.push_back(obs_1);
+	obstacles.push_back(obs_2);
+	obstacles.push_back(obs_3);
+
+
+
 	pf->setMapa(obstacles);
 
 	//vector<Position> way_points = pf.AEstrella(500);
