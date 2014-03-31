@@ -47,6 +47,7 @@ public:
 
 	void setEstado(int estado);
 	int getEstado();
+	void replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelector* mapSelector);
 
 private:
 	video::E_DRIVER_TYPE driverType;

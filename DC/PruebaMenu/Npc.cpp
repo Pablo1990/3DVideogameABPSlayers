@@ -254,16 +254,17 @@ vector3df  Npc::DarPosArmaCercana()
        ++it)
 		{
 			
-				
-			double distaux=sqrt((pow((get_position().X-(*it)->get_absolute_position().X),2))+(pow((get_position().Z-(*it)->get_absolute_position().Z),2)));
-				//Estandarizamos
-				if(distaux <=distancia)
-				{
-					distancia=distaux;
-					v3=(*it)->get_absolute_position();
-					this->near_weapon = (*it);
-				}
-			
+			if(!(*it)->no_weapon())
+			{
+				double distaux=sqrt((pow((get_position().X-(*it)->get_absolute_position().X),2))+(pow((get_position().Z-(*it)->get_absolute_position().Z),2)));
+					//Estandarizamos
+					if(distaux <=distancia)
+					{
+						distancia=distaux;
+						v3=(*it)->get_absolute_position();
+						this->near_weapon = (*it);
+					}
+			}
 		}
 	return v3;
 }
@@ -377,7 +378,7 @@ bool Npc::MoverseAEnemigo()
 	vector<Position> way_points = pf.AEstrella(250);
 	this->way_to(way_points);*/
 
-	if(!is_moving || status != 2)
+	/*if(!is_moving || status != 2)
 	{
 		init_pos.setX(this->character_node->getPosition().X);
 		init_pos.setY(0);
@@ -396,7 +397,7 @@ bool Npc::MoverseAEnemigo()
 		status = 2;
 	}
 
-	this->way_to(path->getCamino());
+	this->way_to(path->getCamino());*/
 	return true;
 }
 bool Npc::Move_Explore()
@@ -627,73 +628,74 @@ void Npc::pick_weapon()
 
 	try
 	{
-
-		if(this->weapon && this->weapon->get_weapon_node())
+		if(!near_weapon->no_weapon())
 		{
-			character_node->removeChild(weapon->get_weapon_node());
-			/*
-			this->weapon->get_weapon_node()->setVisible(false);
-			this->weapon->get_weapon_node()->removeAll();
-			this->weapon->get_weapon_node()->removeAnimators();
-			this->weapon->get_weapon_node()->remove();
-			*/
-		}
-		//SWORD: position 40, 100, 0; rotation 180, -50, 90; scale 0.02, 0.02, 0.02
-	//SPEAR: position 10, 100, -20; rotation 90,-50,90, scale 2.5, 2.5, 2.5
-	//BOW: position 40, 100, 0; rotation 180, -50, 90, scale 0.02, 0.02, 0.02
-		int pick_type = atoi(((std::string)this->near_weapon->get_weapon_node()->getName()).substr(0, strcspn(this->near_weapon->get_weapon_node()->getName(), "_")).c_str()); // strcspn (str,keys);//strtok(((std::string)w->getName()), "_");
+			if(this->weapon && this->weapon->get_weapon_node())
+			{
+				character_node->removeChild(weapon->get_weapon_node());
+				/*
+				this->weapon->get_weapon_node()->setVisible(false);
+				this->weapon->get_weapon_node()->removeAll();
+				this->weapon->get_weapon_node()->removeAnimators();
+				this->weapon->get_weapon_node()->remove();
+				*/
+			}
+			//SWORD: position 40, 100, 0; rotation 180, -50, 90; scale 0.02, 0.02, 0.02
+		//SPEAR: position 10, 100, -20; rotation 90,-50,90, scale 2.5, 2.5, 2.5
+		//BOW: position 40, 100, 0; rotation 180, -50, 90, scale 0.02, 0.02, 0.02
+			int pick_type = atoi(((std::string)this->near_weapon->get_weapon_node()->getName()).substr(0, strcspn(this->near_weapon->get_weapon_node()->getName(), "_")).c_str()); // strcspn (str,keys);//strtok(((std::string)w->getName()), "_");
 		
-		if(pick_type == SWORD_TYPE)
-		{
-			weapon = new Sword(4,7,scene_manager);
-			this->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02));
-			pick_shield();
+			if(pick_type == SWORD_TYPE)
+			{
+				weapon = new Sword(4,7,scene_manager);
+				this->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02));
+				pick_shield();
+			}
+			else if(pick_type ==  BOW_TYPE)
+			{
+				weapon = new Bow(4,4,scene_manager, mapSelector, device);
+				this->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02,0.02,0.02));
+				drop_shield();
+			}	
+			else if(pick_type ==  RED_SHROOM_TYPE)
+			{
+				weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::RED_SHROOM);
+				this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+				pick_shield();
+			}	
+			else if(pick_type == SPEAR_TYPE)
+			{
+				weapon = new Spear(7,5,scene_manager);
+				this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(2.5,2.5,2.5));
+				drop_shield();
+			}
+			else if(pick_type ==  BLUE_SHROOM_TYPE)
+			{
+				weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::BLUE_SHROOM);
+				this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+				pick_shield();
+			}	
+			else if(pick_type ==  YELLOW_SHROOM_TYPE)
+			{
+				weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::YELLOW_SHROOM);
+				this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+				pick_shield();
+			}
+			else if(pick_type ==  STONE_TYPE)
+			{
+				weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::STONE);
+				this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+				pick_shield();
+			}
+			else if(pick_type ==  TORCH_TYPE)
+			{
+				weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::TORCH);
+				this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
+				pick_shield();
+			}
+			this->delete_item(atoi(((std::string)this->near_weapon->get_weapon_node()->getName()).substr(strcspn(this->near_weapon->get_weapon_node()->getName(), "_") + 1).c_str()), items);
+		//this->replace_random_item(atoi(((std::string)this->near_weapon->get_weapon_node()->getName()).substr(strcspn(this->near_weapon->get_weapon_node()->getName(), "_") + 1).c_str()), items, device, mapSelector);
 		}
-		else if(pick_type ==  BOW_TYPE)
-		{
-			weapon = new Bow(4,4,scene_manager, mapSelector, device);
-			this->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02,0.02,0.02));
-			drop_shield();
-		}	
-		else if(pick_type ==  RED_SHROOM_TYPE)
-		{
-			weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::RED_SHROOM);
-			this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
-			pick_shield();
-		}	
-		else if(pick_type == SPEAR_TYPE)
-		{
-			weapon = new Spear(7,5,scene_manager);
-			this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
-			drop_shield();
-		}
-		else if(pick_type ==  BLUE_SHROOM_TYPE)
-		{
-			weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::BLUE_SHROOM);
-			this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
-			pick_shield();
-		}	
-		else if(pick_type ==  YELLOW_SHROOM_TYPE)
-		{
-			weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::YELLOW_SHROOM);
-			this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
-			pick_shield();
-		}
-		else if(pick_type ==  STONE_TYPE)
-		{
-			weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::STONE);
-			this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
-			pick_shield();
-		}
-		else if(pick_type ==  TORCH_TYPE)
-		{
-			weapon = new ThrowableItem(scene_manager, mapSelector, device, ThrowableItem::TORCH);
-			this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(0.05,0.05,0.05));
-			pick_shield();
-		}
-
-		this->replace_random_item(atoi(((std::string)this->near_weapon->get_weapon_node()->getName()).substr(strcspn(this->near_weapon->get_weapon_node()->getName(), "_") + 1).c_str()), items, device, mapSelector);
-		
 
 	}
 	catch(...)

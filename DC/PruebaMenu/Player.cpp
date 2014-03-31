@@ -271,7 +271,8 @@ void Player::pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, 	IrrlichtDe
 				pick_shield();
 			}
 
-			this->replace_random_item(atoi(((std::string)w->getName()).substr(strcspn(w->getName(), "_") + 1).c_str()), armas, device, mapSelector);
+			this->delete_item(atoi(((std::string)w->getName()).substr(strcspn(w->getName(), "_") + 1).c_str()), armas);
+			//this->replace_random_item(atoi(((std::string)w->getName()).substr(strcspn(w->getName(), "_") + 1).c_str()), armas, device, mapSelector);
 		}
 	}
 	catch(...)

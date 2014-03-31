@@ -58,8 +58,8 @@ public:
 	virtual void restore_condition(IrrlichtDevice* d);
 
 	void set_types(double* ty);
-	void replace_random_item(int index, std::list<Weapon*>* armas, IrrlichtDevice* device, 	scene::ITriangleSelector* mapSelector);
-
+	//void replace_random_item(int index, std::list<Weapon*>* armas, IrrlichtDevice* device, 	scene::ITriangleSelector* mapSelector);
+	void Character::delete_item(int index, std::list<Weapon*>* armas);
 
 
 protected:
