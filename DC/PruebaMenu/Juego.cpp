@@ -200,7 +200,7 @@ void Juego::run()
 
 					
 					cycles++;
-
+					
 
 				}
 			}
@@ -213,12 +213,24 @@ void Juego::run()
 			{
 				if (device->isWindowActive())
 				{
+					
 					now = device->getTimer()->getTime();
 					controller->Update();
+					if(cycles % 150 == 0)
+					{
+							this->replace_random_item(this->device, this->mapSelector);
+					}
 					driver->beginScene(timeForThisScene != -1, true, backColor);
 					smgr->drawAll();
 					guienv->drawAll();
 					driver->endScene();
+					if(cycles + 1 == INT_MAX)
+					{
+						cycles = 0;
+
+					}
+
+					cycles++;
 
 				}
 			}
@@ -848,7 +860,7 @@ void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelecto
 					//cout << "DA NAME " << type << "_" << number << endl;
 					(*it)->get_weapon_node()->setName((std::to_string(type) + '_' + std::to_string(number)).c_str());
 				}*/
-				cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
+//				cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
 	
 
 			}
