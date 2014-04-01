@@ -1045,10 +1045,10 @@ bool Npc::Update()
 	{
 			this->get_weapon()->finish_animation();
 
-	}
-	
+	}	
 	vector3df pos=this->DarPosArmaCercana();
 	if((std::abs(pos.X-this->get_position().X)<=30 ) && std::abs(pos.Z-this->get_position().Z)<=30)
+
 		{
 			this->pick_weapon();
 		}
