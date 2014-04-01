@@ -66,6 +66,9 @@ public:
 
 	void face_target(ISceneNode* target);
 	void face_target(vector3df targt_pos);
+
+	void defend();
+	void no_defend();
     
 	//-------------------------------------Clamp()-----------------------------------------
 //

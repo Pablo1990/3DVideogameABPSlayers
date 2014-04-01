@@ -743,8 +743,8 @@ void Npc::pick_weapon()
 			}
 			else if(pick_type ==  BOW_TYPE)
 			{
-				weapon = new Bow(4,4,scene_manager, mapSelector, device);
-				this->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02,0.02,0.02));
+				weapon = new Spear(7,5,scene_manager);
+				this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(2.5,2.5,2.5));
 				drop_shield();
 			}	
 			else if(pick_type ==  RED_SHROOM_TYPE)
@@ -1074,4 +1074,46 @@ void Npc::setEnem(Npc* enem)
 Npc* Npc::getEnemigo()
 {
 	return enemigo;
+}
+
+void Npc::defend()
+{
+	try
+	{
+		if(weapon && !this->paralysis)
+		{
+			if((weapon->get_weapon_node() && !weapon->is_animated()) || !weapon->get_weapon_node())
+			{
+				sh->attack(1,0,0,0);
+			}
+		}
+		else if(!this->paralysis)
+		{
+			sh->attack(1,0,0,0);
+		}
+	}
+	catch(...)
+	{
+	}
+}
+
+void Npc::no_defend()
+{
+	try
+	{
+		if(weapon)
+		{
+			if((weapon->get_weapon_node() && !weapon->is_animated()) || !weapon->get_weapon_node())
+			{
+				sh->finish_animation();
+			}
+		}
+		else
+		{
+			sh->finish_animation();
+		}
+	}
+	catch(...)
+	{
+	}
 }

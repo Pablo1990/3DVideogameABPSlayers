@@ -15,12 +15,27 @@ void Shield::attack(float first_x, float first_y, float last_x, float last_y)
 {
 	try
 	{
-		if (weapon_node != NULL && !cover)
+		if(first_x == 0)
 		{
-			weapon_node->setPosition(vector3df(0,0,5));
-			cover = true;
-			weapon_node->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+			if (weapon_node != NULL && !cover)
+			{
+				this->main_position = vector3df(-5,-5,5);
+				weapon_node->setPosition(vector3df(0,0,5));
+				cover = true;
+				weapon_node->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+			}
 		}
+		else
+		{
+			if (weapon_node != NULL && !cover)
+			{
+				main_position = weapon_node->getPosition();
+				weapon_node->setPosition(vector3df(0,130,-30));
+				cover = true;
+				weapon_node->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+			}
+		}
+
 	}
 	catch(...)
 	{}
@@ -32,7 +47,7 @@ void Shield::finish_animation()
 	{
 		if (weapon_node != NULL && cover)
 		{
-			weapon_node->setPosition(vector3df(-5,-5,5));
+			weapon_node->setPosition(main_position);
 			cover = false;
 			weapon_node->setMaterialType(video::EMT_SOLID);
 		}
