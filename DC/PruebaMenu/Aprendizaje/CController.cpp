@@ -229,6 +229,9 @@ void CController::updateNpcFitness(int numNpc){
 		m_vecNpc[numNpc]->setFitness(m_vecNpc[numNpc]->Fitness()+(m_vecNpcEnemiesHealth[numNpc]-m_vecNpc[numNpc]->getEnemigo()->get_health())/5);
 		m_vecNpcEnemiesHealth[numNpc] = m_vecNpc[numNpc]->getEnemigo()->get_health();
 	}
+	else{
+		m_vecNpc[numNpc]->setFitness(m_vecNpc[numNpc]->Fitness()+(-1));
+	}
 
 }
 
