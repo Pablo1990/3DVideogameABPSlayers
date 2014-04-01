@@ -121,6 +121,7 @@ void Juego::run()
 			if(npc)
 			{
 				npc->manage_collision(player->get_weapon(), device);
+				npc->heal_or_fire(campFire, heal_camp, device);
 				if(cycles % 500)
 				{
 					mente->Arbitrate();
@@ -147,6 +148,9 @@ void Juego::run()
 			{
 				player->heal_or_fire(campFire, heal_camp, device);
 				player->fall_down(device);
+				player->manage_collision(npc->get_weapon(), device);
+				//player->restore_condition(device);
+
 				swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f", player->get_position().X, player->get_position().Y, 
 					player->get_position().Z);
 				
@@ -274,7 +278,7 @@ void Juego::switchToNextScene()
 			player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
 			player->set_types(types);
 	
-
+			
 			//IA
 			npc->setEnem(player);
 			mente=new Goal_Think();
@@ -482,9 +486,9 @@ void Juego::loadSceneData()
 
 	//obstacles.push_back(v2);
 	//obstacles.push_back(bridge);
-	obstacles.push_back(obs_1);
-	obstacles.push_back(obs_2);
-	obstacles.push_back(obs_3);
+	//obstacles.push_back(obs_1);
+	//obstacles.push_back(obs_2);
+	//obstacles.push_back(obs_3);
 
 
 
