@@ -1020,14 +1020,10 @@ bool Npc::Update()
 		{
 			this->defend();
 			//cout<<"Cubro"<<endl;
-		}
-		else
-		{
-			//no ataco
-		}
-			
+		}	
 		else if(pAtaque == output[1])
 		{
+			this->no_defend();
 			this->attackBot(0);
 			
 			//cout<<"Ataque 1"<<endl;
@@ -1035,12 +1031,14 @@ bool Npc::Update()
 			
 		else if(pAtaque == output[2])
 		{
+			this->no_defend();
 			//cout<<"Ataque 2"<<endl;
 			this->attackBot(1);
 		}
 			
 		else if(pAtaque == output[3])
 		{
+			this->no_defend();
 			//cout<<"Ataque 3"<<endl;
 			this->attackBot(2);
 		}
