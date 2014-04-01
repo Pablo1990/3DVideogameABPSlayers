@@ -175,7 +175,7 @@ bool Character::detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b)
 		//cout << "Bucle4" << endl;
 		try
 		{
-			if(a && b[i] && a->getTransformedBoundingBox().intersectsWithBox(b[i]->getTransformedBoundingBox()))
+			if(a!=NULL  && a->getReferenceCount() && a->getReferenceCount() > 0 && b[i] && a->getTransformedBoundingBox().intersectsWithBox(b[i]->getTransformedBoundingBox()))
 			{
 				return true;
 			}
