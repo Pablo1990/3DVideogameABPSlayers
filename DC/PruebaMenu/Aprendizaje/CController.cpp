@@ -19,7 +19,7 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,st
 	//let's create the bots
 	for (int i=0; i<20; ++i)
 	{
-		Npc* n = new Npc(sm,new Bow(4,4,sm,mapSelector,device),posHealth, device, mapSelector,camp_fire_,heal_);	
+		Npc* n = new Npc(sm,new Sword(4,7,sm),posHealth, device, mapSelector,camp_fire_,heal_);	
 		n->add_to_scene(core::vector3df(0,200,0), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 		n->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02));
 		n->setItems(armas, types);
