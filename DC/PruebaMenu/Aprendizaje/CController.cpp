@@ -97,9 +97,11 @@ void CController::asignarEnemigo(int num){
 	}
 
 	m_vecNpc[m_vecJornadasLocales[num]]->setEnem(m_vecNpc[m_vecJornadasVisitantes[num]]);
+	m_vecNpc[m_vecJornadasVisitantes[num]]->setEnem(m_vecNpc[m_vecJornadasLocales[num]]);
+	m_vecNpc[m_vecJornadasLocales[num]]->get_weapon()->set_resist(15);
+	m_vecNpc[m_vecJornadasVisitantes[num]]->get_weapon()->set_resist(15);
 
 	m_vecNpc[m_vecJornadasVisitantes[num]]->setEnem(m_vecNpc[m_vecJornadasLocales[num]]);
-	
 	m_vecNpc[m_vecJornadasLocales[num]]->get_character_node()->setPosition(vector3df(400, 10, 100));
 	m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(200,10,600));
 	//m_vecNpc[m_vecJornadasLocales[num]]->set_position(100, 10, 300);
