@@ -627,7 +627,7 @@ void Npc::attackBot(int type)
 {
 	try
 	{
-		if(weapon && !this->paralysis)
+		if(weapon && !this->paralysis &&  !this->weapon->no_weapon())
 		{
 			weapon->attack(type, this->character_node, this->enemigo->get_position());
 			if(dynamic_cast<ThrowableItem*>(this->weapon))
@@ -1037,6 +1037,8 @@ bool Npc::Update()
 		}
 			
 	}
+	this->heal_or_fire(camp_fire,heal,device);
+
 	this->manage_collision(this->getEnemigo()->get_weapon(),device);
 
 	if(this->get_weapon())
