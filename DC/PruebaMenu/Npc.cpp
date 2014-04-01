@@ -610,6 +610,7 @@ void Npc::attack(int type)
 				{
 					this->weapon->set_resist(0);
 					this->weapon->get_weapon_node()->remove();
+					this->weapon->set_weapon_node(0);
 					this->weapon->set_no_weapon(true);
 					//this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
 					//this->weapon->set_weapon_node(NULL);
@@ -637,6 +638,7 @@ void Npc::attackBot(int type)
 				{
 					this->weapon->set_resist(0);
 					this->weapon->get_weapon_node()->remove();
+					this->weapon->set_weapon_node(0);
 					this->weapon->set_no_weapon(true);
 				}
 			}
@@ -723,6 +725,7 @@ void Npc::pick_weapon()
 			if(this->weapon && this->weapon->get_weapon_node())
 			{
 				character_node->removeChild(weapon->get_weapon_node());
+				weapon->set_weapon_node(0);
 				/*
 				this->weapon->get_weapon_node()->setVisible(false);
 				this->weapon->get_weapon_node()->removeAll();

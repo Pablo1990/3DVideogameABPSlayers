@@ -142,6 +142,7 @@ Weapon::~Weapon(void)
 {
 	weapon_mesh->drop();
 	weapon_node->remove();
+	weapon_node = 0;
 }
 
 void Weapon::attack(float first_x, float first_y, float last_x, float last_y)
