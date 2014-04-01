@@ -107,10 +107,12 @@ void CController::asignarEnemigo(int num){
 }
 
 void CController::invisPlayers(int num){
-	m_vecNpc[m_vecJornadasLocales[num]]->get_character_node()->setPosition(vector3df(0, 200, 0));
-	m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(0,200,0));
-	//m_vecNpc[m_vecJornadasLocales[num]]->set_position(0, 200, 0);
-	//m_vecNpc[m_vecJornadasVisitantes[num]]->set_position(0,200,0);
+	
+		m_vecNpc[m_vecJornadasLocales[num]]->get_character_node()->setPosition(vector3df(0, 200, 0));
+		m_vecNpc[m_vecJornadasVisitantes[num]]->get_character_node()->setPosition(vector3df(0,200,0));
+		//m_vecNpc[m_vecJornadasLocales[num]]->set_position(0, 200, 0);
+		//m_vecNpc[m_vecJornadasVisitantes[num]]->set_position(0,200,0);
+	
 }
 
 void CController::updateFitnessFinal(Npc* uno,Npc* dos)
