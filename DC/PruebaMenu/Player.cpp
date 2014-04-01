@@ -90,17 +90,21 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d)
 							|| (!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->extremity)))
 						{
 							rw->set_impact_at(0, true);
+							core::list<ISceneNodeAnimator*>::ConstIterator anims=cam->getAnimators().begin();
+							ISceneNodeAnimatorCameraFPS *anim=(ISceneNodeAnimatorCameraFPS*)*anims;
 							switch(rw->get_type())
 							{
 								case RED_SHROOM_TYPE:
 									this->slow_start = d->getTimer()->getTime();
 									this->slow = 2;
-									((ISceneNodeAnimatorCameraFPS*)cam)->setMoveSpeed(.2f);
+									
+									anim->setMoveSpeed(.2f);
 									break;
 								case YELLOW_SHROOM_TYPE:
 									this->paralysis_start = d->getTimer()->getTime();
 									this->paralysis = true;
-									((ISceneNodeAnimatorCameraFPS*)cam)->setMoveSpeed(0);
+									anim->setMoveSpeed(0);
+									//((ISceneNodeAnimatorCameraFPS*)cam)->setMoveSpeed(0);
 									break;
 								case BLUE_SHROOM_TYPE:
 									//restan cansancio, aun no hecho
@@ -359,7 +363,7 @@ void Player::restore_condition(IrrlichtDevice* d)
 		slow_start = -1;
 		core::list<ISceneNodeAnimator*>::ConstIterator anims=cam->getAnimators().begin();
 		ISceneNodeAnimatorCameraFPS *anim=(ISceneNodeAnimatorCameraFPS*)*anims;
-		anim->setMoveSpeed(.4f);
+		anim->setMoveSpeed(.2f);
 	}
 
 	if(paralysis_start != -1 && d->getTimer()->getTime() - paralysis_start > 3000)
@@ -369,6 +373,6 @@ void Player::restore_condition(IrrlichtDevice* d)
 		
 		core::list<ISceneNodeAnimator*>::ConstIterator anims=cam->getAnimators().begin();
 		ISceneNodeAnimatorCameraFPS *anim=(ISceneNodeAnimatorCameraFPS*)*anims;
-		anim->setMoveSpeed(.4f);
+		anim->setMoveSpeed(.2f);
 	}
 }

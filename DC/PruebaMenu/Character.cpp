@@ -228,7 +228,7 @@ void Character::attack(float first_x, float first_y, float last_x, float last_y)
 {
 	try
 	{
-		if (this->weapon && !sh->get_cover() && !this->paralysis)
+		if (this->weapon && !sh->get_cover() && !this->paralysis && !this->weapon->no_weapon())
 		{
 			this->weapon->attack(first_x, first_y,  last_x,  last_y);
 			if(dynamic_cast<ThrowableItem*>(this->weapon))
