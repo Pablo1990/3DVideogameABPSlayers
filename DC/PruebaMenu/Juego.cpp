@@ -127,8 +127,7 @@ void Juego::run()
 					mente->Arbitrate();
 					mente->ProcessSubgoals();
 				}*/
-				npc->defend();
-				npc->no_defend();
+				
 				//npc->way_to(pf.getCamino());
 				npc->restore_condition(device);
 				//swprintf(tmp, 255, L"NpcHealth %f", player->get_position().Y);
@@ -151,8 +150,9 @@ void Juego::run()
 				player->heal_or_fire(campFire, heal_camp, device);
 				player->fall_down(device);
 				player->manage_collision(npc->get_weapon(), device);
-				//player->restore_condition(device);
+				player->restore_condition(device);
 
+				
 				swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f", player->get_position().X, player->get_position().Y, 
 					player->get_position().Z);
 				
@@ -282,7 +282,7 @@ void Juego::switchToNextScene()
 	{
 		camera = sm->addCameraSceneNodeFPS(0, 100.0f, .4f, ID_IsNotPickable, keyMap, 10, false, 3.f);
 		camera->bindTargetAndRotation(true);
-		camera->setPosition(core::vector3df(1000,100,1000));
+		camera->setPosition(core::vector3df(1000,80,1000));
 		camera->setFarValue(5000.0f);
 		if(estado==1)
 		{

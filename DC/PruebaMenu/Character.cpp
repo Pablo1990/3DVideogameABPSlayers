@@ -450,7 +450,7 @@ void Character::delete_item(int index, std::list<Weapon*>* armas)
 		{
 			it++;
 		}
-		if((*it) && (*it)->get_weapon_node())
+		if((*it) != NULL && (*it)->get_weapon_node() != NULL)
 		{
 			(*it)->set_no_weapon(true);
 			(*it)->get_weapon_node()->remove();

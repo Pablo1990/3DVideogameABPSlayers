@@ -363,7 +363,7 @@ void Player::restore_condition(IrrlichtDevice* d)
 		slow_start = -1;
 		core::list<ISceneNodeAnimator*>::ConstIterator anims=cam->getAnimators().begin();
 		ISceneNodeAnimatorCameraFPS *anim=(ISceneNodeAnimatorCameraFPS*)*anims;
-		anim->setMoveSpeed(.2f);
+		anim->setMoveSpeed(.4f);
 	}
 
 	if(paralysis_start != -1 && d->getTimer()->getTime() - paralysis_start > 3000)
@@ -373,6 +373,6 @@ void Player::restore_condition(IrrlichtDevice* d)
 		
 		core::list<ISceneNodeAnimator*>::ConstIterator anims=cam->getAnimators().begin();
 		ISceneNodeAnimatorCameraFPS *anim=(ISceneNodeAnimatorCameraFPS*)*anims;
-		anim->setMoveSpeed(.2f);
+		anim->setMoveSpeed(.4f);
 	}
 }
