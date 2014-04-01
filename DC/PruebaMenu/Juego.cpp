@@ -122,11 +122,13 @@ void Juego::run()
 			{
 				npc->manage_collision(player->get_weapon(), device);
 				npc->heal_or_fire(campFire, heal_camp, device);
-				if(cycles % 500)
+				/*if(cycles % 500)
 				{
 					mente->Arbitrate();
 					mente->ProcessSubgoals();
-				}
+				}*/
+				npc->defend();
+				npc->no_defend();
 				//npc->way_to(pf.getCamino());
 				npc->restore_condition(device);
 				//swprintf(tmp, 255, L"NpcHealth %f", player->get_position().Y);
@@ -522,7 +524,7 @@ void Juego::loadSceneData()
 
 			Sword *sw3 = new Sword(4,7,sm);
 			//Spear *sw3 = new Spear(4,5,sm);
-			//Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
+		//Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
 			//ThrowableItem *sw3 = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
 	
 			npc->set_weapon(sw3);
