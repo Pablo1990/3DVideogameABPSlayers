@@ -629,6 +629,7 @@ void Npc::attackBot(int type)
 	{
 		if(weapon && !this->paralysis &&  !this->weapon->no_weapon())
 		{
+			double salud = this->enemigo->get_health();
 			weapon->attack(type, this->character_node, this->enemigo->get_position());
 			if(dynamic_cast<ThrowableItem*>(this->weapon))
 			{
@@ -638,6 +639,10 @@ void Npc::attackBot(int type)
 					this->weapon->get_weapon_node()->remove();
 					this->weapon->set_no_weapon(true);
 				}
+			}
+			if(salud>=this->enemigo->get_health())
+			{
+				setFitness(Fitness()-1);
 			}
 		}
 	}
@@ -1015,10 +1020,10 @@ bool Npc::Update()
 		{
 			this->defend();
 			//cout<<"Cubro"<<endl;
-		}
-			
+		}	
 		else if(pAtaque == output[1])
 		{
+			this->no_defend();
 			this->attackBot(0);
 			
 			//cout<<"Ataque 1"<<endl;
@@ -1026,12 +1031,14 @@ bool Npc::Update()
 			
 		else if(pAtaque == output[2])
 		{
+			this->no_defend();
 			//cout<<"Ataque 2"<<endl;
 			this->attackBot(1);
 		}
 			
 		else if(pAtaque == output[3])
 		{
+			this->no_defend();
 			//cout<<"Ataque 3"<<endl;
 			this->attackBot(2);
 		}

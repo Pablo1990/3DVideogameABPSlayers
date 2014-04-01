@@ -15,12 +15,12 @@ CGenAlg::CGenAlg(int	  popsize,
                                       m_dMutationRate(MutRat),
 										                  m_dCrossoverRate(CrossRat),
 										                  m_iChromoLength(numweights),
-										                  m_dTotalFitness(0),
+										                  m_dTotalFitness(1000*20),
 										                  m_cGeneration(0),
-										                  m_iFittestGenome(0),
-										                  m_dBestFitness(0),
+										                  m_iFittestGenome(1000),
+										                  m_dBestFitness(1000),
 										                  m_dWorstFitness(99999999),
-										                  m_dAverageFitness(0)
+										                  m_dAverageFitness(1000)
 {
 	//initialise population with chromosomes consisting of random
 	//weights and all fitnesses set to zero
