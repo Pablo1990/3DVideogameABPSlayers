@@ -303,6 +303,7 @@ void Npc::getPesosDeFichero(){
 		}
 	}
 
+	PutWeights(vecPesos);
 }
 
 std::list<Weapon*>* Npc::getItems()
