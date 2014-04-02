@@ -251,6 +251,103 @@ void Juego::run()
 			}
 	
 	}
+	else if(estado==3)
+	{
+			int unavez=0;
+		
+	
+
+			cycles = 0;
+			npc=new Npc(device->getSceneManager(),new Sword(4,7,device->getSceneManager()),heal_camp->getPosition(), device, mapSelector);
+			npc->setEnem(player);
+			npc->add_to_scene(core::vector3df(100,10,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
+			npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02));
+			npc->setItems(armas, types);
+			vector <double> vecPesos = npc->getPesosDeFichero();
+			hud=new Hud(device);
+			hud->drawHud(device,npc,player);
+			CGenAlg* m_pGA = new CGenAlg(1,
+		CParams::dMutationRate,
+		CParams::dCrossoverRate,
+		vecPesos.size());
+
+		//Get the weights from the GA and insert into the sweepers brains
+		vector<SGenome> m_vecThePopulation = m_pGA->GetChromos();
+
+		npc->PutWeights(m_vecThePopulation[0].vecWeights);
+		cout<<npc->GetNumberOfWeights()<<endl;
+	while(device->run() && driver)
+	{
+		if (device->isWindowActive())
+		{
+
+
+					now = device->getTimer()->getTime();
+
+
+					player->movement(camera);
+					if(player->get_weapon())
+						player->get_weapon()->finish_animation();
+				
+					
+			if(npc)
+			{
+				
+				if(!npc->get_is_dead())
+				{
+					npc->Update();
+				}
+
+				npc->restore_condition(device);
+
+
+				if(npc->get_is_dead() && npc->get_character_node()->isVisible())
+				{
+					npc->die(device);
+					npc->remove_character_node();
+				}
+			}
+
+			if(player)
+			{
+				player->heal_or_fire(campFire, heal_camp, device);
+				player->fall_down(device);
+				player->manage_collision(npc->get_weapon(), device);
+				player->restore_condition(device);
+
+				
+				swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f", player->get_position().X, player->get_position().Y, 
+					player->get_position().Z);
+				
+				statusText->setText(tmp);
+			}
+
+			if(cycles % 1500 == 0)
+			{
+				this->replace_random_item(this->device, this->mapSelector);
+			}
+				
+					driver->beginScene(timeForThisScene != -1, true, backColor);
+		
+					hud->setSkinTransparency( guienv->getSkin());
+					hud->setHud(npc,player);
+					smgr->drawAll();
+					guienv->drawAll();
+					driver->endScene();
+					if(cycles + 1 == INT_MAX)
+					{
+						cycles = 0;
+					}
+
+					
+					cycles++;
+					
+
+				}
+			}
+	
+	
+	}
 	
 }
 
@@ -293,14 +390,16 @@ void Juego::switchToNextScene()
 		camera->bindTargetAndRotation(true);
 		camera->setPosition(core::vector3df(1000,80,1000));
 		camera->setFarValue(5000.0f);
-		if(estado==1)
+		if(estado==1 || estado==3)
 		{
 			Sword *sw2 = new Sword(4,7,sm);
 			player = new Player(sm, sw2, mapSelector, camera);
 			player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
 			player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
 			player->set_types(types);
-	
+	}
+		if(estado==1)
+		{
 			
 			//IA
 			npc->setEnem(player);
@@ -308,6 +407,8 @@ void Juego::switchToNextScene()
 			npc->setBrain(mente);
 			mente->setDueño(npc);
 		}
+			
+		
 		
 			collider =
 			sm->createCollisionResponseAnimator(
@@ -589,7 +690,7 @@ void Juego::loadSceneData()
 
 	types[5] = HEAL_TYPE;
 
-	if(estado==1)
+	if(estado==1 )
 		npc->setItems(armas, types);
 	
 }

@@ -184,7 +184,8 @@ bool MyMenu::OnEvent(const SEvent& event)
 					env->addButton(rect<s32>(700,150,1000,150 + 82), 0, GUI_ID_CONTINUAR_BUTTON, L"Continuar", L"Continua desde el ultimo nivel desbloqueado");
 					env->addButton(rect<s32>(700,260,1000,260 + 82), 0, GUI_ID_NUEVA_PARTIDA_BUTTON, L"Nueva Partida", L"Comienza de nuevo");
 					env->addButton(rect<s32>(700,370,1000,370 + 82), 0, GUI_ID_APRENDIZAJE, L"Aprendizaje", L"Ejecutar Aprendizaje");
-					env->addButton(rect<s32>(700,480,1000,480 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu Inicio");
+					env->addButton(rect<s32>(700,480,1000,480 + 82), 0, GUI_ID_JAPRENDIZAJE, L"Juego Con Aprendizaje", L"Ejecutar JAprendizaje");
+					env->addButton(rect<s32>(700,590,1000,590 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu Inicio");
 					
 					return true;
 
@@ -214,6 +215,12 @@ bool MyMenu::OnEvent(const SEvent& event)
 					device->closeDevice();
 					//menu->setStart(true);
 					start = 2;
+					return true;
+
+				case GUI_ID_JAPRENDIZAJE:
+					device->closeDevice();
+					//menu->setStart(true);
+					start = 3;
 					return true;
 
 				case GUI_ID_EDITOR_BUTTON:

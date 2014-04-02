@@ -34,4 +34,10 @@ int main()
 		game.setEstado(2);
 		game.run();
 	}
+	else if(estado==3)
+	{
+		Juego game(driverType);
+		game.setEstado(3);
+		game.run();
+	}
 }
