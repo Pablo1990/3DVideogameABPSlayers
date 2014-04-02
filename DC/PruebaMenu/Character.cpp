@@ -24,6 +24,7 @@ Character::Character(const char* path, ISceneManager *sm)
 
 		this->heal_tick = 0;
 		this->fire_tick;
+		this->is_dead = false;
 	}
 	catch(...)
 	{}
@@ -40,12 +41,20 @@ Character::Character(const char* path, ISceneManager *sm, Weapon* w)
 		this->heal_flag = false;
 		this->heal_count = 0;
 
-		this->health=100;
+		this->health=101;
 		sh = new Shield(scene_manager);
 
 		this->slow = 1;
 		this->slow_start = -1;
 		this->paralysis = false;
+		this->paralysis_start = -1;
+		this->last_fall_time = 0;
+		this->last_height = 0;
+
+		this->heal_tick = 0;
+		this->fire_tick;
+
+		this->is_dead = false;
 	}
 	catch(...)
 	{
@@ -55,6 +64,39 @@ Character::Character(const char* path, ISceneManager *sm, Weapon* w)
 
 Character::~Character(void)
 {
+}
+
+bool Character::get_is_dead()
+{
+	return this->is_dead;
+}
+
+void Character::die(IrrlichtDevice* device)
+{
+
+	IParticleSystemSceneNode* campFire = scene_manager->addParticleSystemSceneNode(false,0,1 << 0);
+	campFire->setPosition(character_node->getPosition());
+	campFire->setScale(core::vector3df(10,30,10));
+	campFire->setName(std::to_string(TORCH_TYPE).c_str());
+	
+	scene::IParticleEmitter* em = campFire->createBoxEmitter(
+		core::aabbox3d<f32>(-7,0,-7,7,1,7),
+		core::vector3df(0.0f,0.06f,0.0f),
+		40,100, video::SColor(1,255,255,255),video::SColor(1,255,255,255), 1000,2200);
+
+	em->setMinStartSize(core::dimension2d<f32>(20.0f, 10.0f));
+	em->setMaxStartSize(core::dimension2d<f32>(80.0f, 40.0f));
+	campFire->setEmitter(em);
+	em->drop();
+
+	scene::IParticleAffector* paf = campFire->createFadeOutParticleAffector();
+	campFire->addAffector(paf);
+	paf->drop();
+	
+	campFire->setMaterialFlag(video::EMF_LIGHTING, false);
+	campFire->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+	campFire->setMaterialTexture(0, device->getVideoDriver()->getTexture("../media/smoke.bmp"));
+	campFire->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 }
 
 void Character::do_transformations_and_joints(vector3df position, vector3df rotation, vector3df scale)
@@ -199,6 +241,12 @@ ISceneNode* Character::get_character_node()
 Weapon* Character::get_weapon()
 {
 	return this->weapon;
+}
+
+void Character::remove_character_node()
+{
+	this->character_node->setVisible(false);
+	//this->character_node = 0;
 }
 
 void Character::set_weapon(Weapon* w)

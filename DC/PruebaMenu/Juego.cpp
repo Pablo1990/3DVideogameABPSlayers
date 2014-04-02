@@ -122,11 +122,12 @@ void Juego::run()
 			{
 				npc->manage_collision(player->get_weapon(), device);
 				npc->heal_or_fire(campFire, heal_camp, device);
-				/*if(cycles % 500)
+				if(cycles % 1000 && !npc->get_is_dead())
 				{
 					mente->Arbitrate();
 					mente->ProcessSubgoals();
-				}*/
+				}
+				
 				
 				//npc->way_to(pf.getCamino());
 				npc->restore_condition(device);
@@ -137,12 +138,18 @@ void Juego::run()
 				//if(player)
 					//npc->face_target(player->get_character_node());
 
-							if(npc->get_weapon())
-							{
-								npc->get_weapon()->finish_animation();
+				if(npc->get_weapon())
+				{
+					npc->get_weapon()->finish_animation();
 
-							}
-					}
+				}
+
+				if(npc->get_is_dead() && npc->get_character_node()->isVisible())
+				{
+					npc->die(device);
+					npc->remove_character_node();
+				}
+			}
 		
 
 			if(player)

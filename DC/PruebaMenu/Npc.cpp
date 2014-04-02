@@ -63,7 +63,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 					w->set_collision_flag(true);
 					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
 					//this->health = 0;
-					//this->health = health - 70;
+					this->health = 0;
 					
 
 					if(scene_manager)

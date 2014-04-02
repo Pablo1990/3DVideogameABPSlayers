@@ -43,8 +43,11 @@ public:
 	bool no_weapon();
 	void attack(float first_x, float first_y, float last_x, float last_y);
 	int heal_or_fire(ISceneNode* camp_fire, ISceneNode* heal, IrrlichtDevice* d);
+	bool get_is_dead();
+	void remove_character_node();
 
 	void movement(ICameraSceneNode* camera);
+	void die(IrrlichtDevice* device);
 
 	//Salud
 	double get_health();
