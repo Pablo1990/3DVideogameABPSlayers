@@ -116,6 +116,11 @@ public:
 			    double	CrossRat,
 			    int	  	numweights);
 
+	CGenAlg(int 		popsize,
+			    double	MutRat,
+			    double	CrossRat,
+			    int	  	numweights, vector<double> pesos);
+
 	//this runs the GA for one generation.
 	vector<SGenome>	Epoch(vector<SGenome> &old_pop);
 

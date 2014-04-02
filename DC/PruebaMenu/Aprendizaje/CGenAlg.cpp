@@ -35,6 +35,33 @@ CGenAlg::CGenAlg(int	  popsize,
 	}
 }
 
+CGenAlg::CGenAlg(int	  popsize,
+                 double	MutRat,
+                 double	CrossRat,
+                 int	  numweights, vector<double> pesos) :	m_iPopSize(popsize),
+                                      m_dMutationRate(MutRat),
+										                  m_dCrossoverRate(CrossRat),
+										                  m_iChromoLength(numweights),
+										                  m_dTotalFitness(1000*20),
+										                  m_cGeneration(0),
+										                  m_iFittestGenome(1000),
+										                  m_dBestFitness(1000),
+										                  m_dWorstFitness(99999999),
+										                  m_dAverageFitness(1000)
+{
+	//initialise population with chromosomes consisting of random
+	//weights and all fitnesses set to zero
+	for (int i=0; i<m_iPopSize; ++i)
+	{
+		m_vecPop.push_back(SGenome());
+
+		for (int j=0; j<m_iChromoLength; ++j)
+		{
+			m_vecPop[i].vecWeights.push_back(pesos[((i+1)*m_iPopSize) + j]);
+		}
+	}
+}
+
 
 //---------------------------------Mutate--------------------------------
 //
