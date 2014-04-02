@@ -254,11 +254,19 @@ void Juego::run()
 	else if(estado==3)
 	{
 			int unavez=0;
-	hud=new Hud(device);
-		hud->drawHud(device,npc,player);
+		
 	
 
-	cycles = 0;
+			cycles = 0;
+			npc=new Npc(device->getSceneManager(),new Sword(4,7,device->getSceneManager()),heal_camp->getPosition(), device, mapSelector);
+			npc->setEnem(player);
+			npc->add_to_scene(core::vector3df(0,200,0), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
+			npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02));
+			npc->setItems(armas, types);
+			npc->getPesosDeFichero();
+			cout<<npc->GetNumberOfWeights();
+				hud=new Hud(device);
+			hud->drawHud(device,npc,player);
 	while(device->run() && driver)
 	{
 		if (device->isWindowActive())
@@ -271,14 +279,13 @@ void Juego::run()
 					player->movement(camera);
 					if(player->get_weapon())
 						player->get_weapon()->finish_animation();
+				
+					
 /*
 			if(npc)
 			{
-				npc->manage_collision(player->get_weapon(), device);
-				npc->heal_or_fire(campFire, heal_camp, device);
-
-				if(cycles % 1500 && !npc->get_is_dead())
-
+				
+				if(!npc->get_is_dead())
 				{
 					mente->Arbitrate();
 					mente->ProcessSubgoals();
@@ -397,7 +404,9 @@ void Juego::switchToNextScene()
 			player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
 			player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
 			player->set_types(types);
-	
+	}
+		if(estado==1)
+		{
 			
 			//IA
 			npc->setEnem(player);
@@ -405,6 +414,8 @@ void Juego::switchToNextScene()
 			npc->setBrain(mente);
 			mente->setDueño(npc);
 		}
+			
+		
 		
 			collider =
 			sm->createCollisionResponseAnimator(
@@ -686,7 +697,7 @@ void Juego::loadSceneData()
 
 	types[5] = HEAL_TYPE;
 
-	if(estado==1 || estado==3)
+	if(estado==1 )
 		npc->setItems(armas, types);
 	
 }
