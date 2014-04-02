@@ -204,7 +204,7 @@ void RangeWeapon::finish_animation()
 
 bool RangeWeapon::is_animated()
 {
-	return Impacts.empty();
+	return false;
 }
 
 array<SParticleImpact> RangeWeapon::get_impacts()

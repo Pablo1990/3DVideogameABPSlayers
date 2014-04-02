@@ -224,7 +224,6 @@ void Player::pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, 	IrrlichtDe
 	try
 	{
 		int pick_type = atoi(((std::string)w->getName()).substr(0, strcspn(w->getName(), "_")).c_str()); // strcspn (str,keys);//strtok(((std::string)w->getName()), "_");
-		cout << "Recojo " << pick_type << endl;
 		if (no_weapon() && cam != NULL && (cam = dynamic_cast<ICameraSceneNode*>(cam)))
 		{
 			if(pick_type == SWORD_TYPE)
