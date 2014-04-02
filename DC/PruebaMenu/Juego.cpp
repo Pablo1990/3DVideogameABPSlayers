@@ -269,9 +269,12 @@ void Juego::run()
 			CGenAlg* m_pGA = new CGenAlg(1,
 		CParams::dMutationRate,
 		CParams::dCrossoverRate,
-		vecPesos.size(),vecPesos);
+		vecPesos.size());
 
-		npc->PutWeights(m_pGA->GetChromos()[0].vecWeights);
+		//Get the weights from the GA and insert into the sweepers brains
+		vector<SGenome> m_vecThePopulation = m_pGA->GetChromos();
+
+		npc->PutWeights(m_vecThePopulation[0].vecWeights);
 		cout<<npc->GetNumberOfWeights()<<endl;
 	while(device->run() && driver)
 	{
@@ -632,10 +635,10 @@ void Juego::loadSceneData()
 	
 	
 
-			//Sword *sw3 = new Sword(4,7,sm);
+			Sword *sw3 = new Sword(4,7,sm);
 			//Spear *sw3 = new Spear(4,5,sm);
 		//Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
-			ThrowableItem *sw3 = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
+			//ThrowableItem *sw3 = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
 	
 			npc->set_weapon(sw3);
 			npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df( 0.02, 0.02, 0.02));

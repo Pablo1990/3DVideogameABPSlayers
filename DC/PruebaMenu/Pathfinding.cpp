@@ -141,7 +141,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 
 		while (!listaFrontera.empty()) {
 			
-			cout << listaInterior.size() << endl;
+			//cout << listaInterior.size() << endl;
             //Buscamos el NodoPathfinding con menor F es decir, el mejor (camino más corto)
 			NodoPadreEHijo n(menorF(listaFrontera, mayorG));
             //NodoPathfinding encontrado lo ponemos en expandidos
