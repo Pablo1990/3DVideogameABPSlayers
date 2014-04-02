@@ -16,7 +16,6 @@ void
 Goal_MarcarHuida::Activate()
 {
 	estado=active;
-	cout<<"Activado movimiento para Huir"<<endl;
 }
 
 int Goal_MarcarHuida::Process()

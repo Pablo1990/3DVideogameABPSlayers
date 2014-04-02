@@ -147,7 +147,6 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 					//array<SParticleImpact> imp = rw->get_impacts();
 					for(int i = 0; i < rw->get_impacts().size(); i++)
 					{
-						cout << "Bucle1" << endl;
 						if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->head))
 						{
 							rw->set_impact_at(i, true);
@@ -896,15 +895,15 @@ void Npc::face_target(vector3df target_pos)
 
 bool Npc::Update()
 {
-
+/*
 	cout<<"<<<<<<<<Vida>>>>>>>"<<endl;
-	cout<<"Vida enemigo"<<endl;
-	cout<<this->getEnemigo()->get_health()<<endl;
+	cout<<"Vida enemigo"<<endl;*/
+	//cout<<this->getEnemigo()->get_health()<<endl;
 
-	cout<<"Vida propia"<<endl;
-	cout<<this->get_health()<<endl;
-	cout<<"Desgaste arma enem: "<<this->getEnemigo()->get_weapon()->get_resist()<<endl;
-	cout<<"Desgaste arma propia: "<<this->get_weapon()->get_resist()<<endl;
+	//cout<<"Vida propia"<<endl;
+	//cout<<this->get_health()<<endl;
+	/*cout<<"Desgaste arma enem: "<<this->getEnemigo()->get_weapon()->get_resist()<<endl;
+	cout<<"Desgaste arma propia: "<<this->get_weapon()->get_resist()<<endl;*/
 	
 
 	vector<double> inputs;
