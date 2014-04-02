@@ -122,11 +122,11 @@ void Juego::run()
 			{
 				npc->manage_collision(player->get_weapon(), device);
 				npc->heal_or_fire(campFire, heal_camp, device);
-				/*if(cycles % 500)
+				if(cycles % 1500)
 				{
 					mente->Arbitrate();
 					mente->ProcessSubgoals();
-				}*/
+				}
 				
 				//npc->way_to(pf.getCamino());
 				npc->restore_condition(device);
@@ -477,32 +477,32 @@ void Juego::loadSceneData()
 	vector<Position> obs_3; 
 	v2.push_back(last_corner);
 	//Puente
-	bridge.push_back(Position(347,0,578));
-	bridge.push_back(Position(1290,72,755));
+	//bridge.push_back(Position(347,0,578));
+	//bridge.push_back(Position(1290,72,755));
 
-	////Primer obstaculo
-	Position p3(890,0,137);
-	Position p4(1024,136,289);
+	//////Primer obstaculo
+	//Position p3(890,0,137);
+	//Position p4(1024,136,289);
 
-	obs_1.push_back(p3);
-	obs_1.push_back(p4);
+	//obs_1.push_back(p3);
+	//obs_1.push_back(p4);
 
-	////Segundo obstaculo
-	obs_2.push_back(Position(890,0,1023));
-	obs_2.push_back(Position(1024,136,1180));
+	//////Segundo obstaculo
+	//obs_2.push_back(Position(890,0,1023));
+	//obs_2.push_back(Position(1024,136,1180));
 
-	////TercerObstaculo
-	obs_3.push_back(Position(1547,0,626));
-	obs_3.push_back(Position(1830,72,720));
+	//////TercerObstaculo
+	//obs_3.push_back(Position(1547,0,626));
+	//obs_3.push_back(Position(1830,72,720));
 
 
 	obstacles.push_back(v2);
 
-	//obstacles.push_back(v2);
-	obstacles.push_back(bridge);
-	obstacles.push_back(obs_1);
-	obstacles.push_back(obs_2);
-	obstacles.push_back(obs_3);
+	////obstacles.push_back(v2);
+	////obstacles.push_back(bridge);
+	////obstacles.push_back(obs_1);
+	//obstacles.push_back(obs_2);
+	//obstacles.push_back(obs_3);
 
 
 
@@ -641,7 +641,6 @@ bool Juego::OnEvent(const SEvent& event)
 				{
 					if(last_drop == -1 || device->getTimer()->getTime() - last_drop > 3000)
 					{
-									cout << "PRESIONO E " << endl;
 
 						last_drop = device->getTimer()->getTime(); 
 					
@@ -753,7 +752,6 @@ void Juego::add_random_item(vector3df position)
 	scene::ISceneManager* sm = device->getSceneManager();
 	position.Y = 8;
 
-	cout << "EMPIEZO EMPIEZO " << endl;
 	switch(rand()%7)
 	{
 		case 0:
@@ -792,8 +790,6 @@ void Juego::add_random_item(vector3df position)
 		types[armas->size()] = (*(--armas->end()))->get_type();
 	}
 
-	cout << "ACABO ACABO " << endl;
-	cout << (*armas->begin())->get_weapon_node()->getName() << endl;
 }
 
 void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelector* mapSelector)

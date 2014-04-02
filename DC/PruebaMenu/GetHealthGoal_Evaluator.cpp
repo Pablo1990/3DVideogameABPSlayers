@@ -17,7 +17,6 @@ double GetHealthGoal_Evaluator::CalculateDesirability(Npc* pBot)
   
 	//first grab the distance to the closest instance of a health item
 	double Distance = Goal_Evaluator::DistanceToItemHealth(pBot);
-	cout<<"Distancia salud"<<Distance<<endl;
 
   //if the distance feature is rated with a value of 1 it means that the
   //item is either not present on the map or too far away to be worth

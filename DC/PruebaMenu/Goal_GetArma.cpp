@@ -17,7 +17,6 @@ void
 Goal_GetArma::Activate()
 {
 	estado=active;
-	cout<<"Activado Subojetivo coger una Arma"<<endl;
 }
 
 int Goal_GetArma::Process()
