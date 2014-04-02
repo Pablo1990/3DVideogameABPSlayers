@@ -274,7 +274,7 @@ void Npc::setEnem(Player* p)
 	player=p;
 }
 
-void Npc::getPesosDeFichero(){
+vector<double> Npc::getPesosDeFichero(){
 	vector<double> vecPesos;
 	std::string pesos="";
 	ifstream myfile ("pesos.txt");
@@ -306,7 +306,7 @@ void Npc::getPesosDeFichero(){
 		}
 	}
 
-	PutWeights(vecPesos);
+	return vecPesos;
 }
 
 std::list<Weapon*>* Npc::getItems()

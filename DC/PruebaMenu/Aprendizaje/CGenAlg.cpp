@@ -57,7 +57,7 @@ CGenAlg::CGenAlg(int	  popsize,
 
 		for (int j=0; j<m_iChromoLength; ++j)
 		{
-			m_vecPop[i].vecWeights.push_back(pesos[((i+1)*m_iPopSize) + j]);
+			m_vecPop[i].vecWeights.push_back(pesos[j]);
 		}
 	}
 }

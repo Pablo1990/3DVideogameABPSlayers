@@ -260,13 +260,22 @@ void Juego::run()
 			cycles = 0;
 			npc=new Npc(device->getSceneManager(),new Sword(4,7,device->getSceneManager()),heal_camp->getPosition(), device, mapSelector);
 			npc->setEnem(player);
-			npc->add_to_scene(core::vector3df(0,200,0), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
+			npc->add_to_scene(core::vector3df(100,10,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 			npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02));
 			npc->setItems(armas, types);
-			npc->getPesosDeFichero();
-			cout<<npc->GetNumberOfWeights();
-				hud=new Hud(device);
+			vector <double> vecPesos = npc->getPesosDeFichero();
+			hud=new Hud(device);
 			hud->drawHud(device,npc,player);
+			CGenAlg* m_pGA = new CGenAlg(1,
+		CParams::dMutationRate,
+		CParams::dCrossoverRate,
+		vecPesos.size());
+
+		//Get the weights from the GA and insert into the sweepers brains
+		vector<SGenome> m_vecThePopulation = m_pGA->GetChromos();
+
+		npc->PutWeights(m_vecThePopulation[0].vecWeights);
+		cout<<npc->GetNumberOfWeights()<<endl;
 	while(device->run() && driver)
 	{
 		if (device->isWindowActive())
@@ -281,31 +290,16 @@ void Juego::run()
 						player->get_weapon()->finish_animation();
 				
 					
-/*
 			if(npc)
 			{
 				
 				if(!npc->get_is_dead())
 				{
-					mente->Arbitrate();
-					mente->ProcessSubgoals();
+					npc->Update();
 				}
 
-				
-				//npc->way_to(pf.getCamino());
 				npc->restore_condition(device);
-				//swprintf(tmp, 255, L"NpcHealth %f", player->get_position().Y);
-				
 
-				//statusText->setText(tmp);
-				//if(player)
-					//npc->face_target(player->get_character_node());
-
-				if(npc->get_weapon())
-				{
-					npc->get_weapon()->finish_animation();
-
-				}
 
 				if(npc->get_is_dead() && npc->get_character_node()->isVisible())
 				{
@@ -313,7 +307,6 @@ void Juego::run()
 					npc->remove_character_node();
 				}
 			}
-		*/
 
 			if(player)
 			{
