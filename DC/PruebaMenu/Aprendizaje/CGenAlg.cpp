@@ -296,9 +296,9 @@ void CGenAlg::CalculateBestWorstAvTot()
 //--------------------------------------------------------------
 void CGenAlg::Reset()
 {
-	m_dTotalFitness		= 0;
-	m_dBestFitness		= 0;
+	m_dTotalFitness		= 1000;
+	m_dBestFitness		= 1000;
 	m_dWorstFitness		= 9999999;
-	m_dAverageFitness	= 0;
+	m_dAverageFitness	= 1000;
 }
 
