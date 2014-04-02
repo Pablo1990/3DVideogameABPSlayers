@@ -24,6 +24,8 @@ public:
 	int get_damage();
 	void set_damage(int d);
 
+	int get_distance();
+
 	virtual void finish_animation();
 	virtual void attack(float first_x, float first_y, float last_x, float last_y);
 	virtual void attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position);
@@ -57,7 +59,7 @@ protected:
 	int ty;
 	vector3df main_rotation;
 	vector3df main_position;
-
+	int distance;
 	bool shield;
 
 private:

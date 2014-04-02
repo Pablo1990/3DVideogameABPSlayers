@@ -35,6 +35,7 @@ RangeWeapon::RangeWeapon(const char* path, int dmg, int sp, ISceneManager *sm, I
 		campFire->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 
 		campFire->setVisible(false);
+		this->distance = 150;
 	}
 	catch(...)
 	{}

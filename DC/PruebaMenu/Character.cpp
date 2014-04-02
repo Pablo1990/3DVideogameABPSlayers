@@ -12,7 +12,7 @@ Character::Character(const char* path, ISceneManager *sm)
 		this->weapon = NULL;
 		this->heal_flag = false;
 		this->heal_count = 0;
-		this->health=100;
+		this->health=101;
 		sh = new Shield(scene_manager);
 
 		this->slow = 1;

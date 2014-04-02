@@ -15,6 +15,7 @@ Weapon::Weapon(const char* path, int dmg = 0, int sp = 0, ISceneManager *sm = 0,
 		this->ty = t;
 		this->no_weapon_flag = false;
 		this->resist=15;
+		this->distance = 60;
 	}
 	catch(...)
 	{}
@@ -22,6 +23,11 @@ Weapon::Weapon(const char* path, int dmg = 0, int sp = 0, ISceneManager *sm = 0,
 void Weapon::set_no_weapon(bool wp)
 {
 	this->no_weapon_flag = wp;
+}
+
+int Weapon::get_distance()
+{
+	return this->distance;
 }
 
 bool Weapon::no_weapon()

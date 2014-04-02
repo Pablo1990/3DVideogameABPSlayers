@@ -477,9 +477,9 @@ void Juego::loadSceneData()
 	vector<Position> obs_3; 
 	v2.push_back(last_corner);
 	//Puente
-	bridge.push_back(Position(347,0,578));
+	/*bridge.push_back(Position(347,0,578));
 	bridge.push_back(Position(1290,72,755));
-
+*/
 	////Primer obstaculo
 	Position p3(890,0,137);
 	Position p4(1024,136,289);
@@ -499,10 +499,10 @@ void Juego::loadSceneData()
 	obstacles.push_back(v2);
 
 	//obstacles.push_back(v2);
-	obstacles.push_back(bridge);
+	/*obstacles.push_back(bridge);
 	obstacles.push_back(obs_1);
 	obstacles.push_back(obs_2);
-	obstacles.push_back(obs_3);
+	obstacles.push_back(obs_3);*/
 
 
 
