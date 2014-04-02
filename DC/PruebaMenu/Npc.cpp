@@ -298,7 +298,7 @@ void Npc::getPesosDeFichero(){
 	std::string line = "";
 	for(int i = 0; i<pesos.length(); i++)
 	{
-		if(i!=' ')
+		if(pesos[i]!=' ')
 			line+=pesos[i];
 		else{
 			vecPesos.push_back(atof(line.c_str()));
