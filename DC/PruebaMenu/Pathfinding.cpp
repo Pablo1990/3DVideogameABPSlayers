@@ -66,7 +66,7 @@ void Pathfinding::setMapa(vector<vector<Position>> obstaculos){
 	for (int i = 0; i < maxX; i++) {
 		mapa[i] = new int *[maxZ];
 		for (int j = 0; j < maxZ; j++) {
-			mapa[i][j] = new int[2];
+			mapa[i][j] = new int[maxY];
 			mapa[i][j][0] = 0; //se puede
 			mapa[i][j][1] = -1; //no puede
         }
@@ -99,15 +99,16 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 	int maxZ = pIni.getZ()+pasos > finMapa.getZ() ? finMapa.getZ() : pIni.getZ()+pasos;
 
 	int minY = 0;
-	int maxY = 1;
+	int maxY = 150;
 	
 	int*** expandidos = new int **[maxX+1];
         //Recorremos el mapa y lo sacamos por pantalla y llenamos de -1 el array expandidos
 	for (int i = minX; i < maxX; i++) {
 		expandidos[i] = new int *[maxZ+1];
 		for (int j = minZ; j < maxZ; j++) {
-			expandidos[i][j] = new int[1];
-			expandidos[i][j][0] = -1;
+			expandidos[i][j] = new int[maxY];
+			for(int k = minY; k < maxY; k++)
+				expandidos[i][j][0] = -1;
         }
     }
 	//HABRA QUE RELLENAR DE -10 O ALGO ASI PARA QUE SE SEPA QUE HAY OBSTACULOS O SIMPLEMENTE QUE SON INALCANZABLES

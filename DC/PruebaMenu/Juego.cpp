@@ -467,7 +467,7 @@ void Juego::loadSceneData()
 	Position p1(npc->get_position().X, 0, npc->get_position().Z);
 	Position p2(npc->get_position().X, 0, npc->get_position().Z);
 	Pathfinding* pf = new Pathfinding(p1, p2);
-	Position last_corner(1894.93, 1, 1294.88);
+	Position last_corner(1894.93, 150, 1294.88);
 	
 	vector<vector<Position>> obstacles;
 	vector<Position> v2;
@@ -477,8 +477,8 @@ void Juego::loadSceneData()
 	vector<Position> obs_3; 
 	v2.push_back(last_corner);
 	//Puente
-	//bridge.push_back(Position(347,0,578));
-	//bridge.push_back(Position(1290,72,755));
+	bridge.push_back(Position(347,0,578));
+	bridge.push_back(Position(1290,72,755));
 
 	////Primer obstaculo
 	Position p3(890,0,137);
@@ -499,10 +499,10 @@ void Juego::loadSceneData()
 	obstacles.push_back(v2);
 
 	//obstacles.push_back(v2);
-	//obstacles.push_back(bridge);
-	//obstacles.push_back(obs_1);
-	//obstacles.push_back(obs_2);
-	//obstacles.push_back(obs_3);
+	obstacles.push_back(bridge);
+	obstacles.push_back(obs_1);
+	obstacles.push_back(obs_2);
+	obstacles.push_back(obs_3);
 
 
 
