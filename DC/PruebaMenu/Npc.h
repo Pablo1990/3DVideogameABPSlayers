@@ -30,7 +30,7 @@ public:
 	~Npc(void);
 
 	void manage_collision(Weapon *w, IrrlichtDevice* d); 
-
+	void getPesosDeFichero();
 	bool MoverseAItemSalud();
 	bool MoverseAItemArma();
 	bool MoverseAEnemigo();
