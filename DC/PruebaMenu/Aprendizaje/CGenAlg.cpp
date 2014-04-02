@@ -57,7 +57,7 @@ void CGenAlg::Mutate(vector<double> &chromo)
 }
 
 vector<double> CGenAlg::GetBestWeights(){
-	double best = 0;
+	double best = -99999;
 	int bestI = 0;
 	for(int i = 0; i< m_iPopSize; i++){
 		if(m_vecPop[i].dFitness>best){
@@ -195,8 +195,8 @@ vector<SGenome> CGenAlg::Epoch(vector<SGenome> &old_pop)
 		Mutate(baby2);
 
 		//now copy into vecNewPop population
-		vecNewPop.push_back(SGenome(baby1, 0));
-		vecNewPop.push_back(SGenome(baby2, 0));
+		vecNewPop.push_back(SGenome(baby1, 1000));
+		vecNewPop.push_back(SGenome(baby2, 1000));
 	}
 
 	//finished so assign new pop back into m_vecPop
@@ -259,7 +259,7 @@ void CGenAlg::CalculateBestWorstAvTot()
 {
 	m_dTotalFitness = 0;
 	
-	double HighestSoFar = 0;
+	double HighestSoFar = -9999999;
 	double LowestSoFar  = 9999999;
 	
 	for (int i=0; i<m_iPopSize; ++i)

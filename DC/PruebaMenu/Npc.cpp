@@ -642,7 +642,8 @@ void Npc::attackBot(int type)
 			}
 			if(salud>=this->enemigo->get_health())
 			{
-				setFitness(Fitness()-1);
+				if(Fitness()>0)
+					setFitness(Fitness()-1);
 			}
 		}
 	}
