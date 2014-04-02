@@ -255,7 +255,7 @@ void Juego::run()
 	{
 			int unavez=0;
 		
-	
+		CParams();	
 
 			cycles = 0;
 			npc=new Npc(device->getSceneManager(),new Sword(4,7,device->getSceneManager()),heal_camp->getPosition(), device, mapSelector);
@@ -269,12 +269,9 @@ void Juego::run()
 			CGenAlg* m_pGA = new CGenAlg(1,
 		CParams::dMutationRate,
 		CParams::dCrossoverRate,
-		vecPesos.size());
+		vecPesos.size(),vecPesos);
 
-		//Get the weights from the GA and insert into the sweepers brains
-		vector<SGenome> m_vecThePopulation = m_pGA->GetChromos();
-
-		npc->PutWeights(m_vecThePopulation[0].vecWeights);
+		npc->PutWeights(m_pGA->GetChromos()[0].vecWeights);
 		cout<<npc->GetNumberOfWeights()<<endl;
 	while(device->run() && driver)
 	{
