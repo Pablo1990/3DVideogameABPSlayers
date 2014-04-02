@@ -148,11 +148,17 @@ private:
 	//Inputs enemigo
 	double getPosEnemX()
 	{
-		return Clamp(enemigo->get_position().X/1894.93,0,1);
+		if(enemigo!=NULL)
+			return Clamp(enemigo->get_position().X/1894.93,0,1);
+		else
+			return Clamp(player->get_position().X/1894.93,0,1);
 	}
 	double getPosEnemY()
 	{
-		return Clamp(enemigo->get_position().Z/1294.88,0,1);
+		if(enemigo!=NULL)
+			return Clamp(enemigo->get_position().Z/1294.88,0,1);
+		else
+			return Clamp(player->get_position().Z/1294.88,0,1);
 	}
 	double getOrienPr()
 	{
@@ -161,13 +167,19 @@ private:
 
 	double getOrienEnem()
 	{
-		return fmod(enemigo->character_node->getRotation().Y,360)/360;
+		if(enemigo!=NULL)
+			return fmod(enemigo->character_node->getRotation().Y,360)/360;
+		else
+			return fmod(player->get_character_node()->getRotation().Y,360)/360;
 	}
 
 	//Inputs salud
 	double getSaludEnem()
 	{
-		return Clamp(enemigo->get_health()/100,0,1);
+		if(enemigo!=NULL)
+			return Clamp(enemigo->get_health()/100,0,1);
+		else
+			return Clamp(player->get_health()/100,0,1);
 	}
 	double getSaludPr()
 	{

@@ -298,7 +298,7 @@ void Npc::getPesosDeFichero(){
 	std::string line = "";
 	for(int i = 0; i<pesos.length(); i++)
 	{
-		if(i!=' ')
+		if(pesos[i]!=' ')
 			line+=pesos[i];
 		else{
 			vecPesos.push_back(atof(line.c_str()));
@@ -1059,7 +1059,10 @@ bool Npc::Update()
 		else if(pAtaque == output[1])
 		{
 			this->no_defend();
-			this->attackBot(0);
+			if(this->enemigo!=NULL)
+				this->attackBot(0);
+			else
+				this->attack(0);
 
 			//cout<<"Ataque 1"<<endl;
 		}
@@ -1068,20 +1071,29 @@ bool Npc::Update()
 		{
 			this->no_defend();
 			//cout<<"Ataque 2"<<endl;
-			this->attackBot(1);
+			if(this->enemigo!=NULL)
+				this->attackBot(1);
+			else
+				this->attack(1);
 		}
 
 		else if(pAtaque == output[3])
 		{
 			this->no_defend();
 			//cout<<"Ataque 3"<<endl;
-			this->attackBot(2);
+			if(this->enemigo!=NULL)
+				this->attackBot(2);
+			else
+				this->attack(2);
 		}
 
 	}
 	this->heal_or_fire(camp_fire,heal,device);
 
-	this->manage_collision(this->getEnemigo()->get_weapon(),device);
+	if(this->getEnemigo()!=NULL)
+		this->manage_collision(this->getEnemigo()->get_weapon(),device);
+	else
+		this->manage_collision(this->getEnem()->get_weapon(),device);
 
 	if(this->get_weapon())
 	{
