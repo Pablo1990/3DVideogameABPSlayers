@@ -62,8 +62,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 				{
 					w->set_collision_flag(true);
 					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
-					//this->health = 0;
-					this->health = 0;
+
 					
 
 					if(scene_manager)
@@ -602,7 +601,7 @@ void Npc::attack(int type)
 		if(weapon && !this->paralysis)
 		{
 			//this->face_target(player->get_character_node());
-			weapon->attack(type, this->character_node, this->player->get_position());
+			weapon->attack(type, this->character_node, scene_manager->getActiveCamera()->getPosition());
 			if(dynamic_cast<ThrowableItem*>(this->weapon))
 			{
 				if(weapon->get_weapon_node())
@@ -746,7 +745,7 @@ void Npc::pick_weapon()
 			else if(pick_type ==  BOW_TYPE)
 			{
 				weapon = new Spear(7,5,scene_manager);
-				this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(2.5,2.5,2.5));
+				this->add_weapon_to_node(core::vector3df( 10, 100, -20), core::vector3df(90,-50,90), core::vector3df(2.5,2.5,2.5));
 				drop_shield();
 			}	
 			else if(pick_type ==  RED_SHROOM_TYPE)
@@ -758,7 +757,7 @@ void Npc::pick_weapon()
 			else if(pick_type == SPEAR_TYPE)
 			{
 				weapon = new Spear(7,5,scene_manager);
-				this->add_weapon_to_node(core::vector3df(40,110,20), core::vector3df(0,180,0), core::vector3df(2.5,2.5,2.5));
+				this->add_weapon_to_node(core::vector3df( 10, 100, -20), core::vector3df(90,-50,90), core::vector3df(2.5,2.5,2.5));
 				drop_shield();
 			}
 			else if(pick_type ==  BLUE_SHROOM_TYPE)

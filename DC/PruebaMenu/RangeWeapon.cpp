@@ -58,12 +58,10 @@ void RangeWeapon::shoot_anim(vector3df scale, vector3df rotation, vector3df star
 	if(!scene_manager)
 		return;
 
-	scene::ICameraSceneNode* camera = this->scene_manager->getActiveCamera();
+	//scene::ICameraSceneNode* camera = this->scene_manager->getActiveCamera();
 
 
-	
-	if (!camera )
-		return;
+
 		
 	try
 	{

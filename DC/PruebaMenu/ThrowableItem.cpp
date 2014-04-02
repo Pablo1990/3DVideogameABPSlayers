@@ -70,7 +70,7 @@ void ThrowableItem::attack(float first_x, float first_y, float last_x, float las
 
 			if (!camera )
 				return;
-
+			f32 far = camera->getFarValue();
 			this->shoot_anim(weapon_node->getScale(), camera->getRotation(), camera->getPosition(), 
 				camera->getTarget() - camera->getPosition(), camera->getFarValue());
 			shot = true;
@@ -87,8 +87,9 @@ void ThrowableItem::attack(int type, IAnimatedMeshSceneNode* node, vector3df pla
 	{
 		if(!shot && weapon_node)
 		{
-
-			this->shoot_anim(weapon_node->getScale(), node->getRotation(), node->getPosition(), player_position, 3000);
+			
+			this->shoot_anim(weapon_node->getScale(), node->getRotation(), node->getPosition(), vector3df(player_position.X,
+				player_position.Y + 100, player_position.Z), node->getPosition().getDistanceFrom(player_position) );
 			this->resist = 0;
 		}
 	}
