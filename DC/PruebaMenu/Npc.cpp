@@ -276,13 +276,16 @@ void Npc::setEnem(Player* p)
 
 void Npc::getPesosDeFichero(){
 	vector<double> vecPesos;
-	std::string pesos;
+	std::string pesos="";
 	ifstream myfile ("pesos.txt");
 	if (myfile.is_open())
 	{
 		char my_character ;
 		int number_of_lines = 0;
-
+		
+		getline(myfile, pesos);
+		getline(myfile, pesos);
+		pesos = "";
 		while (!myfile.eof() ) {
 			myfile.get(my_character);
 			pesos+=my_character;
