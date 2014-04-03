@@ -228,7 +228,10 @@ vector<SGenome> CGenAlg::Epoch(vector<SGenome> &old_pop)
 
 	//finished so assign new pop back into m_vecPop
 	m_vecPop = vecNewPop;
-
+	m_vecPop[0].dFitness=1000;
+	m_vecPop[1].dFitness=1000;
+	m_vecPop[2].dFitness=1000;
+	m_vecPop[3].dFitness=1000;
 	return m_vecPop;
 }
 
