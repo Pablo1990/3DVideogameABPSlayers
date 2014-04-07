@@ -251,6 +251,7 @@ vector<double> Npc::getPesosDeFichero(){
 			line = "";
 		}
 	}
+	vecPesos.push_back(atof(line.c_str()));
 
 	return vecPesos;
 }

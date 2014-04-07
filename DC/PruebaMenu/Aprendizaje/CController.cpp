@@ -295,7 +295,7 @@ bool CController::Update()
 			
 			fs<<"Best fitness: " <<m_pGA->BestFitness()<<endl;
 			
-			fs<<"Best pesos: ";
+			
 			for(int i = 0; i<m_pGA->GetBestWeights().size(); i++){
 				//cout<<m_pGA->GetBestWeights()[i]<<" ";
 				fs<<m_pGA->GetBestWeights()[i]<<" ";

@@ -255,7 +255,7 @@ void Juego::run()
 	{
 			int unavez=0;
 		
-	
+		CParams();	
 
 			cycles = 0;
 			npc=new Npc(device->getSceneManager(),new Sword(4,7,device->getSceneManager()),heal_camp->getPosition(), device, mapSelector);
