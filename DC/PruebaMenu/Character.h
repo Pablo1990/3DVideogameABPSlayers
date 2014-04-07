@@ -68,9 +68,9 @@ public:
 protected:
 
 	
-	IAnimatedMesh *character_mesh;
+	IAnimatedMesh *character_mesh;//Borrar al final
 	IAnimatedMeshSceneNode *character_node;
-	ISceneManager *scene_manager;
+	ISceneManager *scene_manager;//No se borra aqui, solo es una referencia
 	vector<IBoneSceneNode *> extremity;
 	vector<IBoneSceneNode *> head;
 	vector<IBoneSceneNode *> body;
@@ -89,7 +89,7 @@ protected:
 	bool is_dead;
 	int heal_tick;
 	int fire_tick;
-	double* types;
+	double* types;//Solo es una referencia
 
 };
 

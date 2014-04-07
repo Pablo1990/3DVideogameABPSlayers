@@ -1,3 +1,4 @@
+//#include <vld.h>
 #include <irrlicht.h>
 #include "BotonesMenu.h"
 #include "Menu.h"
@@ -40,4 +41,6 @@ int main()
 		game.setEstado(3);
 		game.run();
 	}
+
+	delete menu;
 }

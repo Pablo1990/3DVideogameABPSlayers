@@ -64,6 +64,41 @@ Character::Character(const char* path, ISceneManager *sm, Weapon* w)
 
 Character::~Character(void)
 {
+	if(this->character_node)
+	{
+		this->character_node->getParent()->removeChild(this->character_node);
+		this->character_node = 0;
+	}
+
+	//Esto son partes del nodo, imagino que si se borra el nodo estas tambien
+	for(int i = 0; i < this->extremity.size(); i++)
+	{
+		this->extremity[i] = 0;
+	}
+
+	//Esto son partes del nodo, imagino que si se borra el nodo estas tambien
+	for(int i = 0; i < this->head.size(); i++)
+	{
+		this->head[i] = 0;
+	}
+
+	//Esto son partes del nodo, imagino que si se borra el nodo estas tambien
+	for(int i = 0; i <this->body.size(); i++)
+	{
+		this->body[i] = 0;
+	}
+
+	if(this->sh)
+	{
+		delete this->sh;
+		this->sh = 0;
+	}
+
+	if(this->weapon)
+	{
+		delete this->weapon;
+		this->weapon = 0;
+	}
 }
 
 bool Character::get_is_dead()
