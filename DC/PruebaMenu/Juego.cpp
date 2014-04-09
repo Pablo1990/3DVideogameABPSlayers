@@ -16,11 +16,131 @@ Juego::Juego(video::E_DRIVER_TYPE d)
 
 Juego::~Juego(void)
 {
+
+	if(hud)
+	{
+		delete hud;
+		hud = 0;
+	}
+
+	if(statusText)
+	{
+		statusText->remove();
+		statusText = 0;
+	}
+
+	if(statusText2)
+	{
+		statusText2->remove();
+		statusText2 = 0;
+	}
+
+	if(campFire)
+	{
+		campFire->getParent()->removeChild(campFire);
+		campFire = 0;
+	}
+
+	if(heal_camp)
+	{
+		heal_camp->getParent()->removeChild(heal_camp);
+		heal_camp = 0;
+	}
+
+
+	if(skyboxNode)
+	{
+		skyboxNode->getParent()->removeChild(skyboxNode);
+		skyboxNode = 0;
+	}
+
+	if(npc)
+	{
+		delete npc;
+		npc = 0;
+	}
+
+	if(mente)
+	{
+		delete mente;
+		mente = 0;
+	}
+
+	if(player)
+	{
+		delete player;
+		player = 0;
+	}
+
+	if(selector)
+	{
+		selector->drop();
+		selector = 0;
+	}
+
+	if(collider)
+	{
+		collider->drop();
+		collider = 0;
+	}
+
+	if(armas)
+	{
+		std::list<Weapon*>::iterator it;
+		for(it = armas->begin(); it != armas->end(); it++)
+		{
+			if((*it))
+			{
+				delete (*it);
+				(*it) = 0;
+			}
+		}
+	}
+
+	if(types)
+	{
+		delete[] types;
+		types = 0;
+	}
+
+
+	if(camera)
+	{
+		camera->getParent()->removeChild(camera);
+		camera = 0;
+	}
+
 	if (mapSelector)
+	{
 		mapSelector->drop();
+		mapSelector = 0;
+	}
 
 	if (metaSelector)
+	{
 		metaSelector->drop();
+		metaSelector = 0;
+	}
+
+		if(metaModelSelector)
+	{
+		metaModelSelector->removeAllTriangleSelectors();
+		metaModelSelector->drop();
+		metaModelSelector = 0;
+	}
+
+	if(quakeLevelMesh)
+	{
+		quakeLevelMesh->drop();
+		quakeLevelMesh = 0;
+	}
+
+	if(quakeLevelNode)
+	{
+		quakeLevelNode->remove();
+		quakeLevelNode = 0;
+	}
+
 }
 
 void Juego::setEstado(int es)

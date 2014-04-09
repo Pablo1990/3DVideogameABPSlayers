@@ -26,7 +26,53 @@ Hud::Hud(IrrlichtDevice* device)
 
 Hud::~Hud(void)
 {
+	if(this->tab)
+	{
+		this->tab->getParent()->removeChild(this->tab);
+		this->tab = 0;
+	}
 
+	if(this->titulo)
+	{
+		this->titulo->getParent()->removeChild(this->titulo);
+		this->titulo = 0;
+	}
+
+	if(this->textSalud)
+	{
+		this->textSalud->getParent()->removeChild(this->textSalud);
+		this->textSalud = 0;
+	}
+
+	if(this->VSalud)
+	{
+		this->VSalud->getParent()->removeChild(this->VSalud);
+		this->VSalud = 0;
+	}
+
+	if(this->textDesgaste)
+	{
+		this->textDesgaste->getParent()->removeChild(this->textDesgaste);
+		this->textDesgaste = 0;
+	}
+
+	if(this->textCansancio)
+	{
+		this->textCansancio->getParent()->removeChild(this->textCansancio);
+		this->textCansancio = 0;
+	}
+
+	if(this->Cansancio)
+	{
+		this->Cansancio->getParent()->removeChild(this->Cansancio);
+		this->Cansancio = 0;
+	}
+
+	if(this->SaludBot)
+	{
+		this->SaludBot->getParent()->removeChild(this->SaludBot);
+		this->SaludBot = 0;
+	}
 }
 Hud::Hud()
 {
