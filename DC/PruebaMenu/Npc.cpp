@@ -1,4 +1,4 @@
-#include "Npc.h"
+Ôªø#include "Npc.h"
 
 
 Npc::Npc(ISceneManager *sm,vector3df pos, IrrlichtDevice* d, ITriangleSelector* mp): Character(knight_path, sm)
@@ -318,7 +318,7 @@ bool Npc::isEnemigoPresent()
 		int y=get_position().Z;
 		int distaux=sqrt(pow((x-x_E),2)+pow((y-y_E),2));
 
-		//POner distancia m·xima de visiÛn
+		//POner distancia m√°xima de visi√≥n
 		if(distaux <=500)
 		{
 			return true;
@@ -688,8 +688,8 @@ void Npc::pick_weapon()
 	//	//NECESITO UN METODO QUE ME DIGA SI EL ARMA VA CON O SIN ESCUDO, BOOLEANO QUE SE INICIE EN EL CONSTRUCTOR
 	//	//DE CADA ARMA AL VALOR QUE TOQUE; LUEGO RECUPERAR CON UN GET
 
-	//	//TAMBIEN ES NECESARIO QUE LOS VALORES DE A—ADIR AL NODO LOS PONGA LA CLASE DE CADA ARMA, PARA ABSTRAER Y QUE NO SEA
-	//	//NECESARIO CONOCER EL ARMA PARA A—ADIRLA
+	//	//TAMBIEN ES NECESARIO QUE LOS VALORES DE A√ëADIR AL NODO LOS PONGA LA CLASE DE CADA ARMA, PARA ABSTRAER Y QUE NO SEA
+	//	//NECESARIO CONOCER EL ARMA PARA A√ëADIRLA
 
 	//	this->replace_random_item(atoi(((std::string)this->near_weapon->get_weapon_node()->getName()).substr(strcspn(this->near_weapon->get_weapon_node()->getName(), "_") + 1).c_str()), items, device, mapSelector);
 
@@ -888,7 +888,7 @@ bool Npc::Update()
 
 	vector<double> inputs;
 	//metemos los inputs:
-	inputs.push_back(getPosPrX());
+	inputs.push_back(getPosPrX()); //poosiciones relativas todo
 	inputs.push_back(getPosPrY());
 	inputs.push_back(getPosEnemX());
 	inputs.push_back(getPosEnemY());
@@ -899,8 +899,9 @@ bool Npc::Update()
 	for(int i=0; i<4; i++)
 		inputs.push_back(getDesgastePr()[i]);
 
-	for(int i=0; i<6; i++)
+	for(int i=0; i<6; i++) //darle solo la ma≈õ cercana
 	{
+		//dar por tipos la m√°s cercana: Ej: de la espada pos X e y , 
 		inputs.push_back(getPosXItems()[i]);
 		inputs.push_back(getPosYItems()[i]);
 		inputs.push_back(getTypeItems()[i]);
@@ -915,12 +916,12 @@ bool Npc::Update()
 		return false;
 	}
 
-	//manda al juego lo que tiene que hacer en funciÛn del output
+	//manda al juego lo que tiene que hacer en funci√≥n del output
 
 	//outputs:  //en cada linea no simultaneos entre ellos
 	//Cubrirse: 0; ataque1: 1; ataque2: 2; ataque3: 3;
 	//VRotacion derecha: 4; VRotacion izquierda: 5;
-	//VMovimientoDelante: 6; VMovimientoAtr·s: 7;
+	//VMovimientoDelante: 6; VMovimientoAtr√°s: 7;
 
 
 	if(output[4]>output[5])
@@ -991,7 +992,7 @@ bool Npc::Update()
 			p.set(xp, p.Y, zp);
 			this->get_character_node()->setPosition(p);
 			//this->set_position(xp, p.Y, zp);
-			//cout<<"MovimientoDetr·s "<<xp<<" "<<zp<<endl;
+			//cout<<"MovimientoDetr√°s "<<xp<<" "<<zp<<endl;
 
 		}
 	}
@@ -1054,7 +1055,7 @@ bool Npc::Update()
 		this->pick_weapon();
 	}
 	return true;
-	//aqui se se supone que deberÌa actualizar inputs, pero eso
+	//aqui se se supone que deber√≠a actualizar inputs, pero eso
 	//se debera hacer al actuar (se encarga irrlicht)
 }
 
