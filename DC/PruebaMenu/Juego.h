@@ -50,9 +50,11 @@ public:
 	void replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelector* mapSelector);
 
 private:
+	bool cntinue;
 	video::E_DRIVER_TYPE driverType;
 	IrrlichtDevice *device;
 	Hud * hud;
+	Pathfinding*  pf;
 	s32 sceneStartTime;
 	gui::IGUIStaticText* statusText;
 	gui::IGUIStaticText* statusText2;

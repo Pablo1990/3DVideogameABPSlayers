@@ -287,10 +287,10 @@ void Player::drop_shield()
 {
 	try
 	{
-		if(sh != NULL && sh->get_weapon_node())
+		if(sh != 0 && sh->get_weapon_node())
 		{
 			cam->removeChild(sh->get_weapon_node());
-			sh->set_weapon_node(NULL);
+			sh->set_weapon_node(0);
 		}
 	}
 	catch(...)

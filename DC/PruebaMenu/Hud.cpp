@@ -26,11 +26,7 @@ Hud::Hud(IrrlichtDevice* device)
 
 Hud::~Hud(void)
 {
-	if(this->tab)
-	{
-		this->tab->getParent()->removeChild(this->tab);
-		this->tab = 0;
-	}
+
 
 	if(this->titulo)
 	{
@@ -73,6 +69,13 @@ Hud::~Hud(void)
 		this->SaludBot->getParent()->removeChild(this->SaludBot);
 		this->SaludBot = 0;
 	}
+	if(this->tab)
+	{
+		this->tab->getParent()->removeChild(this->tab);
+		this->tab = 0;
+	}
+
+	
 }
 Hud::Hud()
 {

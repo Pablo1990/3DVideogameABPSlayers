@@ -39,6 +39,11 @@ Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangl
 
 Npc::~Npc(void)
 {
+	if(this->weapon)
+	{
+		delete weapon;
+		weapon = 0;
+	}
 }
 
 void Npc::set_pathfinding(Pathfinding *pf)

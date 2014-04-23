@@ -16,6 +16,11 @@ Juego::Juego(video::E_DRIVER_TYPE d)
 
 Juego::~Juego(void)
 {
+	if(pf)
+	{
+		delete pf;
+		pf = 0;
+	}
 
 	if(hud)
 	{
@@ -95,6 +100,7 @@ Juego::~Juego(void)
 				(*it) = 0;
 			}
 		}
+		delete armas;
 	}
 
 	if(types)
@@ -140,7 +146,13 @@ Juego::~Juego(void)
 		quakeLevelNode->remove();
 		quakeLevelNode = 0;
 	}
+	
+	if(device)
+	{
+		device->closeDevice();
+	}
 
+	
 }
 
 void Juego::setEstado(int es)
@@ -222,10 +234,10 @@ void Juego::run()
 	int unavez=0;
 	hud=new Hud(device);
 		hud->drawHud(device,npc,player);
-	
+	cntinue = true;
 
 	cycles = 0;
-	while(device->run() && driver)
+	while(device->run() && driver && cntinue)
 	{
 		if (device->isWindowActive())
 		{
@@ -396,7 +408,7 @@ void Juego::run()
 
 		npc->PutWeights(m_vecThePopulation[0].vecWeights);
 		cout<<npc->GetNumberOfWeights()<<endl;
-	while(device->run() && driver)
+	while(device->run() && driver && cntinue)
 	{
 		if (device->isWindowActive())
 		{
@@ -696,7 +708,7 @@ void Juego::loadSceneData()
 	
 	Position p1(npc->get_position().X, 0, npc->get_position().Z);
 	Position p2(npc->get_position().X, 0, npc->get_position().Z);
-	Pathfinding* pf = new Pathfinding(p1, p2);
+	pf = new Pathfinding(p1, p2);
 	Position last_corner(1894.93, 150, 1294.88);
 	
 	vector<vector<Position>> obstacles;
@@ -760,6 +772,11 @@ void Juego::loadSceneData()
 		//Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
 			//ThrowableItem *sw3 = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
 	
+			//if(npc->get_weapon())
+			//{
+			//	delete npc->get_weapon();
+			//	npc->set_weapon(0);
+			//}
 			npc->set_weapon(sw3);
 			npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df( 0.02, 0.02, 0.02));
 			//npc->get_weapon()->set_resist(0);
@@ -825,7 +842,8 @@ bool Juego::OnEvent(const SEvent& event)
 		event.KeyInput.PressedDown == false)
 	{
 		// user wants to quit.
-		device->closeDevice();
+		//device->closeDevice();
+		cntinue = false;
 	}
 	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_G && event.KeyInput.PressedDown == true && player != NULL)
 	{
@@ -1043,7 +1061,10 @@ void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelecto
 				vector3df position = (*it)->get_main_position();
 			
 			
-				armas->remove(*it);
+				//armas->remove(*it);
+				delete (*it);
+				(*it) = 0;
+
 				srand((unsigned)time(0)); 
 				int r = rand();
 				r = r % 7;
