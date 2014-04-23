@@ -127,7 +127,7 @@ bool MyMenu::OnEvent(const SEvent& event)
 
 				case GUI_ID_QUIT_BUTTON:
 					device->closeDevice();
-					start = true;
+					start = false;
 					return false;
 
 				case GUI_ID_VOLVER_BUTTON:
