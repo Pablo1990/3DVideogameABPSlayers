@@ -3,6 +3,20 @@
 #include "Goal_Composite.h"
 using namespace std;
 
+Goal_Composite::~Goal_Composite()
+{
+	std::list<Goal*>::iterator it;
+	for(it = m_SubGoals.begin(); it != m_SubGoals.end(); it++)
+	{
+		if((*it))
+		{
+			delete (*it);
+			(*it) = 0;
+		}
+	}
+	m_SubGoals.clear();
+}
+
 void Goal_Composite::AddSubGoal(Goal *goal)
 {
 
@@ -61,6 +75,7 @@ void Goal_Composite::RemoveAllSubgoals()
     (*it)->Terminate();
 	//cout << "Bucle9" << endl;
     delete *it;
+	*it=0;
   }
 
   m_SubGoals.clear();
