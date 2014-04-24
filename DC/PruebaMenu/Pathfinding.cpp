@@ -159,19 +159,19 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 		vector<Position> p2;
 		if(sqrt(dx + dz + dy) < 40)
 		{
-			//if(expandidos)
-			//{
-			//	for (int i = minX; i < maxX; i++) {
-			//		for (int j = minZ; j < maxZ; j++) {
-			//			delete[] expandidos[i][j];
-			//			expandidos[i][j] = 0;
-			//		}
-			//		delete[] expandidos[i];
-			//		expandidos[i] = 0;
-			//	}
-			//	delete[] expandidos;
-			//	expandidos = 0;
-			//}
+			if(expandidos)
+			{
+				for (int i = minX; i < maxX; i++) {
+					for (int j = minZ; j < maxZ; j++) {
+						delete[] expandidos[i][j];
+						expandidos[i][j] = 0;
+					}
+					delete[] expandidos[i];
+					expandidos[i] = 0;
+				}
+				delete[] expandidos;
+				expandidos = 0;
+			}
 			return p2;
 		}
 
@@ -200,19 +200,19 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
             //En el caso de que este NodoPathfinding sea estado solución
 			if (listaInterior.size()>=10 || n.getNodo().getG()*espaciado >= pasos || ( n.getNodo().getPosition().getX() == pFin.getX() && n.getNodo().getPosition().getY() == pFin.getY() && n.getNodo().getPosition().getZ() == pFin.getZ())) {
                 //Sacamos por pantalla expandidos y el camino
-				//if(expandidos)
-				//{
-				//	for (int i = minX; i < maxX; i++) {
-				//		for (int j = minZ; j < maxZ; j++) {
-				//			delete[] expandidos[i][j];
-				//			expandidos[i][j] = 0;
-				//		}
-				//		delete[] expandidos[i];
-				//		expandidos[i] = 0;
-				//	}
-				//	delete[] expandidos;
-				//	expandidos = 0;
-				//}
+				if(expandidos)
+				{
+					for (int i = minX; i < maxX; i++) {
+						for (int j = minZ; j < maxZ; j++) {
+							delete[] expandidos[i][j];
+							expandidos[i][j] = 0;
+						}
+						delete[] expandidos[i];
+						expandidos[i] = 0;
+					}
+					delete[] expandidos;
+					expandidos = 0;
+				}
                 return reconstruirCamino(n, expandidos);
             }
             //Creamos los hijos posibles para el NodoPathfinding actual n.
@@ -276,19 +276,19 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 					
 
 		vector<Position> p;
-		//if(expandidos)
-		//{
-		//	for (int i = minX; i < maxX; i++) {
-		//		for (int j = minZ; j < maxZ; j++) {
-		//			delete[] expandidos[i][j];
-		//			expandidos[i][j] = 0;
-		//		}
-		//		delete[] expandidos[i];
-		//		expandidos[i] = 0;
-		//	}
-		//	delete[] expandidos;
-		//	expandidos = 0;
-		//}
+		if(expandidos)
+		{
+			for (int i = minX; i < maxX; i++) {
+				for (int j = minZ; j < maxZ; j++) {
+					delete[] expandidos[i][j];
+					expandidos[i][j] = 0;
+				}
+				delete[] expandidos[i];
+				expandidos[i] = 0;
+			}
+			delete[] expandidos;
+			expandidos = 0;
+		}
         //Si no ha encontrado solución
 		return p;
 }
@@ -783,6 +783,11 @@ void Pathfinding::imprimirCamino(){
 			m = m->getPadre();
         }
 		std::reverse(camino.begin(), camino.end());
+		if(m)
+		{
+			delete m;
+			m = NULL;
+		}
 		return camino;
     }
      
