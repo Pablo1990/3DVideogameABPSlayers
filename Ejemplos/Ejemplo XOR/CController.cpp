@@ -166,7 +166,7 @@ bool CController::Update()
 
 			//see if it's found a mine
 			cout<<"El resultado de "<<m_vecSweepers[i].getDigito1()<<" xor "<<m_vecSweepers[i].getDigito2()<<" ha sido "<<m_vecSweepers[i].getResultado()<<endl;
-			if(m_vecSweepers[i].getResultado() == (m_vecSweepers[i].getDigito1() ^ m_vecSweepers[i].getDigito2()))
+			if(m_vecSweepers[i].getResultado() == (m_vecSweepers[i].getDigito1() != m_vecSweepers[i].getDigito2()))
 			{
 				//aumento fitness
 				m_vecSweepers[i].aumentoFitness();
@@ -221,7 +221,6 @@ void CController::Render(HDC surface)
 	string s = "Generation:          " + itos(m_iGenerations);
 	TextOut(surface, 5, 0, s.c_str(), s.size());
 
-	Update();
 	PlotStats(surface);
 }
 
