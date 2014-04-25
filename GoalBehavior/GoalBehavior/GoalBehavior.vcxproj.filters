@@ -30,31 +30,31 @@
     <ClInclude Include="Window_Scene.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="aprendizaje\C2DMatrix.h">
+    <ClInclude Include="C2DMatrix.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="aprendizaje\CController.h">
+    <ClInclude Include="CController.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="aprendizaje\CGenAlg.h">
+    <ClInclude Include="CGenAlg.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="aprendizaje\CNeuralNet.h">
+    <ClInclude Include="CNeuralNet.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="aprendizaje\CParams.h">
+    <ClInclude Include="CParams.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="aprendizaje\CTimer.h">
+    <ClInclude Include="CTimer.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="aprendizaje\SVector2D.h">
+    <ClInclude Include="SVector2D.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="aprendizaje\utils.h">
+    <ClInclude Include="utils.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="aprendizaje\xor.h">
+    <ClInclude Include="xor.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,32 +71,32 @@
     <ClCompile Include="Window_Scene.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="aprendizaje\C2DMatrix.cpp">
+    <ClCompile Include="C2DMatrix.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="aprendizaje\CController.cpp">
+    <ClCompile Include="CController.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="aprendizaje\CGenAlg.cpp">
+    <ClCompile Include="CGenAlg.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="aprendizaje\CNeuralNet.cpp">
+    <ClCompile Include="CNeuralNet.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="aprendizaje\CParams.cpp">
+    <ClCompile Include="CParams.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="aprendizaje\CTimer.cpp">
+    <ClCompile Include="CTimer.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="aprendizaje\utils.cpp">
+    <ClCompile Include="utils.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="aprendizaje\xor.cpp">
+    <ClCompile Include="xor.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="aprendizaje\params.ini" />
+    <None Include="params.ini" />
   </ItemGroup>
 </Project>

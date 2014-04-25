@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "xor.h"
 
 
@@ -79,7 +80,7 @@ void xor::getPosMasCercano(double& x, double &y){
 }
 
 void xor::posEntreCeroYUno(double &y){
-	double y = y/(sqrt(2)*dimMapa);
+	y = y/(sqrt(2)*dimMapa);
 	Clamp(y, 0, 1);
 }
 
@@ -97,11 +98,13 @@ double xor::Fitness(){
 }
 
 bool xor::estoyEnObjeto(){
-	for (int i = 0; i < itemsX.size(); i++)
+	for (int i = 0; i < itemsX.size(); i++){
 		if(itemsX[i] == posX && itemsY[i] == posY)
 		{
 			itemsX[i] = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 			itemsY[i] = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 			return true;
 		}
+	}
+	return false;
 }
