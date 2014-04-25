@@ -89,12 +89,29 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="aprendizaje\C2DMatrix.h" />
+    <ClInclude Include="aprendizaje\CController.h" />
+    <ClInclude Include="aprendizaje\CGenAlg.h" />
+    <ClInclude Include="aprendizaje\CNeuralNet.h" />
+    <ClInclude Include="aprendizaje\CParams.h" />
+    <ClInclude Include="aprendizaje\CTimer.h" />
+    <ClInclude Include="aprendizaje\SVector2D.h" />
+    <ClInclude Include="aprendizaje\utils.h" />
+    <ClInclude Include="aprendizaje\xor.h" />
     <ClInclude Include="Bot.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Window_Scene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="aprendizaje\C2DMatrix.cpp" />
+    <ClCompile Include="aprendizaje\CController.cpp" />
+    <ClCompile Include="aprendizaje\CGenAlg.cpp" />
+    <ClCompile Include="aprendizaje\CNeuralNet.cpp" />
+    <ClCompile Include="aprendizaje\CParams.cpp" />
+    <ClCompile Include="aprendizaje\CTimer.cpp" />
+    <ClCompile Include="aprendizaje\utils.cpp" />
+    <ClCompile Include="aprendizaje\xor.cpp" />
     <ClCompile Include="Bot.cpp" />
     <ClCompile Include="GoalBehavior.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -102,6 +119,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Window_Scene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="aprendizaje\params.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
