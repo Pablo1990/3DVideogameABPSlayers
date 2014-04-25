@@ -93,7 +93,7 @@ private:
 
 public:
 
-	CController(HWND hwndMain);
+	CController();
 
 	~CController();
 
