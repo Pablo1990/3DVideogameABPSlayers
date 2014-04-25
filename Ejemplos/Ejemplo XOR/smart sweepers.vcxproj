@@ -137,6 +137,7 @@
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="xor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C2DMatrix.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="SVector2D.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="xor.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon1.ico" />
