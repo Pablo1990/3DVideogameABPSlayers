@@ -164,17 +164,7 @@ bool CController::Update()
 				return false;
 			}
 
-			//see if it's found a mine
-			cout<<"El resultado de "<<m_vecSweepers[i].getDigito1()<<" xor "<<m_vecSweepers[i].getDigito2()<<" ha sido "<<m_vecSweepers[i].getResultado()<<endl;
-			if(m_vecSweepers[i].getResultado() == (m_vecSweepers[i].getDigito1() != m_vecSweepers[i].getDigito2()))
-			{
-				//aumento fitness
-				m_vecSweepers[i].aumentoFitness();
-				cout<<"CORRECTO"<<endl;
-			}
-			else{
-				cout<<"INCORRECTO"<<endl;
-			}
+			updateFitness();
 
 			//update the chromos fitness score
 			m_vecThePopulation[i].dFitness = m_vecSweepers[i].Fitness();
@@ -212,6 +202,12 @@ bool CController::Update()
 
 	return true;
 }
+
+void CController::updateFitness(int i){
+	if(m_vecSweepers[i].estoyEnObjeto())
+		m_vecSweepers[i].aumentoFitness();
+}
+
 //------------------------------------Render()--------------------------------------
 //
 //----------------------------------------------------------------------------------
