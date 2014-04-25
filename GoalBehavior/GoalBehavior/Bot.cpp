@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Bot.h"
 
+using namespace std;
 
 Bot::Bot(double salud_,double posx_,double posy_,double arma_)
 {
@@ -10,7 +11,7 @@ Bot::Bot(double salud_,double posx_,double posy_,double arma_)
 	arma=arma_;
 	//Meto aqui los items para poner por el mapa
 		
-		pair<double,double> pos;
+		std::pair<double,double> pos;
 		pos.first=15*25;
 		pos.second=10*25;
 		Item i=Item(pos,2);
@@ -65,11 +66,6 @@ void Bot::setEnem(Bot* bot_)
 	
 	enemigo=bot_;
 }
-void Bot::setBrain(Goal_Think* brain_)
-{
-	
-	mente=brain_;
-}
 
 
 //Si el bot enemigo esta dentro de un rango entonces dirá que si esta presente y entonces pueda realizar el objetivo de ataque.
@@ -96,13 +92,13 @@ double Bot::getSalud()
 {
 	return salud;
 }
-pair<double,double> Bot::getPos()
+std::pair<double,double> Bot::getPos()
 {
 	return Pos;
 
 
 }
-pair<double,double> Bot::DarPosSalud()
+std::pair<double,double> Bot::DarPosSalud()
 {
 	for (std::list<Item>::iterator it = items.begin();
        it != items.end();
@@ -115,10 +111,10 @@ pair<double,double> Bot::DarPosSalud()
 		}
 
 }
-pair<double,double> Bot::DarPosArmaCercana()
+std::pair<double,double> Bot::DarPosArmaCercana()
 {
 	int distancia=9999.9;
-	pair<double,double> pos;
+	std::pair<double,double> pos;
 	for (std::list<Item>::iterator it = items.begin();
        it != items.end();
        ++it)
@@ -146,7 +142,7 @@ bool Bot::MoverseAItemArma()
 	int ran=rand()%8;
 	int posx=0;
 	int posy=0;
-	pair<double,double> pos=DarPosArmaCercana();
+	std::pair<double,double> pos=DarPosArmaCercana();
 	//cout<<"rand"<<ran<<pos.first<<"   "<<pos.second<<";"<<endl;
 	//cout<<"Me muevo"<<endl;
 	while(muevo ==false)
@@ -243,7 +239,7 @@ bool Bot::MoverseAEnemigo()
 	int ran=rand()%8;
 	int posx=0;
 	int posy=0;
-	pair<double,double> pos=getEnem()->getPos();
+	std::pair<double,double> pos=getEnem()->getPos();
 	//cout<<"rand"<<ran<<pos.first<<"   "<<pos.second<<";"<<endl;
 	//cout<<"Me muevo"<<endl;
 	while(muevo ==false)
@@ -340,7 +336,7 @@ bool Bot::Move_Explore()
 	int ran=rand()%8;
 	int posx=0;
 	int posy=0;
-	pair<double,double> pos=getPos();
+	std::pair<double,double> pos=getPos();
 	
 	while(muevo ==false)
 	{
@@ -435,7 +431,7 @@ bool Bot::Move_ToFreeAttack()
 	int ran=rand()%8;
 	int posx=0;
 	int posy=0;
-	pair<double,double> pos=getPos();
+	std::pair<double,double> pos=getPos();
 	cout<<pos.first<<" "<<pos.second<<endl;
 	while(muevo ==false)
 	{
@@ -530,7 +526,7 @@ bool Bot::MoverseAItemSalud()
 	int ran=rand()%8;
 	int posx=0;
 	int posy=0;
-	pair<double,double> pos=DarPosSalud();
+	std::pair<double,double> pos=DarPosSalud();
 	while(muevo ==false)
 	{
 		switch (ran)
@@ -635,7 +631,3 @@ void Bot::setSalud(double salud_)
 
 }
 
-Goal_Think* Bot::getBrain()
-{
-	return mente;
-}

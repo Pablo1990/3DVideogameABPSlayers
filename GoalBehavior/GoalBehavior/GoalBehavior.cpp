@@ -20,10 +20,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	enemigoPrincipal->setEnem(jugador);
 	jugador->setEnem(enemigoPrincipal);
 	
-	Goal_Think *g=new Goal_Think();
 	
-	g->setDueño(enemigoPrincipal);
-	enemigoPrincipal->setBrain(g);
 	Window_Scene scene=Window_Scene(enemigoPrincipal,jugador);
 
     //El programa se ejecutara mientras la ventana este abierta
@@ -40,9 +37,7 @@ int _tmain(int argc, _TCHAR* argv[])
               scene.window.close();
 
 			//system("PAUSE");
-			g->Arbitrate();
-			g->ProcessSubgoals();
-			cout<<endl;
+			
 			cout<<"----------"<<endl;
 
 			scene.moverJugador(event,jugador,enemigoPrincipal);
