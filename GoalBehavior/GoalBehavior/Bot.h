@@ -9,7 +9,8 @@
 
 
 const int Distancia_Max_Vision=4*25;
-
+const int dimMapa = 475;
+const int dimCasilla = 25;
 
 using namespace std;
 
@@ -29,21 +30,55 @@ class Bot
 {
 private: 
 		double salud;
-		std::pair<double,double> Pos;
+		CNeuralNet m_ItsBrain;
+		double posX;
+		double posY;
 		double arma;//Sera el valor del estado del arma cuando sea 0 es cuando el bot no tendrá arma y 1 si está el arma en perfecto estado
-	
+		double fitness;
+		double movimientoX;
+		double movimientoY;
+		vector<int> itemsX;
+		vector<int> itemsY;
 		Bot* enemigo;
 		
 		
 public:
-	Bot(double,double,double,double);
+	Bot();
+	void Reset();
+	bool Update();
+	double getPosObjetoCercanoX();
+	double getPosObjetoCercanoY();
+	double Fitness();
+	void PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
+	int GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
+	void aumentoFitness() {fitness++;}
+	void crearListaObjetos();
+	void getPosMasCercano(double &, double &);
+	double getDistanciaABot(double x, double y);
+	void getPosRelativaABot(double &, double &);
+	void posEntreCeroYUno(double&);
+	bool estoyEnObjeto();
+	void setPosition(double x, double y)
+	{
+		posX=x;
+		posY=y;
+	}
+	double getposX()
+	{
+		return posX;
+	}
+	double getposY()
+	{
+		return posY;
+	}
 	void setSalud(double);
-	void setPosition(double,double);
+	
 	bool MoverseAItemSalud();
 	bool MoverseAItemArma();
 	bool MoverseAEnemigo();
 	bool Move_Explore();
 	bool Move_ToFreeAttack();
+	
 	std::pair<double,double> DarPosSalud();
 	std::pair<double,double> DarPosArmaCercana();
 	void setArma(double);
@@ -52,7 +87,7 @@ public:
 	bool isEnemigoPresent();
 	
 	double getSalud();
-	std::pair<double,double> getPos();
+
 	double getArma();
 	
 

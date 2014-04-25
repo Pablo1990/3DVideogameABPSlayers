@@ -7,8 +7,7 @@
 #include "SVector2D.h"
 #include "CParams.h"
 
-const int dimMapa = 475;
-const int dimCasilla = 25;
+
 
 using namespace std;
 

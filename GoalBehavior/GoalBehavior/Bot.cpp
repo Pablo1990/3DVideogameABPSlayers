@@ -3,51 +3,115 @@
 
 using namespace std;
 
-Bot::Bot(double salud_,double posx_,double posy_,double arma_)
+Bot::Bot()
 {
-	salud=salud_;
-	Pos.first=posx_;
-	Pos.second=posy_;
-	arma=arma_;
-	//Meto aqui los items para poner por el mapa
-		
-		std::pair<double,double> pos;
-		pos.first=15*25;
-		pos.second=10*25;
-		Item i=Item(pos,2);
-		//item
-		items.push_front(i);
-		//item
-		pos.first=19*25;
-		pos.second=5*25;
-		i=Item::Item(pos,2);
-		items.push_front(i);
-		//item
-		pos.first=5*25;
-		pos.second=15*25;
-		i=Item::Item(pos,2);
-		items.push_front(i);
-		//item
-		pos.first=12*25;
-		pos.second=5*25;
-		i=Item::Item(pos,2);
-		items.push_front(i);
-		//item
-		pos.first=4*25;
-		pos.second=5*25;
-		i=Item::Item(pos,2);
-		items.push_front(i);
-		//item
-		pos.first=15*25;
-		pos.second=0*25;
-		i=Item::Item(pos,1);
-		items.push_front(i);
+	salud=100;
+	arma=15;
+	fitness = 0;
+	posX= RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+	posY = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+	crearListaObjetos();
 
 }
+void Bot::crearListaObjetos(){
 
+	itemsX.push_back(15*dimCasilla);
+	itemsY.push_back(10*dimCasilla);
+	itemsX.push_back(19*dimCasilla);
+	itemsY.push_back(5*dimCasilla);
+	itemsX.push_back(5*dimCasilla);
+	itemsY.push_back(15*dimCasilla);
+	itemsX.push_back(15*dimCasilla);
+	itemsY.push_back(10*dimCasilla);
+	itemsX.push_back(12*dimCasilla);
+	itemsY.push_back(5*dimCasilla);
+	itemsX.push_back(4*dimCasilla);
+	itemsY.push_back(5*dimCasilla);
+	itemsX.push_back(15*dimCasilla);
+	itemsY.push_back(0*dimCasilla);
+}
 
 Bot::~Bot(void)
 {
+}
+
+void Bot:: Reset()
+{
+	posX = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+	posY = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+}
+
+bool Bot :: Update()
+{
+	vector<double> inputs;
+	double x = 0;
+	double y = 0;
+	getPosMasCercano(x, y);
+	inputs.push_back(x);
+	inputs.push_back(y);
+	vector<double> output = m_ItsBrain.Update(inputs);
+	if (output.size() < CParams::iNumOutputs) 
+	{
+		cerr<<"ERROR"<<endl;
+		return false;
+	}
+	//me muevo hacia la izquierda
+	movimientoX = 0;
+	if(output[0]>=0.6)
+		movimientoX = dimCasilla;
+
+	movimientoY = 0;
+	if(output[1]>=0.6)
+		movimientoY = dimCasilla;
+
+	return true;
+}
+
+void Bot :: getPosMasCercano(double& x, double &y){
+	int distancia=9999.9;
+	for (int i = 0; i < itemsX.size(); i++)
+	{
+		double distanciaAct = getDistanciaABot(itemsX[i], itemsY[i]);
+		if(distanciaAct < distancia){
+			distancia = distanciaAct;
+			x = itemsX[i];
+			y = itemsY[i];
+		}
+	}
+	getPosRelativaABot(x,y);
+	posEntreCeroYUno(x);
+	posEntreCeroYUno(y);
+}
+void Bot :: posEntreCeroYUno(double &y){
+	y = y/(sqrt(2)*dimMapa);
+	Clamp(y, 0, 1);
+}
+
+void Bot :: getPosRelativaABot(double &x, double &y){
+	x = abs(x - posX);
+	y = abs(y - posY);
+}
+
+double Bot::getDistanciaABot(double x, double y){
+	return abs(sqrt(pow(posX, 2)+pow(posY,2)) - sqrt(pow(x, 2)+pow(y,2)));
+}
+
+double Bot::Fitness()
+{
+	return fitness;
+}
+
+
+bool Bot ::estoyEnObjeto(){
+	for (int i = 0; i < itemsX.size(); i++){
+		if(itemsX[i] == posX && itemsY[i] == posY)
+		{
+			itemsX[i] = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+			itemsY[i] = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+			return true;
+		}
+	}
+	return false;
 }
 
 double Bot:: getArma()
@@ -68,36 +132,13 @@ void Bot::setEnem(Bot* bot_)
 }
 
 
-//Si el bot enemigo esta dentro de un rango entonces dirá que si esta presente y entonces pueda realizar el objetivo de ataque.
-bool Bot::isEnemigoPresent()
-{
-	if(enemigo !=NULL)
-	{
-		int x_E=enemigo->Pos.first;
-		int y_E=enemigo->Pos.second;
-		int x=Pos.first;
-		int y=Pos.second;
-		int distaux=sqrt(pow((x-x_E),2)+pow((y-y_E),2));
-		if(distaux <=Distancia_Max_Vision)
-		{
-			return true;
-		}
-		//cout<<"entro Distancia:"<<distaux<<endl;
-	}
-	return false;
-
-}
 
 double Bot::getSalud()
 {
 	return salud;
 }
-std::pair<double,double> Bot::getPos()
-{
-	return Pos;
 
-
-}
+/*
 std::pair<double,double> Bot::DarPosSalud()
 {
 	for (std::list<Item>::iterator it = items.begin();
@@ -111,128 +152,8 @@ std::pair<double,double> Bot::DarPosSalud()
 		}
 
 }
-std::pair<double,double> Bot::DarPosArmaCercana()
-{
-	int distancia=9999.9;
-	std::pair<double,double> pos;
-	for (std::list<Item>::iterator it = items.begin();
-       it != items.end();
-       ++it)
-		{
-			if((*it).typeItem==2)
-			{
-				
-				double distaux=sqrt((pow((Pos.first-(*it).Pos.first),2))+(pow((Pos.second-(*it).Pos.second),2)));
-				//Estandarizamos
-				
-				
-				if(distaux <=distancia)
-				{
-					distancia=distaux;
-					pos=(*it).Pos;
-				}
-			}
-		}
-	return pos;
-
-}
-bool Bot::MoverseAItemArma()
-{
-	bool muevo=false;
-	int ran=rand()%8;
-	int posx=0;
-	int posy=0;
-	std::pair<double,double> pos=DarPosArmaCercana();
-	//cout<<"rand"<<ran<<pos.first<<"   "<<pos.second<<";"<<endl;
-	//cout<<"Me muevo"<<endl;
-	while(muevo ==false)
-	{
-		switch (ran)
-		{
-		case 0:	posx=pos.first-25;
-				posy=pos.second-25;
-				if(posx>=0  && posy>=0)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 1:	posx=pos.first;
-				posy=pos.second-25;
-		if(posx>=0  && posy>=0)
-		{
-			muevo=true;
-			Pos.first=posx;
-			Pos.second=posy;
-		}		
-		break;
-		case 2:	posx=pos.first+25;
-				posy=pos.second-25;
-				if(posx<=475  && posy>=0)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 3:	posx=pos.first+25;
-				posy=pos.second;
-				if(posx<=475  && posy>=0)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-
-		case 4:	posx=pos.first+25;
-				posy=pos.second+25;
-				if(posx<=475  && posy<=475)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 5:	posx=pos.first;
-				posy=pos.second+25;
-				if(posx<=475  && posy<=475)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 6:	posx=pos.first-25;
-				posy=pos.second+25;
-				if(posx>=0  && posy<=475)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 7:	posx=pos.first-25;
-			posy=pos.second;
-			if(posx>=0  && posy<=475)
-			{
-				muevo=true;
-				Pos.first=posx;
-				Pos.second=posy;
-			}		
-			break;
-		
-		
-		default:
-			break;
-		}
-		ran=rand()%8;
-	}
-	
-	return true;
-
-}
+*/
+/*
 bool Bot::MoverseAEnemigo()
 {
 	bool muevo=false;
@@ -330,301 +251,13 @@ bool Bot::MoverseAEnemigo()
 
 
 }
-bool Bot::Move_Explore()
-{
-	bool  muevo=false;
-	int ran=rand()%8;
-	int posx=0;
-	int posy=0;
-	std::pair<double,double> pos=getPos();
-	
-	while(muevo ==false)
-	{
-		
-		switch (ran)
-		{
-		case 0:	posx=pos.first-25;
-				posy=pos.second-25;
-				if(posx>=0  && posy>=0)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 1:	posx=pos.first;
-				posy=pos.second-25;
-		if(posx>=0  && posy>=0)
-		{
-			muevo=true;
-			Pos.first=posx;
-			Pos.second=posy;
-		}		
-		break;
-		case 2:	posx=pos.first+25;
-				posy=pos.second-25;
-				if(posx<=475  && posy>=0)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 3:	posx=pos.first+25;
-				posy=pos.second;
-				if(posx<=475  && posy>=0)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-
-		case 4:	posx=pos.first+25;
-				posy=pos.second+25;
-				if(posx<=475  && posy<=475)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 5:	posx=pos.first;
-				posy=pos.second+25;
-				if(posx<=475  && posy<=475)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 6:	posx=pos.first-25;
-				posy=pos.second+25;
-				if(posx>=0  && posy<=475)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 7:	posx=pos.first-25;
-			posy=pos.second;
-			if(posx>=0  && posy<=475)
-			{
-				muevo=true;
-				Pos.first=posx;
-				Pos.second=posy;
-			}		
-			break;
-		default:
-			break;
-		}
-		ran=rand()%8;
-	}
-	//int pos
-	return true;
-
-}
-bool Bot::Move_ToFreeAttack()
-{
-	bool  muevo=false;
-	int ran=rand()%8;
-	int posx=0;
-	int posy=0;
-	std::pair<double,double> pos=getPos();
-	cout<<pos.first<<" "<<pos.second<<endl;
-	while(muevo ==false)
-	{
-		
-		switch (ran)
-		{
-		case 0:	posx=pos.first-(25*5);
-				posy=pos.second-(25*5);
-				if(posx>=0  && posy>=0)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 1:	posx=pos.first;
-				posy=pos.second-(25*5);
-		if(posx>=0  && posy>=0)
-		{
-			muevo=true;
-			Pos.first=posx;
-			Pos.second=posy;
-		}		
-		break;
-		case 2:	posx=pos.first+(25*5);
-				posy=pos.second-(25*5);
-				if(posx<=475  && posy>=0)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 3:	posx=pos.first+(25*5);
-				posy=pos.second;
-				if(posx<=475  && posy>=0)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-
-		case 4:	posx=pos.first+(25*5);
-				posy=pos.second+(25*5);
-				if(posx<=475  && posy<=475)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 5:	posx=pos.first;
-				posy=pos.second+(25*5);
-				if(posx<=475  && posy<=475)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 6:	posx=pos.first-(25*5);
-				posy=pos.second+(25*5);
-				if(posx>=0  && posy<=475)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 7:	posx=pos.first-(25*5);
-			posy=pos.second;
-			if(posx>=0  && posy<=475)
-			{
-				muevo=true;
-				Pos.first=posx;
-				Pos.second=posy;
-			}		
-			break;
-		default:
-			break;
-		}
-		ran=rand()%8;
-	}
-	//int pos
-	return true;
-
-}
-bool Bot::MoverseAItemSalud()
-{
-	bool muevo=false;
-	int ran=rand()%8;
-	int posx=0;
-	int posy=0;
-	std::pair<double,double> pos=DarPosSalud();
-	while(muevo ==false)
-	{
-		switch (ran)
-		{
-		case 0:	posx=pos.first-25;
-				posy=pos.second-25;
-				if(posx>=0  && posy>=0)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 1:	posx=pos.first;
-				posy=pos.second-25;
-		if(posx>=0  && posy>=0)
-		{
-			muevo=true;
-			Pos.first=posx;
-			Pos.second=posy;
-		}		
-		break;
-		case 2:	posx=pos.first+25;
-				posy=pos.second-25;
-				if(posx<=475  && posy>=0)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 3:	posx=pos.first+25;
-				posy=pos.second;
-				if(posx<=475  && posy>=0)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-
-		case 4:	posx=pos.first+25;
-				posy=pos.second+25;
-				if(posx<=475  && posy<=475)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 5:	posx=pos.first;
-				posy=pos.second+25;
-				if(posx<=475  && posy<=475)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 6:	posx=pos.first-25;
-				posy=pos.second+25;
-				if(posx>=0  && posy<=475)
-				{
-					muevo=true;
-					Pos.first=posx;
-					Pos.second=posy;
-				}		
-				break;
-		case 7:	posx=pos.first-25;
-			posy=pos.second;
-			if(posx>=0  && posy<=475)
-			{
-				muevo=true;
-				Pos.first=posx;
-				Pos.second=posy;
-			}		
-			break;
-		
-		
-		default:
-			break;
-		}
-		ran=rand()%8;
-	}
-	//int pos
-	return true;
-
-}
+*/
 void Bot::setArma(double est_arma)
 {
 	arma=est_arma;
 
 }
-void Bot::setPosition(double posx_,double posy_)
-{
-	Pos.first=posx_;
-	Pos.second=posy_;
-}
+
 void Bot::setSalud(double salud_)
 {
 	salud=salud_;

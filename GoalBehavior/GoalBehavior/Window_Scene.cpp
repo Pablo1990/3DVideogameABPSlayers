@@ -40,8 +40,8 @@ Window_Scene::Window_Scene(Bot *enem,Bot *j)
 	radio_vision.setOutlineColor(sf::Color::Green);
 	radio_vision.setOutlineThickness(1.0);
 	radio_vision.setFillColor(sf::Color::Transparent);
-	j1.setPosition(j->getPos().first,j->getPos().second);
-	bot.setPosition(enem->getPos().first,enem->getPos().second);
+	j1.setPosition(j->getposX(),j->getposY());
+	bot.setPosition(enem->getposX(),enem->getposY());
 
 	
 	//cout<<"centro"<<j1.getOrigin().x<<" "<<j1.getOrigin().x<<endl;
@@ -145,8 +145,8 @@ void Window_Scene::cargarEscenario(Bot *enem,Bot *j)
 			window.draw(itemspr[i]);
 		}
 		
-	j1.setPosition(j->getPos().first,j->getPos().second);
-	bot.setPosition(enem->getPos().first,enem->getPos().second);
+	j1.setPosition(j->getposX(),j->getposY());
+	bot.setPosition(enem->getposX(),enem->getposY());
 		radio_vision.setPosition((bot.getPosition().x+bot.getRadius())-radio_vision.getRadius(),(bot.getPosition().y+bot.getRadius())-radio_vision.getRadius());
 		window.draw(radio_vision);
 
@@ -192,28 +192,28 @@ void Window_Scene::moverJugador(sf::Event mov,Bot *jug_,Bot * enem_)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && j1.getPosition().y >=25)
 	{
 		j1.move(0,(-25));
-		jug_->setPosition(jug_->getPos().first,jug_->getPos().second-25);
+		jug_->setPosition(jug_->getposX(),jug_->getposY()-25);
 
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && j1.getPosition().x >=25)
 	{
 		j1.move((-25),0);
-		jug_->setPosition(jug_->getPos().first-25,jug_->getPos().second);
+		jug_->setPosition(jug_->getposX()-25,jug_->getposY());
 	}
 	
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && j1.getPosition().x <475)
 	{
 		j1.move(25,0);
-		jug_->setPosition(jug_->getPos().first+25,jug_->getPos().second);
+		jug_->setPosition(jug_->getposX()+25,jug_->getposY());
 	}
 	
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && j1.getPosition().y < 475)
 	{
 		j1.move(0,25);
 		
-		jug_->setPosition(jug_->getPos().first,jug_->getPos().second+25);
+		jug_->setPosition(jug_->getposX(),jug_->getposY()+25);
 	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && ((abs( jug_->getPos().first-enem_->getPos().first)<=25) && (abs( jug_->getPos().second-enem_->getPos().second)<=25)))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && ((abs( jug_->getposX()-enem_->getposX())<=25) && (abs( jug_->getposY()-enem_->getposY())<=25)))
 	{
 		enem_->setSalud(enem_->getSalud()-5);
 	}

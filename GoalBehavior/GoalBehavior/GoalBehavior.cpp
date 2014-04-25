@@ -14,8 +14,8 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 		//Declaramos los bot y la memoria del juego
 	CParams();
-	Bot *jugador=new Bot(100.0,475,475,10.0);
-	Bot *enemigoPrincipal=new Bot(100.0,450,450,5.0);
+	Bot *jugador=new Bot();
+	Bot *enemigoPrincipal=new Bot();
 	CController* controller = new CController();
 	enemigoPrincipal->setEnem(jugador);
 	jugador->setEnem(enemigoPrincipal);
@@ -41,7 +41,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			cout<<"----------"<<endl;
 
 			scene.moverJugador(event,jugador,enemigoPrincipal);
-			controller->Update();
+			//controller->Update();
 			if(jugador->getSalud()==0 )
 			{
 				
