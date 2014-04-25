@@ -6,6 +6,7 @@ xor::xor(void)
 	fitness = 0;
 	digito1 = RandInt(0,1);
 	digito2 = RandInt(0,1);
+	resultado = 0;
 }
 
 
@@ -30,7 +31,12 @@ bool xor::Update()
 		cerr<<"ERROR"<<endl;
 		return false;
 	}
-	resultado = output[0];
+
+	if(output[0]>=0.9)
+		resultado = 1;
+	else
+		resultado = 0;
+
 	
 	return true;
 }
