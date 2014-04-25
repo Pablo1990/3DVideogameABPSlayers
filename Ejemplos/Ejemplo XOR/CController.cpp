@@ -51,7 +51,7 @@ CController::CController(HWND hwndMain): m_NumSweepers(CParams::iNumSweepers),
 	//let's create the mine sweepers
 	for (int i=0; i<m_NumSweepers; ++i)
 	{
-		m_vecSweepers.push_back(CMinesweeper());
+		m_vecSweepers.push_back(xor());
 	}
 
 	//get the total number of weights used in the sweepers
@@ -221,7 +221,7 @@ void CController::Render(HDC surface)
 	string s = "Generation:          " + itos(m_iGenerations);
 	TextOut(surface, 5, 0, s.c_str(), s.size());
 
-
+	Update();
 	PlotStats(surface);
 }
 
