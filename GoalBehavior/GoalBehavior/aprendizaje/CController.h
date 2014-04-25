@@ -104,6 +104,8 @@ public:
 	
 	bool		Update();
 
+	void updateFitness(int i);
+
 
 	//accessor methods
 	bool		FastRender()const	  {return m_bFastRender;}
