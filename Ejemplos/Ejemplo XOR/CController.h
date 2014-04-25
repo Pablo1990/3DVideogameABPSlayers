@@ -17,7 +17,7 @@
 #include <fstream>
 #include <windows.h>
 
-#include "CMinesweeper.h"
+#include "xor.h"
 #include "CGenAlg.h"
 #include "utils.h"
 #include "C2DMatrix.h"
@@ -37,7 +37,7 @@ private:
 	vector<SGenome>	     m_vecThePopulation;
 
 	//and the minesweepers
-  vector<CMinesweeper> m_vecSweepers;
+  vector<xor> m_vecSweepers;
 
 	//and the mines
 	vector<SVector2D>	   m_vecMines;
