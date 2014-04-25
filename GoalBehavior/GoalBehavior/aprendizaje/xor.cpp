@@ -23,34 +23,28 @@ void xor::Reset()
 bool xor::Update()
 {
 	vector<double> inputs;
-	inputs.push_back(digito1);
-	inputs.push_back(digito2);
+	inputs.push_back(getPosObjetoCercanoX());
+	inputs.push_back(getPosObjetoCercanoY());
 	vector<double> output = m_ItsBrain.Update(inputs);
 	if (output.size() < CParams::iNumOutputs) 
 	{
 		cerr<<"ERROR"<<endl;
 		return false;
 	}
+	//me muevo hacia la izquierda
+	movimientoX = 0;
+	if(output[0]>=0.6)
+		movimientoX = 25;
 
-	if(output[0]>=0.9)
-		resultado = 1;
-	else
-		resultado = 0;
+	movimientoY = 0;
+	if(output[1]>=0.6)
+		movimientoY = 25;
 
-	
 	return true;
 }
 
-int xor::getDigito1(){
-	return digito1;
-}
-
-int xor::getDigito2(){
-	return digito2;
-}
-
-double xor::getResultado(){
-	return resultado;
+double xor::getPosObjetoCercanoX(){
+	return;
 }
 
 double xor::Fitness(){

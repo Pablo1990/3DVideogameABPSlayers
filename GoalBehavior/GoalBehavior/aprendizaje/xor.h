@@ -16,9 +16,8 @@ public:
 	~xor(void);
 	bool Update();
 	void Reset();
-	int getDigito1();
-	int getDigito2();
-	double getResultado();
+	double getPosObjetoCercanoX();
+	double getPosObjetoCercanoY();
 	double Fitness();
 	void PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
 	int GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
@@ -26,9 +25,12 @@ public:
 
 private:
 	CNeuralNet m_ItsBrain;
-	int digito1;
-	int digito2;
-	double resultado;
+	double objetoCercanoX;
+	double objetoCercanoY;
+	double posX;
+	double posY;
+	double movimientoX;
+	double movimientoY;
 	double fitness;
 };
 
