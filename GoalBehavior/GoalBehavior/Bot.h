@@ -44,12 +44,13 @@ private:
 		double fitness;
 		double movimientoX;
 		double movimientoY;
-		vector<int*> itemsX;
-		vector<int*> itemsY;
 		Bot* enemigo;
 		
 		
 public:
+	
+	vector<int*> itemsX;
+	vector<int*> itemsY;
 	Bot(vector<int*> itemsX, vector<int*> itemsY);
 	void Reset();
 	bool Update();

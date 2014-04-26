@@ -46,30 +46,14 @@ void Window_Scene::cargarObjetos(vector<Bot*> bots){
 	//cout<<"centro"<<j1.getOrigin().x<<" "<<j1.getOrigin().x<<endl;
 
 	//Cargamos los item en el mapa
-	list<Item> items2=bots[0]->items;
 	//Tenemos seis items en el mapa
-
+	
 	int k=0;
-	for (std::list<Item>::iterator it = items2.begin(); it != items2.end(); ++it)
+	for (int i=0; i<bots[0]->itemsX.size(); i++)
 	{
-		itemspr[k].setPosition((*it).Pos.first,(*it).Pos.second);
-
-		// Cargamos la textura desde un archivo
-		if((*it).typeItem==2)
-		{
-			textura_arma.loadFromFile("img/arma.png");
-			itemspr[k].setTexture(textura_arma);
-		}
-
-		else
-		{
-
-			textura_salud.loadFromFile("img/salud.png");
-			itemspr[k].setTexture(textura_salud);
-		}
-
-
-
+		itemspr[k].setPosition(*bots[0]->itemsX[i], *bots[0]->itemsY[i]);
+		textura_arma.loadFromFile("img/arma.png");
+		itemspr[k].setTexture(textura_arma);
 		itemspr[k].setScale(0.4,0.4);
 		window.draw(itemspr[k]);
 		k++;
@@ -104,8 +88,9 @@ void Window_Scene::cargarEscenario(vector<Bot*> bots)
 		window.draw(celdas[i]);
 
 	}
-	for(int i=0;i<6;i++)
+	for(int i=0;i<bots[0]->itemsX.size();i++)
 	{
+		itemspr[i].setPosition(*bots[0]->itemsX[i], *bots[0]->itemsY[i]);
 		window.draw(itemspr[i]);
 	}
 
