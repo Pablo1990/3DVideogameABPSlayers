@@ -20,7 +20,7 @@ CController::CController(): m_NumSweepers(CParams::iNumSweepers),
 	//let's create the mine sweepers
 	for (int i=0; i<m_NumSweepers; ++i)
 	{
-		m_vecSweepers.push_back(xor());
+		m_vecSweepers.push_back(Bot());
 	}
 
 	//get the total number of weights used in the sweepers
@@ -86,7 +86,7 @@ bool CController::Update()
 
 				return false;
 			}
-
+			m_vecSweepers[i].mover();
 			updateFitness(i);
 
 			//update the chromos fitness score

@@ -11,7 +11,6 @@ Bot::Bot()
 	posX= RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 	posY = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 	crearListaObjetos();
-
 }
 void Bot::crearListaObjetos(){
 
@@ -101,6 +100,12 @@ double Bot::Fitness()
 	return fitness;
 }
 
+void Bot::mover(){
+	if(posX + movimientoX <= dimMapa)
+		posX += movimientoX;
+	if(posY + movimientoY <= dimMapa)
+		posY += movimientoY;
+}
 
 bool Bot ::estoyEnObjeto(){
 	for (int i = 0; i < itemsX.size(); i++){

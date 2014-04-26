@@ -97,7 +97,6 @@
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="SVector2D.h" />
     <ClInclude Include="utils.h" />
-    <ClInclude Include="xor.h" />
     <ClInclude Include="Bot.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -111,7 +110,6 @@
     <ClCompile Include="CParams.cpp" />
     <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="utils.cpp" />
-    <ClCompile Include="xor.cpp" />
     <ClCompile Include="Bot.cpp" />
     <ClCompile Include="GoalBehavior.cpp" />
     <ClCompile Include="stdafx.cpp">

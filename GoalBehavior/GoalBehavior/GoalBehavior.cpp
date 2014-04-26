@@ -41,7 +41,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			cout<<"----------"<<endl;
 
 			scene.moverJugador(event,jugador,enemigoPrincipal);
-			//controller->Update();
+			controller->Update();
 			if(jugador->getSalud()==0 )
 			{
 				

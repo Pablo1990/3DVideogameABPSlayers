@@ -6,6 +6,13 @@
 #include <utility>
 #include <iomanip>
 #include <list>
+#include <math.h>
+
+#include "CNeuralNet.h"
+#include "utils.h"
+#include "C2DMatrix.h"
+#include "SVector2D.h"
+#include "CParams.h"
 
 
 const int Distancia_Max_Vision=4*25;
@@ -58,6 +65,7 @@ public:
 	void getPosRelativaABot(double &, double &);
 	void posEntreCeroYUno(double&);
 	bool estoyEnObjeto();
+	void mover();
 	void setPosition(double x, double y)
 	{
 		posX=x;
