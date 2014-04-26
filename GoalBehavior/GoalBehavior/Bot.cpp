@@ -56,12 +56,18 @@ bool Bot :: Update()
 	}
 	//me muevo hacia la izquierda
 	movimientoX = 0;
-	if(output[0]>=0.5)
-		movimientoX = dimCasilla;
+	if(output[0]>=0.2)
+		if(output[0]>=0.6)
+			movimientoX = dimCasilla;
+		else
+			movimientoX = -dimCasilla;
 
 	movimientoY = 0;
-	if(output[1]>=0.5)
-		movimientoY = dimCasilla;
+	if(output[1]>=0.2)
+		if(output[1]>=0.6)
+			movimientoY = dimCasilla;
+		else
+			movimientoY = -dimCasilla;
 
 	return true;
 }
@@ -101,9 +107,9 @@ double Bot::Fitness()
 }
 
 void Bot::mover(){
-	if(posX + movimientoX <= dimMapa)
+	if(posX + movimientoX <= dimMapa && posX + movimientoX >= 0)
 		posX += movimientoX;
-	if(posY + movimientoY <= dimMapa)
+	if(posY + movimientoY <= dimMapa && posY + movimientoY >= 0)
 		posY += movimientoY;
 
 	movimientoX = 0;
