@@ -9,14 +9,21 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+const int numObjetos = 5;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 		//Declaramos los bot y la memoria del juego
 	CParams();
 	vector<Bot*> bots;
+	vector<int*> itemsX;
+	vector<int*> itemsY;
+	for(int i=0; i<numObjetos; i++){
+		itemsX.push_back(new int(RandInt(0, dimMapa/dimCasilla)*dimCasilla));
+		itemsY.push_back(new int(RandInt(0, dimMapa/dimCasilla)*dimCasilla));
+	}
 	for(int i=0; i<CParams::iNumSweepers; i++)
-		bots.push_back(new Bot());
+		bots.push_back(new Bot(itemsX, itemsY));
 
 	CController* controller = new CController(bots);
 	

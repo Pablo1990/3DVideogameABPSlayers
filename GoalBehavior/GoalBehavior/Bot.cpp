@@ -3,35 +3,26 @@
 
 using namespace std;
 
-Bot::Bot()
+Bot::Bot(vector<int*> itemsX, vector<int*> itemsY)
 {
 	salud=100;
 	arma=15;
 	fitness = 0;
 	posX= RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 	posY = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
-	crearListaObjetos();
+	crearListaObjetos(itemsX, itemsY);
 }
-void Bot::crearListaObjetos(){
+void Bot::crearListaObjetos(vector<int*> itemsX, vector<int*> itemsY){
 
-	itemsX.push_back(15*dimCasilla);
-	itemsY.push_back(10*dimCasilla);
-	itemsX.push_back(19*dimCasilla);
-	itemsY.push_back(5*dimCasilla);
-	itemsX.push_back(5*dimCasilla);
-	itemsY.push_back(15*dimCasilla);
-	itemsX.push_back(15*dimCasilla);
-	itemsY.push_back(10*dimCasilla);
-	itemsX.push_back(12*dimCasilla);
-	itemsY.push_back(5*dimCasilla);
-	itemsX.push_back(4*dimCasilla);
-	itemsY.push_back(5*dimCasilla);
-	itemsX.push_back(15*dimCasilla);
-	itemsY.push_back(0*dimCasilla);
+	for(int i=0; i<itemsX.size(); i++){
+		this->itemsX.push_back(itemsX[i]);
+		this->itemsY.push_back(itemsY[i]);
+	}
 }
 
 Bot::~Bot(void)
 {
+	
 }
 
 void Bot:: Reset()
@@ -76,11 +67,11 @@ void Bot :: getPosMasCercano(double& x, double &y){
 	int distancia=9999.9;
 	for (int i = 0; i < itemsX.size(); i++)
 	{
-		double distanciaAct = getDistanciaABot(itemsX[i], itemsY[i]);
+		double distanciaAct = getDistanciaABot(*itemsX[i], *itemsY[i]);
 		if(distanciaAct < distancia){
 			distancia = distanciaAct;
-			x = itemsX[i];
-			y = itemsY[i];
+			x = *itemsX[i];
+			y = *itemsY[i];
 		}
 	}
 	getPosRelativaABot(x,y);
@@ -118,10 +109,14 @@ void Bot::mover(){
 
 bool Bot ::estoyEnObjeto(){
 	for (int i = 0; i < itemsX.size(); i++){
-		if(itemsX[i] == posX && itemsY[i] == posY)
+		if(*itemsX[i] == posX && *itemsY[i] == posY)
 		{
-			itemsX[i] = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
-			itemsY[i] = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+			delete itemsX[i];
+			itemsX[i] = NULL;
+			itemsX[i] = new int(RandInt(0, dimMapa/dimCasilla)*dimCasilla);
+			delete itemsY[i];
+			itemsY[i] = NULL;
+			itemsY[i] = new int(RandInt(0, dimMapa/dimCasilla)*dimCasilla);
 			return true;
 		}
 	}

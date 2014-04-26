@@ -44,13 +44,13 @@ private:
 		double fitness;
 		double movimientoX;
 		double movimientoY;
-		vector<int> itemsX;
-		vector<int> itemsY;
+		vector<int*> itemsX;
+		vector<int*> itemsY;
 		Bot* enemigo;
 		
 		
 public:
-	Bot();
+	Bot(vector<int*> itemsX, vector<int*> itemsY);
 	void Reset();
 	bool Update();
 	double getPosObjetoCercanoX();
@@ -59,7 +59,7 @@ public:
 	void PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
 	int GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
 	void aumentoFitness() {fitness++;}
-	void crearListaObjetos();
+	void crearListaObjetos(vector<int*> itemsX, vector<int*> itemsY);
 	void getPosMasCercano(double &, double &);
 	double getDistanciaABot(double x, double y);
 	void getPosRelativaABot(double &, double &);
