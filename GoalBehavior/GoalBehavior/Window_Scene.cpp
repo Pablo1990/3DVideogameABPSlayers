@@ -2,10 +2,8 @@
 #include "Window_Scene.h"
 
 
-Window_Scene::Window_Scene(Bot *enem,Bot *j)
+Window_Scene::Window_Scene()
 {
-	
-	
 	 //Dibujamos las celdas
 	window.create(sf::VideoMode(700,500), "Prueba de objetivos");
 	window.clear(sf::Color::White);
@@ -31,24 +29,24 @@ Window_Scene::Window_Scene(Bot *enem,Bot *j)
 		}
 	
 
-   //Pintamos los dos bots
-	j1=sf::CircleShape(12.5F);
-	radio_vision=sf::CircleShape(100.0F);
-	bot=sf::CircleShape(12.5F);
-	j1.setFillColor(sf::Color::Blue);
-	bot.setFillColor(sf::Color::Red);
-	radio_vision.setOutlineColor(sf::Color::Green);
-	radio_vision.setOutlineThickness(1.0);
-	radio_vision.setFillColor(sf::Color::Transparent);
-	j1.setPosition(j->getposX(),j->getposY());
-	bot.setPosition(enem->getposX(),enem->getposY());
+   //Pintamos los dos bot
+	
+}
+
+void Window_Scene::cargarObjetos(vector<Bot*> bots){
+
+	for(int i=0; i<bots.size(); i++){
+			botCircles[i] = sf::CircleShape(12.5F);
+			botCircles[i].setFillColor(sf::Color::Blue);
+			botCircles[i].setPosition(bots[i]->getposX(), bots[i]->getposY());
+			window.draw(botCircles[i]);
+	}
 
 	
 	//cout<<"centro"<<j1.getOrigin().x<<" "<<j1.getOrigin().x<<endl;
 	
-	radio_vision.setPosition((bot.getPosition().x+bot.getRadius())-radio_vision.getRadius(),(bot.getPosition().y+bot.getRadius())-radio_vision.getRadius());
 	//Cargamos los item en el mapa
-	list<Item> items2=enem->items;
+	list<Item> items2=bots[0]->items;
 	//Tenemos seis items en el mapa
 	
 	int k=0;
@@ -76,61 +74,24 @@ Window_Scene::Window_Scene(Bot *enem,Bot *j)
 		window.draw(itemspr[k]);
 		k++;
 	}
-		window.draw(radio_vision);
-		window.draw(j1); //Dibujamos la figura
-		window.draw(bot);
 
-		//Ponemos el texto de Salud:
-		font.loadFromFile("img/OpenSans.ttf");
-		Text_Sb.setFont(font);
-		Text_Sba.setFont(font);
-		Text_Sj.setFont(font);
-		Text_Sja.setFont(font);
-		Text_Sb.setCharacterSize(10);
-		Text_Sba.setCharacterSize(10);
-		Text_Sj.setCharacterSize(10);
-		Text_Sja.setCharacterSize(10);
-		Text_Sb.setColor(sf::Color::Red);
-		Text_Sba.setColor(sf::Color::Red);
-		Text_Sj.setColor(sf::Color::Blue);
-		Text_Sja.setColor(sf::Color::Blue);
-		Text_Sb.setPosition(520,50);
-		Text_Sba.setPosition(520,80);
-		Text_Sj.setPosition(520,110);
-			Text_Sja.setPosition(520,140);
+	Text_Aprendizaje.setCharacterSize(10);
+	Text_Aprendizaje.setColor(sf::Color::Magenta);
+	Text_Aprendizaje.setPosition(520, 170);
 
-		int salud=enem->getSalud();
-		std::stringstream bot_;
-		std::stringstream jug;
-		std::stringstream bota_;
-		std::stringstream juga;
-	// Obtenemos las cadenas desde los puntos
-	bot_ << "Salud Bot "<< salud;
-	Text_Sb.setString(bot_.str());
-		salud=j->getSalud();
-		
-	jug << "Salud Jugador "<< salud;
-		Text_Sj.setString(jug.str());
-		salud=enem->getArma();
-
-	bota_<<"Estado  Arma de Bot "<<salud;
-	Text_Sba.setString(bota_.str());
-		salud=j->getArma();
-	juga << "Estado  Arma de Jugador "<< salud;
-		Text_Sja.setString(juga.str());
-
-
-		window.draw(Text_Sba);
-		window.draw(Text_Sja);
-		window.draw(Text_Sb);
-		window.draw(Text_Sj);
+	std::stringstream textAprendizaje;
+	textAprendizaje << "--------------------" <<endl;
+	for(int i=0; i<bots.size(); i++){
+		textAprendizaje << "Fitness "<<i<<": "<< bots[i]->Fitness()<<endl;
+	}
+	Text_Aprendizaje.setString(textAprendizaje.str());
+	window.draw(Text_Aprendizaje);
 }
-
 
 Window_Scene::~Window_Scene(void)
 {
 }
-void Window_Scene::cargarEscenario(Bot *enem,Bot *j)
+void Window_Scene::cargarEscenario(vector<Bot*> bots)
 {
 	window.clear(sf::Color::White);
 	//Pintar celdas
@@ -145,18 +106,12 @@ void Window_Scene::cargarEscenario(Bot *enem,Bot *j)
 			window.draw(itemspr[i]);
 		}
 		
-	j1.setPosition(j->getposX(),j->getposY());
-	bot.setPosition(enem->getposX(),enem->getposY());
-		radio_vision.setPosition((bot.getPosition().x+bot.getRadius())-radio_vision.getRadius(),(bot.getPosition().y+bot.getRadius())-radio_vision.getRadius());
-		window.draw(radio_vision);
-
-		//Actualizamos la posicion
-
-
-		window.draw(j1);
-		window.draw(bot);
+		for(int i=0; i<bots.size(); i++){
+			botCircles[i].setPosition(bots[i]->getposX(),bots[i]->getposY());
+			window.draw(botCircles[i]);
+		}
 		
-
+	/*
 		//tEXTO
 			int salud=enem->getSalud();
 		std::stringstream bot_;
@@ -182,44 +137,17 @@ void Window_Scene::cargarEscenario(Bot *enem,Bot *j)
 		window.draw(Text_Sb);
 		window.draw(Text_Sj);
 		window.draw(Text_Sba);
-		window.draw(Text_Sja);
-		 window.display();
-}
+		window.draw(Text_Sja);*/
+		Text_Aprendizaje.setCharacterSize(10);
+	Text_Aprendizaje.setColor(sf::Color::Magenta);
+	Text_Aprendizaje.setPosition(520, 170);
 
-void Window_Scene::moverBot(Bot *b){
-
-}
-
-void Window_Scene::moverJugador(sf::Event mov,Bot *jug_,Bot * enem_)
-{
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && j1.getPosition().y >=25)
-	{
-		j1.move(0,(-25));
-		jug_->setPosition(jug_->getposX(),jug_->getposY()-25);
-
+	std::stringstream textAprendizaje;
+	textAprendizaje << "--------------------" <<endl;
+	for(int i=0; i<bots.size(); i++){
+		textAprendizaje << "Fitness "<<i<<": "<< bots[i]->Fitness()<<endl;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && j1.getPosition().x >=25)
-	{
-		j1.move((-25),0);
-		jug_->setPosition(jug_->getposX()-25,jug_->getposY());
-	}
-	
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && j1.getPosition().x <475)
-	{
-		j1.move(25,0);
-		jug_->setPosition(jug_->getposX()+25,jug_->getposY());
-	}
-	
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && j1.getPosition().y < 475)
-	{
-		j1.move(0,25);
-		
-		jug_->setPosition(jug_->getposX(),jug_->getposY()+25);
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && ((abs( jug_->getposX()-enem_->getposX())<=25) && (abs( jug_->getposY()-enem_->getposY())<=25)))
-	{
-		enem_->setSalud(enem_->getSalud()-5);
-	}
-	
+	Text_Aprendizaje.setString(textAprendizaje.str());
+	window.draw(Text_Aprendizaje);
+		window.display();
 }
