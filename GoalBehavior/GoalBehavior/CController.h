@@ -37,7 +37,7 @@ private:
 	vector<SGenome>	     m_vecThePopulation;
 
 	//and the minesweepers
-  vector<Bot> m_vecSweepers;
+  vector<Bot*> m_vecSweepers;
 
 	//and the mines
 	vector<SVector2D>	   m_vecMines;
@@ -93,7 +93,7 @@ private:
 
 public:
 
-	CController();
+	CController(vector<Bot*> bots);
 
 	~CController();
 

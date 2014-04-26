@@ -186,6 +186,10 @@ void Window_Scene::cargarEscenario(Bot *enem,Bot *j)
 		 window.display();
 }
 
+void Window_Scene::moverBot(Bot *b){
+
+}
+
 void Window_Scene::moverJugador(sf::Event mov,Bot *jug_,Bot * enem_)
 {
 

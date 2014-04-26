@@ -56,11 +56,11 @@ bool Bot :: Update()
 	}
 	//me muevo hacia la izquierda
 	movimientoX = 0;
-	if(output[0]>=0.6)
+	if(output[0]>=0.5)
 		movimientoX = dimCasilla;
 
 	movimientoY = 0;
-	if(output[1]>=0.6)
+	if(output[1]>=0.5)
 		movimientoY = dimCasilla;
 
 	return true;
@@ -105,6 +105,9 @@ void Bot::mover(){
 		posX += movimientoX;
 	if(posY + movimientoY <= dimMapa)
 		posY += movimientoY;
+
+	movimientoX = 0;
+	movimientoY = 0;
 }
 
 bool Bot ::estoyEnObjeto(){

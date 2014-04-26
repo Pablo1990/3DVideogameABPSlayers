@@ -24,7 +24,7 @@ public:
 		sf::Text Text_Sba;
 		sf::Text Text_Sja;
 		void moverJugador(sf::Event,Bot*,Bot *);
-		
+		void moverBot(Bot*);
 	void cargarEscenario(Bot *enem,Bot *j);
 
 };

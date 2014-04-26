@@ -8,7 +8,7 @@
 //	initilaize the sweepers, their brains and the GA factory
 //
 //-----------------------------------------------------------------------
-CController::CController(): m_NumSweepers(CParams::iNumSweepers), 
+CController::CController(vector<Bot*> bots): m_NumSweepers(CParams::iNumSweepers), 
 	m_pGA(NULL),
 	m_bFastRender(false),
 	m_iTicks(0),
@@ -20,12 +20,12 @@ CController::CController(): m_NumSweepers(CParams::iNumSweepers),
 	//let's create the mine sweepers
 	for (int i=0; i<m_NumSweepers; ++i)
 	{
-		m_vecSweepers.push_back(Bot());
+		m_vecSweepers.push_back(bots[i]);
 	}
 
 	//get the total number of weights used in the sweepers
 	//NN so we can initialise the GA
-	m_NumWeightsInNN = m_vecSweepers[0].GetNumberOfWeights();
+	m_NumWeightsInNN = m_vecSweepers[0]->GetNumberOfWeights();
 
 	//initialize the Genetic Algorithm class
 	m_pGA = new CGenAlg(m_NumSweepers,
@@ -38,7 +38,7 @@ CController::CController(): m_NumSweepers(CParams::iNumSweepers),
 
 	for (int i=0; i<m_NumSweepers; i++)
 
-		m_vecSweepers[i].PutWeights(m_vecThePopulation[i].vecWeights);
+		m_vecSweepers[i]->PutWeights(m_vecThePopulation[i].vecWeights);
 
 	//initialize mines in random positions within the application window
 	for (int i=0; i<m_NumMines; ++i)
@@ -79,18 +79,18 @@ bool CController::Update()
 		for (int i=0; i<m_NumSweepers; ++i)
 		{
 			//update the NN and position
-			if (!m_vecSweepers[i].Update())
+			if (!m_vecSweepers[i]->Update())
 			{
 				//error in processing the neural net
 				MessageBox(m_hwndMain, "Wrong amount of NN inputs!", "Error", MB_OK);
 
 				return false;
 			}
-			m_vecSweepers[i].mover();
+			m_vecSweepers[i]->mover();
 			updateFitness(i);
 
 			//update the chromos fitness score
-			m_vecThePopulation[i].dFitness = m_vecSweepers[i].Fitness();
+			m_vecThePopulation[i].dFitness = m_vecSweepers[i]->Fitness();
 
 		}
 	}
@@ -117,9 +117,9 @@ bool CController::Update()
 		//and reset their positions etc
 		for (int i=0; i<m_NumSweepers; ++i)
 		{
-			m_vecSweepers[i].PutWeights(m_vecThePopulation[i].vecWeights);
+			m_vecSweepers[i]->PutWeights(m_vecThePopulation[i].vecWeights);
 
-			m_vecSweepers[i].Reset();
+			m_vecSweepers[i]->Reset();
 		}
 	}
 
@@ -127,6 +127,6 @@ bool CController::Update()
 }
 
 void CController::updateFitness(int i){
-	if(m_vecSweepers[i].estoyEnObjeto())
-		m_vecSweepers[i].aumentoFitness();
+	if(m_vecSweepers[i]->estoyEnObjeto())
+		m_vecSweepers[i]->aumentoFitness();
 }
