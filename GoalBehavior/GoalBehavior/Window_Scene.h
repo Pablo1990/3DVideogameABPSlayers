@@ -18,7 +18,7 @@ public:
 	   sf::Texture textura_salud;
 	sf::Font font;
 		sf::Text Text_Aprendizaje;
-	void cargarEscenario(vector<Bot*>);
+	void cargarEscenario(vector<Bot*>, CController *);
 	void cargarObjetos(vector<Bot*>);
 
 };

@@ -60,6 +60,7 @@ public:
 	void PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
 	int GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
 	void aumentoFitness() {fitness++;}
+	void disminuyoFitness() {if(fitness>0) fitness--;}
 	void crearListaObjetos(vector<int*> itemsX, vector<int*> itemsY);
 	void getPosMasCercano(double &, double &);
 	double getDistanciaABot(double x, double y);

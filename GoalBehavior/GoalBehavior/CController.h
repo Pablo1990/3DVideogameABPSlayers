@@ -106,6 +106,8 @@ public:
 
 	void updateFitness(int i);
 
+	int getGeneracion();
+
 
 	//accessor methods
 	bool		FastRender()const	  {return m_bFastRender;}

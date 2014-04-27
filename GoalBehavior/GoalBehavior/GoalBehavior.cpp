@@ -47,12 +47,12 @@ int _tmain(int argc, _TCHAR* argv[])
 			}
 
 			//system("PAUSE");
-			
+		
 			cout<<"----------"<<endl;
 			
 			controller->Update();
 			
-			scene.cargarEscenario(bots);
+			scene.cargarEscenario(bots, controller);
 
         }
 		

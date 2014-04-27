@@ -5,7 +5,7 @@
 Window_Scene::Window_Scene()
 {
 	//Dibujamos las celdas
-	window.create(sf::VideoMode(700,500), "Prueba de objetivos");
+	window.create(sf::VideoMode(800,500), "Prueba de objetivos");
 	window.clear(sf::Color::White);
 
 	int pos=0,pos2=0;
@@ -63,7 +63,7 @@ void Window_Scene::cargarObjetos(vector<Bot*> bots){
 	Text_Aprendizaje.setFont(font);
 	Text_Aprendizaje.setCharacterSize(10);
 	Text_Aprendizaje.setColor(sf::Color::Magenta);
-	Text_Aprendizaje.setPosition(520, 170);
+	Text_Aprendizaje.setPosition(510, 170);
 
 	std::stringstream textAprendizaje;
 	textAprendizaje << "--------------------" <<endl;
@@ -78,7 +78,7 @@ void Window_Scene::cargarObjetos(vector<Bot*> bots){
 Window_Scene::~Window_Scene(void)
 {
 }
-void Window_Scene::cargarEscenario(vector<Bot*> bots)
+void Window_Scene::cargarEscenario(vector<Bot*> bots, CController* controller)
 {
 	window.clear(sf::Color::White);
 	//Pintar celdas
@@ -102,12 +102,16 @@ void Window_Scene::cargarEscenario(vector<Bot*> bots)
 	Text_Aprendizaje.setFont(font);
 	Text_Aprendizaje.setCharacterSize(10);
 	Text_Aprendizaje.setColor(sf::Color::Magenta);
-	Text_Aprendizaje.setPosition(520, 170);
+	Text_Aprendizaje.setPosition(510, 170);
 
 	std::stringstream textAprendizaje;
 	textAprendizaje << "--------------------" <<endl;
+	textAprendizaje << "Generacion: "<<controller->getGeneracion()<<endl;
+	double x,y = 0;
 	for(int i=0; i<bots.size(); i++){
-		textAprendizaje << "Fitness "<<i<<": "<< bots[i]->Fitness()<<endl;
+		textAprendizaje << "Fitness "<<i<<": "<< bots[i]->Fitness()<<" - ";
+		bots[i]->getPosMasCercano(x,y);
+		textAprendizaje << "Distancia a cercano: ("<<x*475<<","<<y*475<<")"<<endl;
 	}
 	Text_Aprendizaje.setString(textAprendizaje.str());
 	window.draw(Text_Aprendizaje);
