@@ -99,7 +99,6 @@ void Window_Scene::cargarEscenario(vector<Bot*> bots)
 		window.draw(botCircles[i]);
 	}
 
-	font.loadFromFile("img/OpenSans.ttf");
 	Text_Aprendizaje.setFont(font);
 	Text_Aprendizaje.setCharacterSize(10);
 	Text_Aprendizaje.setColor(sf::Color::Magenta);

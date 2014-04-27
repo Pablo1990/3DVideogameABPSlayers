@@ -108,17 +108,15 @@ void Bot::mover(){
 }
 
 bool Bot ::estoyEnObjeto(){
-	for (int i = 0; i < itemsX.size(); i++){
-		if(*itemsX[i] == posX && *itemsY[i] == posY)
+	std::vector<int*>::iterator it2 = itemsY.begin();
+	for(std::vector<int*>::iterator it = itemsX.begin(); it != itemsX.end(); ++it) {
+		if(**it == posX && **it2 == posY)
 		{
-			delete itemsX[i];
-			itemsX[i] = NULL;
-			itemsX[i] = new int(RandInt(0, dimMapa/dimCasilla)*dimCasilla);
-			delete itemsY[i];
-			itemsY[i] = NULL;
-			itemsY[i] = new int(RandInt(0, dimMapa/dimCasilla)*dimCasilla);
+			**it = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+			**it2 = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 			return true;
 		}
+		it2++;
 	}
 	return false;
 }
