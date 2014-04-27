@@ -774,20 +774,16 @@ void Pathfinding::imprimirCamino(){
      */
 	vector<Position> Pathfinding::reconstruirCamino(NodoPadreEHijo n, int ***expandidos) {
 		camino.clear();
-		NodoPadreEHijo* m = new NodoPadreEHijo(n);
+		NodoPadreEHijo m;// = new NodoPadreEHijo(n);
         //Nodo solución
         //Mientras no lleguemos al hijo origen
-		while (!(m->getPadre() == NULL)) {
-			camino.push_back(m->getNodo().getPosition());
+		while (!(m.getPadre() == NULL)) {
+			camino.push_back(m.getNodo().getPosition());
             //Cogemos el padre y lo que convertimos en el actual
-			m = m->getPadre();
+			m = m.getPadre();
         }
 		std::reverse(camino.begin(), camino.end());
-		if(m)
-		{
-			delete m;
-			m = NULL;
-		}
+
 		return camino;
     }
      

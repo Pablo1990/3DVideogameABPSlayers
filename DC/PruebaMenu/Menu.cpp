@@ -3,10 +3,17 @@
 MyMenu::MyMenu()
 {
 	this->start = false;
+
 }
 
 MyMenu::~MyMenu(void)
 {
+	if(klang_engine)
+	{
+		klang_engine->stopAllSounds();
+		klang_engine->drop();
+		klang_engine = 0;
+	}
 }
 
 int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
@@ -32,8 +39,22 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 
     if (device == 0)
         return 1; // could not create selected driver.
+	
+	klang_engine = createIrrKlangDevice();
 
-	 device->setWindowCaption(L"MENU");
+	if (!klang_engine)
+      return 0;
+
+	ISound* snd = klang_engine->play2D(menu_music_path, true);
+	
+	if(snd)
+	{
+		snd->setVolume(0.5f);
+		snd->drop();
+		snd = 0;
+	}
+	
+	device->setWindowCaption(L"MENU");
     device->setResizable(true);
 
     video::IVideoDriver* driver = device->getVideoDriver();
@@ -99,6 +120,8 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 		}
 	}
     device->drop();
+
+	klang_engine->stopAllSounds();
 
 	return start;
 }

@@ -22,6 +22,13 @@ Juego::~Juego(void)
 		pf = 0;
 	}
 
+	if(klang_engine)
+	{
+		klang_engine->stopAllSounds();
+		klang_engine->drop();
+		klang_engine = 0;
+	}
+
 	if(hud)
 	{
 		delete hud;
@@ -830,6 +837,19 @@ void Juego::loadSceneData()
 	if(estado==1 )
 		npc->setItems(armas, types);
 	
+	//Music
+	klang_engine = createIrrKlangDevice();
+
+	if (klang_engine)
+	{
+      ISound* snd = klang_engine->play2D(game_music_path, true);
+	  if(snd)
+	  {
+		  snd->setVolume(0.5f);
+		  snd->drop();
+		  snd = 0;
+	  }
+	}
 }
 
 bool Juego::OnEvent(const SEvent& event)
