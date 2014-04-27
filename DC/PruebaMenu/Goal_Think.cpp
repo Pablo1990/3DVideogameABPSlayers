@@ -27,6 +27,16 @@ Goal_Think::Goal_Think()
 
 Goal_Think::~Goal_Think(void)
 {
+	std::list<Goal_Evaluator*>::iterator it;
+	for(it = Evaluators.begin(); it != Evaluators.end(); it++)
+	{
+		if((*it))
+		{
+			delete (*it);
+			(*it) = 0;
+		}
+	}
+	Evaluators.clear();
 }
 
 void Goal_Think:: Activate()

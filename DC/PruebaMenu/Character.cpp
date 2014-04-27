@@ -64,6 +64,19 @@ Character::Character(const char* path, ISceneManager *sm, Weapon* w)
 
 Character::~Character(void)
 {
+
+		if(this->sh)
+	{
+		delete this->sh;
+		this->sh = 0;
+	}
+
+	if(this->weapon)
+	{
+		delete this->weapon;
+		this->weapon = 0;
+	}
+
 	if(this->character_node)
 	{
 		this->character_node->getParent()->removeChild(this->character_node);
@@ -88,17 +101,7 @@ Character::~Character(void)
 		this->body[i] = 0;
 	}
 
-	if(this->sh)
-	{
-		delete this->sh;
-		this->sh = 0;
-	}
 
-	if(this->weapon)
-	{
-		delete this->weapon;
-		this->weapon = 0;
-	}
 }
 
 bool Character::get_is_dead()
@@ -288,6 +291,10 @@ void Character::set_weapon(Weapon* w)
 {
 	try
 	{
+		if(this->weapon)
+		{
+			delete this->weapon;
+		}
 		this->weapon = w;
 	}
 	catch(...)

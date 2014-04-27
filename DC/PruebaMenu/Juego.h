@@ -2,6 +2,8 @@
 
 #include <irrlicht.h>
 #include <iostream>
+#include <irrKlang.h>
+#include "Paths.h"
 #include "Npc.h"
 #include "Sword.h"
 #include "Weapon.h"
@@ -27,10 +29,15 @@ using namespace scene;
 using namespace video;
 using namespace io;
 using namespace gui;
+using namespace irrklang;
+
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
 #endif
+#pragma comment(lib, "irrKlang.lib") 
+
+
 class Juego: public IEventReceiver
 {
 public:
@@ -50,9 +57,11 @@ public:
 	void replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelector* mapSelector);
 
 private:
+	bool cntinue;
 	video::E_DRIVER_TYPE driverType;
 	IrrlichtDevice *device;
 	Hud * hud;
+	Pathfinding*  pf;
 	s32 sceneStartTime;
 	gui::IGUIStaticText* statusText;
 	gui::IGUIStaticText* statusText2;
@@ -70,6 +79,8 @@ private:
 	scene::IParticleSystemSceneNode* heal_camp;
 
 	scene::ICameraSceneNode* camera;
+	ISoundEngine* klang_engine;
+
 
 
 	float lastX;
