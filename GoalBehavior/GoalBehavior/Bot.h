@@ -18,6 +18,7 @@
 const int Distancia_Max_Vision=4*25;
 const int dimMapa = 475;
 const int dimCasilla = 25;
+const int numObjetos = 10;
 
 using namespace std;
 
@@ -60,7 +61,9 @@ public:
 	double Fitness();
 	void PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
 	int GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
-	void aumentoFitness() {fitness+=armasCogidas;}
+	void aumentoFitnessRecogidas() {fitness+=armasCogidas*4;}
+	void aumentoFitness() {fitness++;}
+	int getArmasCogidas() {return armasCogidas;}
 	void disminuyoFitness() {if(fitness>0) fitness--;}
 	void crearListaObjetos(vector<int*> itemsX, vector<int*> itemsY);
 	void getPosMasCercano(double &, double &);

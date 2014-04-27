@@ -88,17 +88,21 @@ bool CController::Update()
 			}
 			m_vecSweepers[i]->mover();
 			updateFitness(i);
-			if(m_iTicks+1 == CParams::iNumTicks){
+			if(m_iTicks % 105 == 0){
 				double x, y = 0;
 				m_vecSweepers[i]->getPosMasCercano(x,y);
 
-				if(x+y>1)
+				if(x+y>0.5)
 					m_vecSweepers[i]->disminuyoFitness();
 
 				if(x+y<0.1)
 					m_vecSweepers[i]->aumentoFitness();
 
 			}
+			/*
+			if(m_iTicks+1 == CParams::iNumTicks && m_vecSweepers[i]->getArmasCogidas()==0)
+				m_vecSweepers[i]->disminuyoFitness();
+			*/
 
 			//update the chromos fitness score
 			m_vecThePopulation[i].dFitness = m_vecSweepers[i]->Fitness();
@@ -139,7 +143,7 @@ bool CController::Update()
 
 void CController::updateFitness(int i){
 	if(m_vecSweepers[i]->estoyEnObjeto()){
-		m_vecSweepers[i]->aumentoFitness();
+		m_vecSweepers[i]->aumentoFitnessRecogidas();
 	}
 }
 

@@ -27,8 +27,8 @@ Window_Scene::Window_Scene()
 		pos=pos+dimCasilla;	
 	}
 
-
-	//Pintamos los dos bot
+	textura_arma.loadFromFile("img/arma.png");
+	font.loadFromFile("img/OpenSans.ttf");
 
 }
 
@@ -48,17 +48,17 @@ void Window_Scene::cargarObjetos(vector<Bot*> bots){
 	//Tenemos seis items en el mapa
 	
 	int k=0;
+	
+	
 	for (int i=0; i<bots[0]->itemsX.size(); i++)
 	{
 		itemspr[k].setPosition(*bots[0]->itemsX[i], *bots[0]->itemsY[i]);
-		textura_arma.loadFromFile("img/arma.png");
 		itemspr[k].setTexture(textura_arma);
 		itemspr[k].setScale(0.4,0.4);
 		window.draw(itemspr[k]);
 		k++;
 	}
 
-	font.loadFromFile("img/OpenSans.ttf");
 	Text_Aprendizaje.setFont(font);
 	Text_Aprendizaje.setCharacterSize(10);
 	Text_Aprendizaje.setColor(sf::Color::Magenta);
@@ -101,7 +101,7 @@ void Window_Scene::cargarEscenario(vector<Bot*> bots, CController* controller)
 	Text_Aprendizaje.setFont(font);
 	Text_Aprendizaje.setCharacterSize(10);
 	Text_Aprendizaje.setColor(sf::Color::Magenta);
-	Text_Aprendizaje.setPosition(510, 170);
+	Text_Aprendizaje.setPosition(510, 10);
 
 	std::stringstream textAprendizaje;
 	textAprendizaje << "--------------------" <<endl;
@@ -110,7 +110,7 @@ void Window_Scene::cargarEscenario(vector<Bot*> bots, CController* controller)
 	for(int i=0; i<bots.size(); i++){
 		textAprendizaje << "Fitness "<<i<<": "<< bots[i]->Fitness()<<" - ";
 		bots[i]->getPosMasCercano(x,y);
-		textAprendizaje << "Distancia a cercano: ("<<x*475<<","<<y*475<<")"<<endl;
+		textAprendizaje << "Distancia a cercano: ("<<x<<","<<y<<")"<<endl;
 	}
 	Text_Aprendizaje.setString(textAprendizaje.str());
 	window.draw(Text_Aprendizaje);

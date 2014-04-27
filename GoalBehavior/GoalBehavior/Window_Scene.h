@@ -11,8 +11,8 @@ public:
 	Window_Scene();
 	~Window_Scene(void);
 	 vector<sf:: CircleShape> botCircles;
-	  sf::RectangleShape celdas [400];
-	  sf::Sprite itemspr[6];
+	  sf::RectangleShape celdas [((dimMapa+dimCasilla)/dimCasilla)*((dimMapa+dimCasilla)/dimCasilla)];
+	  sf::Sprite itemspr[numObjetos];
 	   sf::RenderWindow window;
 	   sf::Texture textura_arma;
 	   sf::Texture textura_salud;

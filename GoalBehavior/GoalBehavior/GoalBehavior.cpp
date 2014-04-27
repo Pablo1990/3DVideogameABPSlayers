@@ -9,7 +9,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-const int numObjetos = 5;
+
 
 int _tmain(int argc, _TCHAR* argv[])
 {
