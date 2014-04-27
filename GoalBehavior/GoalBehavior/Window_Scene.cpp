@@ -10,22 +10,21 @@ Window_Scene::Window_Scene()
 
 	int pos=0,pos2=0;
 	int indice=0;
-	for(int i=0;i<20;i++)
+	for(int i=0;i<(dimMapa+dimCasilla)/dimCasilla;i++)
 	{
-
-		for(int j=0;j<20;j++)
+		for(int j=0;j<(dimMapa+dimCasilla)/dimCasilla;j++)
 		{
-			celdas[indice].setSize(sf::Vector2f(25,25));
+			celdas[indice].setSize(sf::Vector2f(dimCasilla,dimCasilla));
 			celdas[indice].setOutlineColor(sf::Color::Black);
 			celdas[indice].setOutlineThickness(1);
 			celdas[indice].setPosition(pos2, pos);
 			window.draw(celdas[indice]);
-			pos2=pos2+25;
+			pos2=pos2+dimCasilla;
 			indice++;
 
 		}
 		pos2=0;	
-		pos=pos+25;	
+		pos=pos+dimCasilla;	
 	}
 
 
@@ -83,7 +82,7 @@ void Window_Scene::cargarEscenario(vector<Bot*> bots, CController* controller)
 	window.clear(sf::Color::White);
 	//Pintar celdas
 
-	for(int i=0;i<400;i++)
+	for(int i=0;i<((dimMapa+dimCasilla)/dimCasilla) * ((dimMapa+dimCasilla)/dimCasilla);i++)
 	{		
 		window.draw(celdas[i]);
 

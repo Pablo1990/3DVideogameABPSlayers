@@ -10,6 +10,7 @@ Bot::Bot(vector<int*> itemsX, vector<int*> itemsY)
 	fitness = 0;
 	posX= RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 	posY = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+	armasCogidas = 0;
 	crearListaObjetos(itemsX, itemsY);
 }
 void Bot::crearListaObjetos(vector<int*> itemsX, vector<int*> itemsY){
@@ -29,6 +30,7 @@ void Bot:: Reset()
 {
 	posX = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 	posY = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+	armasCogidas=0;
 }
 
 bool Bot :: Update()
@@ -47,15 +49,15 @@ bool Bot :: Update()
 	}
 	//me muevo hacia la izquierda
 	movimientoX = 0;
-	if(output[0]>=0.2)
-		if(output[0]>=0.6)
+	if(output[0]>=0.6)
+		if(output[0]>=0.8)
 			movimientoX = dimCasilla;
 		else
 			movimientoX = -dimCasilla;
 
 	movimientoY = 0;
-	if(output[1]>=0.2)
-		if(output[1]>=0.6)
+	if(output[1]>=0.6)
+		if(output[1]>=0.8)
 			movimientoY = dimCasilla;
 		else
 			movimientoY = -dimCasilla;
@@ -114,6 +116,7 @@ bool Bot ::estoyEnObjeto(){
 		{
 			**it = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 			**it2 = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+			armasCogidas++;
 			return true;
 		}
 		it2++;
