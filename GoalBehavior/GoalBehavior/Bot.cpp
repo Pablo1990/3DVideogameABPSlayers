@@ -82,12 +82,12 @@ void Bot :: getPosMasCercano(double& x, double &y){
 }
 void Bot :: posEntreCeroYUno(double &y){
 	y = y/(sqrt(2)*dimMapa);
-	Clamp(y, 0, 1);
+	Clamp(y, -1, 1);
 }
 
 void Bot :: getPosRelativaABot(double &x, double &y){
-	x = abs(x - posX);
-	y = abs(y - posY);
+	x = x - posX;
+	y = y - posY;
 }
 
 double Bot::getDistanciaABot(double x, double y){
