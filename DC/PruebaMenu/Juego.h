@@ -2,7 +2,7 @@
 
 #include <irrlicht.h>
 #include <iostream>
-#include <irrKlang.h>
+#include "SoundEffect.h"
 #include "Paths.h"
 #include "Npc.h"
 #include "Sword.h"
@@ -29,13 +29,11 @@ using namespace scene;
 using namespace video;
 using namespace io;
 using namespace gui;
-using namespace irrklang;
 
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
 #endif
-#pragma comment(lib, "irrKlang.lib") 
 
 
 class Juego: public IEventReceiver
@@ -106,6 +104,8 @@ private:
 	int last_drop;
 	double* types;
 	int cycles;
+	SoundEffect *sound;
+	int win_condition; //0 sigue, 1 ganas, -1 pierdes
 
 	enum
 {

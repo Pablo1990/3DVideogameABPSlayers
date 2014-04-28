@@ -156,6 +156,9 @@
     <ClCompile Include="Aprendizaje\CController.cpp">
       <Filter>Archivos de código fuente\Aprendizaje</Filter>
     </ClCompile>
+    <ClCompile Include="SoundEffect.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyEventReceiver.h">
@@ -298,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="Aprendizaje\CController.h">
       <Filter>Archivos de encabezado\Aprendizaje</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEffect.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

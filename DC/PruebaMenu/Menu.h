@@ -2,7 +2,7 @@
 
 
 #include <irrlicht.h>
-#include <irrKlang.h>
+#include "SoundEffect.h"
 #include "Paths.h"
 #include "driverChoice.h"
 #include "BotonesMenu.h"
@@ -15,13 +15,11 @@ using namespace scene;
 using namespace video;
 using namespace io;
 using namespace gui;
-using namespace irrklang;
 
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
 #endif
-#pragma comment(lib, "irrKlang.lib") 
 
 
 //class MyEventReceiver;
@@ -37,6 +35,6 @@ public:
 private:
 	int start;
 	IrrlichtDevice * device;
-	ISoundEngine* klang_engine;
+	SoundEffect *sound;
 };
 

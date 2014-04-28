@@ -12,7 +12,7 @@ public:
 	Player(ISceneManager *sm, Weapon* w, ITriangleSelector *ms, ICameraSceneNode *camera);
 	~Player(void);
 	
-	void manage_collision(Weapon *w, IrrlichtDevice* d); 
+	void manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound = NULL); 
 	void drop_weapon(ISceneNode* cam);
 	void pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, IrrlichtDevice *device, std::list<Weapon*>* armas);
 	void defend();

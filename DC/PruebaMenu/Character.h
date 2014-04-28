@@ -9,6 +9,7 @@
 #include "Bow.h"
 #include "Spear.h"
 #include "Sword.h"
+#include "SoundEffect.h"
 #include <string>
 using namespace irr;
 using namespace scene;
@@ -27,7 +28,7 @@ public:
 	Weapon* get_weapon();
 	void set_weapon(Weapon* w);
 	
-	virtual void manage_collision(Weapon* w, IrrlichtDevice* d);
+	virtual void manage_collision(Weapon* w, IrrlichtDevice* d, SoundEffect* sound = NULL);
 	virtual void calculate_joint();
 	virtual void defend();
 	virtual void no_defend();

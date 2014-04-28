@@ -29,7 +29,7 @@ public:
 	Npc(ISceneManager *sm, Weapon* w,vector3df, IrrlichtDevice* d, ITriangleSelector* mp,ISceneNode* camp_fire,ISceneNode* heal);
 	~Npc(void);
 
-	void manage_collision(Weapon *w, IrrlichtDevice* d); 
+	void manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound = NULL); 
 	vector<double> getPesosDeFichero();
 	bool MoverseAItemSalud();
 	bool MoverseAItemArma();
