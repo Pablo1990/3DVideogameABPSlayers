@@ -122,6 +122,15 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 	int minY = 0;
 	int maxY = 1;
 	
+	double dx = pow(pIni.getX() - pFin.getX(), 2);
+		double dz = pow(pIni.getZ() - pFin.getZ(), 2);
+		double dy = pow(pIni.getY() - pFin.getY(), 2);
+		vector<Position> p2;
+		if(sqrt(dx + dz + dy) < 40)
+		{
+			return p2;
+		}
+
 	int*** expandidos = new int **[maxX+1];
         //Recorremos el mapa y lo sacamos por pantalla y llenamos de -1 el array expandidos
 	for (int i = minX; i < maxX; i++) {
@@ -153,27 +162,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
         //Y lo añadimos a la lista frontera
 		listaFrontera.push_back(n);
         //Recorremos esta hasta que sea vacia
-		double dx = pow(pIni.getX() - pFin.getX(), 2);
-		double dz = pow(pIni.getZ() - pFin.getZ(), 2);
-		double dy = pow(pIni.getY() - pFin.getY(), 2);
-		vector<Position> p2;
-		if(sqrt(dx + dz + dy) < 40)
-		{
-			/*if(expandidos)
-			{
-				for (int i = minX; i < maxX; i++) {
-					for (int j = minZ; j < maxZ; j++) {
-						delete[] expandidos[i][j];
-						expandidos[i][j] = 0;
-					}
-					delete[] expandidos[i];
-					expandidos[i] = 0;
-				}
-				delete[] expandidos;
-				expandidos = 0;
-			}*/
-			return p2;
-		}
+		
 
 		while (!listaFrontera.empty()) {
 			
@@ -200,7 +189,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
             //En el caso de que este NodoPathfinding sea estado solución
 			if (listaInterior.size()>=10 || n.getNodo().getG()*espaciado >= pasos || ( n.getNodo().getPosition().getX() == pFin.getX() && n.getNodo().getPosition().getY() == pFin.getY() && n.getNodo().getPosition().getZ() == pFin.getZ())) {
                 //Sacamos por pantalla expandidos y el camino
-				/*if(expandidos)
+			/*	if(expandidos)
 				{
 					for (int i = minX; i < maxX; i++) {
 						for (int j = minZ; j < maxZ; j++) {
@@ -774,12 +763,13 @@ void Pathfinding::imprimirCamino(){
      */
 	vector<Position> Pathfinding::reconstruirCamino(NodoPadreEHijo n, int ***expandidos) {
 		camino.clear();
-		NodoPadreEHijo* m = new NodoPadreEHijo(n);
+		NodoPadreEHijo* m = &n;//new NodoPadreEHijo(n);
         //Nodo solución
         //Mientras no lleguemos al hijo origen
 		while (!(m->getPadre() == NULL)) {
 			camino.push_back(m->getNodo().getPosition());
             //Cogemos el padre y lo que convertimos en el actual
+			
 			m = m->getPadre();
         }
 		std::reverse(camino.begin(), camino.end());
