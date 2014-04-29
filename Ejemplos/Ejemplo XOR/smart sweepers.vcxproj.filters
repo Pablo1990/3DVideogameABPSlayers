@@ -27,9 +27,6 @@
     <ClCompile Include="CGenAlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CMinesweeper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CNeuralNet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,9 +54,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CGenAlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CMinesweeper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CNeuralNet.h">
