@@ -51,7 +51,7 @@ void Npc::set_pathfinding(Pathfinding *pf)
 	path = pf;
 }
 
-void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
+void Npc::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 {
 	try
 	{
@@ -68,12 +68,16 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 				{
 					w->set_collision_flag(true);
 					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
+					if(sound)
+						sound->hit_sound();
 
 				}
 				else if (detect_collision(w->get_weapon_node(), this->body))
 				{
 					w->set_collision_flag(true);
 					this->health = this->health - (w->get_damage() - 0.20 * w->get_damage());
+					if(sound)
+						sound->hit_sound();
 
 				}
 				else if (detect_collision(w->get_weapon_node(), this->extremity))
@@ -81,6 +85,8 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 					w->set_collision_flag(true);
 					int restar = w->get_damage() - 0.40 * w->get_damage();
 					this->health = this->health - (w->get_damage() - 0.40 * w->get_damage());
+					if(sound)
+						sound->hit_sound();
 
 				}
 			}
@@ -98,6 +104,8 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 
 						if((!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->head)) || (!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->body)) || (!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->extremity)))
 						{
+							if(sound)
+								sound->hit_sound();
 							rw->set_impact_at(0, true);
 							switch(rw->get_type())
 							{
@@ -132,7 +140,8 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 						{
 							rw->set_impact_at(i, true);
 
-
+							if(sound)
+								sound->hit_sound();
 							this->health = this->health - (2 * ((w->get_damage() + 0.50 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
 								this->character_node->getPosition().Z)));
@@ -141,7 +150,8 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 						{
 							rw->set_impact_at(i, true);
 						
-
+							if(sound)
+								sound->hit_sound();
 							double resto = (2 * ((w->get_damage() - 0.40 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
 								this->character_node->getPosition().Z)));
@@ -154,7 +164,8 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d)
 						{
 							rw->set_impact_at(i, true);
 
-
+							if(sound)
+								sound->hit_sound();
 							this->health = this->health - (((w->get_damage() - 0.20 * w->get_damage())  
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
 								this->character_node->getPosition().Z)) * 2);

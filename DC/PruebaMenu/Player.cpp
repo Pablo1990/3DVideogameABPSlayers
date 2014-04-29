@@ -20,7 +20,7 @@ Player::~Player(void)
 {
 }
 
-void Player::manage_collision(Weapon *w, IrrlichtDevice* d)
+void Player::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 {
 	try
 	{
@@ -36,7 +36,8 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d)
 					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
 					//this->health = 0;
 					
-					
+					if(sound)
+						sound->hit_sound();
 
 					if(scene_manager)
 					{
@@ -52,6 +53,9 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d)
 					w->set_collision_flag(true);
 					this->health = this->health - (w->get_damage() - 0.20 * w->get_damage());
 
+					if(sound)
+						sound->hit_sound();
+
 					if(scene_manager)
 					{
 						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
@@ -66,6 +70,9 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d)
 					w->set_collision_flag(true);
 					int restar = w->get_damage() - 0.40 * w->get_damage();
 					this->health = this->health - (w->get_damage() - 0.40 * w->get_damage());
+
+					if(sound)
+						sound->hit_sound();
 
 					if(scene_manager)
 					{
@@ -92,6 +99,8 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d)
 							rw->set_impact_at(0, true);
 							core::list<ISceneNodeAnimator*>::ConstIterator anims=cam->getAnimators().begin();
 							ISceneNodeAnimatorCameraFPS *anim=(ISceneNodeAnimatorCameraFPS*)*anims;
+							if(sound)
+								sound->hit_sound();
 							switch(rw->get_type())
 							{
 								case RED_SHROOM_TYPE:
@@ -127,6 +136,8 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d)
 					{
 						if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->head))
 						{
+							if(sound)
+								sound->hit_sound();
 							rw->set_impact_at(i, true);
 							if(scene_manager)
 							{
@@ -144,6 +155,8 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d)
 						}
 						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->body))
 						{
+							if(sound)
+								sound->hit_sound();
 							rw->set_impact_at(i, true);
 							if(scene_manager)
 							{
@@ -163,6 +176,8 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d)
 						}
 						else if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->extremity))
 						{
+							if(sound)
+								sound->hit_sound();
 							rw->set_impact_at(i, true);
 							if(scene_manager)
 							{

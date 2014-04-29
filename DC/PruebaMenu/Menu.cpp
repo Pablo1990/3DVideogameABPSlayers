@@ -8,11 +8,10 @@ MyMenu::MyMenu()
 
 MyMenu::~MyMenu(void)
 {
-	if(klang_engine)
+	if(sound)
 	{
-		klang_engine->stopAllSounds();
-		klang_engine->drop();
-		klang_engine = 0;
+		delete sound;
+		sound = 0;
 	}
 }
 
@@ -40,19 +39,8 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
     if (device == 0)
         return 1; // could not create selected driver.
 	
-	klang_engine = createIrrKlangDevice();
-
-	if (!klang_engine)
-      return 0;
-
-	ISound* snd = klang_engine->play2D(menu_music_path, true);
-	
-	if(snd)
-	{
-		snd->setVolume(0.5f);
-		snd->drop();
-		snd = 0;
-	}
+	if(!sound)
+		sound = new SoundEffect(menu_music_path);
 	
 	device->setWindowCaption(L"MENU");
     device->setResizable(true);
@@ -103,7 +91,7 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 
 	video::ITexture* irrlichtBack = driver->getTexture("../Imagenes/demoback1.png");
 
-
+	sound->play_background();
 	while(device->run() && driver && start == false)
 	{
 		if (device->isWindowActive())
@@ -122,8 +110,7 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 	}
     device->drop();
 
-	klang_engine->stopAllSounds();
-
+	sound->stop_all_sounds();
 	return start;
 }
 

@@ -16,17 +16,18 @@ Juego::Juego(video::E_DRIVER_TYPE d)
 
 Juego::~Juego(void)
 {
+
+
+		if(sound)
+	{
+		delete sound;
+		sound = 0;
+	} 
+
 	if(pf)
 	{
 		delete pf;
 		pf = 0;
-	}
-
-	if(klang_engine)
-	{
-		klang_engine->stopAllSounds();
-		klang_engine->drop();
-		klang_engine = 0;
 	}
 
 	if(hud)
@@ -244,6 +245,10 @@ void Juego::run()
 	cntinue = true;
 
 	cycles = 0;
+	if(sound)
+		sound->play_background();
+	win_condition = 0;
+
 	while(device->run() && driver && cntinue)
 	{
 		if (device->isWindowActive())
@@ -257,9 +262,9 @@ void Juego::run()
 					if(player->get_weapon())
 						player->get_weapon()->finish_animation();
 
-			if(npc)
+			if(npc && win_condition == 0)
 			{
-				npc->manage_collision(player->get_weapon(), device);
+				npc->manage_collision(player->get_weapon(), device, sound);
 				npc->heal_or_fire(campFire, heal_camp, device);
 
 				if(cycles % 1500 && !npc->get_is_dead())
@@ -285,15 +290,18 @@ void Juego::run()
 
 				}
 
-				if(npc->get_is_dead() && npc->get_character_node()->isVisible())
+				if(npc->get_is_dead() && win_condition == 0)
 				{
 					npc->die(device);
 					npc->remove_character_node();
+					this->win_condition = 1;
+					if(sound)
+						sound->win_sound();
 				}
 			}
 		
 
-			if(player)
+			if(player && win_condition == 0)
 			{
 				player->heal_or_fire(campFire, heal_camp, device);
 				player->fall_down(device);
@@ -305,6 +313,13 @@ void Juego::run()
 					player->get_position().Z);
 				
 				statusText->setText(tmp);
+
+				if(player->get_is_dead() && win_condition == 0)
+				{
+					win_condition = -1;
+					if(sound)
+						sound->lose_sound();
+				}
 			}
 
 			if(cycles % 1500 == 0)
@@ -339,6 +354,8 @@ void Juego::run()
 								statusText->setText(tmp);
 								break;
 						}*/
+
+
 				
 					driver->beginScene(timeForThisScene != -1, true, backColor);
 		
@@ -451,7 +468,7 @@ void Juego::run()
 			{
 				player->heal_or_fire(campFire, heal_camp, device);
 				player->fall_down(device);
-				player->manage_collision(npc->get_weapon(), device);
+				player->manage_collision(npc->get_weapon(), device, sound);
 				player->restore_condition(device);
 
 				
@@ -838,18 +855,7 @@ void Juego::loadSceneData()
 		npc->setItems(armas, types);
 	
 	//Music
-	klang_engine = createIrrKlangDevice();
-
-	if (klang_engine)
-	{
-      ISound* snd = klang_engine->play2D(game_music_path, true);
-	  if(snd)
-	  {
-		  snd->setVolume(0.5f);
-		  snd->drop();
-		  snd = 0;
-	  }
-	}
+	sound = new SoundEffect(game_music_path);
 }
 
 bool Juego::OnEvent(const SEvent& event)
@@ -929,7 +935,7 @@ bool Juego::OnEvent(const SEvent& event)
 	}
 	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == true)
 	{
-		if(!crouch)
+		/*if(!crouch)
 		{
 			try
 			{
@@ -946,11 +952,11 @@ bool Juego::OnEvent(const SEvent& event)
 			}
 			catch(...)
 			{}
-		}
+		}*/
 	}
 	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == false)
 	{
-		if(crouch)
+		/*if(crouch)
 		{
 			try
 			{
@@ -968,7 +974,7 @@ bool Juego::OnEvent(const SEvent& event)
 			}
 			catch(...)
 			{}
-		}
+		}*/
 	}
 	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_J)
 	{
