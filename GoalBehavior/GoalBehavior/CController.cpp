@@ -74,6 +74,7 @@ bool CController::Update()
 	//information from its surroundings. The output from the NN is obtained
 	//and the sweeper is moved. If it encounters a mine its fitness is
 	//updated appropriately,
+	cajas=0;
 	if (m_iTicks++ < CParams::iNumTicks)
 	{
 		for (int i=0; i<m_NumSweepers; ++i)
@@ -88,6 +89,7 @@ bool CController::Update()
 			}
 			m_vecSweepers[i]->mover();
 			updateFitness(i);
+			cajas=cajas+m_vecSweepers[i]->getArmasCogidas();
 			if(m_iTicks % 105 == 0){
 				double x, y = 0;
 				m_vecSweepers[i]->getPosMasCercano(x,y);

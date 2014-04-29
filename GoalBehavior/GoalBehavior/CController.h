@@ -96,7 +96,7 @@ public:
 	CController(vector<Bot*> bots);
 
 	~CController();
-
+	int cajas;
 	void		Render(HDC surface);
 
 	void		WorldTransform(vector<SPoint> &VBuffer,

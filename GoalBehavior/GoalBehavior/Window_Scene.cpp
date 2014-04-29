@@ -112,6 +112,7 @@ void Window_Scene::cargarEscenario(vector<Bot*> bots, CController* controller)
 		bots[i]->getPosMasCercano(x,y);
 		textAprendizaje << "Distancia a cercano: ("<<x<<","<<y<<")"<<endl;
 	}
+	textAprendizaje<<"Cajas cogidas "<<controller->cajas<<endl;
 	Text_Aprendizaje.setString(textAprendizaje.str());
 	window.draw(Text_Aprendizaje);
 	window.display();
