@@ -10,6 +10,7 @@ Juego::Juego(video::E_DRIVER_TYPE d)
 	this->types = new double[6];
 	crouch = false;
 	this->armas = new std::list<Weapon*>;
+	paused = false;
 }
 // Values used to identify individual GUI elements
 
@@ -869,7 +870,29 @@ bool Juego::OnEvent(const SEvent& event)
 	{
 		// user wants to quit.
 		//device->closeDevice();
+		
+
 		cntinue = false;
+	}
+	else if(event.EventType == EET_KEY_INPUT_EVENT &&
+		event.KeyInput.Key == KEY_KEY_P &&
+		event.KeyInput.PressedDown == false)
+	{
+		if(paused)
+		{
+			paused = false;
+			this->device->getCursorControl()->setPosition(0.5f,0.5f);
+			this->camera->setInputReceiverEnabled(true);
+			this->sound->resume_background_sounds();
+			this->device->getTimer()->start();
+		}
+		else
+		{
+			paused = true;
+			this->camera->setInputReceiverEnabled(false);
+			this->sound->pause_background_sounds();
+			this->device->getTimer()->stop();
+		}
 	}
 	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_G && event.KeyInput.PressedDown == true && player != NULL)
 	{
@@ -878,7 +901,7 @@ bool Juego::OnEvent(const SEvent& event)
 
 		player->drop_weapon(camera);
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_E && event.KeyInput.PressedDown == true)
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_E && event.KeyInput.PressedDown == true && !paused)
 	{
 		try
 		{
@@ -933,9 +956,9 @@ bool Juego::OnEvent(const SEvent& event)
 		catch(...)
 		{}
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == true)
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == true && !paused)
 	{
-		/*if(!crouch)
+		if(!crouch)
 		{
 			try
 			{
@@ -952,11 +975,11 @@ bool Juego::OnEvent(const SEvent& event)
 			}
 			catch(...)
 			{}
-		}*/
+		}
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == false)
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == false && !paused)
 	{
-		/*if(crouch)
+		if(crouch)
 		{
 			try
 			{
@@ -974,14 +997,14 @@ bool Juego::OnEvent(const SEvent& event)
 			}
 			catch(...)
 			{}
-		}*/
+		}
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_J)
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_J && !paused)
 	{
 		player->reset_fall_time(this->device);
 	}
 	else if (event.EventType == EET_MOUSE_INPUT_EVENT &&
-		 event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP)
+		 event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP && !paused)
 	{
 		if(player)
 		{
@@ -991,7 +1014,7 @@ bool Juego::OnEvent(const SEvent& event)
 		}
 		
 	}else if((event.EventType == EET_MOUSE_INPUT_EVENT &&
-		event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN))
+		event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) && !paused)
 	{
 		if(player)
 		{
@@ -1001,14 +1024,14 @@ bool Juego::OnEvent(const SEvent& event)
 
 	}
 	else if (event.EventType == EET_MOUSE_INPUT_EVENT &&
-		event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP)
+		event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP && !paused)
 	{
 		if(player)
 			player->no_defend();
 	}
 	else
 	if((event.EventType == EET_MOUSE_INPUT_EVENT &&
-		event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN))
+		event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN) && !paused)
 	{
 		if(player)
 			player->defend();

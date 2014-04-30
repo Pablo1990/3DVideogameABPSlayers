@@ -5,7 +5,7 @@ SoundEffect::SoundEffect(const char* background_path)
 {
 	klang_engine = createIrrKlangDevice();
 
-	bacground_music = klang_engine->getSoundSource(background_path, true);
+	background_music = klang_engine->getSoundSource(background_path, true);
 
 	normal_hit = klang_engine->getSoundSource(hit_music_path);
 }
@@ -13,12 +13,21 @@ SoundEffect::SoundEffect(const char* background_path)
 
 SoundEffect::~SoundEffect(void)
 {
+
+	
+	if(background_music)
+	{
+		background_music->drop();
+		background_music = 0;
+	}
+
 	if(klang_engine)
 	{
 		klang_engine->stopAllSounds();
 		klang_engine->drop();
 		klang_engine = 0;
 	}
+
 }
 
 void SoundEffect::hit_sound()
@@ -38,17 +47,27 @@ void SoundEffect::lose_sound()
 
 void SoundEffect::play_background()
 {
-	ISound* snd = klang_engine->play2D(bacground_music);
+	background_sound = klang_engine->play2D(background_music, true, false, true);
 
-	if(snd)
+	if(background_sound)
 	{
-		snd->setVolume(0.5f);
-		snd->drop();
-		snd = 0;
+		background_sound->setVolume(0.5f);
 	}
 }
 
 void SoundEffect::stop_all_sounds()
 {
 	klang_engine->stopAllSounds();
+}
+
+void SoundEffect::pause_background_sounds()
+{
+	if(background_sound)
+		background_sound->setIsPaused(true);
+}
+
+void SoundEffect::resume_background_sounds()
+{
+	if(background_sound)
+		background_sound->setIsPaused(false);
 }

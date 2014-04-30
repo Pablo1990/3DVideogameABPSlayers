@@ -14,9 +14,12 @@ public:
 	void lose_sound();
 	void play_background();
 	void stop_all_sounds();
+	void pause_background_sounds();
+	void resume_background_sounds();
 private:
 	ISoundEngine* klang_engine;
 	ISoundSource* normal_hit;
-	ISoundSource* bacground_music;
+	ISoundSource* background_music;
+	ISound* background_sound;
 };
 

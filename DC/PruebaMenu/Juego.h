@@ -79,6 +79,7 @@ private:
 	scene::ICameraSceneNode* camera;
 	ISoundEngine* klang_engine;
 
+	bool paused;
 
 
 	float lastX;
