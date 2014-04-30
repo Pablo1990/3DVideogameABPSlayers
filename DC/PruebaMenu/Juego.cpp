@@ -1081,81 +1081,82 @@ void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelecto
 		Weapon *w;
 		for(int i = 0; i < armas->size(); i++)
 		{
-
-			if((*it)->no_weapon())
-			{
-				vector3df position = (*it)->get_main_position();
-			
-			
-				//armas->remove(*it);
-				delete (*it);
-				(*it) = 0;
-
-				srand((unsigned)time(0)); 
-				int r = rand();
-				r = r % 7;
-
-			/*	if(i == 0)
+			if((*it)!=NULL){
+				if((*it)->no_weapon())
 				{
+					vector3df position = (*it)->get_main_position();
+			
+			
+					//armas->remove(*it);
+					delete (*it);
+					(*it) = 0;
+
+					srand((unsigned)time(0)); 
+					int r = rand();
+					r = r % 7;
+
+				/*	if(i == 0)
+					{
+						it_aux = armas->begin();
+					}
+					else
+					{
+						it_aux++;
+					}*/
+
 					it_aux = armas->begin();
+					for(int j = 0; j < i; j++)
+					{
+						it_aux++;
+					}
+		
+					switch(r)
+					{
+						case 0:
+							it_aux = armas->insert(it_aux, new Spear(6,5,sm));
+							position.Y = 25;
+							(*it_aux)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas->size() - 1);
+						/*armas.push_back( new Spear(0,0,sm));
+						position.Y = 25;
+						(*(--armas.end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas.size() - 1);*/
+						break;
+					case 1:
+						it_aux = armas->insert(it_aux, new Sword(4,7,sm));
+						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas->size() - 1);
+						break;
+					case 2:
+						it_aux = armas->insert(it_aux, new Bow(4,4,sm, mapSelector, device));
+						(*it_aux)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+						break;
+					case 3:
+						it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM));
+						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+						break;
+					case 4:
+						it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM));
+						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+						break;
+					case 5:
+						it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM));
+						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+						break;
+					case 6:
+						it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE));
+						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+						break;
+					}
+		
+					(*it_aux)->set_main_position(position);
+					(*it_aux)->set_no_weapon(false);
+					(*it_aux)->get_weapon_node()->setName((std::to_string((*it_aux)->get_type()) + '_' + std::to_string(i)).c_str());
+					this->types[i] = (*it_aux)->get_type();
+
+					it = it_aux;
 				}
 				else
 				{
-					it_aux++;
-				}*/
-
-				it_aux = armas->begin();
-				for(int j = 0; j < i; j++)
-				{
-					it_aux++;
+					it++;
 				}
-		
-				switch(r)
-				{
-					case 0:
-						it_aux = armas->insert(it_aux, new Spear(6,5,sm));
-						position.Y = 25;
-						(*it_aux)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas->size() - 1);
-					/*armas.push_back( new Spear(0,0,sm));
-					position.Y = 25;
-					(*(--armas.end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas.size() - 1);*/
-					break;
-				case 1:
-					it_aux = armas->insert(it_aux, new Sword(4,7,sm));
-					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas->size() - 1);
-					break;
-				case 2:
-					it_aux = armas->insert(it_aux, new Bow(4,4,sm, mapSelector, device));
-					(*it_aux)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-					break;
-				case 3:
-					it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM));
-					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-					break;
-				case 4:
-					it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM));
-					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-					break;
-				case 5:
-					it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM));
-					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-					break;
-				case 6:
-					it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE));
-					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-					break;
-				}
-		
-				(*it_aux)->set_main_position(position);
-				(*it_aux)->set_no_weapon(false);
-				(*it_aux)->get_weapon_node()->setName((std::to_string((*it_aux)->get_type()) + '_' + std::to_string(i)).c_str());
-				this->types[i] = (*it_aux)->get_type();
-
-				it = it_aux;
-			}
-			else
-			{
-				it++;
 			}
 
 
