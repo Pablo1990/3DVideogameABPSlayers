@@ -1087,9 +1087,10 @@ void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelecto
 				vector3df position = (*it)->get_main_position();
 			
 			
-				//armas->remove(*it);
+				
 				delete (*it);
 				(*it) = 0;
+				armas->remove(*it);
 
 				srand((unsigned)time(0)); 
 				int r = rand();
