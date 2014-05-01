@@ -109,6 +109,7 @@ public:
 	bool		FastRender()const	  {return m_bFastRender;}
 	void		FastRender(bool arg){m_bFastRender = arg;}
 	void		FastRenderToggle()  {m_bFastRender = !m_bFastRender;}
+	void	plotNeuralNet(HDC surface);
 
 };
 

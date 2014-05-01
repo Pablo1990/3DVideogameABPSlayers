@@ -41,7 +41,7 @@ bool xor::Update()
 			cerr<<"ERROR"<<endl;
 			return false;
 		}
-
+		//esto hay que borrarlo
 		if(output[0]>=0.5)
 			resultado[i] = 1;
 		else

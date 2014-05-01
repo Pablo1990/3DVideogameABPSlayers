@@ -175,11 +175,14 @@ bool CController::Update()
 					cont++;
 				}
 				else{
+					//OutputDebugString("incorrecto");
 					cout<<"INCORRECTO"<<endl;
 				}
 			}
-			if(cont==4)
+			if(cont==4){
+				OutputDebugString("Todos Correctos\n");
 				return false;
+			}
 
 			//update the chromos fitness score
 			m_vecThePopulation[i].dFitness = m_vecSweepers[i].Fitness();
@@ -220,6 +223,29 @@ bool CController::Update()
 //------------------------------------Render()--------------------------------------
 //
 //----------------------------------------------------------------------------------
+void CController::plotNeuralNet(HDC surface){
+	CNeuralNet aux;
+	for(int i=0; i<m_NumSweepers; i++){
+		aux = m_vecSweepers[i].GetNeuralNet();
+		for (int i=0; i<aux.m_NumHiddenLayers + 1; ++i)
+		{
+			//for each neuron
+			for (int j=0; j<aux.m_vecLayers[i].m_NumNeurons; ++j)
+			{
+				//for each weight
+				string s =  "[";
+				TextOut(surface, 500, i*20, s.c_str(), s.size());
+				for (int k=0; k<aux.m_vecLayers[i].m_vecNeurons[j].m_NumInputs; ++k)
+				{
+					s =ftos(aux.m_vecLayers[i].m_vecNeurons[j].m_vecWeight[k])+",";
+					TextOut(surface, 500 + (80*k +5), i*20, s.c_str(), s.size());
+				}
+				s = "]";
+				TextOut(surface, 500 + (80*aux.m_vecLayers[i].m_vecNeurons[j].m_NumInputs)+5, i*20, s.c_str(), s.size());
+			}
+	}
+	}
+}
 void CController::Render(HDC surface)
 {
 	//render the stats
@@ -227,6 +253,8 @@ void CController::Render(HDC surface)
 	TextOut(surface, 5, 0, s.c_str(), s.size());
 
 	PlotStats(surface);
+
+	plotNeuralNet(surface);
 }
 
 //--------------------------PlotStats-------------------------------------
@@ -241,6 +269,8 @@ void CController::PlotStats(HDC surface)
 
 	s = "Average Fitness: " + ftos(m_pGA->AverageFitness());
 	TextOut(surface, 5, 40, s.c_str(), s.size());
+
+
 
 	//render the graph
 	float HSlice = (float)cxClient/(m_iGenerations+1);

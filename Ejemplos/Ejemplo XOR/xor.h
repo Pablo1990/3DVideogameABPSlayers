@@ -23,6 +23,7 @@ public:
 	void PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
 	int GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
 	void aumentoFitness() {fitness++;}
+	CNeuralNet GetNeuralNet() {return m_ItsBrain; }
 
 private:
 	CNeuralNet m_ItsBrain;

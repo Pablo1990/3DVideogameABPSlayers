@@ -65,8 +65,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 			RECT rect;
 			GetClientRect(hwnd, &rect);
 
-			cxClient = rect.right;
-			cyClient = rect.bottom;
+			cxClient = rect.right/2;
+			cyClient = rect.bottom/2;
 
 			//setup the controller
 			g_pController = new CController(hwnd);
@@ -151,7 +151,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
       PAINTSTRUCT ps;
       
 		  BeginPaint(hwnd, &ps);
-		
 			//fill our backbuffer with white
 			BitBlt(hdcBackBuffer,
              0,
