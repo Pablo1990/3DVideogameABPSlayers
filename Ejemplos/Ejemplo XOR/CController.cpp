@@ -171,7 +171,8 @@ bool CController::Update()
 					if(1 == (m_vecSweepers[i].getDigito1()[j] != m_vecSweepers[i].getDigito2()[j]))
 					{
 						//aumento fitness
-						m_vecSweepers[i].aumentoFitness();
+						//if(cont>1)
+							m_vecSweepers[i].aumentoFitness();
 						cont++;
 					}
 				}
@@ -179,13 +180,15 @@ bool CController::Update()
 					if(0 == (m_vecSweepers[i].getDigito1()[j] != m_vecSweepers[i].getDigito2()[j]))
 					{
 						//aumento fitness
-						//OutputDebugString("incorrecto");
-						m_vecSweepers[i].aumentoFitness();
+						//if(cont>1)
+							m_vecSweepers[i].aumentoFitness();
 						cont++;
 					}
 
 				}
 			}
+			string c = "Aciertos" + itos(cont) + "\n";
+			OutputDebugString(c.c_str());
 			if(cont==4){
 				OutputDebugString("Todos Correctos\n");
 				return false;
@@ -254,6 +257,7 @@ void CController::plotNeuralNet(HDC surface){
 				TextOut(surface, 500 + (80*aux.m_vecLayers[i].m_vecNeurons[j].m_NumInputs)+5, i*20, s.c_str(), s.size());
 			}
 		}
+
 		string s = "Aciertos " +itos(m_vecSweepers[numIndividuo].getAciertos());
 		TextOut(surface, 200, 0, s.c_str(), s.size());
 		s = "inputs1 ";
