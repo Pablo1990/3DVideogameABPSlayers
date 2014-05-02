@@ -176,7 +176,7 @@ int CNeuralNet::GetNumberOfWeights() const
 vector<double> CNeuralNet::Update(vector<double> &inputs)
 {
 	//stores the resultant outputs from each layer
-	vector<double> outputs;
+	outputs.clear();
 
 	int cWeight = 0;
 	
@@ -191,9 +191,9 @@ vector<double> CNeuralNet::Update(vector<double> &inputs)
 	for (int i=0; i<m_NumHiddenLayers + 1; ++i)
 	{		
 		if ( i > 0 )
-    {
+		{
 			inputs = outputs;
-    }
+		}
 
 		outputs.clear();
 		
