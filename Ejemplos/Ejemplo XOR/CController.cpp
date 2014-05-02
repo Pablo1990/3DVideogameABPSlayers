@@ -233,7 +233,8 @@ bool CController::Update()
 void CController::plotNeuralNet(HDC surface){
 	CNeuralNet aux;
 	//for(int i=0; i<m_NumSweepers; i++){
-		aux = m_vecSweepers[0].GetNeuralNet();
+	int numIndividuo = m_pGA->getFittest(); //cogemos el que tiene mayor fitness
+	aux = m_vecSweepers[numIndividuo].GetNeuralNet();
 		for (int i=0; i<aux.m_NumHiddenLayers + 1; ++i)
 		{
 			//for each neuron
@@ -253,7 +254,7 @@ void CController::plotNeuralNet(HDC surface){
 				TextOut(surface, 500 + (80*aux.m_vecLayers[i].m_vecNeurons[j].m_NumInputs)+5, i*20, s.c_str(), s.size());
 			}
 		}
-		string s = "Aciertos " +itos(m_vecSweepers[0].getAciertos());
+		string s = "Aciertos " +itos(m_vecSweepers[numIndividuo].getAciertos());
 		TextOut(surface, 200, 0, s.c_str(), s.size());
 		s = "inputs1 ";
 		TextOut(surface, 200, 20, s.c_str(), s.size());
@@ -264,9 +265,9 @@ void CController::plotNeuralNet(HDC surface){
 		s = "por capas";	
 		TextOut(surface, 10, 80, s.c_str(), s.size());
 		for(int j = 0; j<4; j++){
-			s = ", " + itos(m_vecSweepers[0].getDigito1()[j]);	
+			s = ", " + itos(m_vecSweepers[numIndividuo].getDigito1()[j]);	
 			TextOut(surface, 255 + 20*j, 20, s.c_str(), s.size());
-			s = ", " + itos(m_vecSweepers[0].getDigito2()[j]);	
+			s = ", " + itos(m_vecSweepers[numIndividuo].getDigito2()[j]);	
 			TextOut(surface, 255 + 20*j, 40, s.c_str(), s.size());
 			for (int k=0; k<aux.m_NumHiddenLayers + 1; ++k)
 			{
