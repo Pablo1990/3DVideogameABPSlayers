@@ -12,6 +12,11 @@ static const char *stone_path = "../media/Stone_Forest_1_LOD1/Stone_Forest_1_LOD
 static const char *torch_path = "../media/medieval-torch.obj";
 static const char *shield_path = "../media/SA_LD_Wooden_Shield.obj";
 static const char *menu_music_path = "../media/music/menu.mp3";
-static const char *game_music_path = "../media/music/game.mp3";
+static const char *game_music_path = "../media/music/game.ogg";
+static const char *hit_music_path = "../media/music/sonidos/cachon.ogg";
+static const char *win_music_path = "../media/music/sonidos/you_win.ogg";
+static const char *lose_music_path = "../media/music/sonidos/you_lose.ogg";
+
+
 
 #endif

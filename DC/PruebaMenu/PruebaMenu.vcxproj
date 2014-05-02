@@ -44,6 +44,11 @@
     <ReferencePath>$(SolutionDir)\irrlicht-1.8\lib\Win32-visualstudio;$(SolutionDir)\VisualLeakDetector\lib\Win32;$(ReferencePath)</ReferencePath>
     <LibraryPath>$(SolutionDir)\irrlicht-1.8\lib\Win32-visualstudio;$(SolutionDir)\VisualLeakDetector\lib\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)\irrlicht-1.8\bin;$(SolutionDir)\irrlicht-1.8\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
+    <ReferencePath>$(SolutionDir)\irrlicht-1.8\lib\Win32-visualstudio;$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib</ReferencePath>
+    <LibraryPath>$(SolutionDir)\irrlicht-1.8\lib\Win32-visualstudio;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -107,6 +112,7 @@
     <ClInclude Include="RangeWeapon.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Shield.h" />
+    <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="Spear.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="Sword.h" />
@@ -154,6 +160,7 @@
     <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="RangeWeapon.cpp" />
     <ClCompile Include="Shield.cpp" />
+    <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="Spear.cpp" />
     <ClCompile Include="Sword.cpp" />
     <ClCompile Include="ThrowableItem.cpp" />

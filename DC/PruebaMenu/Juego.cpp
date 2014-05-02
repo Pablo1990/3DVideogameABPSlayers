@@ -10,23 +10,25 @@ Juego::Juego(video::E_DRIVER_TYPE d)
 	this->types = new double[6];
 	crouch = false;
 	this->armas = new std::list<Weapon*>;
+	paused = false;
 }
 // Values used to identify individual GUI elements
 
 
 Juego::~Juego(void)
 {
+
+
+		if(sound)
+	{
+		delete sound;
+		sound = 0;
+	} 
+
 	if(pf)
 	{
 		delete pf;
 		pf = 0;
-	}
-
-	if(klang_engine)
-	{
-		klang_engine->stopAllSounds();
-		klang_engine->drop();
-		klang_engine = 0;
 	}
 
 	if(hud)
@@ -244,6 +246,10 @@ void Juego::run()
 	cntinue = true;
 
 	cycles = 0;
+	if(sound)
+		sound->play_background();
+	win_condition = 0;
+
 	while(device->run() && driver && cntinue)
 	{
 		if (device->isWindowActive())
@@ -257,9 +263,9 @@ void Juego::run()
 					if(player->get_weapon())
 						player->get_weapon()->finish_animation();
 
-			if(npc)
+			if(npc && win_condition == 0)
 			{
-				npc->manage_collision(player->get_weapon(), device);
+				npc->manage_collision(player->get_weapon(), device, sound);
 				npc->heal_or_fire(campFire, heal_camp, device);
 
 				if(cycles % 1500 && !npc->get_is_dead())
@@ -285,15 +291,18 @@ void Juego::run()
 
 				}
 
-				if(npc->get_is_dead() && npc->get_character_node()->isVisible())
+				if(npc->get_is_dead() && win_condition == 0)
 				{
 					npc->die(device);
 					npc->remove_character_node();
+					this->win_condition = 1;
+					if(sound)
+						sound->win_sound();
 				}
 			}
 		
 
-			if(player)
+			if(player && win_condition == 0)
 			{
 				player->heal_or_fire(campFire, heal_camp, device);
 				player->fall_down(device);
@@ -305,6 +314,13 @@ void Juego::run()
 					player->get_position().Z);
 				
 				statusText->setText(tmp);
+
+				if(player->get_is_dead() && win_condition == 0)
+				{
+					win_condition = -1;
+					if(sound)
+						sound->lose_sound();
+				}
 			}
 
 			if(cycles % 1500 == 0)
@@ -339,6 +355,8 @@ void Juego::run()
 								statusText->setText(tmp);
 								break;
 						}*/
+
+
 				
 					driver->beginScene(timeForThisScene != -1, true, backColor);
 		
@@ -451,7 +469,7 @@ void Juego::run()
 			{
 				player->heal_or_fire(campFire, heal_camp, device);
 				player->fall_down(device);
-				player->manage_collision(npc->get_weapon(), device);
+				player->manage_collision(npc->get_weapon(), device, sound);
 				player->restore_condition(device);
 
 				
@@ -838,18 +856,7 @@ void Juego::loadSceneData()
 		npc->setItems(armas, types);
 	
 	//Music
-	klang_engine = createIrrKlangDevice();
-
-	if (klang_engine)
-	{
-      ISound* snd = klang_engine->play2D(game_music_path, true);
-	  if(snd)
-	  {
-		  snd->setVolume(0.5f);
-		  snd->drop();
-		  snd = 0;
-	  }
-	}
+	sound = new SoundEffect(game_music_path);
 }
 
 bool Juego::OnEvent(const SEvent& event)
@@ -863,7 +870,29 @@ bool Juego::OnEvent(const SEvent& event)
 	{
 		// user wants to quit.
 		//device->closeDevice();
+		
+
 		cntinue = false;
+	}
+	else if(event.EventType == EET_KEY_INPUT_EVENT &&
+		event.KeyInput.Key == KEY_KEY_P &&
+		event.KeyInput.PressedDown == false)
+	{
+		if(paused)
+		{
+			paused = false;
+			this->device->getCursorControl()->setPosition(0.5f,0.5f);
+			this->camera->setInputReceiverEnabled(true);
+			this->sound->resume_background_sounds();
+			this->device->getTimer()->start();
+		}
+		else
+		{
+			paused = true;
+			this->camera->setInputReceiverEnabled(false);
+			this->sound->pause_background_sounds();
+			this->device->getTimer()->stop();
+		}
 	}
 	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_G && event.KeyInput.PressedDown == true && player != NULL)
 	{
@@ -872,7 +901,7 @@ bool Juego::OnEvent(const SEvent& event)
 
 		player->drop_weapon(camera);
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_E && event.KeyInput.PressedDown == true)
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_E && event.KeyInput.PressedDown == true && !paused)
 	{
 		try
 		{
@@ -927,7 +956,7 @@ bool Juego::OnEvent(const SEvent& event)
 		catch(...)
 		{}
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == true)
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == true && !paused)
 	{
 		if(!crouch)
 		{
@@ -948,7 +977,7 @@ bool Juego::OnEvent(const SEvent& event)
 			{}
 		}
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == false)
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == false && !paused)
 	{
 		if(crouch)
 		{
@@ -970,12 +999,12 @@ bool Juego::OnEvent(const SEvent& event)
 			{}
 		}
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_J)
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_J && !paused)
 	{
 		player->reset_fall_time(this->device);
 	}
 	else if (event.EventType == EET_MOUSE_INPUT_EVENT &&
-		 event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP)
+		 event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP && !paused)
 	{
 		if(player)
 		{
@@ -985,7 +1014,7 @@ bool Juego::OnEvent(const SEvent& event)
 		}
 		
 	}else if((event.EventType == EET_MOUSE_INPUT_EVENT &&
-		event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN))
+		event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) && !paused)
 	{
 		if(player)
 		{
@@ -995,14 +1024,14 @@ bool Juego::OnEvent(const SEvent& event)
 
 	}
 	else if (event.EventType == EET_MOUSE_INPUT_EVENT &&
-		event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP)
+		event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP && !paused)
 	{
 		if(player)
 			player->no_defend();
 	}
 	else
 	if((event.EventType == EET_MOUSE_INPUT_EVENT &&
-		event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN))
+		event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN) && !paused)
 	{
 		if(player)
 			player->defend();
@@ -1075,81 +1104,85 @@ void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelecto
 		Weapon *w;
 		for(int i = 0; i < armas->size(); i++)
 		{
-
-			if((*it)->no_weapon())
-			{
-				vector3df position = (*it)->get_main_position();
-			
-			
-				//armas->remove(*it);
-				delete (*it);
-				(*it) = 0;
-
-				srand((unsigned)time(0)); 
-				int r = rand();
-				r = r % 7;
-
-			/*	if(i == 0)
+			if((*it)!=NULL){
+				if((*it)->no_weapon())
 				{
+					vector3df position = (*it)->get_main_position();
+			
+			
+
+				
+					delete (*it);
+					(*it) = 0;
+					armas->remove(*it);
+
+
+					srand((unsigned)time(0)); 
+					int r = rand();
+					r = r % 7;
+
+				/*	if(i == 0)
+					{
+						it_aux = armas->begin();
+					}
+					else
+					{
+						it_aux++;
+					}*/
+
 					it_aux = armas->begin();
+					for(int j = 0; j < i; j++)
+					{
+						it_aux++;
+					}
+		
+					switch(r)
+					{
+						case 0:
+							it_aux = armas->insert(it_aux, new Spear(6,5,sm));
+							position.Y = 25;
+							(*it_aux)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas->size() - 1);
+						/*armas.push_back( new Spear(0,0,sm));
+						position.Y = 25;
+						(*(--armas.end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas.size() - 1);*/
+						break;
+					case 1:
+						it_aux = armas->insert(it_aux, new Sword(4,7,sm));
+						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas->size() - 1);
+						break;
+					case 2:
+						it_aux = armas->insert(it_aux, new Bow(4,4,sm, mapSelector, device));
+						(*it_aux)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+						break;
+					case 3:
+						it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM));
+						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+						break;
+					case 4:
+						it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM));
+						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+						break;
+					case 5:
+						it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM));
+						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+						break;
+					case 6:
+						it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE));
+						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+						break;
+					}
+		
+					(*it_aux)->set_main_position(position);
+					(*it_aux)->set_no_weapon(false);
+					(*it_aux)->get_weapon_node()->setName((std::to_string((*it_aux)->get_type()) + '_' + std::to_string(i)).c_str());
+					this->types[i] = (*it_aux)->get_type();
+
+					it = it_aux;
 				}
 				else
 				{
-					it_aux++;
-				}*/
-
-				it_aux = armas->begin();
-				for(int j = 0; j < i; j++)
-				{
-					it_aux++;
+					it++;
 				}
-		
-				switch(r)
-				{
-					case 0:
-						it_aux = armas->insert(it_aux, new Spear(6,5,sm));
-						position.Y = 25;
-						(*it_aux)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas->size() - 1);
-					/*armas.push_back( new Spear(0,0,sm));
-					position.Y = 25;
-					(*(--armas.end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas.size() - 1);*/
-					break;
-				case 1:
-					it_aux = armas->insert(it_aux, new Sword(4,7,sm));
-					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas->size() - 1);
-					break;
-				case 2:
-					it_aux = armas->insert(it_aux, new Bow(4,4,sm, mapSelector, device));
-					(*it_aux)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-					break;
-				case 3:
-					it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM));
-					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-					break;
-				case 4:
-					it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM));
-					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-					break;
-				case 5:
-					it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM));
-					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-					break;
-				case 6:
-					it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE));
-					(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-					break;
-				}
-		
-				(*it_aux)->set_main_position(position);
-				(*it_aux)->set_no_weapon(false);
-				(*it_aux)->get_weapon_node()->setName((std::to_string((*it_aux)->get_type()) + '_' + std::to_string(i)).c_str());
-				this->types[i] = (*it_aux)->get_type();
-
-				it = it_aux;
-			}
-			else
-			{
-				it++;
 			}
 
 
@@ -1160,20 +1193,20 @@ void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelecto
 			//type = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(0, strcspn((*it)->get_weapon_node()->getName(), "_")).c_str());
 		
 		}
-			for(it = armas->begin(); it != armas->end(); ++it)
-			{
-				/*if(i >= index && it != --armas.end())
-				{
-					number = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(strcspn((*it)->get_weapon_node()->getName(), "_") + 1).c_str());
-					number--;
-					type = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(0, strcspn((*it)->get_weapon_node()->getName(), "_")).c_str());
-					//cout << "DA NAME " << type << "_" << number << endl;
-					(*it)->get_weapon_node()->setName((std::to_string(type) + '_' + std::to_string(number)).c_str());
-				}*/
-//				cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
-	
-
-			}
+//			for(it = armas->begin(); it != armas->end(); ++it)
+//			{
+//				/*if(i >= index && it != --armas.end())
+//				{
+//					number = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(strcspn((*it)->get_weapon_node()->getName(), "_") + 1).c_str());
+//					number--;
+//					type = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(0, strcspn((*it)->get_weapon_node()->getName(), "_")).c_str());
+//					//cout << "DA NAME " << type << "_" << number << endl;
+//					(*it)->get_weapon_node()->setName((std::to_string(type) + '_' + std::to_string(number)).c_str());
+//				}*/
+////				cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
+//	
+//
+//			}
 		
 	//		cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
 		

@@ -26,7 +26,7 @@ void Goal_Explore::Activate()
 	 Activate();
 	  //process the subgoals
 	estado= ProcessSubgoals();
-	if(estado=completed && TamSubgoal()>=1)
+	if(estado=completed && TamSubgoal()>1)
 	{
 		estado= ProcessSubgoals();
 	}

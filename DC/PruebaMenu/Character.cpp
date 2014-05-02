@@ -310,7 +310,7 @@ bool Character::no_weapon()
 	else return this->weapon->get_weapon_node() == NULL;
 }
 
-void Character::manage_collision(Weapon *, IrrlichtDevice* d)
+void Character::manage_collision(Weapon *, IrrlichtDevice* d, SoundEffect* sound)
 {
 }
 

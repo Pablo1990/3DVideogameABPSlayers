@@ -8,11 +8,10 @@ MyMenu::MyMenu()
 
 MyMenu::~MyMenu(void)
 {
-	if(klang_engine)
+	if(sound)
 	{
-		klang_engine->stopAllSounds();
-		klang_engine->drop();
-		klang_engine = 0;
+		delete sound;
+		sound = 0;
 	}
 }
 
@@ -40,19 +39,8 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
     if (device == 0)
         return 1; // could not create selected driver.
 	
-	klang_engine = createIrrKlangDevice();
-
-	if (!klang_engine)
-      return 0;
-
-	ISound* snd = klang_engine->play2D(menu_music_path, true);
-	
-	if(snd)
-	{
-		snd->setVolume(0.5f);
-		snd->drop();
-		snd = 0;
-	}
+	if(!sound)
+		sound = new SoundEffect(menu_music_path);
 	
 	device->setWindowCaption(L"MENU");
     device->setResizable(true);
@@ -64,30 +52,32 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
  
 
 	IGUISkin* skin = env->getSkin();
-   gui::IGUIFont* font2 =env->getFont("../media/fontcourier.bmp");
+   gui::IGUIFont* font2 =env->getFont("../media/fuente1.png");
    skin->setFont(font2);
+   skin->setColor(EGDC_3D_SHADOW  , video::SColor(25,210,50,0));
+	skin->setColor(EGDC_3D_FACE  , video::SColor(70,215,0,15));
+	
 
-
-	env->addButton(rect<s32>(700,150,1000,150 + 82), 0, GUI_ID_JUGAR_BUTTON,
+	env->addButton(rect<s32>(800,150,1100,150 + 82), 0, GUI_ID_JUGAR_BUTTON,
             L"Jugar", L"Comienza el juego");
 
-	env->addButton(rect<s32>(700,260,1000,260 + 82), 0, GUI_ID_INVENTARIO_BUTTON,
+	env->addButton(rect<s32>(800,260,1100,260 + 82), 0, GUI_ID_INVENTARIO_BUTTON,
             L"Inventario", L"Echale un ojo a tus objetos");
 
-	env->addButton(rect<s32>(700,370,1000,370 + 82), 0, GUI_ID_EDITOR_BUTTON,
+	env->addButton(rect<s32>(800,370,1100,370 + 82), 0, GUI_ID_EDITOR_BUTTON,
             L"Editor personajes", L"Modela tus personajes");
 
-	env->addButton(rect<s32>(700,480,1000,480 + 82), 0, GUI_ID_OPCIONES_BUTTON,
+	env->addButton(rect<s32>(800,480,1100,480 + 82), 0, GUI_ID_OPCIONES_BUTTON,
             L"Opciones", L"Configura el juego");
 
-	env->addButton(rect<s32>(700,590,1000,590 + 82), 0, GUI_ID_QUIT_BUTTON,
+	env->addButton(rect<s32>(800,590,1100,590 + 82), 0, GUI_ID_QUIT_BUTTON,
             L"Quit", L"Sal del juego");
 
 	
 	
 			
 
-	video::ITexture* images = driver->getTexture("../media/Titulo1.png");
+
 	
     // Store the appropriate data in a context structure.
     
@@ -99,9 +89,9 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
     // And tell the device to use our custom event receiver.
     device->setEventReceiver(this);
 
-	video::ITexture* irrlichtBack = driver->getTexture("../Imagenes/demoback.jpg");
+	video::ITexture* irrlichtBack = driver->getTexture("../Imagenes/demoback1.png");
 
-
+	sound->play_background();
 	while(device->run() && driver && start == false)
 	{
 		if (device->isWindowActive())
@@ -110,8 +100,7 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 			if (irrlichtBack)
 				driver->draw2DImage(irrlichtBack,
 						core::position2d<int>(0,0));
-			driver->draw2DImage(images,
-						core::position2d<int>(80,100));
+	
 			
 			env->drawAll();
     
@@ -121,8 +110,7 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 	}
     device->drop();
 
-	klang_engine->stopAllSounds();
-
+	sound->stop_all_sounds();
 	return start;
 }
 
@@ -157,20 +145,20 @@ bool MyMenu::OnEvent(const SEvent& event)
 					env->clear();
 
 				
-				env->addButton(rect<s32>(700,150,1000,150 + 82), 0, GUI_ID_JUGAR_BUTTON,
+				env->addButton(rect<s32>(800,150,1100,150 + 82), 0, GUI_ID_JUGAR_BUTTON,
             L"Jugar", L"Comienza el juego");
 				
 
-	env->addButton(rect<s32>(700,260,1000,260 + 82), 0, GUI_ID_INVENTARIO_BUTTON,
+	env->addButton(rect<s32>(800,260,1100,260 + 82), 0, GUI_ID_INVENTARIO_BUTTON,
             L"Inventario", L"Echale un ojo a tus objetos");
 
-	env->addButton(rect<s32>(700,370,1000,370 + 82), 0, GUI_ID_EDITOR_BUTTON,
+	env->addButton(rect<s32>(800,370,1100,370 + 82), 0, GUI_ID_EDITOR_BUTTON,
             L"Editor personajes", L"Modela tus personajes");
 
-	env->addButton(rect<s32>(700,480,1000,480 + 82), 0, GUI_ID_OPCIONES_BUTTON,
+	env->addButton(rect<s32>(800,480,1100,480 + 82), 0, GUI_ID_OPCIONES_BUTTON,
             L"Opciones", L"Configura el juego");
 
-	env->addButton(rect<s32>(700,590,1000,590 + 82), 0, GUI_ID_QUIT_BUTTON,
+	env->addButton(rect<s32>(800,590,1100,590 + 82), 0, GUI_ID_QUIT_BUTTON,
             L"Quit", L"Sal del juego");
 					
    					
@@ -181,20 +169,20 @@ bool MyMenu::OnEvent(const SEvent& event)
 				case GUI_ID_JUGAR_BUTTON:
 					env->clear();
 
-					env->addButton(rect<s32>(700,150,1000,150 + 82), 0, GUI_ID_1VS1_BUTTON, L"1vs1", L"Juega en solitario");
-					env->addButton(rect<s32>(700,260,1000,260 + 82), 0, GUI_ID_EQUIPO_BUTTON, L"Equipo", L"Juega como miembro de equipo");
-					env->addButton(rect<s32>(700,370,1000,370 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu Anterior");
+					env->addButton(rect<s32>(800,150,1100,150 + 82), 0, GUI_ID_1VS1_BUTTON, L"1vs1", L"Juega en solitario");
+					env->addButton(rect<s32>(800,260,1100,260 + 82), 0, GUI_ID_EQUIPO_BUTTON, L"Equipo", L"Juega como miembro de equipo");
+					env->addButton(rect<s32>(800,370,1100,370 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu Anterior");
 
 					return true;
 
 				case GUI_ID_PRINCIPAL_BUTTON:
 					env->clear();
 
-					env->addButton(rect<s32>(700,150,1000,150 + 82), 0, GUI_ID_JUGAR_BUTTON,L"Jugar", L"Comienza el juego");
-					env->addButton(rect<s32>(700,260,1000,260 + 82), 0, GUI_ID_INVENTARIO_BUTTON,  L"Inventario", L"Echale un ojo a tus objetos");
-					env->addButton(rect<s32>(700,370,1000,370 + 82), 0, GUI_ID_EDITOR_BUTTON, L"Editor personajes", L"Modela tus personajes");
-					env->addButton(rect<s32>(700,480,1000,480 + 82), 0, GUI_ID_OPCIONES_BUTTON, L"Opciones", L"Configura el juego");
-					env->addButton(rect<s32>(700,590,1000,590 + 82), 0, GUI_ID_QUIT_BUTTON, L"Quit", L"Sal del juego");
+					env->addButton(rect<s32>(800,150,1100,150 + 82), 0, GUI_ID_JUGAR_BUTTON,L"Jugar", L"Comienza el juego");
+					env->addButton(rect<s32>(800,260,1100,260 + 82), 0, GUI_ID_INVENTARIO_BUTTON,  L"Inventario", L"Echale un ojo a tus objetos");
+					env->addButton(rect<s32>(800,370,1100,370 + 82), 0, GUI_ID_EDITOR_BUTTON, L"Editor personajes", L"Modela tus personajes");
+					env->addButton(rect<s32>(800,480,1100,480 + 82), 0, GUI_ID_OPCIONES_BUTTON, L"Opciones", L"Configura el juego");
+					env->addButton(rect<s32>(800,590,1100,590 + 82), 0, GUI_ID_QUIT_BUTTON, L"Quit", L"Sal del juego");
 
 					
 
@@ -204,27 +192,27 @@ bool MyMenu::OnEvent(const SEvent& event)
 					env->clear();
 
 				
-					env->addButton(rect<s32>(700,150,1000,150 + 82), 0, GUI_ID_CONTINUAR_BUTTON, L"Continuar", L"Continua desde el ultimo nivel desbloqueado");
-					env->addButton(rect<s32>(700,260,1000,260 + 82), 0, GUI_ID_NUEVA_PARTIDA_BUTTON, L"Nueva Partida", L"Comienza de nuevo");
-					env->addButton(rect<s32>(700,370,1000,370 + 82), 0, GUI_ID_APRENDIZAJE, L"Aprendizaje", L"Ejecutar Aprendizaje");
-					env->addButton(rect<s32>(700,480,1000,480 + 82), 0, GUI_ID_JAPRENDIZAJE, L"Juego Con Aprendizaje", L"Ejecutar JAprendizaje");
-					env->addButton(rect<s32>(700,590,1000,590 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu Inicio");
-					
+					env->addButton(rect<s32>(800,150,1100,150 + 82), 0, GUI_ID_CONTINUAR_BUTTON, L"Continuar", L"Continua desde el ultimo nivel desbloqueado");
+					env->addButton(rect<s32>(800,260,1100,260 + 82), 0, GUI_ID_NUEVA_PARTIDA_BUTTON, L"Nueva Partida", L"Comienza de nuevo");
+					env->addButton(rect<s32>(800,370,1100,370 + 82), 0, GUI_ID_APRENDIZAJE, L"Aprendizaje", L"Ejecutar Aprendizaje");
+					env->addButton(rect<s32>(800,480,1100,480 + 82), 0, GUI_ID_JAPRENDIZAJE, L"Juego Con Aprendizaje", L"Ejecutar JAprendizaje");
+					env->addButton(rect<s32>(800,590,1100,590 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu Inicio");
+		
 					return true;
 
 				
 
 				case GUI_ID_EQUIPO_BUTTON:
 					env->clear();
-						env->addButton(rect<s32>(700,260,1000,260 + 82), 0, GUI_ID_NUEVA_PARTIDA_BUTTON, L"Nueva Partida", L"Comienza de nuevo");
-					env->addButton(rect<s32>(700,370,1000,370 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+						env->addButton(rect<s32>(800,260,1100,260 + 82), 0, GUI_ID_NUEVA_PARTIDA_BUTTON, L"Nueva Partida", L"Comienza de nuevo");
+					env->addButton(rect<s32>(800,370,1100,370 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 
 					return true;
 
 				case GUI_ID_CONTINUAR_BUTTON:
 					env->clear();
 				
-					env->addButton(rect<s32>(700,310,1000,310 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+					env->addButton(rect<s32>(800,310,1100,310 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 
 					return true;
 
@@ -250,14 +238,14 @@ bool MyMenu::OnEvent(const SEvent& event)
 					env->clear();
 					
 
-					env->addButton(rect<s32>(700,310,1000,310 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+					env->addButton(rect<s32>(800,310,1100,310 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 
 					return true;
 
 				case GUI_ID_OPCIONES_BUTTON:
 					env->clear();
 					
-					env->addButton(rect<s32>(700,310,1000,310 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+					env->addButton(rect<s32>(800,310,1100,310 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 
 					return true;
 
@@ -265,7 +253,7 @@ bool MyMenu::OnEvent(const SEvent& event)
 					env->clear();
 					
 
-					env->addButton(rect<s32>(700,310,1000,310 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+					env->addButton(rect<s32>(800,310,1100,310 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 
 					return true;
 				default:
