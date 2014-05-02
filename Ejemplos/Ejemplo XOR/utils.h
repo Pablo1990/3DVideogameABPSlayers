@@ -30,6 +30,7 @@ inline bool   RandBool()
 
 //returns a random float in the range 0 < n < 1
 inline double RandomClamped()	   {return RandFloat();}
+inline double RandomClampedNegative()	{return RandFloat() - RandFloat();}
 
 
 //-----------------------------------------------------------------------

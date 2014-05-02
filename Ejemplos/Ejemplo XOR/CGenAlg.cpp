@@ -78,7 +78,13 @@ void CGenAlg::Mutate(vector<double> &chromo)
 		if (RandFloat() < m_dMutationRate)
 		{
 			//add or subtract a small value to the weight
-			chromo[i] += (RandomClamped() * CParams::dMaxPerturbation);
+			
+			chromo[i] += (RandomClampedNegative() * CParams::dMaxPerturbation);
+
+			if(chromo[i] < 0)
+				chromo[i] = 0;
+			else if(chromo[i] > 1)
+				chromo[i] = 1;
 		}
 	}
 }
