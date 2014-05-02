@@ -38,6 +38,8 @@ using namespace gui;
 
 class Juego: public IEventReceiver
 {
+
+
 public:
 
 	Juego(video::E_DRIVER_TYPE);
@@ -55,6 +57,7 @@ public:
 	void replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelector* mapSelector);
 
 private:
+	static const int KMAX_LEVEL = 5;
 	bool cntinue;
 	video::E_DRIVER_TYPE driverType;
 	IrrlichtDevice *device;
@@ -107,7 +110,6 @@ private:
 	int cycles;
 	SoundEffect *sound;
 	int win_condition; //0 sigue, 1 ganas, -1 pierdes
-
 	enum
 {
     // I use this ISceneNode ID to indicate a scene node that is
