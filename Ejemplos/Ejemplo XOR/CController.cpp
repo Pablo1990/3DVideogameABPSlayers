@@ -274,7 +274,7 @@ void CController::plotNeuralNet(HDC surface){
 				//for each neuron
 				for (int p=0; p<aux.m_vecLayers[k].m_NumNeurons; ++p)
 				{
-					s = " " + ftos(aux.outputs[k][p]);	
+					s = " " + ftos(aux.outputs[j][k][p]);	
 					TextOut(surface, 100 + 80*p + 80*(j*aux.m_vecLayers[0].m_NumNeurons), 60 + 20*k, s.c_str(), s.size());
 				}
 			}
