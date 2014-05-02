@@ -167,7 +167,7 @@ bool CController::Update()
 			//see if it's found a mine
 			int cont = 0;
 			for (int j=0; j<4; j++){
-				if(m_vecSweepers[i].getResultado()[j]>=0.5){
+				if(m_vecSweepers[i].getResultado()[j]>=0.7){
 					if(1 == (m_vecSweepers[i].getDigito1()[j] != m_vecSweepers[i].getDigito2()[j]))
 					{
 						//aumento fitness
@@ -190,7 +190,8 @@ bool CController::Update()
 			string c = "Aciertos" + itos(cont) + "\n";
 			OutputDebugString(c.c_str());
 			if(cont==4){
-				OutputDebugString("Todos Correctos\n");
+				c = "Todos Correctos en generacion " + itos(m_iGenerations);
+				OutputDebugString(c.c_str());
 				return false;
 			}
 
@@ -236,7 +237,8 @@ bool CController::Update()
 void CController::plotNeuralNet(HDC surface){
 	CNeuralNet aux;
 	//for(int i=0; i<m_NumSweepers; i++){
-	int numIndividuo = m_pGA->getFittest(); //cogemos el que tiene mayor fitness
+	//int numIndividuo = m_pGA->getFittest(); //cogemos el que tiene mayor fitness
+	int numIndividuo = 0;
 	aux = m_vecSweepers[numIndividuo].GetNeuralNet();
 		for (int i=0; i<aux.m_NumHiddenLayers + 1; ++i)
 		{
