@@ -17,6 +17,7 @@ xor::xor(void)
 		}
 		resultado[i] = 0;
 	}
+	aciertos = 0;
 }
 
 
@@ -26,6 +27,7 @@ xor::~xor(void)
 
 void xor::Reset()
 {
+	aciertos = 0;
 }
 
 bool xor::Update()
@@ -41,11 +43,7 @@ bool xor::Update()
 			cerr<<"ERROR"<<endl;
 			return false;
 		}
-		//esto hay que borrarlo
-		if(output[0]>=0.5)
-			resultado[i] = 1;
-		else
-			resultado[i] = 0;
+		resultado[i] = output[0];
 	}
 	
 	return true;

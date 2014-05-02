@@ -20,9 +20,11 @@ public:
 	int* getDigito2();
 	double* getResultado();
 	double Fitness();
+	int getAciertos() {return aciertos;}
 	void PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
 	int GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
-	void aumentoFitness() {fitness++;}
+	void aumentoFitness() {fitness++;aciertos++;}
+	void disminuyoFitness() {fitness--;}
 	CNeuralNet GetNeuralNet() {return m_ItsBrain; }
 
 private:
@@ -30,6 +32,7 @@ private:
 	int digito1[4];
 	int digito2[4];
 	double resultado[4];
+	int aciertos;
 	double fitness;
 };
 

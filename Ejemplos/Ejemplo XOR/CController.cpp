@@ -167,16 +167,23 @@ bool CController::Update()
 			//see if it's found a mine
 			int cont = 0;
 			for (int j=0; j<4; j++){
-				if(m_vecSweepers[i].getResultado()[j] == (m_vecSweepers[i].getDigito1()[j] != m_vecSweepers[i].getDigito2()[j]))
-				{
-					//aumento fitness
-					m_vecSweepers[i].aumentoFitness();
-					cout<<"CORRECTO"<<endl;
-					cont++;
+				if(m_vecSweepers[i].getResultado()[j]>=0.5){
+					if(1 == (m_vecSweepers[i].getDigito1()[j] != m_vecSweepers[i].getDigito2()[j]))
+					{
+						//aumento fitness
+						m_vecSweepers[i].aumentoFitness();
+						cont++;
+					}
 				}
-				else{
-					//OutputDebugString("incorrecto");
-					cout<<"INCORRECTO"<<endl;
+				else {
+					if(0 == (m_vecSweepers[i].getDigito1()[j] != m_vecSweepers[i].getDigito2()[j]))
+					{
+						//aumento fitness
+						//OutputDebugString("incorrecto");
+						m_vecSweepers[i].aumentoFitness();
+						cont++;
+					}
+
 				}
 			}
 			if(cont==4){
@@ -225,8 +232,8 @@ bool CController::Update()
 //----------------------------------------------------------------------------------
 void CController::plotNeuralNet(HDC surface){
 	CNeuralNet aux;
-	for(int i=0; i<m_NumSweepers; i++){
-		aux = m_vecSweepers[i].GetNeuralNet();
+	//for(int i=0; i<m_NumSweepers; i++){
+		aux = m_vecSweepers[0].GetNeuralNet();
 		for (int i=0; i<aux.m_NumHiddenLayers + 1; ++i)
 		{
 			//for each neuron
@@ -243,8 +250,24 @@ void CController::plotNeuralNet(HDC surface){
 				s = "]";
 				TextOut(surface, 500 + (80*aux.m_vecLayers[i].m_vecNeurons[j].m_NumInputs)+5, i*20, s.c_str(), s.size());
 			}
-	}
-	}
+		}
+		string s = "Aciertos " +itos(m_vecSweepers[0].getAciertos());
+		TextOut(surface, 200, 0, s.c_str(), s.size());
+		s = "inputs1 ";
+		TextOut(surface, 200, 20, s.c_str(), s.size());
+		s = "inputs2 ";
+		TextOut(surface, 200, 40, s.c_str(), s.size());
+		s = "ouputs ";
+		TextOut(surface, 200, 60, s.c_str(), s.size());
+		for(int j = 0; j<4; j++){
+			s = ", " + itos(m_vecSweepers[0].getDigito1()[j]);	
+			TextOut(surface, 255 + 20*j, 20, s.c_str(), s.size());
+			s = ", " + itos(m_vecSweepers[0].getDigito2()[j]);	
+			TextOut(surface, 255 + 20*j, 40, s.c_str(), s.size());
+			s = ", " + ftos(m_vecSweepers[0].getResultado()[j]);	
+			TextOut(surface, 255 + 100*j, 60, s.c_str(), s.size());
+		}
+	//}
 }
 void CController::Render(HDC surface)
 {
