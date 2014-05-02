@@ -72,7 +72,7 @@ public:
 
 	int					m_NeuronsPerHiddenLyr;
 
-	vector<double> outputs;
+	vector<vector<double>> outputs;
 	//storage for each layer of neurons including the output layer
 	vector<SNeuronLayer>	m_vecLayers;
 

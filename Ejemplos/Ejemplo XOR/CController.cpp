@@ -240,7 +240,9 @@ void CController::plotNeuralNet(HDC surface){
 			for (int j=0; j<aux.m_vecLayers[i].m_NumNeurons; ++j)
 			{
 				//for each weight
-				string s =  "[";
+				string s =  "NeuronWeights" + itos(i+1);
+				TextOut(surface, 380, i*20, s.c_str(), s.size());
+				s =  "[";
 				TextOut(surface, 500, i*20, s.c_str(), s.size());
 				for (int k=0; k<aux.m_vecLayers[i].m_vecNeurons[j].m_NumInputs; ++k)
 				{
@@ -257,15 +259,24 @@ void CController::plotNeuralNet(HDC surface){
 		TextOut(surface, 200, 20, s.c_str(), s.size());
 		s = "inputs2 ";
 		TextOut(surface, 200, 40, s.c_str(), s.size());
-		s = "ouputs ";
-		TextOut(surface, 200, 60, s.c_str(), s.size());
+		s = "ouputs";
+		TextOut(surface, 10, 60, s.c_str(), s.size());
+		s = "por capas";	
+		TextOut(surface, 10, 80, s.c_str(), s.size());
 		for(int j = 0; j<4; j++){
 			s = ", " + itos(m_vecSweepers[0].getDigito1()[j]);	
 			TextOut(surface, 255 + 20*j, 20, s.c_str(), s.size());
 			s = ", " + itos(m_vecSweepers[0].getDigito2()[j]);	
 			TextOut(surface, 255 + 20*j, 40, s.c_str(), s.size());
-			s = ", " + ftos(m_vecSweepers[0].getResultado()[j]);	
-			TextOut(surface, 255 + 100*j, 60, s.c_str(), s.size());
+			for (int k=0; k<aux.m_NumHiddenLayers + 1; ++k)
+			{
+				//for each neuron
+				for (int p=0; p<aux.m_vecLayers[k].m_NumNeurons; ++p)
+				{
+					s = " " + ftos(aux.outputs[k][p]);	
+					TextOut(surface, 100 + 80*p + 80*(j*aux.m_vecLayers[0].m_NumNeurons), 60 + 20*k, s.c_str(), s.size());
+				}
+			}
 		}
 	//}
 }

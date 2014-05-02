@@ -23,7 +23,7 @@ public:
 	int getAciertos() {return aciertos;}
 	void PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
 	int GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
-	void aumentoFitness() {fitness++;aciertos++;}
+	void aumentoFitness() {aciertos++;fitness+=pow(aciertos, 2);}
 	void disminuyoFitness() {fitness--;}
 	CNeuralNet GetNeuralNet() {return m_ItsBrain; }
 
