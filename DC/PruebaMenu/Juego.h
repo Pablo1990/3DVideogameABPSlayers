@@ -18,6 +18,8 @@
 #include "Hud.h";
 #include "Aprendizaje\CController.h"
 #include  "Aprendizaje\CParams.h"
+#include "GameData.h"
+
 
 using namespace std;
 
@@ -58,6 +60,7 @@ public:
 
 private:
 	static const int KMAX_LEVEL = 5;
+	int level;
 	bool cntinue;
 	video::E_DRIVER_TYPE driverType;
 	IrrlichtDevice *device;

@@ -10,13 +10,13 @@ GameData::~GameData(void)
 {
 }
 
-bool GameData::save_game(int level, string name)
+bool GameData::save_game(int level, std::string name)
 {
 	ofstream save_file;
 	try
 	{
 		stringstream ss;
-		ss << "../media/save/" << name << ".sav";
+		ss << "..\\media\\save\\" << name << ".sav";
 		string path = ss.str();
 
 		
@@ -41,15 +41,33 @@ bool GameData::save_game(int level, string name)
 			return false;
 		}
 	}
+	/*FILE *save_file;
+
+	stringstream ss;
+	ss << "../media/save/" << name << ".txt";
+	string path = ss.str();
+
+	errno_t errorCode = fopen_s(&save_file, path.c_str(), "w");
+
+	if(save_file == 0)
+	{
+		fprintf(save_file, "%i", level);
+		fclose(save_file);
+		return true;
+	}
+	else
+	{
+		return false;
+	}*/
 }
 
-int GameData::load_game(string name)
+int GameData::load_game(std::string name)
 {
 	ifstream load_file;
 	try
 	{
 		stringstream ss;
-		ss << "../media/save/" << name << ".sav";
+		ss << "..\\media\\save\\" << name << ".sav";
 		string path = ss.str();
 		string result;
 
@@ -63,7 +81,7 @@ int GameData::load_game(string name)
 		}
 		else
 		{
-			return 1;
+			return 0;
 		}
 	}
 	catch(...)
@@ -71,7 +89,7 @@ int GameData::load_game(string name)
 		if(load_file.is_open())
 		{
 			load_file.close();
-			return 1;
+			return 0;
 		}
 	}
 

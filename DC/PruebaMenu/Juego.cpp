@@ -11,6 +11,7 @@ Juego::Juego(video::E_DRIVER_TYPE d)
 	crouch = false;
 	this->armas = new std::list<Weapon*>;
 	paused = false;
+	level = 0;
 }
 // Values used to identify individual GUI elements
 
@@ -296,6 +297,7 @@ void Juego::run()
 					npc->die(device);
 					npc->remove_character_node();
 					this->win_condition = 1;
+					cntinue = false;
 					if(sound)
 						sound->win_sound();
 				}
@@ -318,6 +320,7 @@ void Juego::run()
 				if(player->get_is_dead() && win_condition == 0)
 				{
 					win_condition = -1;
+					cntinue = false;
 					if(sound)
 						sound->lose_sound();
 				}
@@ -376,6 +379,19 @@ void Juego::run()
 
 				}
 			}
+
+			if(win_condition == 1 && this->level < KMAX_LEVEL)
+			{
+				sound->win_sound();
+				this->level++;
+			}
+			else if(win_condition == -1)
+			{
+				sound->lose_sound();
+			}
+
+			GameData gd;
+			gd.save_game(this->level);
 	}
 	else if(estado==2)
 	{
