@@ -4,7 +4,7 @@
 class AttackTargetGoal_Evaluator : public Goal_Evaluator
 {
 public:
-	AttackTargetGoal_Evaluator(void);
+	AttackTargetGoal_Evaluator(int lvl);
 	~AttackTargetGoal_Evaluator(void);
 	double CalculateDesirability(Npc* bot);
 	void SetGoal(Npc* bot);

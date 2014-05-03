@@ -56,6 +56,8 @@ public:
 
 	void setEstado(int estado);
 	int getEstado();
+
+	void set_level(int lvl);
 	void replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelector* mapSelector);
 
 private:

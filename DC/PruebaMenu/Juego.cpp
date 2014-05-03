@@ -236,7 +236,7 @@ void Juego::run()
 	int attack_count = 0;
 		
 		
-	if(estado==1)
+	if(estado==1 || estado == 4)
 	{
 		
 	
@@ -312,8 +312,8 @@ void Juego::run()
 				player->restore_condition(device);
 
 				
-				swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f", player->get_position().X, player->get_position().Y, 
-					player->get_position().Z);
+				swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f -- Nivel: %i", player->get_position().X, player->get_position().Y, 
+					player->get_position().Z, this->level);
 				
 				statusText->setText(tmp);
 
@@ -563,7 +563,7 @@ void Juego::switchToNextScene()
 		camera->bindTargetAndRotation(true);
 		camera->setPosition(core::vector3df(1000,80,1000));
 		camera->setFarValue(5000.0f);
-		if(estado==1 || estado==3)
+		if(estado==1 || estado==3 || estado == 4)
 		{
 			Sword *sw2 = new Sword(4,7,sm);
 			player = new Player(sm, sw2, mapSelector, camera);
@@ -571,12 +571,12 @@ void Juego::switchToNextScene()
 			player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
 			player->set_types(types);
 	}
-		if(estado==1)
+		if(estado==1 || estado == 4)
 		{
 			
 			//IA
 			npc->setEnem(player);
-			mente=new Goal_Think();
+			mente=new Goal_Think(this->level);
 			npc->setBrain(mente);
 			mente->setDueño(npc);
 		}
@@ -742,7 +742,7 @@ void Juego::loadSceneData()
 	heal_camp->setMaterialTexture(0, driver->getTexture("../media/particlegreen.jpg"));
 	heal_camp->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 
-	if(estado==1)
+	if(estado==1 || estado == 4)
 	{
 	
 	npc = new Npc(sm,new Sword(0,0,sm),heal_camp->getPosition(), device, mapSelector);
@@ -868,7 +868,7 @@ void Juego::loadSceneData()
 
 	types[5] = HEAL_TYPE;
 
-	if(estado==1 )
+	if(estado==1 || estado == 4 )
 		npc->setItems(armas, types);
 	
 	//Music
@@ -1200,34 +1200,14 @@ void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelecto
 					it++;
 				}
 			}
-
-
-			//int number;
-			//int type;
-
-			//number = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(strcspn((*it)->get_weapon_node()->getName(), "_") + 1).c_str());
-			//type = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(0, strcspn((*it)->get_weapon_node()->getName(), "_")).c_str());
-		
 		}
-//			for(it = armas->begin(); it != armas->end(); ++it)
-//			{
-//				/*if(i >= index && it != --armas.end())
-//				{
-//					number = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(strcspn((*it)->get_weapon_node()->getName(), "_") + 1).c_str());
-//					number--;
-//					type = atoi(((std::string)(*it)->get_weapon_node()->getName()).substr(0, strcspn((*it)->get_weapon_node()->getName(), "_")).c_str());
-//					//cout << "DA NAME " << type << "_" << number << endl;
-//					(*it)->get_weapon_node()->setName((std::to_string(type) + '_' + std::to_string(number)).c_str());
-//				}*/
-////				cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
-//	
-//
-//			}
-		
-	//		cout << "DA NAME " << (*it)->get_weapon_node()->getName() << endl;
-		
 	}
 	catch(...)
 	{}
 	
+}
+
+void Juego::set_level(int lvl)
+{
+	this->level = lvl;
 }

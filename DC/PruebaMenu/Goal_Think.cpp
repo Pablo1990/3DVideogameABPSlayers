@@ -8,13 +8,13 @@
 
 
 
-Goal_Think::Goal_Think()
+Goal_Think::Goal_Think(int lvl)
 {
-	EscapeGoal_Evaluator *e=new EscapeGoal_Evaluator();
-	GetWeaponGoal_Evaluator *e2=new GetWeaponGoal_Evaluator();
-	AttackTargetGoal_Evaluator *e3=new AttackTargetGoal_Evaluator();
-	ExploreGoal_Evaluator *e4=new ExploreGoal_Evaluator();
-	GetHealthGoal_Evaluator *e5=new GetHealthGoal_Evaluator();
+	EscapeGoal_Evaluator *e=new EscapeGoal_Evaluator(lvl);
+	GetWeaponGoal_Evaluator *e2=new GetWeaponGoal_Evaluator(lvl);
+	AttackTargetGoal_Evaluator *e3=new AttackTargetGoal_Evaluator(lvl);
+	ExploreGoal_Evaluator *e4=new ExploreGoal_Evaluator(lvl);
+	GetHealthGoal_Evaluator *e5=new GetHealthGoal_Evaluator(lvl);
 
 	Evaluators.push_back(e);
 	Evaluators.push_back(e2);

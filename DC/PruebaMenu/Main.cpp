@@ -21,10 +21,11 @@ int main()
 	MyMenu *menu = new MyMenu();
 	video::E_DRIVER_TYPE driverType;
 	int estado=menu->AddMenu(driverType);
-	if(estado==1)
+	if(estado==1 || estado == 4)
 	{
 		Juego game(driverType);
-		game.setEstado(1);
+		game.setEstado(estado);
+		game.set_level(menu->get_level());
 		game.run();
 	}
 	//Estado aprendizaje

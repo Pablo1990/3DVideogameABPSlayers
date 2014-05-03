@@ -3,7 +3,8 @@
 MyMenu::MyMenu()
 {
 	this->start = false;
-
+	GameData gd;
+	this->level = gd.load_game();
 }
 
 MyMenu::~MyMenu(void)
@@ -49,7 +50,7 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
     IGUIEnvironment* env = device->getGUIEnvironment();
 
 	 
- 
+	
 
 	IGUISkin* skin = env->getSkin();
    gui::IGUIFont* font2 =env->getFont("../media/fuente1.png");
@@ -211,15 +212,15 @@ bool MyMenu::OnEvent(const SEvent& event)
 
 				case GUI_ID_CONTINUAR_BUTTON:
 					env->clear();
-				
-					env->addButton(rect<s32>(800,310,1100,310 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+					start = 4;
 
 					return true;
 
 				case GUI_ID_NUEVA_PARTIDA_BUTTON:
 					device->closeDevice();
 					//menu->setStart(true);
-					start = true;
+					this->level = 0;
+					start = 1;
 					return true;
 
 				case GUI_ID_APRENDIZAJE:
@@ -270,4 +271,9 @@ bool MyMenu::OnEvent(const SEvent& event)
     }
 
     return false;
+}
+
+int MyMenu::get_level()
+{
+	return this->level;
 }
