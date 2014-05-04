@@ -87,8 +87,9 @@ bool CController::Update()
 
 				return false;
 			}
-			m_vecSweepers[i]->mover();
+			
 			updateFitness(i);
+			m_vecSweepers[i]->mover();
 			cajas=cajas+m_vecSweepers[i]->getArmasCogidas();
 			if(m_iTicks % 105 == 0){
 				double x, y = 0;
