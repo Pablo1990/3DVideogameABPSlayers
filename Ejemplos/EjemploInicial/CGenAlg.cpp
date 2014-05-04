@@ -42,12 +42,12 @@ CGenAlg::CGenAlg(int	  popsize,
                                       m_dMutationRate(MutRat),
 										                  m_dCrossoverRate(CrossRat),
 										                  m_iChromoLength(numweights),
-										                  m_dTotalFitness(1000*20),
+										                  m_dTotalFitness(0),
 										                  m_cGeneration(0),
-										                  m_iFittestGenome(1000),
-										                  m_dBestFitness(1000),
-										                  m_dWorstFitness(99999999),
-										                  m_dAverageFitness(1000)
+										                  m_iFittestGenome(0),
+										                  m_dBestFitness(0),
+										                  m_dWorstFitness(-99999999),
+										                  m_dAverageFitness(0)
 {
 	//initialise population with chromosomes consisting of random
 	//weights and all fitnesses set to zero
@@ -78,7 +78,13 @@ void CGenAlg::Mutate(vector<double> &chromo)
 		if (RandFloat() < m_dMutationRate)
 		{
 			//add or subtract a small value to the weight
-			chromo[i] += (RandomClamped() * CParams::dMaxPerturbation);
+			
+			chromo[i] += (RandomClampedNegative() * CParams::dMaxPerturbation);
+
+			if(chromo[i] < -10)
+				chromo[i] = -10;
+			else if(chromo[i] > 10)
+				chromo[i] = 10;
 		}
 	}
 }
@@ -222,16 +228,15 @@ vector<SGenome> CGenAlg::Epoch(vector<SGenome> &old_pop)
 		Mutate(baby2);
 
 		//now copy into vecNewPop population
-		vecNewPop.push_back(SGenome(baby1, 1000));
-		vecNewPop.push_back(SGenome(baby2, 1000));
+		vecNewPop.push_back(SGenome(baby1, 0));
+		vecNewPop.push_back(SGenome(baby2, 0));
 	}
 
 	//finished so assign new pop back into m_vecPop
 	m_vecPop = vecNewPop;
-	m_vecPop[0].dFitness=1000;
-	m_vecPop[1].dFitness=1000;
-	m_vecPop[2].dFitness=1000;
-	m_vecPop[3].dFitness=1000;
+	for(int i = 0; i<CParams::iNumElite; i++)
+		m_vecPop[i].dFitness=0;
+
 	return m_vecPop;
 }
 
@@ -326,9 +331,9 @@ void CGenAlg::CalculateBestWorstAvTot()
 //--------------------------------------------------------------
 void CGenAlg::Reset()
 {
-	m_dTotalFitness		= 1000;
-	m_dBestFitness		= 1000;
+	m_dTotalFitness		= 0;
+	m_dBestFitness		= 0;
 	m_dWorstFitness		= 9999999;
-	m_dAverageFitness	= 1000;
+	m_dAverageFitness	= 0;
 }
 
