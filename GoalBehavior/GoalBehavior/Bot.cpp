@@ -86,12 +86,12 @@ void Bot :: posEntreCeroYUno(double &y){
 }
 
 void Bot :: getPosRelativaABot(double &x, double &y){
-	x = x - posX;
+	x =x - posX;
 	y = y - posY;
 }
 
 double Bot::getDistanciaABot(double x, double y){
-	return abs(sqrt(pow(posX, 2)+pow(posY,2)) - sqrt(pow(x, 2)+pow(y,2)));
+	return sqrt(pow(posX, 2)+pow(posY,2)) - sqrt(pow(x, 2)+pow(y,2));
 }
 
 double Bot::Fitness()
