@@ -38,11 +38,25 @@ public:
 	int get_level();
 
 private:
+	void change_device(int h, int w);
+
 	int start;
 	IrrlichtDevice * device;
 	SoundEffect *sound;
 	int level;
 	IGUIScrollBar* volume_control;
-
+	IGUIComboBox* res_control;
+	rect<s32> first_rect;
+	rect<s32> second_rect;
+	rect<s32> third_rect;
+	rect<s32> fourth_rect;
+	rect<s32> fifth_rect;
+	rect<s32> scrollbar_rect;
+	rect<s32> combobox_rect;
+	E_DRIVER_TYPE dt;
+	bool resize;
+	int height;
+	int width;
+	GUIHandler gh;
 };
 

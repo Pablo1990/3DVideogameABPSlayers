@@ -15,11 +15,14 @@ using namespace gui;
 class GUIHandler
 {
 public:
+	GUIHandler();
 	GUIHandler(IrrlichtDevice* device);
+	void calculate_scale(IrrlichtDevice* device);
 	rect<s32> ScaleValuebyScreenHeight(vector2d<s32> upper_left_corner, vector2d<s32> lower_right_corner);
 	float get_scale_y();
 	float get_scale_x();
 	~GUIHandler(void);
+	GUIHandler &operator=(const GUIHandler &gh);
 private:
 	float scale_x;
 	float scale_y;

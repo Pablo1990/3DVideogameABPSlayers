@@ -1,12 +1,39 @@
 #include "GUIHandler.h"
 
+GUIHandler::GUIHandler()
+{
+	scale_y = 1;
+	scale_x = 1;
+}
 
 GUIHandler::GUIHandler(IrrlichtDevice* device)
 {
-	scale_x = (device->getVideoDriver()->getScreenSize().Width/800.0f);
+	if(device)
+	{
+		scale_x = (device->getVideoDriver()->getScreenSize().Width/800.0f);
+		scale_y = (device->getVideoDriver()->getScreenSize().Height/600.0f);
+	}
 
-	scale_y = (device->getVideoDriver()->getScreenSize().Height/600.0f);
+}
 
+void GUIHandler::calculate_scale(IrrlichtDevice* device)
+{
+	if(device)
+	{
+		scale_x = (device->getVideoDriver()->getScreenSize().Width/800.0f);
+		scale_y = (device->getVideoDriver()->getScreenSize().Height/600.0f);
+	}
+
+}
+
+GUIHandler &GUIHandler::operator=(const GUIHandler &gh)
+{
+	if(this != &gh)
+	{
+		this->scale_x = gh.scale_x;
+		this->scale_y = gh.scale_y;
+	}
+	return *this;
 }
 
 rect<s32> GUIHandler::ScaleValuebyScreenHeight(vector2d<s32> upper_left_corner, vector2d<s32> lower_right_corner)
