@@ -1,5 +1,6 @@
 #include "Menu.h"
 
+
 MyMenu::MyMenu()
 {
 	this->start = false;
@@ -18,14 +19,23 @@ MyMenu::~MyMenu(void)
 
 int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 {
+	
+	//Creamos los rectangulos base para los botones, por defecto para res 800x600 luego se hace el escalado en funcion
+	// de la resolucion
+	rect<s32> first_rect(470,115,647,178);
+	rect<s32> second_rect(470,200,647,263);
+	rect<s32> third_rect(470,285,647,348);
+	rect<s32> fourth_rect(470,360,647,433);
+	rect<s32> fifth_rect(470,455,647,518);
+	rect<s32> scrollbar_rect(470,115,647,130);
+
 	// ask user for driver
     driverType = driverChoiceConsole();
     if (driverType==video::EDT_COUNT)
         return false;
 
 
-	core::dimension2d<u32> resolution ( 1366, 768 );
-
+	core::dimension2d<u32> resolution ( /*800,600*/1366, 768 );
     // create device and exit if creation failed
 	irr::SIrrlichtCreationParameters params;
 	params.DriverType=driverType;
@@ -40,6 +50,8 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
     if (device == 0)
         return 1; // could not create selected driver.
 	
+	GUIHandler gh(device);
+
 	if(!sound)
 		sound = new SoundEffect(menu_music_path);
 	
@@ -53,31 +65,40 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 	
 
 	IGUISkin* skin = env->getSkin();
+
    gui::IGUIFont* font2 =env->getFont("../media/fuente1.png");
+
+   if(gh.get_scale_x() < 1.2)
+   {
+	   if(font2)
+		   font2->drop();
+	   font2 = env->getFont("../media/fontcourier.bmp");
+   }
+
+
    skin->setFont(font2);
    skin->setColor(EGDC_3D_SHADOW  , video::SColor(25,210,50,0));
 	skin->setColor(EGDC_3D_FACE  , video::SColor(70,215,0,15));
-	
 
-	env->addButton(rect<s32>(800,150,1100,150 + 82), 0, GUI_ID_JUGAR_BUTTON,
+
+
+	env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_JUGAR_BUTTON,
             L"Jugar", L"Comienza el juego");
 
-	env->addButton(rect<s32>(800,260,1100,260 + 82), 0, GUI_ID_INVENTARIO_BUTTON,
+	env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_INVENTARIO_BUTTON,
             L"Inventario", L"Echale un ojo a tus objetos");
 
-	env->addButton(rect<s32>(800,370,1100,370 + 82), 0, GUI_ID_EDITOR_BUTTON,
+	env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_EDITOR_BUTTON,
             L"Editor personajes", L"Modela tus personajes");
 
-	env->addButton(rect<s32>(800,480,1100,480 + 82), 0, GUI_ID_OPCIONES_BUTTON,
+	env->addButton(gh.ScaleValuebyScreenHeight(fourth_rect.UpperLeftCorner, fourth_rect.LowerRightCorner), 0, GUI_ID_OPCIONES_BUTTON,
             L"Opciones", L"Configura el juego");
 
-	env->addButton(rect<s32>(800,590,1100,590 + 82), 0, GUI_ID_QUIT_BUTTON,
+	env->addButton(gh.ScaleValuebyScreenHeight(fifth_rect.UpperLeftCorner, fifth_rect.LowerRightCorner), 0, GUI_ID_QUIT_BUTTON,
             L"Quit", L"Sal del juego");
 
 	
-	
 			
-
 
 	
     // Store the appropriate data in a context structure.
@@ -145,24 +166,16 @@ bool MyMenu::OnEvent(const SEvent& event)
 				case GUI_ID_VOLVER_BUTTON:
 					env->clear();
 
-				
-				env->addButton(rect<s32>(800,150,1100,150 + 82), 0, GUI_ID_JUGAR_BUTTON,
-            L"Jugar", L"Comienza el juego");
-				
-
-	env->addButton(rect<s32>(800,260,1100,260 + 82), 0, GUI_ID_INVENTARIO_BUTTON,
-            L"Inventario", L"Echale un ojo a tus objetos");
-
-	env->addButton(rect<s32>(800,370,1100,370 + 82), 0, GUI_ID_EDITOR_BUTTON,
-            L"Editor personajes", L"Modela tus personajes");
-
-	env->addButton(rect<s32>(800,480,1100,480 + 82), 0, GUI_ID_OPCIONES_BUTTON,
-            L"Opciones", L"Configura el juego");
-
-	env->addButton(rect<s32>(800,590,1100,590 + 82), 0, GUI_ID_QUIT_BUTTON,
-            L"Quit", L"Sal del juego");
-					
-   					
+					env->addButton(rect<s32>(800,150,1100,150 + 82), 0, GUI_ID_JUGAR_BUTTON,
+							L"Jugar", L"Comienza el juego");
+					env->addButton(rect<s32>(800,260,1100,260 + 82), 0, GUI_ID_INVENTARIO_BUTTON,
+							L"Inventario", L"Echale un ojo a tus objetos");
+					env->addButton(rect<s32>(800,370,1100,370 + 82), 0, GUI_ID_EDITOR_BUTTON,
+							L"Editor personajes", L"Modela tus personajes");
+					env->addButton(rect<s32>(800,480,1100,480 + 82), 0, GUI_ID_OPCIONES_BUTTON,
+							L"Opciones", L"Configura el juego");
+					env->addButton(rect<s32>(800,590,1100,590 + 82), 0, GUI_ID_QUIT_BUTTON,
+							L"Quit", L"Sal del juego");			
 
 					return true;
 
@@ -245,7 +258,11 @@ bool MyMenu::OnEvent(const SEvent& event)
 
 				case GUI_ID_OPCIONES_BUTTON:
 					env->clear();
-					
+
+					volume_control = env->addScrollBar(true, rect<s32>(800,150,1100,170),0,GUI_ID_VOLUME_SCROLLBAR);
+					volume_control->setMax(100);
+					volume_control->setPos(sound->get_volume() * 100);
+
 					env->addButton(rect<s32>(800,310,1100,310 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 
 					return true;
@@ -257,14 +274,18 @@ bool MyMenu::OnEvent(const SEvent& event)
 					env->addButton(rect<s32>(800,310,1100,310 + 82), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 
 					return true;
+					
 				default:
 					return false;
 			}
             break;
-
-		
-
-       
+		case EGET_SCROLL_BAR_CHANGED:
+			if(id == GUI_ID_VOLUME_SCROLLBAR)
+			{
+				int pos = ((IGUIScrollBar*)event.GUIEvent.Caller)->getPos();
+				sound->set_volume(pos / 100.0);
+			}
+			break;
         default:
             break;
         }

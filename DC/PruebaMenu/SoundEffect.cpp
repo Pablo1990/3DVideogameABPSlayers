@@ -8,18 +8,13 @@ SoundEffect::SoundEffect(const char* background_path)
 	background_music = klang_engine->getSoundSource(background_path, true);
 
 	normal_hit = klang_engine->getSoundSource(hit_music_path);
+
+	klang_engine->setSoundVolume(0.7f);
 }
 
 
 SoundEffect::~SoundEffect(void)
 {
-
-	
-	if(background_music)
-	{
-		background_music->drop();
-		background_music = 0;
-	}
 
 	if(klang_engine)
 	{
@@ -47,12 +42,7 @@ void SoundEffect::lose_sound()
 
 void SoundEffect::play_background()
 {
-	background_sound = klang_engine->play2D(background_music, true, false, true);
-
-	if(background_sound)
-	{
-		background_sound->setVolume(0.5f);
-	}
+	background_sound = klang_engine->play2D(background_music, true);
 }
 
 void SoundEffect::stop_all_sounds()
@@ -70,4 +60,14 @@ void SoundEffect::resume_background_sounds()
 {
 	if(background_sound)
 		background_sound->setIsPaused(false);
+}
+
+void SoundEffect::set_volume(float volume)
+{
+	klang_engine->setSoundVolume(volume);
+}
+
+float SoundEffect::get_volume()
+{
+	return klang_engine->getSoundVolume();
 }

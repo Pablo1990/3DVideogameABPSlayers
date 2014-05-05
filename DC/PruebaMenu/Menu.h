@@ -7,6 +7,7 @@
 #include "driverChoice.h"
 #include "BotonesMenu.h"
 #include "GameData.h"
+#include "GUIHandler.h"
 //#include "MyEventReceiver.h"
 
 using namespace irr;
@@ -27,6 +28,7 @@ using namespace gui;
 
 class MyMenu: public IEventReceiver
 {
+
 public:
 	MyMenu();
 	~MyMenu(void);
@@ -34,10 +36,13 @@ public:
 	void setStart();
 	virtual bool OnEvent(const SEvent& event);
 	int get_level();
+
 private:
 	int start;
 	IrrlichtDevice * device;
 	SoundEffect *sound;
 	int level;
+	IGUIScrollBar* volume_control;
+
 };
 

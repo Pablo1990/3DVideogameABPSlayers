@@ -42,6 +42,6 @@ int main()
 		game.setEstado(3);
 		game.run();
 	}
-
-	delete menu;
+	if(menu)
+		delete menu;
 }
