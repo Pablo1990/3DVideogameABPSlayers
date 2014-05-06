@@ -39,6 +39,7 @@ public:
 
 private:
 	void change_device(int h, int w);
+	void select_screen_size(int selected);
 
 	int start;
 	IrrlichtDevice * device;
@@ -57,6 +58,10 @@ private:
 	bool resize;
 	int height;
 	int width;
+	bool fullscreen;
+	bool save;
+	float volume;
+	int selected_res;
 	GUIHandler gh;
 };
 

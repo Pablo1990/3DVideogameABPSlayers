@@ -14,7 +14,31 @@ MyMenu::MyMenu()
 	scrollbar_rect = rect<s32>(470,115,647,130);
 	combobox_rect = rect<s32>(470,150,647,165);
 	resize = false;
+	selected_res = 0;
 
+	if(!gd.load_config(volume, height, width, fullscreen))
+	{
+		height = 800;
+		width = 600;
+		volume = 0.7f;
+		fullscreen = true;
+		selected_res = 0;
+	}
+	
+	if(height == 800 && width == 600)
+		selected_res = 0;
+	else if(height == 1024 && width == 768)
+		selected_res = 1;
+	else if(height == 1280 && width == 768)
+		selected_res = 2;
+	else if(height == 1280 && width == 960)
+		selected_res = 3;
+	else if(height == 1366 && width == 768)
+		selected_res = 4;
+	else if(height == 1600 && width == 1200)
+		selected_res = 5;
+
+	save = false;
 }
 
 MyMenu::~MyMenu(void)
@@ -40,13 +64,13 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
         return false;
 
 
-	core::dimension2d<u32> resolution (/* 800,600*/1366, 768 );
+	core::dimension2d<u32> resolution ( height,width/*1366, 768*/ );
     // create device and exit if creation failed
 	irr::SIrrlichtCreationParameters params;
 	params.DriverType=driverType;
 	params.WindowSize=resolution;
 	params.Bits=32;
-	params.Fullscreen=true;
+	params.Fullscreen=fullscreen;
 	
 
 
@@ -120,6 +144,7 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 	video::ITexture* irrlichtBack = driver->getTexture("../Imagenes/demoback1.png");
 
 	sound->play_background();
+	sound->set_volume(volume);
 	while(device->run() && driver && start == false)
 	{
 		if(resize)
@@ -129,9 +154,10 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 			params.DriverType=driverType;
 			params.WindowSize=resolution;
 			params.Bits=32;
-			params.Fullscreen=true;
-	
+			params.Fullscreen=fullscreen;
 
+			device->closeDevice();
+			device->run(); // Very important to do this here!
 
 			device = createDeviceEx(params);
 			gh.calculate_scale(device);
@@ -175,6 +201,7 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 			res_control->addItem(L"1280x960");
 			res_control->addItem(L"1366x768");
 			res_control->addItem(L"1600x1200");
+			res_control->setSelected(selected_res);
 
 			env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 
@@ -276,6 +303,12 @@ bool MyMenu::OnEvent(const SEvent& event)
 					env->addButton(gh.ScaleValuebyScreenHeight(fifth_rect.UpperLeftCorner, fifth_rect.LowerRightCorner), 0, GUI_ID_QUIT_BUTTON,
 							L"Quit", L"Sal del juego");			
 
+					if(save)
+					{
+						GameData gd;
+						gd.save_config(sound->get_volume(), height, width, fullscreen);
+						save = false;
+					}
 					return true;
 
 					break;
@@ -369,8 +402,11 @@ bool MyMenu::OnEvent(const SEvent& event)
 					res_control->addItem(L"1280x960");
 					res_control->addItem(L"1366x768");
 					res_control->addItem(L"1600x1200");
+					res_control->setSelected(selected_res);
 
-					env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+					env->addCheckBox(true, gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_FULLSCREEN_CHECKBOX, L"Pantalla completa");
+
+					env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 
 					return true;
 
@@ -391,6 +427,7 @@ bool MyMenu::OnEvent(const SEvent& event)
 			{
 				int pos = ((IGUIScrollBar*)event.GUIEvent.Caller)->getPos();
 				sound->set_volume(pos / 100.0);
+				save = true;
 
 			}
 			break;
@@ -399,39 +436,22 @@ bool MyMenu::OnEvent(const SEvent& event)
 			{
 				int selected = ((IGUIComboBox*)event.GUIEvent.Caller)->getSelected();
 				resize = true;
-
-				switch(selected)
-				{
-					case 0:
-						this->height = 800;
-						this->width = 600;
-						break;
-					case 1:
-						this->height = 1024;
-						this->width = 768;
-						break;
-					case 2:
-						this->height = 1280;
-						this->width = 768;
-						break;
-					case 3:
-						this->height = 1280;
-						this->width = 960;
-						break;
-					case 4:
-						this->height = 1366;
-						this->width = 768;
-						break;
-					case 5:
-						this->height = 1600;
-						this->width = 1200;
-						break;
-				}
-
+				save = true;
+				selected_res = selected;
+				this->select_screen_size(selected);
 
 				env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 
 			}
+			break;
+		case EGET_CHECKBOX_CHANGED:
+			if(id == GUI_ID_FULLSCREEN_CHECKBOX)
+			{
+				fullscreen = ((IGUICheckBox*)event.GUIEvent.Caller)->isChecked();
+				resize = true;
+				save = true;
+			}
+			break;
         default:
             break;
         }
@@ -443,4 +463,35 @@ bool MyMenu::OnEvent(const SEvent& event)
 int MyMenu::get_level()
 {
 	return this->level;
+}
+
+void MyMenu::select_screen_size(int selected)
+{
+	switch(selected)
+	{
+		case 0:
+			this->height = 800;
+			this->width = 600;
+			break;
+		case 1:
+			this->height = 1024;
+			this->width = 768;
+			break;
+		case 2:
+			this->height = 1280;
+			this->width = 768;
+			break;
+		case 3:
+			this->height = 1280;
+			this->width = 960;
+			break;
+		case 4:
+			this->height = 1366;
+			this->width = 768;
+			break;
+		case 5:
+			this->height = 1600;
+			this->width = 1200;
+			break;
+	}
 }
