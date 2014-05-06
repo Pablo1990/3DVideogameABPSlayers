@@ -18,9 +18,16 @@ using namespace gui;
 
 int main()
 {
-	MyMenu *menu = new MyMenu();
-	video::E_DRIVER_TYPE driverType;
-	int estado=menu->AddMenu(driverType);
+
+	// ask user for driver
+	E_DRIVER_TYPE driverType = driverChoiceConsole();
+
+    if (driverType==video::EDT_COUNT)
+        return false;
+
+	MyMenu *menu = new MyMenu(driverType);
+
+	int estado=menu->AddMenu();
 	if(estado==1 || estado == 4)
 	{
 		Juego game(driverType);

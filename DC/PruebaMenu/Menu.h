@@ -30,9 +30,9 @@ class MyMenu: public IEventReceiver
 {
 
 public:
-	MyMenu();
+	MyMenu(E_DRIVER_TYPE dt);
 	~MyMenu(void);
-	int AddMenu(video::E_DRIVER_TYPE&);
+	int AddMenu();
 	void setStart();
 	virtual bool OnEvent(const SEvent& event);
 	int get_level();
@@ -40,6 +40,8 @@ public:
 private:
 	void change_device(int h, int w);
 	void select_screen_size(int selected);
+	void initialize();
+	void select_menu(int stat);
 
 	int start;
 	IrrlichtDevice * device;
@@ -54,7 +56,7 @@ private:
 	rect<s32> fifth_rect;
 	rect<s32> scrollbar_rect;
 	rect<s32> combobox_rect;
-	E_DRIVER_TYPE dt;
+	E_DRIVER_TYPE driverType;
 	bool resize;
 	int height;
 	int width;
@@ -63,5 +65,8 @@ private:
 	float volume;
 	int selected_res;
 	GUIHandler gh;
+	video::IVideoDriver* driver;
+	IGUIEnvironment* env;
+	ITexture* irrlichtBack;
 };
 

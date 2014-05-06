@@ -1,8 +1,9 @@
 #include "Menu.h"
 
 
-MyMenu::MyMenu()
+MyMenu::MyMenu(E_DRIVER_TYPE dt)
 {
+	driverType = dt;
 	this->start = false;
 	GameData gd;
 	this->level = gd.load_game();
@@ -50,146 +51,91 @@ MyMenu::~MyMenu(void)
 	}
 }
 
-int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
+void MyMenu::initialize()
 {
-	
-	//Creamos los rectangulos base para los botones, por defecto para res 800x600 luego se hace el escalado en funcion
-	// de la resolucion
-
-
-	// ask user for driver
-    driverType = driverChoiceConsole();
-	dt = driverType;
-    if (driverType==video::EDT_COUNT)
-        return false;
-
-
-	core::dimension2d<u32> resolution ( height,width/*1366, 768*/ );
-    // create device and exit if creation failed
 	irr::SIrrlichtCreationParameters params;
+
+	core::dimension2d<u32> resolution (height, width );
+	// create device and exit if creation failed
 	params.DriverType=driverType;
 	params.WindowSize=resolution;
 	params.Bits=32;
 	params.Fullscreen=fullscreen;
-	
 
+	device = createDeviceEx(params);
+	gh.calculate_scale(device);
 
-    device = createDeviceEx(params);
-
-    if (device == 0)
-        return 1; // could not create selected driver.
-	
-	gh = GUIHandler(device);
-
-	if(!sound)
-		sound = new SoundEffect(menu_music_path);
-	
 	device->setWindowCaption(L"MENU");
-    device->setResizable(true);
+	device->setResizable(true);
 
-    video::IVideoDriver* driver = device->getVideoDriver();
+	driver = device->getVideoDriver();
 	
-	IGUIEnvironment* env = device->getGUIEnvironment();
-
-	 
-	
+	env = device->getGUIEnvironment();
 
 	IGUISkin* skin = env->getSkin();
 
-   gui::IGUIFont* font2 =env->getFont("../media/fuente1.png");
+	IGUIFont* font2 =env->getFont("../media/fuente1.png");
 
-   if(gh.get_scale_x() < 1.2)
-   {
-	   if(font2)
-		   font2->drop();
-	   font2 = env->getFont("../media/fontcourier.bmp");
-   }
+	if(gh.get_scale_x() < 1.2)
+	{
+		if(font2)
+			font2->drop();
+		font2 = env->getFont("../media/fontcourier.bmp");
+	}
 
 
-   skin->setFont(font2);
-   skin->setColor(EGDC_3D_SHADOW  , video::SColor(25,210,50,0));
+	skin->setFont(font2);
+	skin->setColor(EGDC_3D_SHADOW  , video::SColor(25,210,50,0));
 	skin->setColor(EGDC_3D_FACE  , video::SColor(70,215,0,15));
 
+	device->setEventReceiver(this);
 
+	irrlichtBack = driver->getTexture("../Imagenes/demoback1.png");
+}
 
-	env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_JUGAR_BUTTON,
-            L"Jugar", L"Comienza el juego");
-
-	env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_INVENTARIO_BUTTON,
-            L"Inventario", L"Echale un ojo a tus objetos");
-
-	env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_EDITOR_BUTTON,
-            L"Editor personajes", L"Modela tus personajes");
-
-	env->addButton(gh.ScaleValuebyScreenHeight(fourth_rect.UpperLeftCorner, fourth_rect.LowerRightCorner), 0, GUI_ID_OPCIONES_BUTTON,
-            L"Opciones", L"Configura el juego");
-
-	env->addButton(gh.ScaleValuebyScreenHeight(fifth_rect.UpperLeftCorner, fifth_rect.LowerRightCorner), 0, GUI_ID_QUIT_BUTTON,
-            L"Quit", L"Sal del juego");
-
-	
-			
-
-	
-    // Store the appropriate data in a context structure.
-    
-    
-
-    // Then create the event receiver, giving it that context structure.
-    //MyEventReceiver receiver(context, *this);
-
-    // And tell the device to use our custom event receiver.
-    device->setEventReceiver(this);
-
-	video::ITexture* irrlichtBack = driver->getTexture("../Imagenes/demoback1.png");
-
-	sound->play_background();
-	sound->set_volume(volume);
-	while(device->run() && driver && start == false)
+void MyMenu::select_menu(int stat)
+{
+	IGUIEnvironment* env = device->getGUIEnvironment();
+	switch(stat)
 	{
-		if(resize)
-		{
-			core::dimension2d<u32> resolution (height, width );
-			// create device and exit if creation failed
-			params.DriverType=driverType;
-			params.WindowSize=resolution;
-			params.Bits=32;
-			params.Fullscreen=fullscreen;
-
-			device->closeDevice();
-			device->run(); // Very important to do this here!
-
-			device = createDeviceEx(params);
-			gh.calculate_scale(device);
-
-			device->setWindowCaption(L"MENU");
-			device->setResizable(true);
-
-			driver = device->getVideoDriver();
-	
-			env = device->getGUIEnvironment();
-
-	 
-	
-
-			skin = env->getSkin();
-
-			font2 =env->getFont("../media/fuente1.png");
-
-			if(gh.get_scale_x() < 1.2)
-			{
-				if(font2)
-					font2->drop();
-				font2 = env->getFont("../media/fontcourier.bmp");
-			}
-
-
-			skin->setFont(font2);
-			skin->setColor(EGDC_3D_SHADOW  , video::SColor(25,210,50,0));
-			skin->setColor(EGDC_3D_FACE  , video::SColor(70,215,0,15));
-
+		case 0://principal
 			env->clear();
-
+			env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_JUGAR_BUTTON,
+					L"Jugar", L"Comienza el juego");
+			env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_INVENTARIO_BUTTON,
+					L"Inventario", L"Echale un ojo a tus objetos");
+			env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_EDITOR_BUTTON,
+					L"Editor personajes", L"Modela tus personajes");
+			env->addButton(gh.ScaleValuebyScreenHeight(fourth_rect.UpperLeftCorner, fourth_rect.LowerRightCorner), 0, GUI_ID_OPCIONES_BUTTON,
+					L"Opciones", L"Configura el juego");
+			env->addButton(gh.ScaleValuebyScreenHeight(fifth_rect.UpperLeftCorner, fifth_rect.LowerRightCorner), 0, GUI_ID_QUIT_BUTTON,
+					L"Quit", L"Sal del juego");	
+			break;
+		case 1://jugar
+			env->clear();
+			env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_1VS1_BUTTON, L"1vs1", L"Juega en solitario");
+			env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_EQUIPO_BUTTON, L"Equipo", L"Juega como miembro de equipo");
+			env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu Anterior");
+			break;
+		case 2://1vs1
+			env->clear();
+			env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_CONTINUAR_BUTTON, L"Continuar", L"Continua desde el ultimo nivel desbloqueado");
+			env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_NUEVA_PARTIDA_BUTTON, L"Nueva Partida", L"Comienza de nuevo");
+			env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_APRENDIZAJE, L"Aprendizaje", L"Ejecutar Aprendizaje");
+			env->addButton(gh.ScaleValuebyScreenHeight(fourth_rect.UpperLeftCorner, fourth_rect.LowerRightCorner), 0, GUI_ID_JAPRENDIZAJE, L"Juego Con Aprendizaje", L"Ejecutar JAprendizaje");
+			env->addButton(gh.ScaleValuebyScreenHeight(fifth_rect.UpperLeftCorner, fifth_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu Inicio");
+			break;
+		case 3://equipos
+			env->clear();
+			env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_NUEVA_PARTIDA_BUTTON, L"Nueva Partida", L"Comienza de nuevo");
+			env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+			break;
+		case 4: //inventario
+			env->clear();
+			env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+			break;
+		case 5://opciones
+			env->clear();
 			volume_control = env->addScrollBar(true, gh.ScaleValuebyScreenHeight(scrollbar_rect.UpperLeftCorner, scrollbar_rect.LowerRightCorner),0,GUI_ID_VOLUME_SCROLLBAR);
 			volume_control->setMax(100);
 			volume_control->setPos(sound->get_volume() * 100);
@@ -203,11 +149,42 @@ int MyMenu::AddMenu(video::E_DRIVER_TYPE &driverType)
 			res_control->addItem(L"1600x1200");
 			res_control->setSelected(selected_res);
 
-			env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+			env->addCheckBox(true, gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_FULLSCREEN_CHECKBOX, L"Pantalla completa");
+			env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+			break;
+		case 6://editor
+			env->clear();
+			env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+			break;
+		case 7://solo borramos
+			env->clear();
+	}
+}
 
-			device->setEventReceiver(this);
+int MyMenu::AddMenu()
+{
+	this->initialize();
+	gh = GUIHandler(device);
 
-			irrlichtBack = driver->getTexture("../Imagenes/demoback1.png");
+	if(!sound)
+		sound = new SoundEffect(menu_music_path);
+	
+	this->select_menu(0);
+
+	sound->play_background();
+	sound->set_volume(volume);
+	while(device->run() && driver && start == false)
+	{
+		if(resize)
+		{
+
+
+			device->closeDevice();
+			device->run(); // Very important to do this here!
+
+			this->initialize();
+
+			this->select_menu(5);
 			resize = false;
 		}
 
@@ -236,7 +213,7 @@ void MyMenu::change_device(int h, int w)
 	core::dimension2d<u32> resolution ( /*800,600*/1366, 768 );
 	// create device and exit if creation failed
 	irr::SIrrlichtCreationParameters params;
-	params.DriverType=dt;
+	params.DriverType=driverType;
 	params.WindowSize=resolution;
 	params.Bits=32;
 	params.Fullscreen=true;
@@ -268,7 +245,6 @@ void MyMenu::setStart()
 	this->start = true;
 }
 
-
 bool MyMenu::OnEvent(const SEvent& event)
 {
     if (event.EventType == EET_GUI_EVENT)
@@ -290,18 +266,7 @@ bool MyMenu::OnEvent(const SEvent& event)
 					return false;
 
 				case GUI_ID_VOLVER_BUTTON:
-					env->clear();
-
-					env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_JUGAR_BUTTON,
-							L"Jugar", L"Comienza el juego");
-					env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_INVENTARIO_BUTTON,
-							L"Inventario", L"Echale un ojo a tus objetos");
-					env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_EDITOR_BUTTON,
-							L"Editor personajes", L"Modela tus personajes");
-					env->addButton(gh.ScaleValuebyScreenHeight(fourth_rect.UpperLeftCorner, fourth_rect.LowerRightCorner), 0, GUI_ID_OPCIONES_BUTTON,
-							L"Opciones", L"Configura el juego");
-					env->addButton(gh.ScaleValuebyScreenHeight(fifth_rect.UpperLeftCorner, fifth_rect.LowerRightCorner), 0, GUI_ID_QUIT_BUTTON,
-							L"Quit", L"Sal del juego");			
+					this->select_menu(0);
 
 					if(save)
 					{
@@ -313,50 +278,21 @@ bool MyMenu::OnEvent(const SEvent& event)
 
 					break;
 				case GUI_ID_JUGAR_BUTTON:
-					env->clear();
-
-					env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_1VS1_BUTTON, L"1vs1", L"Juega en solitario");
-					env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_EQUIPO_BUTTON, L"Equipo", L"Juega como miembro de equipo");
-					env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu Anterior");
-
+					this->select_menu(1);
 					return true;
 
-				case GUI_ID_PRINCIPAL_BUTTON:
-					env->clear();
-
-					env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_JUGAR_BUTTON,L"Jugar", L"Comienza el juego");
-					env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_INVENTARIO_BUTTON,  L"Inventario", L"Echale un ojo a tus objetos");
-					env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_EDITOR_BUTTON, L"Editor personajes", L"Modela tus personajes");
-					env->addButton(gh.ScaleValuebyScreenHeight(fourth_rect.UpperLeftCorner, fourth_rect.LowerRightCorner), 0, GUI_ID_OPCIONES_BUTTON, L"Opciones", L"Configura el juego");
-					env->addButton(gh.ScaleValuebyScreenHeight(fifth_rect.UpperLeftCorner, fifth_rect.LowerRightCorner), 0, GUI_ID_QUIT_BUTTON, L"Quit", L"Sal del juego");
-
-					
-
-
-					return true;
 				case GUI_ID_1VS1_BUTTON:
-					env->clear();
-
-				
-					env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_CONTINUAR_BUTTON, L"Continuar", L"Continua desde el ultimo nivel desbloqueado");
-					env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_NUEVA_PARTIDA_BUTTON, L"Nueva Partida", L"Comienza de nuevo");
-					env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_APRENDIZAJE, L"Aprendizaje", L"Ejecutar Aprendizaje");
-					env->addButton(gh.ScaleValuebyScreenHeight(fourth_rect.UpperLeftCorner, fourth_rect.LowerRightCorner), 0, GUI_ID_JAPRENDIZAJE, L"Juego Con Aprendizaje", L"Ejecutar JAprendizaje");
-					env->addButton(gh.ScaleValuebyScreenHeight(fifth_rect.UpperLeftCorner, fifth_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu Inicio");
-		
+					this->select_menu(2);
 					return true;
 
 				
 
 				case GUI_ID_EQUIPO_BUTTON:
-					env->clear();
-					env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_NUEVA_PARTIDA_BUTTON, L"Nueva Partida", L"Comienza de nuevo");
-					env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
-
+					this->select_menu(3);
 					return true;
 
 				case GUI_ID_CONTINUAR_BUTTON:
-					env->clear();
+					this->select_menu(7);//Solo borramos
 					start = 4;
 
 					return true;
@@ -381,41 +317,15 @@ bool MyMenu::OnEvent(const SEvent& event)
 					return true;
 
 				case GUI_ID_EDITOR_BUTTON:
-					env->clear();
-					
-
-					env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
-
+					this->select_menu(6);
 					return true;
 
 				case GUI_ID_OPCIONES_BUTTON:
-					env->clear();
-
-					volume_control = env->addScrollBar(true, gh.ScaleValuebyScreenHeight(scrollbar_rect.UpperLeftCorner, scrollbar_rect.LowerRightCorner),0,GUI_ID_VOLUME_SCROLLBAR);
-					volume_control->setMax(100);
-					volume_control->setPos(sound->get_volume() * 100);
-
-					res_control = env->addComboBox(gh.ScaleValuebyScreenHeight(combobox_rect.UpperLeftCorner, combobox_rect.LowerRightCorner), 0, GUI_ID_RESOLUTION_COMBOBOX);
-					res_control->addItem(L"800x600");
-					res_control->addItem(L"1024x768");
-					res_control->addItem(L"1280x768");
-					res_control->addItem(L"1280x960");
-					res_control->addItem(L"1366x768");
-					res_control->addItem(L"1600x1200");
-					res_control->setSelected(selected_res);
-
-					env->addCheckBox(true, gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_FULLSCREEN_CHECKBOX, L"Pantalla completa");
-
-					env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
-
+					this->select_menu(5);
 					return true;
 
 				case GUI_ID_INVENTARIO_BUTTON:
-					env->clear();
-					
-
-					env->addButton(gh.ScaleValuebyScreenHeight(first_rect.UpperLeftCorner, first_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
-
+					this->select_menu(4);
 					return true;
 					
 				default:
@@ -439,9 +349,6 @@ bool MyMenu::OnEvent(const SEvent& event)
 				save = true;
 				selected_res = selected;
 				this->select_screen_size(selected);
-
-				env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
-
 			}
 			break;
 		case EGET_CHECKBOX_CHANGED:
