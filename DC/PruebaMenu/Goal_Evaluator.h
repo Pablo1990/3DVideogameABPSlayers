@@ -23,6 +23,8 @@ const double distanciae_maxima=sqrt((pow((0-1894.93),2))+(pow((0-1294.88),2)));
 class Goal_Evaluator
 {
 public:
+	static const int LEVEL1_MIND = 0;
+	static const int LEVEL2_MIND = 1;
 	Goal_Evaluator(void);
 	~Goal_Evaluator(void);
 	virtual double CalculateDesirability(Npc* bot)=0;
@@ -40,7 +42,8 @@ public:
 
 }
  std::string name;
-		
+protected:
+	double Tweaker;
 };
 
 

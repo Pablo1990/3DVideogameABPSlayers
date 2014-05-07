@@ -17,9 +17,12 @@ class Npc;
 class Goal_Evaluator;
 
 
+
 class Goal_Think : public Goal_Composite
 {
 public:
+
+
 	void Activate();
 	void Terminate();
 	int Process();
@@ -30,7 +33,7 @@ public:
 	void AddSubgoalGetExplore(Npc *b);
 	void AddSubgoalEscape(Npc *b);
 	void AddSubgoalGetItem(Npc *b,int tipoitem);
-	Goal_Think(void);
+	Goal_Think(int lvl);
 	~Goal_Think(void);
 private:
 		Npc* dueño;

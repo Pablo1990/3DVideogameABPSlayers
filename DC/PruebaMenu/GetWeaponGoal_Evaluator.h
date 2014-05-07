@@ -3,7 +3,7 @@
 class GetWeaponGoal_Evaluator:  public Goal_Evaluator
 {
 public:
-	GetWeaponGoal_Evaluator(void);
+	GetWeaponGoal_Evaluator(int lvl);
 	~GetWeaponGoal_Evaluator(void);
 	double CalculateDesirability(Npc* bot);
 	void SetGoal(Npc* bot);

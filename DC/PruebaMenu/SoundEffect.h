@@ -16,6 +16,8 @@ public:
 	void stop_all_sounds();
 	void pause_background_sounds();
 	void resume_background_sounds();
+	void set_volume(float volume);
+	float get_volume();
 private:
 	ISoundEngine* klang_engine;
 	ISoundSource* normal_hit;

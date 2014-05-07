@@ -2,9 +2,21 @@
 #include "AttackTargetGoal_Evaluator.h"
 
 
-AttackTargetGoal_Evaluator::AttackTargetGoal_Evaluator(void)
+AttackTargetGoal_Evaluator::AttackTargetGoal_Evaluator(int lvl)
 {
 	name="Attack";
+	switch(lvl)
+	{
+		case Goal_Evaluator::LEVEL1_MIND:
+			this->Tweaker = 0.7;
+			break;
+		case Goal_Evaluator::LEVEL2_MIND:
+			this->Tweaker = 0.9;
+			break;
+		default:
+			this->Tweaker = 0.7;
+			break;
+	}
 }
 
 
@@ -20,7 +32,7 @@ double AttackTargetGoal_Evaluator::CalculateDesirability(Npc* pBot)
   //only do the calculation if there is a target present
   if (pBot->isEnemigoPresent())
   {
-    const double Tweaker = 0.8;
+    //const double Tweaker = 0.8;
 
 	if(Distance != 0)
 	{

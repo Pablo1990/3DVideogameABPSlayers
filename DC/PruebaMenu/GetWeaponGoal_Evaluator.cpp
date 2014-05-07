@@ -2,9 +2,21 @@
 #include "GetWeaponGoal_Evaluator.h"
 
 
-GetWeaponGoal_Evaluator::GetWeaponGoal_Evaluator(void)
+GetWeaponGoal_Evaluator::GetWeaponGoal_Evaluator(int lvl)
 {
 	name="GetWeapon";
+	switch(lvl)
+	{
+		case Goal_Evaluator::LEVEL1_MIND:
+			this->Tweaker = 0.3;
+			break;
+		case Goal_Evaluator::LEVEL2_MIND:
+			this->Tweaker = 0.3;
+			break;
+		default:
+			this->Tweaker = 0.6;
+			break;
+	}
 }
 
 
@@ -29,7 +41,7 @@ double GetWeaponGoal_Evaluator::CalculateDesirability(Npc* pBot)
   else
   {
     //value used to tweak the desirability
-    const double Tweaker = 0.3;
+    //const double Tweaker = 0.3;
 
     double Health, WeaponStrength;
 

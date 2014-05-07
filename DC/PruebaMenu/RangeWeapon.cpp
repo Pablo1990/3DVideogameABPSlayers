@@ -31,7 +31,7 @@ RangeWeapon::RangeWeapon(const char* path, int dmg, int sp, ISceneManager *sm, I
 
 		campFire->setMaterialFlag(video::EMF_LIGHTING, false);
 		campFire->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
-		campFire->setMaterialTexture(0, sm->getVideoDriver()->getTexture("../../media/fireball.bmp"));
+		campFire->setMaterialTexture(0, sm->getVideoDriver()->getTexture("../media/fireball.bmp"));
 		campFire->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 
 		campFire->setVisible(false);

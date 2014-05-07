@@ -82,6 +82,7 @@
     <ClInclude Include="AttackTargetGoal_Evaluator.h" />
     <ClInclude Include="Bow.h" />
     <ClInclude Include="GameData.h" />
+    <ClInclude Include="GUIHandler.h" />
     <ClInclude Include="Hud.h" />
     <ClInclude Include="Mapa.h" />
     <ClInclude Include="NodoPadreEHijo.h" />
@@ -133,6 +134,7 @@
     <ClCompile Include="AttackTargetGoal_Evaluator.cpp" />
     <ClCompile Include="Bow.cpp" />
     <ClCompile Include="GameData.cpp" />
+    <ClCompile Include="GUIHandler.cpp" />
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Mapa.cpp" />
     <ClCompile Include="Character.cpp" />

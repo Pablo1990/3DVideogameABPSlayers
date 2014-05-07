@@ -18,13 +18,21 @@ using namespace gui;
 
 int main()
 {
-	MyMenu *menu = new MyMenu();
-	video::E_DRIVER_TYPE driverType;
-	int estado=menu->AddMenu(driverType);
-	if(estado==1)
+
+	// ask user for driver
+	E_DRIVER_TYPE driverType = driverChoiceConsole();
+
+    if (driverType==video::EDT_COUNT)
+        return false;
+
+	MyMenu *menu = new MyMenu(driverType);
+
+	int estado=menu->AddMenu();
+	if(estado==1 || estado == 4)
 	{
 		Juego game(driverType);
-		game.setEstado(1);
+		game.setEstado(estado);
+		game.set_level(menu->get_level());
 		game.run();
 	}
 	//Estado aprendizaje
@@ -41,6 +49,6 @@ int main()
 		game.setEstado(3);
 		game.run();
 	}
-
-	delete menu;
+	if(menu)
+		delete menu;
 }
