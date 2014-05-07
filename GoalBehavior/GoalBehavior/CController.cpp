@@ -133,11 +133,13 @@ bool CController::Update()
 
 		//insert the new (hopefully)improved brains back into the sweepers
 		//and reset their positions etc
+		
+		double x = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+		double y = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 		for (int i=0; i<m_NumSweepers; ++i)
 		{
 			m_vecSweepers[i]->PutWeights(m_vecThePopulation[i].vecWeights);
-
-			m_vecSweepers[i]->Reset();
+			m_vecSweepers[i]->Reset(x, y);
 		}
 	}
 

@@ -171,6 +171,6 @@ void Window_Scene::plotNeuralNet(vector<Bot*> bots, CController* controller){
 
 	Text_Red.setString(textAprendizaje.str());
 	window.draw(Text_Red);
-	window.display();
+	//window.display();
 	//}
 }

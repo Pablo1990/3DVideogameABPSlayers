@@ -22,8 +22,11 @@ int _tmain(int argc, _TCHAR* argv[])
 		itemsX.push_back(new int(RandInt(0, dimMapa/dimCasilla)*dimCasilla));
 		itemsY.push_back(new int(RandInt(0, dimMapa/dimCasilla)*dimCasilla));
 	}
+
+	double x = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+	double y = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 	for(int i=0; i<CParams::iNumSweepers; i++)
-		bots.push_back(new Bot(itemsX, itemsY));
+		bots.push_back(new Bot(itemsX, itemsY, x, y));
 
 	CController* controller = new CController(bots);
 	

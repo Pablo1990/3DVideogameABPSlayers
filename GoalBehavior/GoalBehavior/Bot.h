@@ -53,8 +53,8 @@ public:
 	
 	vector<int*> itemsX;
 	vector<int*> itemsY;
-	Bot(vector<int*> itemsX, vector<int*> itemsY);
-	void Reset();
+	Bot(vector<int*> itemsX, vector<int*> itemsY, double x, double y);
+	void Reset(double x, double y);
 	bool Update();
 	double Fitness();
 	void PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
