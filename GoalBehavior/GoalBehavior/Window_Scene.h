@@ -20,6 +20,7 @@ public:
 		sf::Text Text_Aprendizaje;
 	void cargarEscenario(vector<Bot*>, CController *);
 	void cargarObjetos(vector<Bot*>);
-
+	void plotNeuralNet(vector<Bot*>, CController* );
+	sf::Text Text_Red;
 };
 

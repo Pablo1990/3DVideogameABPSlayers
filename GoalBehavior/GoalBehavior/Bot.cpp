@@ -31,6 +31,7 @@ void Bot:: Reset()
 	posX = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 	posY = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 	armasCogidas=0;
+	fitness = 0;
 }
 
 bool Bot :: Update()

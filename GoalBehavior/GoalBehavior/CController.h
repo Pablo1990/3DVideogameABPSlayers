@@ -108,6 +108,8 @@ public:
 
 	int getGeneracion();
 
+	CGenAlg* getAlgoritmoGenetico(){ return m_pGA; }
+
 
 	//accessor methods
 	bool		FastRender()const	  {return m_bFastRender;}

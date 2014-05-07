@@ -5,7 +5,7 @@
 Window_Scene::Window_Scene()
 {
 	//Dibujamos las celdas
-	window.create(sf::VideoMode(800,500), "Prueba de objetivos");
+	window.create(sf::VideoMode(1300,700), "Prueba de objetivos");
 	window.clear(sf::Color::White);
 
 	int pos=0,pos2=0;
@@ -46,10 +46,10 @@ void Window_Scene::cargarObjetos(vector<Bot*> bots){
 
 	//Cargamos los item en el mapa
 	//Tenemos seis items en el mapa
-	
+
 	int k=0;
-	
-	
+
+
 	for (int i=0; i<bots[0]->itemsX.size(); i++)
 	{
 		itemspr[k].setPosition(*bots[0]->itemsX[i], *bots[0]->itemsY[i]);
@@ -116,4 +116,61 @@ void Window_Scene::cargarEscenario(vector<Bot*> bots, CController* controller)
 	Text_Aprendizaje.setString(textAprendizaje.str());
 	window.draw(Text_Aprendizaje);
 	window.display();
+	plotNeuralNet(bots, controller);
+}
+
+void Window_Scene::plotNeuralNet(vector<Bot*> bots, CController* controller){
+
+	CNeuralNet aux;
+	int numIndividuo = controller->getAlgoritmoGenetico()->getFittest(); //cogemos el que tiene mayor fitness
+	//numIndividuo = 0;
+
+	aux = bots[numIndividuo]->GetNeuralNet();
+	std::stringstream textAprendizaje;
+	Text_Red.setFont(font);
+	Text_Red.setCharacterSize(10);
+	Text_Red.setColor(sf::Color::Magenta);
+	Text_Red.setPosition(10, 500);
+	for (int i=0; i<aux.m_NumHiddenLayers + 1; ++i)
+	{
+		//for each neuron
+		for (int j=0; j<aux.m_vecLayers[i].m_NumNeurons; ++j)
+		{
+			//for each weight
+			textAprendizaje <<"NeuronWeights" + itos(i+1) <<" ";
+			textAprendizaje <<  "[";
+			for (int k=0; k<aux.m_vecLayers[i].m_vecNeurons[j].m_NumInputs; ++k)
+			{
+				textAprendizaje <<ftos(aux.m_vecLayers[i].m_vecNeurons[j].m_vecWeight[k])+",";
+			}
+			textAprendizaje << "]"<<" - ";
+		}
+		textAprendizaje <<endl;
+	}
+
+	textAprendizaje << "Aciertos " +itos(bots[numIndividuo]->getArmasCogidas());
+	textAprendizaje<<endl;
+
+	double x, y;
+	bots[numIndividuo]->getPosMasCercano(x,y);
+	textAprendizaje << "distanciaEnXY: "<<"("<<x<<", "<<y<<")"<<endl;
+	textAprendizaje << "ouputs: ";
+
+	for (int k=0; k<aux.m_NumHiddenLayers + 1; ++k)
+	{
+		textAprendizaje << "Capa "<<k;
+		//for each neuron
+		for (int p=0; p<aux.m_vecLayers[k].m_NumNeurons; ++p)
+		{
+			textAprendizaje << " " + ftos(aux.outputs[k][p]);	
+		}
+		textAprendizaje<<endl;
+	}
+	
+	textAprendizaje<<"Fitness "<<bots[numIndividuo]->Fitness()<<endl;
+
+	Text_Red.setString(textAprendizaje.str());
+	window.draw(Text_Red);
+	window.display();
+	//}
 }
