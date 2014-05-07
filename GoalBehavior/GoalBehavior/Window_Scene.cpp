@@ -114,9 +114,9 @@ void Window_Scene::cargarEscenario(vector<Bot*> bots, CController* controller)
 	}
 	textAprendizaje<<"Cajas cogidas "<<controller->cajas<<endl;
 	Text_Aprendizaje.setString(textAprendizaje.str());
+	plotNeuralNet(bots, controller);
 	window.draw(Text_Aprendizaje);
 	window.display();
-	plotNeuralNet(bots, controller);
 }
 
 void Window_Scene::plotNeuralNet(vector<Bot*> bots, CController* controller){
