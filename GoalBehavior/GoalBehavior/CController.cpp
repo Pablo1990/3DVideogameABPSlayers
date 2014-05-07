@@ -95,10 +95,10 @@ bool CController::Update()
 				double x, y = 0;
 				m_vecSweepers[i]->getPosMasCercano(x,y);
 
-				if(x+y>0.5)
+				//if(x+y>0.5)
 					//m_vecSweepers[i]->disminuyoFitness();
 
-				if(x+y<0.2)
+				if(abs(x+y)<0.2)
 					m_vecSweepers[i]->aumentoFitness();
 
 			}
