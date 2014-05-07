@@ -16,7 +16,7 @@ bool GameData::save_game(int level, std::string name)
 	try
 	{
 		stringstream ss;
-		ss << "..\\media\\save\\" << name << ".sav";
+		ss << "..\\save\\" << name << ".sav";
 		string path = ss.str();
 
 		
@@ -67,7 +67,7 @@ int GameData::load_game(std::string name)
 	try
 	{
 		stringstream ss;
-		ss << "..\\media\\save\\" << name << ".sav";
+		ss << "..\\save\\" << name << ".sav";
 		string path = ss.str();
 		string result;
 
@@ -108,7 +108,7 @@ bool GameData::save_config(float volume, int height, int widht, bool fullscreen)
 		if(save_file.is_open())
 		{
 			save_file << volume << endl;
-			save_file << height << "x" << widht << endl;
+			save_file << widht << "x" << height << endl;
 			if(fullscreen)
 				save_file << "1" << endl;
 			else
@@ -152,8 +152,8 @@ bool GameData::load_config(float &volume, int &height, int &widht, bool &fullscr
 			stringstream ss(screensize);
 			getline(ss, aux_height, 'x');
 			getline(ss, aux_width, 'x');
-			height = atoi(aux_height.c_str());
-			widht = atoi(aux_width.c_str());
+			widht = atoi(aux_height.c_str());
+			height = atoi(aux_width.c_str());
 
 			load_file >> fullscreen;
 			load_file.close();

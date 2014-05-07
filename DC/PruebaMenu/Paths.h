@@ -17,6 +17,9 @@ static const char *hit_music_path = "../media/music/sonidos/cachon.ogg";
 static const char *win_music_path = "../media/music/sonidos/you_win.ogg";
 static const char *lose_music_path = "../media/music/sonidos/you_lose.ogg";
 static const char *config_path = "../config/config.cfg";
+static const char *sword_icon_path  = "../media/sword.jpg";
+static const char *spear_icon_path = "../media/lanza.jpg";
+static const char *bow_icon_path = "../media/bow.jpg";
 
 
 
