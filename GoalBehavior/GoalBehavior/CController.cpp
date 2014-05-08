@@ -87,17 +87,18 @@ bool CController::Update()
 
 				return false;
 			}
-			m_vecSweepers[i]->mover();
+			
 			updateFitness(i);
+			m_vecSweepers[i]->mover();
 			cajas=cajas+m_vecSweepers[i]->getArmasCogidas();
-			if(m_iTicks % 105 == 0){
+			if(m_iTicks % 10 == 0){
 				double x, y = 0;
 				m_vecSweepers[i]->getPosMasCercano(x,y);
 
-				if(x+y>0.5)
-					m_vecSweepers[i]->disminuyoFitness();
+				//if(x+y>0.5)
+					//m_vecSweepers[i]->disminuyoFitness();
 
-				if(x+y<0.1)
+				if(abs(x+y)<0.2)
 					m_vecSweepers[i]->aumentoFitness();
 
 			}
@@ -132,11 +133,13 @@ bool CController::Update()
 
 		//insert the new (hopefully)improved brains back into the sweepers
 		//and reset their positions etc
+		
+		double x = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+		double y = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
 		for (int i=0; i<m_NumSweepers; ++i)
 		{
 			m_vecSweepers[i]->PutWeights(m_vecThePopulation[i].vecWeights);
-
-			m_vecSweepers[i]->Reset();
+			m_vecSweepers[i]->Reset(x, y);
 		}
 	}
 

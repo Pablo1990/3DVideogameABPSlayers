@@ -6,7 +6,7 @@
 double CParams::dPi                 = 3.14159265358979;
 double CParams::dHalfPi             = dPi / 2;
 double CParams::dTwoPi              = dPi * 2;
-int CParams::WindowWidth            = 800;
+int CParams::WindowWidth            = 1000;
 int CParams::WindowHeight           = 600;
 int CParams::iFramesPerSecond       = 0;
 int CParams::iNumInputs             = 0;

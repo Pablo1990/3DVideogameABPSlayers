@@ -53,11 +53,9 @@ public:
 	
 	vector<int*> itemsX;
 	vector<int*> itemsY;
-	Bot(vector<int*> itemsX, vector<int*> itemsY);
-	void Reset();
+	Bot(vector<int*> itemsX, vector<int*> itemsY, double x, double y);
+	void Reset(double x, double y);
 	bool Update();
-	double getPosObjetoCercanoX();
-	double getPosObjetoCercanoY();
 	double Fitness();
 	void PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
 	int GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
@@ -70,6 +68,7 @@ public:
 	double getDistanciaABot(double x, double y);
 	void getPosRelativaABot(double &, double &);
 	void posEntreCeroYUno(double&);
+	CNeuralNet GetNeuralNet() {return m_ItsBrain; }
 	bool estoyEnObjeto();
 	void mover();
 	void setPosition(double x, double y)

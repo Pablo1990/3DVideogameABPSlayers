@@ -3,13 +3,13 @@
 
 using namespace std;
 
-Bot::Bot(vector<int*> itemsX, vector<int*> itemsY)
+Bot::Bot(vector<int*> itemsX, vector<int*> itemsY, double x, double y)
 {
 	salud=100;
 	arma=15;
 	fitness = 0;
-	posX= RandInt(0, dimMapa/dimCasilla)*dimCasilla;
-	posY = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+	posX= x;
+	posY = y;
 	armasCogidas = 0;
 	crearListaObjetos(itemsX, itemsY);
 }
@@ -26,11 +26,12 @@ Bot::~Bot(void)
 	
 }
 
-void Bot:: Reset()
+void Bot:: Reset(double x, double y)
 {
-	posX = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
-	posY = RandInt(0, dimMapa/dimCasilla)*dimCasilla;
+	posX = x;
+	posY = y;
 	armasCogidas=0;
+	fitness = 0;
 }
 
 bool Bot :: Update()
@@ -86,12 +87,12 @@ void Bot :: posEntreCeroYUno(double &y){
 }
 
 void Bot :: getPosRelativaABot(double &x, double &y){
-	x = x - posX;
+	x =x - posX;
 	y = y - posY;
 }
 
 double Bot::getDistanciaABot(double x, double y){
-	return abs(sqrt(pow(posX, 2)+pow(posY,2)) - sqrt(pow(x, 2)+pow(y,2)));
+	return sqrt(pow(posX, 2)+pow(posY,2)) - sqrt(pow(x, 2)+pow(y,2));
 }
 
 double Bot::Fitness()

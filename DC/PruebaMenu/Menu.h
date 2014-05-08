@@ -8,6 +8,7 @@
 #include "BotonesMenu.h"
 #include "GameData.h"
 #include "GUIHandler.h"
+#include <vector>
 //#include "MyEventReceiver.h"
 
 using namespace irr;
@@ -42,6 +43,8 @@ private:
 	void select_screen_size(int selected);
 	void initialize();
 	void select_menu(int stat);
+	int add_to_sprite_bank(rect<s32> sprite_rect, const char* path);
+	void load_sprite_bank();
 
 	int start;
 	IrrlichtDevice * device;
@@ -56,6 +59,7 @@ private:
 	rect<s32> fifth_rect;
 	rect<s32> scrollbar_rect;
 	rect<s32> combobox_rect;
+	rect<s32> listbox_rect;
 	E_DRIVER_TYPE driverType;
 	bool resize;
 	int height;
@@ -68,5 +72,11 @@ private:
 	video::IVideoDriver* driver;
 	IGUIEnvironment* env;
 	ITexture* irrlichtBack;
+	IGUIListBox* list_box;
+	IGUISpriteBank* spriteBank;
+	int sprite_sword;
+	int sprite_spear;
+	int sprite_bow;
+	int selected_weapon;
 };
 

@@ -31,6 +31,8 @@ struct SNeuron
 	//the weights for each input
 	vector<double>	m_vecWeight;
 
+	vector<double> m_vecOutputs;
+
 
 	//ctor
 	SNeuron(int NumInputs);
@@ -61,8 +63,7 @@ struct SNeuronLayer
 class CNeuralNet
 {
 	
-private:
-	
+public:
 	int					m_NumInputs;
 
 	int					m_NumOutputs;
@@ -71,10 +72,13 @@ private:
 
 	int					m_NeuronsPerHiddenLyr;
 
+	int numOperacion;
+
+	vector<vector<double>> outputs;
 	//storage for each layer of neurons including the output layer
 	vector<SNeuronLayer>	m_vecLayers;
 
-public:
+
 
 	CNeuralNet();
 

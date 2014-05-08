@@ -167,11 +167,12 @@ bool CController::Update()
 			//see if it's found a mine
 			int cont = 0;
 			for (int j=0; j<4; j++){
-				if(m_vecSweepers[i].getResultado()[j]>=0.5){
+				if(m_vecSweepers[i].getResultado()[j]>=0.7){
 					if(1 == (m_vecSweepers[i].getDigito1()[j] != m_vecSweepers[i].getDigito2()[j]))
 					{
 						//aumento fitness
-						m_vecSweepers[i].aumentoFitness();
+						//if(cont>1)
+							m_vecSweepers[i].aumentoFitness();
 						cont++;
 					}
 				}
@@ -179,15 +180,18 @@ bool CController::Update()
 					if(0 == (m_vecSweepers[i].getDigito1()[j] != m_vecSweepers[i].getDigito2()[j]))
 					{
 						//aumento fitness
-						//OutputDebugString("incorrecto");
-						m_vecSweepers[i].aumentoFitness();
+						//if(cont>1)
+							m_vecSweepers[i].aumentoFitness();
 						cont++;
 					}
 
 				}
 			}
+			string c = "Aciertos" + itos(cont) + "\n";
+			OutputDebugString(c.c_str());
 			if(cont==4){
-				OutputDebugString("Todos Correctos\n");
+				c = "Todos Correctos en generacion " + itos(m_iGenerations);
+				OutputDebugString(c.c_str());
 				return false;
 			}
 
@@ -233,7 +237,8 @@ bool CController::Update()
 void CController::plotNeuralNet(HDC surface){
 	CNeuralNet aux;
 	//for(int i=0; i<m_NumSweepers; i++){
-	int numIndividuo = m_pGA->getFittest(); //cogemos el que tiene mayor fitness
+	//int numIndividuo = m_pGA->getFittest(); //cogemos el que tiene mayor fitness
+	int numIndividuo = 0;
 	aux = m_vecSweepers[numIndividuo].GetNeuralNet();
 		for (int i=0; i<aux.m_NumHiddenLayers + 1; ++i)
 		{
@@ -254,6 +259,7 @@ void CController::plotNeuralNet(HDC surface){
 				TextOut(surface, 500 + (80*aux.m_vecLayers[i].m_vecNeurons[j].m_NumInputs)+5, i*20, s.c_str(), s.size());
 			}
 		}
+
 		string s = "Aciertos " +itos(m_vecSweepers[numIndividuo].getAciertos());
 		TextOut(surface, 200, 0, s.c_str(), s.size());
 		s = "inputs1 ";
@@ -274,7 +280,7 @@ void CController::plotNeuralNet(HDC surface){
 				//for each neuron
 				for (int p=0; p<aux.m_vecLayers[k].m_NumNeurons; ++p)
 				{
-					s = " " + ftos(aux.outputs[k][p]);	
+					s = " " + ftos(aux.outputs[j][k][p]);	
 					TextOut(surface, 100 + 80*p + 80*(j*aux.m_vecLayers[0].m_NumNeurons), 60 + 20*k, s.c_str(), s.size());
 				}
 			}
