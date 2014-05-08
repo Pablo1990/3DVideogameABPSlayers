@@ -4,12 +4,12 @@
 Hud::Hud(IrrlichtDevice* device)
 {
 
-	size = device->getVideoDriver()->getScreenSize();
-	env = device->getGUIEnvironment();
+	 size = device->getVideoDriver()->getScreenSize();
+	 env = device->getGUIEnvironment();
 	 skin = env->getSkin();
 
-   font2 =env->getFont("../media/fonthaettenschweiler.bmp");
-   skin->setFont(font2);
+	font2 =env->getFont("../media/fonthaettenschweiler.bmp");
+	skin->setFont(font2);
   
 
 	skin->setColor(EGDC_3D_SHADOW  , video::SColor(1,25,250,15));
@@ -87,10 +87,20 @@ void Hud::setSkinTransparency( irr::gui::IGUISkin * skin)
 	skin->setColor(EGDC_3D_FACE  , video::SColor(50,25,250,15));
 	skin->setColor(EGDC_3D_HIGH_LIGHT   , video::SColor(50,175,238,238));
 }
+
+void Hud::drawMenu(IrrlichtDevice* device)
+{
+	 setSkinTransparency(skin);
+
+	 core::rect<s32>(0,205,250,209);
+	 core::rect<int> pos(size.Width-200, size.Height-250, size.Width-5 ,size.Height-5);
+	 tabMenu=device ->getGUIEnvironment()->addTabControl(pos,0,true,true);
+}
+
 void Hud:: drawHud(IrrlichtDevice* device,Npc* npc, Player* player)
 {
 	
- setSkinTransparency(skin);
+	setSkinTransparency(skin);
    
 	wchar_t tmp[255];
 	core::rect<int> pos(size.Width-200, size.Height-250, size.Width-5 ,size.Height-5);

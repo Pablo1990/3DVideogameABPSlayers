@@ -1,4 +1,4 @@
-#include <vld.h>
+//#include <vld.h>
 #include <irrlicht.h>
 #include "BotonesMenu.h"
 #include "Menu.h"
@@ -15,8 +15,8 @@ using namespace gui;
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
 #endif
-
 int main()
+
 {
 
 	// ask user for driver

@@ -80,7 +80,9 @@ public:
 	void drawHud(IrrlichtDevice*,Npc* npc, Player* player);
 	void  setSkinTransparency(irr::gui::IGUISkin * skin);
 	void setHud(Npc* npc, Player* player);
-	 IGUIEnvironment* env ;
+	void drawMenu(IrrlichtDevice* device);
+
+	IGUIEnvironment* env ;
 	IGUISkin* skin ;
 	IGUITabControl* tab;
 	IGUIStaticText* titulo;
@@ -91,14 +93,23 @@ public:
 	IGUIStaticText* textCansancio;
 	IGUIStaticText* Cansancio;
 	IGUIStaticText* SaludBot;
+
+	IGUITabControl* tabMenu;
+	IGUIButton*		Reanudar;
+	IGUIButton*		VMenu;
+	IGUIButton*		Salir;
+	IGUIButton*		Opciones;
+
 	core::dimension2d<u32> size;
    gui::IGUIFont* font2 ;
+
 	static
 void drawHudText
 (
 	IVideoDriver* driver,
 	const core::stringw& text
 );
+
 };
 
 #endif // _IRRLICHT_HUD_UTIL_H_

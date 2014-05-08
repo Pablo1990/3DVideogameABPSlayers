@@ -242,13 +242,17 @@ void Juego::run()
 	
 		
 	int unavez=0;
+
 	hud=new Hud(device);
-		hud->drawHud(device,npc,player);
+	hud->drawHud(device,npc,player);
+
 	cntinue = true;
 
 	cycles = 0;
+
 	if(sound)
 		sound->play_background();
+
 	win_condition = 0;
 
 	while(device->run() && driver && cntinue)
