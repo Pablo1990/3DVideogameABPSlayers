@@ -183,7 +183,7 @@ void Juego::run()
 	params.DriverType=driverType;
 	params.WindowSize=resolution;
 	params.Bits=32;
-	params.Fullscreen=false;
+	params.Fullscreen=true;
 	params.EventReceiver = this;
 
 	device = createDeviceEx(params);
@@ -245,7 +245,7 @@ void Juego::run()
 
 	hud=new Hud(device);
 	hud->drawHud(device,npc,player);
-
+	
 	cntinue = true;
 
 	cycles = 0;
@@ -262,7 +262,6 @@ void Juego::run()
 
 
 					now = device->getTimer()->getTime();
-
 
 					player->movement(camera);
 					if(player->get_weapon())
@@ -904,12 +903,17 @@ bool Juego::OnEvent(const SEvent& event)
 			this->device->getCursorControl()->setPosition(0.5f,0.5f);
 			this->camera->setInputReceiverEnabled(true);
 			this->sound->resume_background_sounds();
+			hud->setVisibleHudT();
+			hud->borrarMenu(device);
 			this->device->getTimer()->start();
+		
 		}
 		else
 		{
 			paused = true;
 			this->camera->setInputReceiverEnabled(false);
+			hud->setVisibleHudF();
+			hud->drawMenu(device);
 			this->sound->pause_background_sounds();
 			this->device->getTimer()->stop();
 		}

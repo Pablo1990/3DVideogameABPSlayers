@@ -9,6 +9,7 @@
 
 #include "Player.h"
 #include "Npc.h"
+#include "BotonesMenu.h"
 using namespace irr;
 
 using namespace core;
@@ -81,11 +82,16 @@ public:
 	void  setSkinTransparency(irr::gui::IGUISkin * skin);
 	void setHud(Npc* npc, Player* player);
 	void drawMenu(IrrlichtDevice* device);
+	void borrarMenu(IrrlichtDevice* device);
+	void ActivaMenu();
+	void setVisibleHudT();
+	void setVisibleHudF();
 
 	IGUIEnvironment* env ;
 	IGUISkin* skin ;
 	IGUITabControl* tab;
 	IGUIStaticText* titulo;
+	IGUIStaticText* tituloPause;
 	IGUIStaticText* textSalud;
 	IGUIStaticText* VSalud;
 	IGUIStaticText* textDesgaste;
