@@ -50,18 +50,19 @@ bool Bot :: Update()
 	}
 	//me muevo hacia la izquierda
 	movimientoX = 0;
-	if(output[0]>=0.6)
-		if(output[0]>=0.8)
-			movimientoX = dimCasilla;
-		else
-			movimientoX = -dimCasilla;
+	if(output[0]>=0.5)
+		movimientoX = dimCasilla;
+
+	if(output[1]>=0.5)
+		movimientoX += -dimCasilla;
+
 
 	movimientoY = 0;
-	if(output[1]>=0.6)
-		if(output[1]>=0.8)
-			movimientoY = dimCasilla;
-		else
-			movimientoY = -dimCasilla;
+	if(output[2]>=0.5)
+		movimientoY = dimCasilla;
+
+	if(output[3]>=0.5)
+		movimientoY += -dimCasilla;
 
 	return true;
 }
