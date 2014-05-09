@@ -167,7 +167,7 @@ void MyMenu::select_menu(int stat)
 			res_control->addItem(L"1600x1200");
 			res_control->setSelected(selected_res);
 
-			env->addCheckBox(true, gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_FULLSCREEN_CHECKBOX, L"Pantalla completa");
+			env->addCheckBox(fullscreen, gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_FULLSCREEN_CHECKBOX, L"Pantalla completa");
 			env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 			break;
 		case 6://editor
@@ -463,4 +463,24 @@ void MyMenu::load_sprite_bank()
 	sprite_rect = rect<s32>(0,70, 70, 140);
 	sprite_bow = this->add_to_sprite_bank(gh.ScaleValuebyScreenHeight(sprite_rect.UpperLeftCorner, sprite_rect.LowerRightCorner), bow_icon_path);
 
+}
+
+int MyMenu::get_width()
+{
+	return this->width;
+}
+
+int MyMenu::get_height()
+{
+	return this->height;
+}
+
+bool MyMenu::get_fullscreen()
+{
+	return this->fullscreen;
+}
+
+float MyMenu::get_volume()
+{
+	return this->volume;
 }

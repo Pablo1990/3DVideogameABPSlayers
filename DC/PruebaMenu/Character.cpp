@@ -655,3 +655,10 @@ void Character::delete_item(int index, std::list<Weapon*>* armas)
 //	{}
 //	
 //}
+
+bool Character::can_i_heal()
+{
+	if(this->heal_count < 5)
+		return true;
+	else return false;
+}

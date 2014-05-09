@@ -47,20 +47,24 @@ double GetHealthGoal_Evaluator::CalculateDesirability(Npc* pBot)
     //nearest instance of a health item.
 	float Desirability=0.0;
 	
-	if(Distance!=0)
+	if(pBot->can_i_heal())
 	{
-		Desirability = Tweaker * (1-Goal_Evaluator::Health(pBot)) /Distance;
+		if(Distance!=0)
+		{
+			Desirability = Tweaker * (1-Goal_Evaluator::Health(pBot)) /Distance;
 		
-	}
-	else
-	{
-		Desirability = Tweaker * (1-Goal_Evaluator::Health(pBot));
+		}
+		else
+		{
+			Desirability = Tweaker * (1-Goal_Evaluator::Health(pBot));
 	
+		}
+
+		//ensure the value is in the range 0 to 1
+
+		Desirability=clamp(Desirability, 0.0, 1.0);
 	}
 
-    //ensure the value is in the range 0 to 1
-
-	Desirability=clamp(Desirability, 0.0, 1.0);
     return Desirability;
   }
 	return 0;

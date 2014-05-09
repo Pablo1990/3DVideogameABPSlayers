@@ -1,4 +1,4 @@
-#include <vld.h>
+//#include <vld.h>
 #include <irrlicht.h>
 #include "BotonesMenu.h"
 #include "Menu.h"
@@ -15,8 +15,8 @@ using namespace gui;
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
 #endif
-
 int main()
+
 {
 
 	// ask user for driver
@@ -30,7 +30,7 @@ int main()
 	int estado=menu->AddMenu();
 	if(estado==1 || estado == 4)
 	{
-		Juego game(driverType);
+		Juego game(driverType, menu->get_width(), menu->get_height(), menu->get_fullscreen(), menu->get_volume());
 		game.setEstado(estado);
 		game.set_level(menu->get_level());
 		game.run();
@@ -39,13 +39,13 @@ int main()
 
 	else if(estado==2)
 	{
-		Juego game(driverType);
+		Juego game(driverType, menu->get_width(), menu->get_height(), menu->get_fullscreen(), menu->get_volume());
 		game.setEstado(2);
 		game.run();
 	}
 	else if(estado==3)
 	{
-		Juego game(driverType);
+		Juego game(driverType, menu->get_width(), menu->get_height(), menu->get_fullscreen(), menu->get_volume());
 		game.setEstado(3);
 		game.run();
 	}

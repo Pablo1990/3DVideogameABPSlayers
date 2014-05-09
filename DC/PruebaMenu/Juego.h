@@ -44,7 +44,7 @@ class Juego: public IEventReceiver
 
 public:
 
-	Juego(video::E_DRIVER_TYPE);
+	Juego(video::E_DRIVER_TYPE d, int w, int h, bool f, float v);
 	~Juego(void);
 	void run();
 	void switchToNextScene();
@@ -115,6 +115,10 @@ private:
 	int cycles;
 	SoundEffect *sound;
 	int win_condition; //0 sigue, 1 ganas, -1 pierdes
+	int width;
+	int height;
+	bool fullscreen;
+	float volume;
 	enum
 {
     // I use this ISceneNode ID to indicate a scene node that is
