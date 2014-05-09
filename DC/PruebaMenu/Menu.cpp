@@ -464,3 +464,23 @@ void MyMenu::load_sprite_bank()
 	sprite_bow = this->add_to_sprite_bank(gh.ScaleValuebyScreenHeight(sprite_rect.UpperLeftCorner, sprite_rect.LowerRightCorner), bow_icon_path);
 
 }
+
+int MyMenu::get_width()
+{
+	return this->width;
+}
+
+int MyMenu::get_height()
+{
+	return this->height;
+}
+
+bool MyMenu::get_fullscreen()
+{
+	return this->fullscreen;
+}
+
+float MyMenu::get_volume()
+{
+	return this->volume;
+}

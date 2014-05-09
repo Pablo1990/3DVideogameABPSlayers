@@ -130,6 +130,7 @@ public:
 	vector<SGenome>	GetChromos()const{return m_vecPop;}
 	double			    AverageFitness()const{return m_dTotalFitness / m_iPopSize;}
 	double		    	BestFitness()const{return m_dBestFitness;}
+	int					getFittest() const{return m_iFittestGenome;}
 
 	
 };

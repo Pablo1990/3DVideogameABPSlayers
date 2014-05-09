@@ -60,6 +60,7 @@ CNeuralNet::CNeuralNet()
 //------------------------------------------------------------------------
 void CNeuralNet::CreateNet()
 {
+	numOperacion = 0;
 	//create the layers of the network
 	if (m_NumHiddenLayers > 0)
 	{
@@ -76,17 +77,18 @@ void CNeuralNet::CreateNet()
 
 		//create output layer
 		m_vecLayers.push_back(SNeuronLayer(m_NumOutputs, m_NeuronsPerHiddenLyr));
-
-		for (int i=0; i<m_NumHiddenLayers + 1; ++i)
-		{
-			
-			vector<double> auxOut;
-			//for each neuron
-			for (int j=0; j<m_vecLayers[i].m_NumNeurons; ++j)
+		for(int ik = 0; ik<4; ik++){
+			for (int i=0; i<m_NumHiddenLayers + 1; ++i)
 			{
-				auxOut.push_back(0);
+			
+				vector<double> auxOut;
+				//for each neuron
+				for (int j=0; j<m_vecLayers[i].m_NumNeurons; ++j)
+				{
+					auxOut.push_back(0);
+				}
+				outputs[ik].push_back(auxOut);
 			}
-			outputs.push_back(auxOut);
 		}
 	}
 
@@ -188,6 +190,9 @@ int CNeuralNet::GetNumberOfWeights() const
 //------------------------------------------------------------------------
 vector<double> CNeuralNet::Update(vector<double> &inputs)
 {
+	
+	if(numOperacion >=4)
+		numOperacion = 0;
 
 	int cWeight = 0;
 
@@ -204,7 +209,7 @@ vector<double> CNeuralNet::Update(vector<double> &inputs)
 	{		
 		if ( i > 0 )
 		{
-			inputs = outputs[i-1];
+			inputs = outputs[numOperacion][i-1];
 		}
 
 
@@ -233,14 +238,14 @@ vector<double> CNeuralNet::Update(vector<double> &inputs)
 			//we can store the outputs from each layer as we generate them. 
 			//The combined activation is first filtered through the sigmoid 
 			//function
-			outputs[i][j] = Sigmoid(netinput,
+			outputs[numOperacion][i][j] = Sigmoid(netinput,
 				CParams::dActivationResponse);
 
 			cWeight = 0;
 		}
 	}
 
-	return outputs[m_NumHiddenLayers];
+	return outputs[numOperacion++][m_NumHiddenLayers];
 }
 
 //-------------------------------Sigmoid function-------------------------

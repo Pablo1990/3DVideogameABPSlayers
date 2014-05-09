@@ -28,8 +28,9 @@ inline bool   RandBool()
 	else return false;
 }
 
-//returns a random float in the range -1 < n < 1
-inline double RandomClamped()	   {return RandFloat() - RandFloat();}
+//returns a random float in the range 0 < n < 1
+inline double RandomClamped()	   {return RandFloat()*10 - RandFloat()*10;}
+inline double RandomClampedNegative()	{return RandFloat()*10 - RandFloat()*10;}
 
 
 //-----------------------------------------------------------------------

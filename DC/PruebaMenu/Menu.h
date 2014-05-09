@@ -37,6 +37,10 @@ public:
 	void setStart();
 	virtual bool OnEvent(const SEvent& event);
 	int get_level();
+	int get_height();
+	int get_width();
+	float get_volume();
+	bool get_fullscreen();
 
 private:
 	void change_device(int h, int w);

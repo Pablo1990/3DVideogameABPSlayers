@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-Juego::Juego(video::E_DRIVER_TYPE d, int width, int height, bool fullscreen, float volume)
+Juego::Juego(video::E_DRIVER_TYPE d, int w, int h, bool f, float v)
 {
 	this->driverType = d;
 	this->skyboxNode = 0;
@@ -12,6 +12,10 @@ Juego::Juego(video::E_DRIVER_TYPE d, int width, int height, bool fullscreen, flo
 	this->armas = new std::list<Weapon*>;
 	paused = false;
 	level = 0;
+	this->width = w;
+	this->height = h;
+	this->fullscreen = f;
+	this->volume = v;
 }
 // Values used to identify individual GUI elements
 
@@ -177,13 +181,13 @@ void Juego::run()
 {
 	
 	bool collision_flag = false;
-	core::dimension2d<u32> resolution(566, 468);
+	core::dimension2d<u32> resolution(width, height);
 	
 	irr::SIrrlichtCreationParameters params;
 	params.DriverType=driverType;
 	params.WindowSize=resolution;
 	params.Bits=32;
-	params.Fullscreen=false;
+	params.Fullscreen=this->fullscreen;
 	params.EventReceiver = this;
 
 	device = createDeviceEx(params);
@@ -242,13 +246,17 @@ void Juego::run()
 	
 		
 	int unavez=0;
+
 	hud=new Hud(device);
-		hud->drawHud(device,npc,player);
+	hud->drawHud(device,npc,player);
+	
 	cntinue = true;
 
 	cycles = 0;
+	sound->set_volume(volume);
 	if(sound)
 		sound->play_background();
+
 	win_condition = 0;
 
 	while(device->run() && driver && cntinue)
@@ -258,7 +266,6 @@ void Juego::run()
 
 
 					now = device->getTimer()->getTime();
-
 
 					player->movement(camera);
 					if(player->get_weapon())
@@ -900,12 +907,17 @@ bool Juego::OnEvent(const SEvent& event)
 			this->device->getCursorControl()->setPosition(0.5f,0.5f);
 			this->camera->setInputReceiverEnabled(true);
 			this->sound->resume_background_sounds();
+			hud->setVisibleHudT();
+			hud->borrarMenu(device);
 			this->device->getTimer()->start();
+		
 		}
 		else
 		{
 			paused = true;
 			this->camera->setInputReceiverEnabled(false);
+			hud->setVisibleHudF();
+			hud->drawMenu(device);
 			this->sound->pause_background_sounds();
 			this->device->getTimer()->stop();
 		}

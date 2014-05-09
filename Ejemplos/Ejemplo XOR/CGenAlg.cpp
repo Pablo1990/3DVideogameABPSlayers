@@ -81,10 +81,10 @@ void CGenAlg::Mutate(vector<double> &chromo)
 			
 			chromo[i] += (RandomClampedNegative() * CParams::dMaxPerturbation);
 
-			if(chromo[i] < 0)
-				chromo[i] = 0;
-			else if(chromo[i] > 1)
-				chromo[i] = 1;
+			if(chromo[i] < -10)
+				chromo[i] = -10;
+			else if(chromo[i] > 10)
+				chromo[i] = 10;
 		}
 	}
 }
