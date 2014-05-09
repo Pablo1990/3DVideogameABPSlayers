@@ -167,7 +167,7 @@ void MyMenu::select_menu(int stat)
 			res_control->addItem(L"1600x1200");
 			res_control->setSelected(selected_res);
 
-			env->addCheckBox(true, gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_FULLSCREEN_CHECKBOX, L"Pantalla completa");
+			env->addCheckBox(fullscreen, gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_FULLSCREEN_CHECKBOX, L"Pantalla completa");
 			env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 			break;
 		case 6://editor

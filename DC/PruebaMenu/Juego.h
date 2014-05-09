@@ -44,7 +44,7 @@ class Juego: public IEventReceiver
 
 public:
 
-	Juego(video::E_DRIVER_TYPE);
+	Juego(video::E_DRIVER_TYPE d, int width, int height, bool fullscreen, float volume);
 	~Juego(void);
 	void run();
 	void switchToNextScene();

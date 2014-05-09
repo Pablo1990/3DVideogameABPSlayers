@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-Juego::Juego(video::E_DRIVER_TYPE d)
+Juego::Juego(video::E_DRIVER_TYPE d, int width, int height, bool fullscreen, float volume)
 {
 	this->driverType = d;
 	this->skyboxNode = 0;
