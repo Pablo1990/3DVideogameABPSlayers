@@ -12,8 +12,8 @@ MyMenu::MyMenu(E_DRIVER_TYPE dt)
 	third_rect = rect<s32>(470,285,647,348);
 	fourth_rect = rect<s32>(470,370,647,433);
 	fifth_rect = rect<s32>(470,455,647,518);
-	scrollbar_rect = rect<s32>(470,115,647,130);
-	combobox_rect = rect<s32>(470,150,647,165);
+	scrollbar_rect = rect<s32>(470,145,647,160);
+	combobox_rect = rect<s32>(470,205,647,225);//130-20
 	listbox_rect = rect<s32>(470,115,647,273);
 	resize = false;
 	selected_res = 0;
@@ -52,8 +52,6 @@ MyMenu::~MyMenu(void)
 		delete sound;
 		sound = 0;
 	}
-
-
 }
 
 
@@ -71,6 +69,7 @@ void MyMenu::initialize()
 	device = createDeviceEx(params);
 	gh.calculate_scale(device);
 
+	bool cc = device->run();
 	device->setWindowCaption(L"MENU");
 	device->setResizable(true);
 
@@ -154,10 +153,12 @@ void MyMenu::select_menu(int stat)
 			break;
 		case 5://opciones
 			env->clear();
+			env->addStaticText(L"Volumen",  gh.ScaleValuebyScreenHeight(rect<s32>(470,115,647,145)), false, false, 0);
 			volume_control = env->addScrollBar(true, gh.ScaleValuebyScreenHeight(scrollbar_rect.UpperLeftCorner, scrollbar_rect.LowerRightCorner),0,GUI_ID_VOLUME_SCROLLBAR);
 			volume_control->setMax(100);
 			volume_control->setPos(sound->get_volume() * 100);
 
+			env->addStaticText(L"Pantalla",  gh.ScaleValuebyScreenHeight(rect<s32>(470,175,647,205)), false, false, 0);
 			res_control = env->addComboBox(gh.ScaleValuebyScreenHeight(combobox_rect.UpperLeftCorner, combobox_rect.LowerRightCorner), 0, GUI_ID_RESOLUTION_COMBOBOX);
 			res_control->addItem(L"800x600");
 			res_control->addItem(L"1024x768");
@@ -167,8 +168,9 @@ void MyMenu::select_menu(int stat)
 			res_control->addItem(L"1600x1200");
 			res_control->setSelected(selected_res);
 
-			env->addCheckBox(fullscreen, gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_FULLSCREEN_CHECKBOX, L"Pantalla completa");
+			env->addCheckBox(fullscreen, gh.ScaleValuebyScreenHeight(rect<s32>(470,240,647,270)), 0, GUI_ID_FULLSCREEN_CHECKBOX, L"Pantalla completa");
 			env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
+
 			break;
 		case 6://editor
 			env->clear();
@@ -222,7 +224,6 @@ int MyMenu::AddMenu()
 		}
 	
 	}
-
 	sound->stop_all_sounds();
 	return start;
 }
@@ -281,7 +282,10 @@ bool MyMenu::OnEvent(const SEvent& event)
 
 				case GUI_ID_QUIT_BUTTON:
 					device->closeDevice();
-					start = false;
+					device->run();
+					device->drop();
+					device = 0;
+					start = -1;
 					return false;
 				case GUI_ID_VOLVER_BUTTON:
 					this->select_menu(0);
@@ -317,6 +321,9 @@ bool MyMenu::OnEvent(const SEvent& event)
 
 				case GUI_ID_NUEVA_PARTIDA_BUTTON:
 					device->closeDevice();
+					device->run();
+					device->drop();
+					device = 0;
 					//menu->setStart(true);
 					this->level = 0;
 					start = 1;
@@ -324,12 +331,18 @@ bool MyMenu::OnEvent(const SEvent& event)
 
 				case GUI_ID_APRENDIZAJE:
 					device->closeDevice();
+					device->run();
+					device->drop();
+					device = 0;
 					//menu->setStart(true);
 					start = 2;
 					return true;
 
 				case GUI_ID_JAPRENDIZAJE:
 					device->closeDevice();
+					device->run();
+					device->drop();
+					device = 0;
 					//menu->setStart(true);
 					start = 3;
 					return true;
@@ -483,4 +496,9 @@ bool MyMenu::get_fullscreen()
 float MyMenu::get_volume()
 {
 	return this->volume;
+}
+
+void MyMenu::setStart(bool s)
+{
+	this->start = s;
 }

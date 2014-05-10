@@ -23,6 +23,7 @@ Juego::Juego(video::E_DRIVER_TYPE d, int w, int h, bool f, float v)
 Juego::~Juego(void)
 {
 
+	
 
 		if(sound)
 	{
@@ -30,11 +31,11 @@ Juego::~Juego(void)
 		sound = 0;
 	} 
 
-	if(pf)
+	/*if(pf)
 	{
 		delete pf;
 		pf = 0;
-	}
+	}*/
 
 	if(hud)
 	{
@@ -161,11 +162,12 @@ Juego::~Juego(void)
 		quakeLevelNode = 0;
 	}
 	
+	
 	if(device)
 	{
 		device->closeDevice();
+		device->run();
 	}
-
 	
 }
 
@@ -191,6 +193,9 @@ void Juego::run()
 	params.EventReceiver = this;
 
 	device = createDeviceEx(params);
+
+	device->getTimer()->setTime(0);
+	
 	if (!device)
 		return;
 
@@ -247,8 +252,11 @@ void Juego::run()
 		
 	int unavez=0;
 
-	hud=new Hud(device);
+	hud=new Hud(device, sound);
 	hud->drawHud(device,npc,player);
+	hud->drawMenu(device);
+	hud->borrarMenu(device);
+
 	
 	cntinue = true;
 
@@ -406,7 +414,7 @@ void Juego::run()
 			npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02));
 			npc->setItems(armas, types);
 			vector <double> vecPesos = npc->getPesosDeFichero();
-			hud=new Hud(device);
+			hud=new Hud(device, sound);
 			hud->drawHud(device,npc,player);
 			CGenAlg* m_pGA = new CGenAlg(1,
 		CParams::dMutationRate,
@@ -856,7 +864,7 @@ bool Juego::OnEvent(const SEvent& event)
 		// user wants to quit.
 		//device->closeDevice();
 		
-
+		this->estado = -1;
 		cntinue = false;
 	}
 	else if(event.EventType == EET_KEY_INPUT_EVENT &&
@@ -872,6 +880,8 @@ bool Juego::OnEvent(const SEvent& event)
 			hud->setVisibleHudT();
 			hud->borrarMenu(device);
 			//this->device->getTimer()->setTime(time_store);
+			GameData gd;
+			gd.save_config(sound->get_volume(), height, width, fullscreen);
 			this->device->getTimer()->start();
 		}
 		else
@@ -879,9 +889,8 @@ bool Juego::OnEvent(const SEvent& event)
 			paused = true;
 			this->camera->setInputReceiverEnabled(false);
 			hud->setVisibleHudF();
-			hud->drawMenu(device);
 			this->sound->pause_background_sounds();
-			//this->hud->ActivaMenu();
+			this->hud->ActivaMenu();
 			time_store = this->device->getTimer()->getTime();
 			this->device->getTimer()->stop();
 		}
@@ -1031,6 +1040,7 @@ bool Juego::OnEvent(const SEvent& event)
 	else
 	if (event.EventType == EET_GUI_EVENT && paused)
     {
+		GameData gd;
         s32 id = event.GUIEvent.Caller->getID();
 		switch(event.GUIEvent.EventType)
         {
@@ -1047,12 +1057,38 @@ bool Juego::OnEvent(const SEvent& event)
 							hud->setVisibleHudT();
 							//this->device->getTimer()->setTime(time_store);
 							hud->borrarMenu(device);
+							gd.save_config(sound->get_volume(), height, width, fullscreen);
 							this->device->getTimer()->start();
 		
 						}
+						break;
+					case GUI_ID_MENU_BUTTON:
+						this->estado = 0;
+						cntinue = false;
+						gd.save_config(sound->get_volume(), height, width, fullscreen);
+						this->device->getTimer()->start();
+						break;
+					case GUI_ID_QUIT_BUTTON:
+						this->estado = -1;
+						cntinue = false;
+						gd.save_config(sound->get_volume(), height, width, fullscreen);
+						this->device->getTimer()->start();
 					break;
+					case GUI_ID_OPCIONES_BUTTON:
+						hud->show_audio_menu();
+						break;
+					case GUI_ID_VOLVER_BUTTON:
+						hud->show_main_buttons();
+						break;
 				}
 			break;
+			case EGET_SCROLL_BAR_CHANGED:
+				if(id == GUI_ID_VOLUME_SCROLLBAR)
+				{
+					int pos = ((IGUIScrollBar*)event.GUIEvent.Caller)->getPos();
+					sound->set_volume(pos / 100.0);
+				}
+				break;
 		}
 		return false;
 	}

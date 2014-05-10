@@ -35,12 +35,14 @@ public:
 	~MyMenu(void);
 	int AddMenu();
 	void setStart();
+	void setStart(bool s);
 	virtual bool OnEvent(const SEvent& event);
 	int get_level();
 	int get_height();
 	int get_width();
 	float get_volume();
 	bool get_fullscreen();
+
 
 private:
 	void change_device(int h, int w);
@@ -49,6 +51,7 @@ private:
 	void select_menu(int stat);
 	int add_to_sprite_bank(rect<s32> sprite_rect, const char* path);
 	void load_sprite_bank();
+
 
 	int start;
 	IrrlichtDevice * device;
