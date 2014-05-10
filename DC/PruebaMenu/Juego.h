@@ -19,6 +19,7 @@
 #include "Aprendizaje\CController.h"
 #include  "Aprendizaje\CParams.h"
 #include "GameData.h"
+#include "BotonesMenu.h"
 
 
 using namespace std;
@@ -119,6 +120,7 @@ private:
 	int height;
 	bool fullscreen;
 	float volume;
+	s32 time_store;
 	enum
 {
     // I use this ISceneNode ID to indicate a scene node that is

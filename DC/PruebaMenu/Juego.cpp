@@ -258,147 +258,109 @@ void Juego::run()
 		sound->play_background();
 
 	win_condition = 0;
-
+	device->setEventReceiver(this);
 	while(device->run() && driver && cntinue)
 	{
 		if (device->isWindowActive())
 		{
-
-
-					now = device->getTimer()->getTime();
-
-					player->movement(camera);
-					if(player->get_weapon())
-						player->get_weapon()->finish_animation();
-
-			if(npc && win_condition == 0)
+			if(!paused)
 			{
-				npc->manage_collision(player->get_weapon(), device, sound);
-				npc->heal_or_fire(campFire, heal_camp, device);
 
-				if(cycles % 1500 && !npc->get_is_dead())
+				now = device->getTimer()->getTime();
 
+				player->movement(camera);
+				if(player->get_weapon())
+					player->get_weapon()->finish_animation();
+
+				if(npc && win_condition == 0)
 				{
-					mente->Arbitrate();
-					mente->ProcessSubgoals();
-				}
+					npc->manage_collision(player->get_weapon(), device, sound);
+					npc->heal_or_fire(campFire, heal_camp, device);
+
+					if(cycles % 1500 && !npc->get_is_dead())
+					{
+						mente->Arbitrate();
+						mente->ProcessSubgoals();
+					}
 
 				
-				//npc->way_to(pf.getCamino());
-				npc->restore_condition(device);
-				//swprintf(tmp, 255, L"NpcHealth %f", player->get_position().Y);
+					npc->restore_condition(device);
 				
+					if(npc->get_weapon())
+					{
+						npc->get_weapon()->finish_animation();
+					}
 
-				//statusText->setText(tmp);
-				//if(player)
-					//npc->face_target(player->get_character_node());
-
-				if(npc->get_weapon())
-				{
-					npc->get_weapon()->finish_animation();
-
+					if(npc->get_is_dead() && win_condition == 0)
+					{
+						npc->die(device);
+						npc->remove_character_node();
+						this->win_condition = 1;
+						cntinue = false;
+						if(sound)
+							sound->win_sound();
+					}
 				}
-
-				if(npc->get_is_dead() && win_condition == 0)
-				{
-					npc->die(device);
-					npc->remove_character_node();
-					this->win_condition = 1;
-					cntinue = false;
-					if(sound)
-						sound->win_sound();
-				}
-			}
 		
 
-			if(player && win_condition == 0)
-			{
-				player->heal_or_fire(campFire, heal_camp, device);
-				player->fall_down(device);
-				player->manage_collision(npc->get_weapon(), device);
-				player->restore_condition(device);
+				if(player && win_condition == 0)
+				{
+					player->heal_or_fire(campFire, heal_camp, device);
+					player->fall_down(device);
+					player->manage_collision(npc->get_weapon(), device);
+					player->restore_condition(device);
 
 				
-				swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f -- Nivel: %i", player->get_position().X, player->get_position().Y, 
+					swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f -- Nivel: %i", player->get_position().X, player->get_position().Y, 
 					player->get_position().Z, this->level);
 				
-				statusText->setText(tmp);
+					statusText->setText(tmp);
 
-				if(player->get_is_dead() && win_condition == 0)
-				{
-					win_condition = -1;
-					cntinue = false;
-					if(sound)
-						sound->lose_sound();
+					if(player->get_is_dead() && win_condition == 0)
+					{
+						win_condition = -1;
+						cntinue = false;
+						if(sound)
+							sound->lose_sound();
+					}
 				}
-			}
 
-			if(cycles % 1500 == 0)
-			{
-				this->replace_random_item(this->device, this->mapSelector);
-			}
-				/*switch(player->heal_or_fire(campFire, heal_camp, device))
-				{
-
-					case 0:
-						swprintf(tmp, 255, L"NORMAL", head_hit);
-						statusText->setText(tmp);
-						break;
-					case 1:
-						swprintf(tmp, 255, L"ARDO", head_hit);
-						statusText->setText(tmp);
-						break;
+					if(cycles % 1500 == 0)
+						this->replace_random_item(this->device, this->mapSelector);
+					
 				
-					case 2:
-						swprintf(tmp, 255, L"CURACION", head_hit);
-						statusText->setText(tmp);
-						break;
-				}*/
-	
-/*
-			if(unavez>3 && unavez<51)
-			{
-
-				
-							case 2:
-								swprintf(tmp, 255, L"CURACION", head_hit);
-								statusText->setText(tmp);
-								break;
-						}*/
-
-
-				
-					driver->beginScene(timeForThisScene != -1, true, backColor);
+					
 		
 					hud->setSkinTransparency( guienv->getSkin());
 					hud->setHud(npc,player);
-					smgr->drawAll();
-					guienv->drawAll();
-					driver->endScene();
+					
 					if(cycles + 1 == INT_MAX)
-					{
 						cycles = 0;
-					}
-
+					
 					
 					cycles++;
 					
-
 				}
+				driver->beginScene(timeForThisScene != -1, true, backColor);
+				smgr->drawAll();
+				guienv->drawAll();
+				driver->endScene();
 			}
+				
+		}
 
-			if(win_condition == 1 && this->level < KMAX_LEVEL)
-			{
-				sound->win_sound();
-				this->level++;
-			}
-			else if(win_condition == -1)
-			{
-				sound->lose_sound();
-			}
+		if(win_condition == 1 && this->level < KMAX_LEVEL)
+		{
+			sound->win_sound();
+			this->level++;
+		}
+		else if(win_condition == -1)
+		{
+			sound->lose_sound();
+		}
 
-			GameData gd;
-			gd.save_game(this->level);
+		GameData gd;
+		gd.save_game(this->level);
 	}
 	else if(estado==2)
 	{
@@ -909,8 +871,8 @@ bool Juego::OnEvent(const SEvent& event)
 			this->sound->resume_background_sounds();
 			hud->setVisibleHudT();
 			hud->borrarMenu(device);
+			//this->device->getTimer()->setTime(time_store);
 			this->device->getTimer()->start();
-		
 		}
 		else
 		{
@@ -919,10 +881,12 @@ bool Juego::OnEvent(const SEvent& event)
 			hud->setVisibleHudF();
 			hud->drawMenu(device);
 			this->sound->pause_background_sounds();
+			//this->hud->ActivaMenu();
+			time_store = this->device->getTimer()->getTime();
 			this->device->getTimer()->stop();
 		}
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_G && event.KeyInput.PressedDown == true && player != NULL)
+	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_G && event.KeyInput.PressedDown == true && player != NULL && !paused)
 	{
 		/*camera->removeChild(gun);
 		gun = NULL;*/
@@ -1065,7 +1029,35 @@ bool Juego::OnEvent(const SEvent& event)
 			player->defend();
 	}
 	else
-	if (device && device->getSceneManager()->getActiveCamera())
+	if (event.EventType == EET_GUI_EVENT && paused)
+    {
+        s32 id = event.GUIEvent.Caller->getID();
+		switch(event.GUIEvent.EventType)
+        {
+			case EGET_BUTTON_CLICKED:
+				switch(id)
+				{
+					case GUI_ID_CONTINUAR_BUTTON:
+						if(paused)
+						{
+							paused = false;
+							this->device->getCursorControl()->setPosition(0.5f,0.5f);
+							this->camera->setInputReceiverEnabled(true);
+							this->sound->resume_background_sounds();
+							hud->setVisibleHudT();
+							//this->device->getTimer()->setTime(time_store);
+							hud->borrarMenu(device);
+							this->device->getTimer()->start();
+		
+						}
+					break;
+				}
+			break;
+		}
+		return false;
+	}
+	else
+	if (device && device->getSceneManager()->getActiveCamera() && !paused)
 	{
 		device->getSceneManager()->getActiveCamera()->OnEvent(event);
 		return true;

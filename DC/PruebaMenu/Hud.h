@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Npc.h"
 #include "BotonesMenu.h"
+#include "GUIHandler.h"
 using namespace irr;
 
 using namespace core;
