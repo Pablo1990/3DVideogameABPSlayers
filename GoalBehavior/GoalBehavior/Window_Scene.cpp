@@ -38,12 +38,9 @@ void Window_Scene::setIndividuoElegido(int x, int y, vector<Bot*> bots){
 		x = (x/dimCasilla)*25;
 		y = (y/dimCasilla)*25;
 	if(x<=dimMapa && y<=dimMapa){
-		cout<<"pepe"<<x<<" "<<y<<endl;
 		for(int i = bots.size()-1; i>=0; i--){
-			cout<<botCircles[i].getPosition().x<<" "<<botCircles[i].getPosition().y<<endl;
 			if(!ele && botCircles[i].getPosition().x == x && y == botCircles[i].getPosition().y){
 				ele = true;
-				cout<<"elegido"<<endl;
 				bots[i]->setElegido(true);
 				botCircles[i].setFillColor(sf::Color::Yellow);
 			}
