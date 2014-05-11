@@ -32,6 +32,29 @@ Window_Scene::Window_Scene()
 
 }
 
+void Window_Scene::setIndividuoElegido(int x, int y, vector<Bot*> bots){
+	
+		bool ele = false;
+		x = (x/dimCasilla)*25;
+		y = (y/dimCasilla)*25;
+	if(x<=dimMapa && y<=dimMapa){
+		cout<<"pepe"<<x<<" "<<y<<endl;
+		for(int i = bots.size()-1; i>=0; i--){
+			cout<<botCircles[i].getPosition().x<<" "<<botCircles[i].getPosition().y<<endl;
+			if(!ele && botCircles[i].getPosition().x == x && y == botCircles[i].getPosition().y){
+				ele = true;
+				cout<<"elegido"<<endl;
+				bots[i]->setElegido(true);
+				botCircles[i].setFillColor(sf::Color::Yellow);
+			}
+			else{
+				bots[i]->setElegido(false);
+				botCircles[i].setFillColor(sf::Color::Blue);
+			}
+		}
+	}
+}
+
 void Window_Scene::cargarObjetos(vector<Bot*> bots){
 
 	for(int i=0; i<bots.size(); i++){
@@ -77,6 +100,9 @@ void Window_Scene::cargarObjetos(vector<Bot*> bots){
 Window_Scene::~Window_Scene(void)
 {
 }
+
+
+
 void Window_Scene::cargarEscenario(vector<Bot*> bots, CController* controller)
 {
 	window.clear(sf::Color::White);
@@ -110,7 +136,11 @@ void Window_Scene::cargarEscenario(vector<Bot*> bots, CController* controller)
 	for(int i=0; i<bots.size(); i++){
 		textAprendizaje << "Fitness "<<i<<": "<< bots[i]->Fitness()<<" - ";
 		bots[i]->getPosMasCercano(x,y);
-		textAprendizaje << "Distancia a cercano: ("<<x<<","<<y<<")"<<endl;
+		textAprendizaje << "Distancia a cercano: ("<<x<<","<<y<<")";
+		if(bots[i]->getElegido())
+			textAprendizaje<<" elegido";
+		
+		textAprendizaje<<endl;
 	}
 	textAprendizaje<<"Cajas cogidas "<<controller->cajas<<endl;
 	Text_Aprendizaje.setString(textAprendizaje.str());

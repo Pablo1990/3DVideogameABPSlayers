@@ -47,6 +47,7 @@ private:
 		double movimientoY;
 		Bot* enemigo;
 		int armasCogidas;
+		bool elegido;
 		
 		
 public:
@@ -57,6 +58,8 @@ public:
 	void Reset(double x, double y);
 	bool Update();
 	double Fitness();
+	void setElegido(bool);
+	bool getElegido();
 	void PutWeights(vector<double> &w){m_ItsBrain.PutWeights(w);}
 	int GetNumberOfWeights()const{return m_ItsBrain.GetNumberOfWeights();}
 	void aumentoFitnessRecogidas() {fitness+=armasCogidas*4;}

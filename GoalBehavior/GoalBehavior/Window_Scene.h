@@ -21,6 +21,8 @@ public:
 	void cargarEscenario(vector<Bot*>, CController *);
 	void cargarObjetos(vector<Bot*>);
 	void plotNeuralNet(vector<Bot*>, CController* );
+	void setIndividuoElegido(int x, int y, vector<Bot*>);
 	sf::Text Text_Red;
+	int individuoElegido;
 };
 

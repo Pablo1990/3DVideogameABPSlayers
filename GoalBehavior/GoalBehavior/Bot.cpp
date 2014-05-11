@@ -12,6 +12,7 @@ Bot::Bot(vector<int*> itemsX, vector<int*> itemsY, double x, double y)
 	posY = y;
 	armasCogidas = 0;
 	crearListaObjetos(itemsX, itemsY);
+	elegido = false;
 }
 void Bot::crearListaObjetos(vector<int*> itemsX, vector<int*> itemsY){
 
@@ -32,6 +33,14 @@ void Bot:: Reset(double x, double y)
 	posY = y;
 	armasCogidas=0;
 	fitness = 0;
+}
+
+void Bot::setElegido(bool el){
+	elegido = el;
+}
+
+bool Bot::getElegido(){
+	return elegido;
 }
 
 bool Bot :: Update()
