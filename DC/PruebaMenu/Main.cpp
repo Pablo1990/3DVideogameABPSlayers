@@ -20,34 +20,60 @@ int main()
 {
 
 	// ask user for driver
-	E_DRIVER_TYPE driverType = driverChoiceConsole();
+	E_DRIVER_TYPE driverType = video::EDT_OPENGL;//driverChoiceConsole();
 
     if (driverType==video::EDT_COUNT)
         return false;
 
-	MyMenu *menu = new MyMenu(driverType);
+	MyMenu *menu ;//= new MyMenu(driverType);
 
-	int estado=menu->AddMenu();
-	if(estado==1 || estado == 4)
-	{
-		Juego game(driverType, menu->get_width(), menu->get_height(), menu->get_fullscreen(), menu->get_volume());
-		game.setEstado(estado);
-		game.set_level(menu->get_level());
-		game.run();
-	}
-	//Estado aprendizaje
+	
+	int estado = 0;//Para que entre
+	int widht;
+	int height;
+	bool fullscreen;
+	float volume;
+	int level;
 
-	else if(estado==2)
+	while(estado != -1)
 	{
-		Juego game(driverType, menu->get_width(), menu->get_height(), menu->get_fullscreen(), menu->get_volume());
-		game.setEstado(2);
-		game.run();
-	}
-	else if(estado==3)
-	{
-		Juego game(driverType, menu->get_width(), menu->get_height(), menu->get_fullscreen(), menu->get_volume());
-		game.setEstado(3);
-		game.run();
+		menu = new MyMenu(driverType);
+		estado=menu->AddMenu();
+		widht = menu->get_width();
+		height = menu->get_height();
+		fullscreen = menu->get_fullscreen();
+		volume = menu->get_volume();
+		level = menu->get_level();
+
+		if(menu)
+		{
+			menu = NULL;
+			delete menu;
+		}
+		if(estado==1 || estado == 4)
+		{
+			Juego game(driverType, widht, height, fullscreen, volume);
+			game.setEstado(estado);
+			game.set_level(level);
+			game.run();
+			estado = game.getEstado();
+		}
+
+		//Estado aprendizaje
+		else if(estado==2)
+		{
+			Juego game(driverType, widht, height, fullscreen, volume);
+			game.setEstado(2);
+			game.run();
+			estado = game.getEstado();
+		}
+		else if(estado==3)
+		{
+			Juego game(driverType, widht, height, fullscreen, volume);
+			game.setEstado(3);
+			game.run();
+			estado = game.getEstado();
+		}
 	}
 	if(menu)
 		delete menu;

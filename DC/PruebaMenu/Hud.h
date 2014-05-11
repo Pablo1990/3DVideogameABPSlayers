@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Npc.h"
 #include "BotonesMenu.h"
+#include "GUIHandler.h"
 using namespace irr;
 
 using namespace core;
@@ -75,7 +76,7 @@ enum
 class Hud
 {
 public:
-	Hud(IrrlichtDevice* device);
+	Hud(IrrlichtDevice* device, SoundEffect* s);
 	Hud();
 	~Hud(void);
 	void drawHud(IrrlichtDevice*,Npc* npc, Player* player);
@@ -86,7 +87,12 @@ public:
 	void ActivaMenu();
 	void setVisibleHudT();
 	void setVisibleHudF();
+	void show_main_buttons();
+	void show_audio_menu();
 
+private:
+	SoundEffect* sound;
+	IGUIScrollBar* volume_control;
 	IGUIEnvironment* env ;
 	IGUISkin* skin ;
 	IGUITabControl* tab;
@@ -99,12 +105,14 @@ public:
 	IGUIStaticText* textCansancio;
 	IGUIStaticText* Cansancio;
 	IGUIStaticText* SaludBot;
+	IGUIStaticText* Audio;
 
 	IGUITabControl* tabMenu;
 	IGUIButton*		Reanudar;
 	IGUIButton*		VMenu;
 	IGUIButton*		Salir;
 	IGUIButton*		Opciones;
+	IGUIButton*		volver_button;
 
 	core::dimension2d<u32> size;
    gui::IGUIFont* font2 ;

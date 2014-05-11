@@ -19,6 +19,7 @@ public:
 	GUIHandler(IrrlichtDevice* device);
 	void calculate_scale(IrrlichtDevice* device);
 	rect<s32> ScaleValuebyScreenHeight(vector2d<s32> upper_left_corner, vector2d<s32> lower_right_corner);
+	rect<s32> ScaleValuebyScreenHeight(rect<s32> position);
 	float get_scale_y();
 	float get_scale_x();
 	~GUIHandler(void);

@@ -47,6 +47,11 @@ rect<s32> GUIHandler::ScaleValuebyScreenHeight(vector2d<s32> upper_left_corner, 
 	return rect<s32>(upper_left_corner, lower_right_corner);
 }
 
+rect<s32> GUIHandler::ScaleValuebyScreenHeight(rect<s32> position)
+{
+	return rect<s32>(position.UpperLeftCorner.X * scale_x, position.UpperLeftCorner.Y * scale_y, position.LowerRightCorner.X *
+		scale_x, position.LowerRightCorner.Y * scale_y);
+}
 
 float GUIHandler::get_scale_x()
 {

@@ -1,7 +1,7 @@
 #include "Hud.h"
 
 
-Hud::Hud(IrrlichtDevice* device)
+Hud::Hud(IrrlichtDevice* device, SoundEffect* s)
 {
 
 	 size = device->getVideoDriver()->getScreenSize();
@@ -16,6 +16,7 @@ Hud::Hud(IrrlichtDevice* device)
 	skin->setColor(EGDC_3D_FACE  , video::SColor(1,25,250,15));
 	skin->setColor(EGDC_3D_HIGH_LIGHT   , video::SColor(2,175,238,238));
 
+	this->sound = s;
 
 
 	
@@ -83,40 +84,96 @@ Hud::Hud()
 }
 void Hud::setSkinTransparency( irr::gui::IGUISkin * skin)
 {
-   skin->setColor(EGDC_3D_SHADOW  , video::SColor(50,25,250,15));
+	skin->setColor(EGDC_3D_SHADOW  , video::SColor(50,25,250,15));
 	skin->setColor(EGDC_3D_FACE  , video::SColor(50,25,250,15));
 	skin->setColor(EGDC_3D_HIGH_LIGHT   , video::SColor(50,175,238,238));
 }
 
+
+
 void Hud::drawMenu(IrrlichtDevice* device)
 {
 
+	GUIHandler gh(device);
 
+
+	rect<s32> pos(240,100,640,400/*size.Width*0.3, size.Height*0.4, size.Width*0.8 ,size.Height*0.8*/);
+	pos = gh.ScaleValuebyScreenHeight(pos);
+	tabMenu=device ->getGUIEnvironment()->addTabControl(pos,0,true,true);
 	
-core::rect<int> pos(size.Width*0.3, size.Height*0.4, size.Width*0.8 ,size.Height*0.8);
-	 tabMenu=device ->getGUIEnvironment()->addTabControl(pos,0,true,true);
-	
-	 skin->setColor(EGDC_3D_SHADOW  , video::SColor(25,210,50,0));
+	skin->setColor(EGDC_3D_SHADOW  , video::SColor(25,210,50,0));
 	skin->setColor(EGDC_3D_FACE  , video::SColor(70,215,0,15));
 	skin->setColor(EGDC_HIGH_LIGHT , video::SColor(20,255,0,0));
 	skin->setColor(EGDC_ICON_HIGH_LIGHT , video::SColor(100,255,255,0));
-	 tituloPause=  device ->getGUIEnvironment()->addStaticText(L"Pause", core::rect<s32>(5,20,90,66), false, false, tabMenu);
+	tituloPause=  device ->getGUIEnvironment()->addStaticText(L"Pause", gh.ScaleValuebyScreenHeight(rect<s32>(5,5,90,51)), false, false, tabMenu);
 
-	 Reanudar=device->getGUIEnvironment()->addButton(core::rect<s32>(0,205,250,209),tabMenu,GUI_ID_CONTINUAR_BUTTON, L"Continuar", L"Continua desde el ultimo nivel desbloqueado");
-/*	VMenu;
+	Reanudar = device->getGUIEnvironment()->addButton(gh.ScaleValuebyScreenHeight(rect<s32>(80,50,330,95))
+			,tabMenu,GUI_ID_CONTINUAR_BUTTON, L"Reanudar");
+
+	Opciones = device->getGUIEnvironment()->addButton(gh.ScaleValuebyScreenHeight(rect<s32>(80,115,330,160))
+			,tabMenu,GUI_ID_OPCIONES_BUTTON, L"Audio");
+
+	Salir = device->getGUIEnvironment()->addButton(gh.ScaleValuebyScreenHeight(rect<s32>(80,180,330,225))
+			,tabMenu,GUI_ID_QUIT_BUTTON, L"Salir");
+
+	VMenu = device->getGUIEnvironment()->addButton(gh.ScaleValuebyScreenHeight(rect<s32>(80,245,330,290))
+			,tabMenu,GUI_ID_MENU_BUTTON, L"Volver al menu");
+
+	volver_button = device->getGUIEnvironment()->addButton(gh.ScaleValuebyScreenHeight(rect<s32>(80,245,330,290))
+			,tabMenu,GUI_ID_VOLVER_BUTTON, L"Volver");
+
+	volume_control = env->addScrollBar(true, gh.ScaleValuebyScreenHeight(rect<s32>(80,70,330,95)/*rect<s32>(470,115,647,130)*/),tabMenu,GUI_ID_VOLUME_SCROLLBAR);
+			volume_control->setMax(100);
+			volume_control->setPos(sound->get_volume() * 100);
+			
+			Audio = device ->getGUIEnvironment()->addStaticText(L"Volumen:", gh.ScaleValuebyScreenHeight(rect<s32>(80,50,330,70)), false, false, tabMenu);
+	
+	/*	VMenu;
 	Salir;
 	Opciones;
 	*/
 }
-/*
-void Hud::ActivaMenu()
+
+void Hud::show_main_buttons()
 {
 	tabMenu->setVisible(true);
-}*/
+	Reanudar->setVisible(true);
+	Opciones->setVisible(true);
+	Salir->setVisible(true);
+	VMenu->setVisible(true);
+	volume_control->setVisible(false);
+	volver_button->setVisible(false);
+	Audio->setVisible(false);
+}
+
+void Hud::show_audio_menu()
+{
+	volume_control->setPos(sound->get_volume() * 100);
+	tabMenu->setVisible(true);
+	Reanudar->setVisible(false);
+	Opciones->setVisible(false);
+	Salir->setVisible(false);
+	VMenu->setVisible(false);
+	volume_control->setVisible(true);
+	volver_button->setVisible(true);
+	Audio->setVisible(true);
+}
+
+void Hud::ActivaMenu()
+{
+	skin->setColor(EGDC_3D_SHADOW  , video::SColor(25,210,50,0));
+	skin->setColor(EGDC_3D_FACE  , video::SColor(70,215,0,15));
+	skin->setColor(EGDC_HIGH_LIGHT , video::SColor(20,255,0,0));
+	skin->setColor(EGDC_ICON_HIGH_LIGHT , video::SColor(100,255,255,0));
+
+	show_main_buttons();
+}
+
 void Hud::borrarMenu(IrrlichtDevice* device)
 {
 	tabMenu->setVisible(false);
 }
+
 void Hud::setVisibleHudT()
 {
 	tab->setVisible(true);
@@ -126,6 +183,7 @@ void Hud::setVisibleHudF()
 {
 	tab->setVisible(false);
 }
+
 void Hud:: drawHud(IrrlichtDevice* device,Npc* npc, Player* player)
 {
 	
