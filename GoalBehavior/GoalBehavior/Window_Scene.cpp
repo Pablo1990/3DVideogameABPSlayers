@@ -149,8 +149,14 @@ void Window_Scene::cargarEscenario(vector<Bot*> bots, CController* controller)
 void Window_Scene::plotNeuralNet(vector<Bot*> bots, CController* controller){
 
 	CNeuralNet aux;
-	int numIndividuo = controller->getAlgoritmoGenetico()->getFittest(); //cogemos el que tiene mayor fitness
-	//numIndividuo = 0;
+	int numIndividuo = 0; //cogemos el que tiene mayor fitness
+
+	for(int i=bots.size()-1; i>=0; i--){
+		if(bots[i]->getElegido()){
+			numIndividuo = i;
+			break;
+		}
+	}
 
 	aux = bots[numIndividuo]->GetNeuralNet();
 	std::stringstream textAprendizaje;
