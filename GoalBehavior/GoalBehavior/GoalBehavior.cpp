@@ -35,13 +35,25 @@ int _tmain(int argc, _TCHAR* argv[])
 	scene.cargarObjetos(bots);
     //El programa se ejecutara mientras la ventana este abierta
 	scene.window.display();
-
+	bool pPulsado = false;
+	bool siguienteIter = false;
 	while (scene.window.isOpen())
     {
-        //Reogemos y procesamos los eventos del sistema operativo
-        sf::Event event;
-		while (true)
+		sf::Event event;
+		scene.window.pollEvent(event);
+		if(event.type == sf::Event::KeyPressed){
+			if(event.key.code == sf::Keyboard::P){
+				pPulsado = !pPulsado;
+			}
+
+			if(event.key.code == sf::Keyboard::Space){
+				siguienteIter = true;
+			}
+		}
+
+		if (!pPulsado || siguienteIter)
         {
+			siguienteIter = false;
 			scene.window.pollEvent(event);
             //Si el evento es cerrar la ventana, cerramos la ventana que creamos antes
             if (event.type == sf::Event::Closed){
