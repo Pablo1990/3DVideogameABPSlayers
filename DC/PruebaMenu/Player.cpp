@@ -389,4 +389,10 @@ void Player::restore_condition(IrrlichtDevice* d)
 		ISceneNodeAnimatorCameraFPS *anim=(ISceneNodeAnimatorCameraFPS*)*anims;
 		anim->setMoveSpeed(.4f);
 	}
+
+	if(d->getTimer()->getTime() - resistance_count > 1500)
+	{
+		this->gain_resistance();
+		resistance_count = d->getTimer()->getTime();
+	}
 }

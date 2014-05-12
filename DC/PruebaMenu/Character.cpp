@@ -25,6 +25,7 @@ Character::Character(const char* path, ISceneManager *sm)
 		this->heal_tick = 0;
 		this->fire_tick;
 		this->is_dead = false;
+		this->resistance = 20;
 	}
 	catch(...)
 	{}
@@ -55,6 +56,8 @@ Character::Character(const char* path, ISceneManager *sm, Weapon* w)
 		this->fire_tick;
 
 		this->is_dead = false;
+		this->resistance = 20;
+
 	}
 	catch(...)
 	{
@@ -318,9 +321,11 @@ void Character::attack(float first_x, float first_y, float last_x, float last_y)
 {
 	try
 	{
-		if (this->weapon && !sh->get_cover() && !this->paralysis && !this->weapon->no_weapon())
+		if (this->weapon && !sh->get_cover() && !this->paralysis && !this->weapon->no_weapon() && resistance > 0)
 		{
-			this->weapon->attack(first_x, first_y,  last_x,  last_y);
+
+			if(this->weapon->attack(first_x, first_y,  last_x,  last_y))
+				this->lose_resistance();
 			if(dynamic_cast<ThrowableItem*>(this->weapon))
 			{
 				if(weapon->get_weapon_node())
@@ -524,6 +529,12 @@ void Character::restore_condition(IrrlichtDevice* d)
 		paralysis = false;
 		paralysis_start = -1;
 	}
+
+	if(d->getTimer()->getTime() - resistance_count > 3000)
+	{
+		this->gain_resistance();
+		resistance_count = d->getTimer()->getTime();
+	}
 }
 
 void Character::set_types(double* ty)
@@ -661,4 +672,23 @@ bool Character::can_i_heal()
 	if(this->heal_count < 5)
 		return true;
 	else return false;
+}
+
+void Character::lose_resistance()
+{
+	resistance = (resistance - 3);
+	if(resistance <= 0)
+		resistance = 0;
+}
+
+void Character::gain_resistance()
+{
+	resistance = resistance + 3;
+	if(resistance > 20)
+		resistance = 20;
+}
+
+int Character::get_resistance()
+{
+	return resistance;
 }

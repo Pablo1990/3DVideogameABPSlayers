@@ -27,8 +27,8 @@ public:
 	int get_distance();
 
 	virtual void finish_animation();
-	virtual void attack(float first_x, float first_y, float last_x, float last_y);
-	virtual void attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position);
+	virtual bool attack(float first_x, float first_y, float last_x, float last_y);
+	virtual bool attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position);
 	bool with_shield();
 
 	void add_to_scene(vector3df position, vector3df rotation, vector3df scale, bool pickable, int index);

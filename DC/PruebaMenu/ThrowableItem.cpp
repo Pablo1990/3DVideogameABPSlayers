@@ -58,7 +58,7 @@ ThrowableItem::~ThrowableItem(void)
 }
 
 
-void ThrowableItem::attack(float first_x, float first_y, float last_x, float last_y)
+bool ThrowableItem::attack(float first_x, float first_y, float last_x, float last_y)
 {
 	try
 	{
@@ -69,19 +69,24 @@ void ThrowableItem::attack(float first_x, float first_y, float last_x, float las
 
 
 			if (!camera )
-				return;
+				return false;
 			f32 far = camera->getFarValue();
 			this->shoot_anim(weapon_node->getScale(), camera->getRotation(), camera->getPosition(), 
 				camera->getTarget() - camera->getPosition(), camera->getFarValue());
 			shot = true;
 			resist = 0;
+			return true;
 		}
+		return false;
 	}
 	catch(...)
-	{}
+	{
+		return false;
+	}
+	return false;
 }
 
-void ThrowableItem::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position)
+bool ThrowableItem::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position)
 {
 	if(device)
 	{
@@ -91,6 +96,8 @@ void ThrowableItem::attack(int type, IAnimatedMeshSceneNode* node, vector3df pla
 			this->shoot_anim(weapon_node->getScale(), node->getRotation(), node->getPosition(), vector3df(player_position.X,
 				player_position.Y + 100, player_position.Z), node->getPosition().getDistanceFrom(player_position) );
 			this->resist = 0;
+			return true;
 		}
 	}
+	return false;
 }

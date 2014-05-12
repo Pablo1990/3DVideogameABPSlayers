@@ -594,10 +594,12 @@ void Npc::attack(int type)
 {
 	try
 	{
-		if(weapon && !this->paralysis)
+		if(weapon && !this->paralysis && resistance > 0)
 		{
 			//this->face_target(player->get_character_node());
-			weapon->attack(type, this->character_node, scene_manager->getActiveCamera()->getPosition());
+			if(weapon->attack(type, this->character_node, scene_manager->getActiveCamera()->getPosition()))
+				this->lose_resistance();
+
 			if(dynamic_cast<ThrowableItem*>(this->weapon))
 			{
 				if(weapon->get_weapon_node())

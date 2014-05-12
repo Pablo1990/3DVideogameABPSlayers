@@ -319,8 +319,9 @@ void Juego::run()
 					player->restore_condition(device);
 
 				
-					swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f -- Nivel: %i", player->get_position().X, player->get_position().Y, 
-					player->get_position().Z, this->level);
+					swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f -- Nivel: %i -- Resistencia: %i"
+						, player->get_position().X, player->get_position().Y, 
+						player->get_position().Z, this->level, player->get_resistance());
 				
 					statusText->setText(tmp);
 

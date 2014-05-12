@@ -11,7 +11,7 @@ Shield::~Shield(void)
 {
 }
 
-void Shield::attack(float first_x, float first_y, float last_x, float last_y)
+bool Shield::attack(float first_x, float first_y, float last_x, float last_y)
 {
 	try
 	{
@@ -23,6 +23,7 @@ void Shield::attack(float first_x, float first_y, float last_x, float last_y)
 				weapon_node->setPosition(vector3df(0,0,5));
 				cover = true;
 				weapon_node->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+				return true;
 			}
 		}
 		else
@@ -33,12 +34,15 @@ void Shield::attack(float first_x, float first_y, float last_x, float last_y)
 				weapon_node->setPosition(vector3df(0,130,-30));
 				cover = true;
 				weapon_node->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+				return true;
 			}
 		}
-
+		return false;
 	}
 	catch(...)
-	{}
+	{
+		return false;
+	}
 }
 
 void Shield::finish_animation()

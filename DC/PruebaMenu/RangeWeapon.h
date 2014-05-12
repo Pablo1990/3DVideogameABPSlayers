@@ -11,8 +11,8 @@ public:
 	RangeWeapon(const char* path, int dmg, int sp, ISceneManager *sm, ITriangleSelector *ms, 	IrrlichtDevice *d, int type, const char* ammo_paht);
 	~RangeWeapon(void);
 	void finish_animation();
-	virtual void attack(float first_x, float first_y, float last_x, float last_y);
-	virtual void attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position);
+	virtual bool attack(float first_x, float first_y, float last_x, float last_y);
+	virtual bool attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position);
 	void shoot_anim(vector3df scale, vector3df rotation, vector3df start, vector3df end, f32 far_value);
 	bool is_animated();
 	array<SParticleImpact> get_impacts();

@@ -12,7 +12,7 @@ Spear::~Spear(void)
 	shield = false;
 }
 
-void Spear::attack(float first_x, float first_y, float last_x, float last_y)
+bool Spear::attack(float first_x, float first_y, float last_x, float last_y)
 {
 	try
 	{
@@ -75,11 +75,14 @@ void Spear::attack(float first_x, float first_y, float last_x, float last_y)
 					}
 				}
 				resist = resist - 1;
+				return true;
 		}
 	}
 	catch(...)
 	{
+		return false;
 	}
+	return false;
 }
 
 void Spear::finish_animation()
@@ -106,7 +109,7 @@ void Spear::finish_animation()
 }
 
 
-void Spear::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position)
+bool Spear::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position)
 {
 	weapon_node->setRotation(core::vector3df(90,0, 0));
 	weapon_node->setPosition(core::vector3df(10,100,-20));
@@ -145,5 +148,7 @@ void Spear::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_posi
 				break;
 		}
 		resist = resist - 1;
+		return true;
 	}
+	return false;
 }
