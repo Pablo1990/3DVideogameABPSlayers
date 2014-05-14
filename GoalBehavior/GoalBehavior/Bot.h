@@ -74,6 +74,7 @@ public:
 	CNeuralNet GetNeuralNet() {return m_ItsBrain; }
 	bool estoyEnObjeto();
 	void mover();
+	vector<int>       CalculateSplitPoints()const{return m_ItsBrain.CalculateSplitPoints();}
 	void setPosition(double x, double y)
 	{
 		posX=x;

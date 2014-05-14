@@ -26,12 +26,16 @@ CController::CController(vector<Bot*> bots): m_NumSweepers(CParams::iNumSweepers
 	//get the total number of weights used in the sweepers
 	//NN so we can initialise the GA
 	m_NumWeightsInNN = m_vecSweepers[0]->GetNumberOfWeights();
+    
+    //calculate the neuron placement in the weight vector
+    vector<int> SplitPoints = m_vecSweepers[0]->CalculateSplitPoints();
 
 	//initialize the Genetic Algorithm class
 	m_pGA = new CGenAlg(m_NumSweepers,
 		CParams::dMutationRate,
 		CParams::dCrossoverRate,
-		m_NumWeightsInNN);
+		m_NumWeightsInNN,
+        SplitPoints);
 
 	//Get the weights from the GA and insert into the sweepers brains
 	m_vecThePopulation = m_pGA->GetChromos();
