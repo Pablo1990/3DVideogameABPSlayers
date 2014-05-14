@@ -49,8 +49,22 @@ bool Bot :: Update()
 	double x = 0;
 	double y = 0;
 	getPosMasCercano(x, y);
-	inputs.push_back(x);
-	inputs.push_back(y);
+	if(x>0){
+		inputs.push_back(x);
+		inputs.push_back(0);
+	}
+	else{
+		inputs.push_back(0);
+		inputs.push_back(abs(x));
+	}
+	if(y>0){
+		inputs.push_back(y);
+		inputs.push_back(0);
+	}
+	else{
+		inputs.push_back(0);
+		inputs.push_back(abs(y));
+	}
 	vector<double> output = m_ItsBrain.Update(inputs);
 	if (output.size() < CParams::iNumOutputs) 
 	{
