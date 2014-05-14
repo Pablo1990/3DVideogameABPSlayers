@@ -170,7 +170,7 @@ void Window_Scene::plotNeuralNet(vector<Bot*> bots, CController* controller){
 	for (int i=0; i<aux.m_NumHiddenLayers + 1; ++i)
 	{
 		//for each neuron
-		pos=800;
+		pos=750;
 
 	   if(i==aux.m_NumHiddenLayers)
 		{
@@ -214,7 +214,7 @@ void Window_Scene::plotNeuralNet(vector<Bot*> bots, CController* controller){
 			}
 			if(i==0 && j==0)
 			{
-					pos=800;
+					pos=750;
 			}
 			if(i==aux.m_NumHiddenLayers)
 			{
