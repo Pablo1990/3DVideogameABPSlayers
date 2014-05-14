@@ -11,6 +11,8 @@ public:
 	Window_Scene();
 	~Window_Scene(void);
 	 vector<sf:: CircleShape> botCircles;
+	 vector<sf:: CircleShape> NeuronCircles;
+	 vector<sf::RectangleShape> NeuronAristas;
 	  sf::RectangleShape celdas [((dimMapa+dimCasilla)/dimCasilla)*((dimMapa+dimCasilla)/dimCasilla)];
 	  sf::Sprite itemspr[numObjetos];
 	   sf::RenderWindow window;

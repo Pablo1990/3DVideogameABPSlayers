@@ -163,19 +163,74 @@ void Window_Scene::plotNeuralNet(vector<Bot*> bots, CController* controller){
 	Text_Red.setFont(font);
 	Text_Red.setCharacterSize(10);
 	Text_Red.setColor(sf::Color::Magenta);
-	Text_Red.setPosition(10, 500);
+	Text_Red.setPosition(10, 550);
+	int pos=120;
+	sf:: Color  c;
+	int cont=0;
 	for (int i=0; i<aux.m_NumHiddenLayers + 1; ++i)
 	{
 		//for each neuron
+		pos=800;
+
+	   if(i==aux.m_NumHiddenLayers)
+		{
+			c=sf::Color::Red;
+		}
+		else
+		{
+			c=sf::Color::Black;
+		}
+
 		for (int j=0; j<aux.m_vecLayers[i].m_NumNeurons; ++j)
 		{
 			//for each weight
 			textAprendizaje <<"NeuronWeights" + itos(i+1) <<" ";
 			textAprendizaje <<  "[";
+			if(i==0 && j==0)
+			{
+				pos=820;
+
+			}
 			for (int k=0; k<aux.m_vecLayers[i].m_vecNeurons[j].m_NumInputs; ++k)
 			{
 				textAprendizaje <<ftos(aux.m_vecLayers[i].m_vecNeurons[j].m_vecWeight[k])+",";
+				if(i==0 && j==0)
+				{
+					if(k<aux.m_vecLayers[i].m_vecNeurons[j].m_NumInputs-1)
+					{
+						c=sf::Color::Green;
+						NeuronCircles.push_back(sf::CircleShape(9.5F));
+						NeuronAristas.push_back(sf::RectangleShape(sf::Vector2f(120, 100)));
+						NeuronAristas[cont].setFillColor(c);
+						NeuronCircles[cont].setFillColor(c);
+						pos=pos+(50);
+						NeuronCircles[cont].setPosition(pos,(50+(70*i)));
+						//window.draw(NeuronAristas[cont]);
+						window.draw(NeuronCircles[cont]);
+						cont++;
+					}	
+				}
+				
 			}
+			if(i==0 && j==0)
+			{
+					pos=800;
+			}
+			if(i==aux.m_NumHiddenLayers)
+			{
+				c=sf::Color::Red;
+			}
+			else
+			{
+				c=sf::Color::Black;
+			}
+			
+			NeuronCircles.push_back(sf::CircleShape(9.5F));
+			NeuronCircles[cont].setFillColor(c);
+			pos=pos+(50);
+			NeuronCircles[cont].setPosition(pos,(50+(70*(i+1))));
+			window.draw(NeuronCircles[cont]);
+			cont++;
 			textAprendizaje << "]"<<" - ";
 		}
 		textAprendizaje <<endl;
