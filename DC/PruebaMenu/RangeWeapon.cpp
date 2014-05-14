@@ -48,9 +48,9 @@ RangeWeapon::~RangeWeapon(void)
 }
 
 
-void RangeWeapon::attack(float first_x, float first_y, float last_x, float last_y)
+bool RangeWeapon::attack(float first_x, float first_y, float last_x, float last_y)
 {
-
+	return false;
 }
 
 void RangeWeapon::shoot_anim(vector3df scale, vector3df rotation, vector3df start, vector3df end, f32 far_value)
@@ -229,8 +229,9 @@ void RangeWeapon::set_ammo_mesh(const char* path)
 
 }
 
-void RangeWeapon::attack(int type,IAnimatedMeshSceneNode* node, vector3df player_position)
+bool RangeWeapon::attack(int type,IAnimatedMeshSceneNode* node, vector3df player_position)
 {
+	return false;
 }
 
 void RangeWeapon::set_impact_at(int index, bool flag)

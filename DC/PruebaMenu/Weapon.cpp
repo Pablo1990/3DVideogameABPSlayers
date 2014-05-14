@@ -158,8 +158,9 @@ Weapon::~Weapon(void)
 	}
 }
 
-void Weapon::attack(float first_x, float first_y, float last_x, float last_y)
+bool Weapon::attack(float first_x, float first_y, float last_x, float last_y)
 {
+	return false;
 }
 
 void Weapon::finish_animation()
@@ -202,8 +203,9 @@ void Weapon::add_to_node(vector3df position, vector3df rotation, vector3df scale
 	{}
 }
 
-void Weapon::attack(int type,IAnimatedMeshSceneNode* node, vector3df player_position)
+bool Weapon::attack(int type,IAnimatedMeshSceneNode* node, vector3df player_position)
 {
+	return false;
 }
 
 bool Weapon::with_shield()

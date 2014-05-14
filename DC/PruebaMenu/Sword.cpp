@@ -11,7 +11,7 @@ Sword::~Sword(void)
 		shield = true;
 }
 
-void Sword::attack(float first_x, float first_y, float last_x, float last_y)
+bool Sword::attack(float first_x, float first_y, float last_x, float last_y)
 {
 	try
 	{
@@ -74,11 +74,14 @@ void Sword::attack(float first_x, float first_y, float last_x, float last_y)
 				}
 			}
 			resist = resist - 1;
+			return true;
 	}
 	}
 	catch(...)
 	{
+		return false;
 	}
+	return false;
 }
 
 void Sword::finish_animation()
@@ -102,7 +105,7 @@ void Sword::finish_animation()
 	}
 }
 
-void Sword::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position)
+bool Sword::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position)
 {
 	weapon_node->setRotation(core::vector3df(0,180,0));
 	if (weapon_node != NULL && weapon_node->getAnimators().empty() && resist > 0)
@@ -140,5 +143,7 @@ void Sword::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_posi
 				break;
 		}
 		resist = resist - 1;
+		return true;
 	}
+	return false;
 }

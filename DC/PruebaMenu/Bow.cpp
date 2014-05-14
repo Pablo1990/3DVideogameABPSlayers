@@ -13,7 +13,7 @@ Bow::~Bow(void)
 	shield = false;
 }
 
-void Bow::attack(float first_x, float first_y, float last_x, float last_y)
+bool Bow::attack(float first_x, float first_y, float last_x, float last_y)
 {
 	if(device && weapon_node && resist > 0)
 	{
@@ -23,17 +23,20 @@ void Bow::attack(float first_x, float first_y, float last_x, float last_y)
 			scene::ICameraSceneNode* camera = this->scene_manager->getActiveCamera();
 
 			if (!camera )
-				return;
+				return false;
 
 			this->shoot_anim(vector3df(1.4,1.4,1.4), camera->getRotation(), camera->getPosition(), 
 				camera->getTarget() - camera->getPosition(),camera->getFarValue());
 			last_shot = device->getTimer()->getTime();
 			resist = resist - 1;
+			return true;
 		}
+		return false;
 	}
+	return false;
 }
 
-void Bow::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position)
+bool Bow::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_position)
 {
 	if(device && weapon_node && resist > 0)
 	{
@@ -43,11 +46,13 @@ void Bow::attack(int type, IAnimatedMeshSceneNode* node, vector3df player_positi
 			scene::ICameraSceneNode* camera = this->scene_manager->getActiveCamera();
 
 			if (!camera )
-				return;
+				return false;
 
 			this->shoot_anim(vector3df(1.4,1.4,1.4), node->getRotation() + vector3df(0,180,0), node->getPosition(), player_position, 3000);
 			last_shot = device->getTimer()->getTime();
 			this->resist = this->resist - 1;
+			return true;
 		}
 	}
+	return false;
 }

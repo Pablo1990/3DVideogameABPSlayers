@@ -66,6 +66,11 @@ public:
 	void Character::delete_item(int index, std::list<Weapon*>* armas);
 	bool can_i_heal();
 
+	void lose_resistance();
+	void gain_resistance();
+
+	int get_resistance();
+
 
 protected:
 
@@ -81,6 +86,7 @@ protected:
 	Shield *sh;
 	Weapon *weapon;
 	double health;
+	int resistance;
 	bool heal_flag;
 	int heal_count;
 	float heal_time;
@@ -92,6 +98,7 @@ protected:
 	int heal_tick;
 	int fire_tick;
 	double* types;//Solo es una referencia
+	int resistance_count;
 
 };
 
