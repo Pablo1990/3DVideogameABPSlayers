@@ -95,17 +95,17 @@ bool CController::Update()
 			updateFitness(i);
 			m_vecSweepers[i]->mover();
 			cajas=cajas+m_vecSweepers[i]->getArmasCogidas();
-			if(m_iTicks % 20 == 0){
+			/*if(m_iTicks % 30 == 0){
 				double x, y = 0;
 				m_vecSweepers[i]->getPosMasCercano(x,y);
 
 				//if(x+y>0.5)
 					//m_vecSweepers[i]->disminuyoFitness();
 
-				if(abs(x)+abs(y)<0.1)
-					m_vecSweepers[i]->aumentoFitness();
+				//if(abs(x)+abs(y)<0.1)
+					//sm_vecSweepers[i]->aumentoFitness();
 
-			}
+			}*/
 			/*
 			if(m_iTicks+1 == CParams::iNumTicks && m_vecSweepers[i]->getArmasCogidas()==0)
 				m_vecSweepers[i]->disminuyoFitness();
