@@ -116,7 +116,7 @@ void Bot :: getPosRelativaABot(double &x, double &y){
 }
 
 double Bot::getDistanciaABot(double x, double y){
-	return sqrt(pow(posX, 2)+pow(posY,2)) - sqrt(pow(x, 2)+pow(y,2));
+	return sqrt(pow(posX, 2)+pow(x,2)) - sqrt(pow(posY, 2)+pow(y,2));
 }
 
 double Bot::Fitness()
