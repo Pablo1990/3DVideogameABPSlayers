@@ -30,6 +30,18 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 		{
 			if(!dynamic_cast<RangeWeapon*>(w) && !w->get_collision_flag() && w->is_animated())
 			{
+				if(detect_collision(w->get_weapon_node(), this->sh->get_weapon_node()))
+				{
+					this->lose_resistance();
+					if(this->resistance < 6)
+					{
+						this->no_defend();
+					}
+					w->set_collision_flag(true);
+					if(sound)
+						sound->shield_sound();
+				}
+				else
 				if (detect_collision(w->get_weapon_node(), this->head))
 				{
 					w->set_collision_flag(true);
@@ -83,6 +95,7 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 						}
 					}
 				}
+				
 			}
 			else
 			{
@@ -90,6 +103,17 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 				{
 					ThrowableItem* rw = dynamic_cast<ThrowableItem*>(w);
 					//array<SParticleImpact> imp = rw->get_impacts();
+					if(!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->sh->get_weapon_node()))
+					{
+						this->lose_resistance();
+						if(this->resistance < 6)
+						{
+							this->no_defend();
+						}
+						if(sound)
+							sound->shield_sound();
+					}
+					else
 					if(!rw->get_impacts().empty())
 					{
 						if((!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->head))
@@ -126,6 +150,7 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 									break;
 							}
 						}
+						
 					}
 				}
 				else if(dynamic_cast<RangeWeapon*>(w))
@@ -134,6 +159,17 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 					//array<SParticleImpact> imp = rw->get_impacts();
 					for(int i = 0; i < rw->get_impacts().size(); i++)
 					{
+						if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->sh->get_weapon_node()))
+						{
+							this->lose_resistance();
+							if(this->resistance < 6)
+							{
+								this->no_defend();
+							}
+							if(sound)
+								sound->shield_sound();
+						}
+						else
 						if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->head))
 						{
 							if(sound)
@@ -192,6 +228,7 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
 								this->character_node->getPosition().Z));
 						}
+						
 					}
 				}
 			}
@@ -298,6 +335,39 @@ void Player::pick_weapon(ISceneNode* cam, IAnimatedMeshSceneNode* w, 	IrrlichtDe
 	{}
 }
 
+void Player::pick_weapon(ISceneNode* camera, int pick_type, IrrlichtDevice* device)
+{
+	try
+	{
+		if(!no_weapon())
+			this->drop_weapon(cam);
+
+		if (cam != NULL && (cam = dynamic_cast<ICameraSceneNode*>(cam)))
+		{
+			if(pick_type == SWORD_TYPE)
+			{
+				weapon = new Sword(4,7,scene_manager);
+				weapon -> add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), cam);
+				pick_shield();
+			}
+			else if(pick_type ==  BOW_TYPE)
+			{
+				weapon = new Bow(4,4,scene_manager, mapSelector, device);
+				weapon->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,-90,0), core::vector3df(0.02,0.02,0.02), cam);
+				drop_shield();
+			}		
+			else if(pick_type == SPEAR_TYPE)
+			{
+				weapon = new Spear(7,5,scene_manager);
+				weapon -> add_to_camera(core::vector3df(10,-30,20), core::vector3df(-140,0,0), core::vector3df(1.4,1.4,1.4), cam);
+				drop_shield();
+			}
+		}
+	}
+	catch(...)
+	{}
+}
+
 void Player::drop_shield()
 {
 	try
@@ -333,12 +403,12 @@ void Player::defend()
 	{
 		if(weapon && !this->paralysis)
 		{
-			if((weapon->get_weapon_node() && !weapon->is_animated()) || !weapon->get_weapon_node())
+			if((weapon->get_weapon_node() && !weapon->is_animated() && resistance > 3) || (!weapon->get_weapon_node() && resistance > 3))
 			{
 				sh->attack(0,0,0,0);
 			}
 		}
-		else if(!this->paralysis)
+		else if(!this->paralysis && resistance > 3)
 		{
 			sh->attack(0,0,0,0);
 		}

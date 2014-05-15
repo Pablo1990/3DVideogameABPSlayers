@@ -65,8 +65,18 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 			if(!dynamic_cast<RangeWeapon*>(w) && !w->get_collision_flag() && w->is_animated() && !w->no_weapon())
 
 			{
-
-				if (detect_collision(w->get_weapon_node(), this->head))
+				if(detect_collision(w->get_weapon_node(), this->sh->get_weapon_node()))
+				{
+					this->lose_resistance();
+					if(this->resistance < 6)
+					{
+						this->no_defend();
+					}
+					w->set_collision_flag(true);
+					if(sound)
+						sound->shield_sound();
+				}
+				else if (detect_collision(w->get_weapon_node(), this->head))
 				{
 					w->set_collision_flag(true);
 					this->health = this->health - (w->get_damage() + 0.50 * w->get_damage());
@@ -91,6 +101,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 						sound->hit_sound();
 
 				}
+				
 			}
 			else
 			{
@@ -103,7 +114,17 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 					if(!rw->get_impacts().empty())
 					{
 
-
+						if(!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->sh->get_weapon_node()))
+						{
+							this->lose_resistance();
+							if(this->resistance < 6)
+							{
+								this->no_defend();
+							}
+							if(sound)
+								sound->shield_sound();
+						}
+						else
 						if((!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->head)) || (!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->body)) || (!rw->get_impact_at(0) && detect_collision(rw->get_impact_node_at(0), this->extremity)))
 						{
 							if(sound)
@@ -138,6 +159,17 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 					//array<SParticleImpact> imp = rw->get_impacts();
 					for(int i = 0; i < rw->get_impacts().size(); i++)
 					{
+						if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->sh->get_weapon_node()))
+						{
+							this->lose_resistance();
+							if(this->resistance < 6)
+							{
+								this->no_defend();
+							}
+							if(sound)
+								sound->shield_sound();
+						}
+						else
 						if(!rw->get_impact_at(i) && detect_collision(rw->get_impact_node_at(i), this->head))
 						{
 							rw->set_impact_at(i, true);
@@ -627,10 +659,12 @@ void Npc::attackBot(int type)
 {
 	try
 	{
-		if(weapon && !this->paralysis &&  !this->weapon->no_weapon())
+		if(weapon && !this->paralysis &&  !this->weapon->no_weapon() && resistance > 0)
 		{
 			double salud = this->enemigo->get_health();
-			weapon->attack(type, this->character_node, this->enemigo->get_position());
+			if(weapon->attack(type, this->character_node, scene_manager->getActiveCamera()->getPosition()))
+				this->lose_resistance();
+
 			if(dynamic_cast<ThrowableItem*>(this->weapon))
 			{
 				if(weapon->get_weapon_node())

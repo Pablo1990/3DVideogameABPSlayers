@@ -16,6 +16,7 @@ Juego::Juego(video::E_DRIVER_TYPE d, int w, int h, bool f, float v)
 	this->height = h;
 	this->fullscreen = f;
 	this->volume = v;
+	this->weaopon_selected = 0;
 }
 // Values used to identify individual GUI elements
 
@@ -25,7 +26,7 @@ Juego::~Juego(void)
 
 	
 
-		if(sound)
+	if(sound)
 	{
 		delete sound;
 		sound = 0;
@@ -175,10 +176,12 @@ void Juego::setEstado(int es)
 {
 	estado=es;
 }
+
 int Juego::getEstado()
 {
 	return estado;
 }
+
 void Juego::run()
 {
 	
@@ -544,9 +547,22 @@ void Juego::switchToNextScene()
 		camera->setFarValue(5000.0f);
 		if(estado==1 || estado==3 || estado == 4)
 		{
-			Sword *sw2 = new Sword(4,7,sm);
-			player = new Player(sm, sw2, mapSelector, camera);
-			player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
+			
+
+			player = new Player(sm, mapSelector, camera);
+			switch(weaopon_selected)
+			{
+				case 1:
+					player->pick_weapon(camera, SPEAR_TYPE, device);
+					break;
+				case 2:
+					player->pick_weapon(camera, BOW_TYPE, device);
+					break;
+				default:
+					player->pick_weapon(camera, SWORD_TYPE, device);
+					break;
+			}
+			//player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
 			player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
 			player->set_types(types);
 	}
@@ -866,8 +882,29 @@ bool Juego::OnEvent(const SEvent& event)
 		// user wants to quit.
 		//device->closeDevice();
 		
-		this->estado = -1;
-		cntinue = false;
+		if(paused)
+		{
+			paused = false;
+			this->device->getCursorControl()->setPosition(0.5f,0.5f);
+			this->camera->setInputReceiverEnabled(true);
+			this->sound->resume_background_sounds();
+			hud->setVisibleHudT();
+			hud->borrarMenu(device);
+			//this->device->getTimer()->setTime(time_store);
+			GameData gd;
+			gd.save_config(sound->get_volume(), height, width, fullscreen);
+			this->device->getTimer()->start();
+		}
+		else
+		{
+			paused = true;
+			this->camera->setInputReceiverEnabled(false);
+			hud->setVisibleHudF();
+			this->sound->pause_background_sounds();
+			this->hud->ActivaMenu();
+			time_store = this->device->getTimer()->getTime();
+			this->device->getTimer()->stop();
+		}
 	}
 	else if(event.EventType == EET_KEY_INPUT_EVENT &&
 		event.KeyInput.Key == KEY_KEY_P &&
@@ -1252,4 +1289,9 @@ void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelecto
 void Juego::set_level(int lvl)
 {
 	this->level = lvl;
+}
+
+void Juego::set_weapon(int w)
+{
+	this->weaopon_selected = w;
 }

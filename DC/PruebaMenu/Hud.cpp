@@ -212,9 +212,9 @@ void Hud:: drawHud(IrrlichtDevice* device,Npc* npc, Player* player)
 	Desgaste ->setOverrideColor(video::SColor(250,78,15,8));
 
 	//Cansancio
-	textCansancio=  device ->getGUIEnvironment()->addStaticText(L"Cansancio:", core::rect<s32>(5,155,80,186), false, false, tab);
+	textCansancio=  device ->getGUIEnvironment()->addStaticText(L"Resistencia:", core::rect<s32>(5,155,80,186), false, false, tab);
 	textCansancio ->setOverrideColor(video::SColor(250,0,0,78));
-	Cansancio= device ->getGUIEnvironment()->addStaticText(L"100 / 100", core::rect<s32>(50,185,100,206), false, false, tab);
+	Cansancio= device ->getGUIEnvironment()->addStaticText(L"20 / 20", core::rect<s32>(50,185,100,206), false, false, tab);
 	Cansancio ->setOverrideColor(video::SColor(250,78,15,8));
 
 	//Info de enemigo
@@ -243,6 +243,13 @@ void Hud::setHud(Npc* npc, Player* player)
 				Desgaste->setText(tmp);
 				
 		}
+
+		swprintf(tmp, 255, L"%i / 20",player->get_resistance());
+		if(Cansancio)
+		{
+			Cansancio->setText(tmp);
+		}
+
 			
 	}
 	

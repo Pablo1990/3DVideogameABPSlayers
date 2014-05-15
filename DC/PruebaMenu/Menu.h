@@ -42,7 +42,7 @@ public:
 	int get_width();
 	float get_volume();
 	bool get_fullscreen();
-
+	int get_weapon();
 
 private:
 	void change_device(int h, int w);

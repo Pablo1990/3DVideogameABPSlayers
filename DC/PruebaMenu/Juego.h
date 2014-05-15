@@ -61,10 +61,13 @@ public:
 	void set_level(int lvl);
 	void replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelector* mapSelector);
 
+	void set_weapon(int w);
+
 private:
 	static const int KMAX_LEVEL = 5;
 	int level;
 	bool cntinue;
+	int weaopon_selected;
 	video::E_DRIVER_TYPE driverType;
 	IrrlichtDevice *device;
 	Hud * hud;

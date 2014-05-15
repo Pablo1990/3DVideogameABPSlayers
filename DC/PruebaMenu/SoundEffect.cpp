@@ -9,6 +9,8 @@ SoundEffect::SoundEffect(const char* background_path)
 
 	normal_hit = klang_engine->getSoundSource(hit_music_path);
 
+	shield_hit = klang_engine->getSoundSource(shield_music_path);
+
 	klang_engine->setSoundVolume(0.7f);
 }
 
@@ -38,6 +40,11 @@ void SoundEffect::win_sound()
 void SoundEffect::lose_sound()
 {
 	klang_engine->play2D(lose_music_path);
+}
+
+void SoundEffect::shield_sound()
+{
+	klang_engine->play2D(shield_hit);
 }
 
 void SoundEffect::play_background()
