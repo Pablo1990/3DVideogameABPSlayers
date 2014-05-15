@@ -114,29 +114,7 @@ double Clamp(double arg, double min, double max)
 	void drop_shield();
 	void pick_shield();
     void set_pathfinding(Pathfinding *pf);
-
-private:
-	Goal_Think *mente;
-	Player *player;
-	Npc* enemigo;
-	std::list<Weapon*>* items;
-	ISceneNode* camp_fire;
-	ISceneNode* heal;
-	double desgastes[4];
-	double itemsPx[6];
-	double itemsPy[6];
-	double* itemsType;
-
-	vector3df posHealth;
-	Weapon* near_weapon;
-	bool is_moving;
-	int steps_count;
-
-	//Aprendizaje
-	CNeuralNet  m_ItsBrain;
-
-
-	void Npc :: posEntreCeroYUno(double &x,double &y)
+		void Npc :: posEntreCeroYUno(double &x,double &y)
 	{
 		
 		y = y/(sqrt(2)*1294.88);
@@ -152,7 +130,7 @@ void Npc :: getPosRelativaABot(double &x, double &y){
 
 double Npc::getDistanciaABot(double x, double y){
 
-	return sqrt(pow(this->get_position().X, 2)+pow(this->get_position().Z,2)) - sqrt(pow(x, 2)+pow(y,2));
+	return sqrt(pow(this->get_position().X-x,2) + pow(this->get_position().Z-y,2));
 }
 	
 	//Inputs enemigo
@@ -192,6 +170,28 @@ double Npc::getDistanciaABot(double x, double y){
 		}
 	}
 	
+private:
+	Goal_Think *mente;
+	Player *player;
+	Npc* enemigo;
+	std::list<Weapon*>* items;
+	ISceneNode* camp_fire;
+	ISceneNode* heal;
+	double desgastes[4];
+	double itemsPx[6];
+	double itemsPy[6];
+	double* itemsType;
+
+	vector3df posHealth;
+	Weapon* near_weapon;
+	bool is_moving;
+	int steps_count;
+
+	//Aprendizaje
+	CNeuralNet  m_ItsBrain;
+
+
+
 
 	//Hacer orientacion con respecto a mi
 	double getOrienEnem()
