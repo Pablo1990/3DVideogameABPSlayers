@@ -1002,8 +1002,8 @@ bool Npc::Update()
 		{
 			vector3df p = this->get_position();
 			double Theta = character_node->getAbsoluteTransformation().getRotationDegrees().Y;
-			double xp = (output[6]) * cos(Theta) - (output[6]) * sin(Theta);
-			double zp = (output[6]) * sin(Theta) + (output[6]) * cos(Theta);
+			double xp = (output[6]*10) * cos(Theta) - (output[6]*10) * sin(Theta);
+			double zp = (output[6]*10) * sin(Theta) + (output[6]*10) * cos(Theta);
 			xp = p.X + xp;
 			zp = p.Z + zp;
 
@@ -1027,8 +1027,8 @@ bool Npc::Update()
 		{
 			vector3df p = get_position();
 			double Theta = -character_node->getAbsoluteTransformation().getRotationDegrees().Y;
-			double xp = (output[7]) * cos(Theta) - (output[7]) * sin(Theta);
-			double zp = (output[7]) * sin(Theta) + (output[7]) * cos(Theta);
+			double xp = (output[7]*10) * cos(Theta) - (output[7]*10) * sin(Theta);
+			double zp = (output[7]*10) * sin(Theta) + (output[7]*10) * cos(Theta);
 			xp = p.X - xp;
 			zp = p.Z - zp;
 
