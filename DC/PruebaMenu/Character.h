@@ -38,6 +38,7 @@ public:
 	void add_to_camera(vector3df position, vector3df rotation, vector3df scale, ICameraSceneNode* camera);
 
 	bool detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b);
+	bool detect_collision(ISceneNode* a, IAnimatedMeshSceneNode* b);
 	void fall_down(IrrlichtDevice* device);
 	void reset_fall_time(IrrlichtDevice* device);
 

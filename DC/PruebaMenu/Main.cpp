@@ -34,6 +34,7 @@ int main()
 	bool fullscreen;
 	float volume;
 	int level;
+	int weapon;
 
 	while(estado != -1)
 	{
@@ -44,6 +45,7 @@ int main()
 		fullscreen = menu->get_fullscreen();
 		volume = menu->get_volume();
 		level = menu->get_level();
+		weapon = menu->get_weapon();
 
 		if(menu)
 		{
@@ -55,6 +57,7 @@ int main()
 			Juego game(driverType, widht, height, fullscreen, volume);
 			game.setEstado(estado);
 			game.set_level(level);
+			game.set_weapon(weapon);
 			game.run();
 			estado = game.getEstado();
 		}

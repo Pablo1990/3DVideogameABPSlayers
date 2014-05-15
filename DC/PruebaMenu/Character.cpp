@@ -274,6 +274,26 @@ bool Character::detect_collision(ISceneNode* a, vector<IBoneSceneNode*> b)
 		intersectsWithBox(b->getTransformedBoundingBox());*/
 }
 
+bool Character::detect_collision(ISceneNode* a, IAnimatedMeshSceneNode* b)
+{
+
+		try
+		{
+			if(a!=NULL  && a->getReferenceCount() && a->getReferenceCount() > 0 && b && a->getTransformedBoundingBox().intersectsWithBox(b->getTransformedBoundingBox()))
+			{
+				return true;
+			}
+		}
+		catch(...)
+		{
+			return false;
+		}
+
+	return false;
+	/*return a->getTransformedBoundingBox().
+		intersectsWithBox(b->getTransformedBoundingBox());*/
+}
+
 ISceneNode* Character::get_character_node()
 {
 	return this->character_node;

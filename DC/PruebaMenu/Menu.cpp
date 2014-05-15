@@ -145,10 +145,23 @@ void MyMenu::select_menu(int stat)
 			list_box = env->addListBox(gh.ScaleValuebyScreenHeight(listbox_rect.UpperLeftCorner, listbox_rect.LowerRightCorner), 0, GUI_ID_INVENTORY_LISTBOX, true);
 			list_box->setSpriteBank(spriteBank);
 			list_box->setItemHeight(50*gh.get_scale_y());
-			list_box->addItem(L"Espada", sprite_sword);
-			list_box->addItem(L"Lanza", sprite_spear);
-			list_box->addItem(L"Arco", sprite_bow);
-			
+
+			switch(level)
+			{
+				case 1:
+					list_box->addItem(L"Espada", sprite_sword);
+					list_box->addItem(L"Lanza", sprite_spear);
+					break;
+				case 2:
+					list_box->addItem(L"Espada", sprite_sword);
+					list_box->addItem(L"Lanza", sprite_spear);
+					list_box->addItem(L"Arco", sprite_bow);
+					break;
+				default:
+					list_box->addItem(L"Espada", sprite_sword);
+					break;
+				
+			}
 			env->addButton(gh.ScaleValuebyScreenHeight(fifth_rect.UpperLeftCorner, fifth_rect.LowerRightCorner), 0, GUI_ID_VOLVER_BUTTON, L"Inicio", L"Menu inicio");
 			break;
 		case 5://opciones
@@ -394,7 +407,6 @@ bool MyMenu::OnEvent(const SEvent& event)
 			if(id == GUI_ID_INVENTORY_LISTBOX)
 			{
 				selected_weapon = ((IGUIListBox*)event.GUIEvent.Caller)->getSelected();
-				cout << selected_weapon << endl;
 			}
         default:
             break;
@@ -501,4 +513,9 @@ float MyMenu::get_volume()
 void MyMenu::setStart(bool s)
 {
 	this->start = s;
+}
+
+int MyMenu::get_weapon()
+{
+	return this->selected_weapon;
 }
