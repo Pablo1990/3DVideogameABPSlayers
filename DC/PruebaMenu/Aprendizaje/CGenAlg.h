@@ -63,6 +63,12 @@ private:
 	//total fitness of population
 	double m_dTotalFitness;
 
+	//this holds the positions of the split points in the genome for use
+
+  //in our modified crossover operator
+
+  vector<int> m_vecSplitPoints;
+
 	//best fitness this population
 	double m_dBestFitness;
 
@@ -107,6 +113,20 @@ private:
 
 	void	  Reset();
 
+	//this crossover operator only performs crossover at
+
+  //the points which represent the start and end points 
+
+  //of the weights of each neuron in the net.
+
+  void     CrossoverAtSplits(const vector<double> &mum,
+
+                             const vector<double> &dad,
+
+                             vector<double>       &baby1,
+
+                             vector<double>       &baby2);
+
 
 
 public:
@@ -114,12 +134,12 @@ public:
 	CGenAlg(int 		popsize,
 			    double	MutRat,
 			    double	CrossRat,
-			    int	  	numweights);
+			    int	  	numweights,vector<int> splits);
 
 	CGenAlg(int 		popsize,
 			    double	MutRat,
 			    double	CrossRat,
-			    int	  	numweights, vector<double> pesos);
+			    int	  	numweights, vector<double> pesos, vector<int> splits);
 
 	//this runs the GA for one generation.
 	vector<SGenome>	Epoch(vector<SGenome> &old_pop);
@@ -130,6 +150,7 @@ public:
 	vector<SGenome>	GetChromos()const{return m_vecPop;}
 	double			    AverageFitness()const{return m_dTotalFitness / m_iPopSize;}
 	double		    	BestFitness()const{return m_dBestFitness;}
+	int					getFittest() const{return m_iFittestGenome;}
 
 	
 };

@@ -36,11 +36,14 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,st
 	//NN so we can initialise the GA
 	m_NumWeightsInNN = m_vecNpc[0]->GetNumberOfWeights();
 	
+
+	vector<int> SplitPoints = m_vecNpc[0]->CalculateSplitPoints();
+	
 	//initialize the Genetic Algorithm class
 	m_pGA = new CGenAlg(m_NumNpc,
 		CParams::dMutationRate,
 		CParams::dCrossoverRate,
-		m_NumWeightsInNN);
+		m_NumWeightsInNN, SplitPoints);
 
 	//Get the weights from the GA and insert into the sweepers brains
 	m_vecThePopulation = m_pGA->GetChromos();
