@@ -9,7 +9,7 @@ Npc::Npc(ISceneManager *sm,vector3df pos, IrrlichtDevice* d, ITriangleSelector* 
 	steps_count = 0;
 	device = d;
 	mapSelector = mp;
-	m_dFitness = 1000;
+	m_dFitness = 0;
 }
 
 Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangleSelector* mp): Character(knight_path, sm, w)
@@ -20,7 +20,7 @@ Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangl
 	steps_count = 0;
 	device = d;
 	mapSelector = mp;
-	m_dFitness = 1000;
+	m_dFitness = 0;
 }
 
 Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangleSelector* mp,ISceneNode* camp_fire_,ISceneNode* heal_): Character(knight_path, sm, w)
@@ -31,7 +31,7 @@ Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangl
 	steps_count = 0;
 	device = d;
 	mapSelector = mp;
-	m_dFitness = 1000;
+	m_dFitness = 0;
 	camp_fire=camp_fire_;
 	heal=heal_;
 }
@@ -204,6 +204,7 @@ void Npc::Reset(){
 	heal_flag = false;
 	heal_count = 0;
 	health=100;
+	m_dFitness= 0;
 }
 
 
@@ -944,7 +945,7 @@ bool Npc::Update()
 
 	if(output[4]>output[5])
 	{
-		if(output[4]>0.25)
+		if(output[4]>0.3)
 		{
 			ISceneNodeAnimator *anim = scene_manager->createRotationAnimator(vector3df(0, -output[4]*10, 0));
 			get_character_node()->addAnimator(anim);
@@ -953,7 +954,7 @@ bool Npc::Update()
 		}
 	}
 	else{
-		if(output[5]>0.25)
+		if(output[5]>0.3)
 		{
 			ISceneNodeAnimator *anim = scene_manager->createRotationAnimator(vector3df(0, output[5]*10, 0));
 			get_character_node()->addAnimator(anim);
@@ -964,12 +965,12 @@ bool Npc::Update()
 
 	if(output[6]>output[7])
 	{
-		if(output[6]>0.25)
+		if(output[6]>0.3)
 		{
 			vector3df p = this->get_position();
 			double Theta = character_node->getAbsoluteTransformation().getRotationDegrees().Y;
-			double xp = (output[6]*10) * cos(Theta) - (output[6]*10) * sin(Theta);
-			double zp = (output[6]*10) * sin(Theta) + (output[6]*10) * cos(Theta);
+			double xp = (output[6]) * cos(Theta) - (output[6]) * sin(Theta);
+			double zp = (output[6]) * sin(Theta) + (output[6]) * cos(Theta);
 			xp = p.X + xp;
 			zp = p.Z + zp;
 
@@ -989,12 +990,12 @@ bool Npc::Update()
 		}
 	}
 	else{
-		if(output[7]>0.25)
+		if(output[7]>0.3)
 		{
 			vector3df p = get_position();
 			double Theta = -character_node->getAbsoluteTransformation().getRotationDegrees().Y;
-			double xp = (output[7]*10) * cos(Theta) - (output[7]*10) * sin(Theta);
-			double zp = (output[7]*10) * sin(Theta) + (output[7]*10) * cos(Theta);
+			double xp = (output[7]) * cos(Theta) - (output[7]) * sin(Theta);
+			double zp = (output[7]) * sin(Theta) + (output[7]) * cos(Theta);
 			xp = p.X - xp;
 			zp = p.Z - zp;
 
@@ -1073,8 +1074,6 @@ bool Npc::Update()
 		this->pick_weapon();
 	}
 	return true;
-	//aqui se se supone que debería actualizar inputs, pero eso
-	//se debera hacer al actuar (se encarga irrlicht)
 }
 
 void Npc::setEnem(Npc* enem)
