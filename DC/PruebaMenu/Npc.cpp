@@ -943,24 +943,21 @@ bool Npc::Update()
 
 	vector<double> inputs;
 	//metemos los inputs:
-	inputs.push_back(getPosPrX()); //poosiciones relativas todo
-	inputs.push_back(getPosPrY());
+	//poosiciones relativas todo
 	inputs.push_back(getPosEnemX());
 	inputs.push_back(getPosEnemY());
-	inputs.push_back(getOrienPr());
 	inputs.push_back(getOrienEnem());
 	inputs.push_back(getSaludEnem());
 	inputs.push_back(getSaludPr());
 	for(int i=0; i<4; i++)
 		inputs.push_back(getDesgastePr()[i]);
 
-	for(int i=0; i<6; i++) //darle solo la maś cercana
-	{
+	//darle solo la mas cercana
 		//dar por tipos la más cercana: Ej: de la espada pos X e y , 
-		inputs.push_back(getPosXItems()[i]);
-		inputs.push_back(getPosYItems()[i]);
-		inputs.push_back(getTypeItems()[i]);
-	}
+	double x1, y1 = 0;
+	getPosItemMasCercano(x1,y1);
+	inputs.push_back(x1);
+	inputs.push_back(y1);
 
 	//cambiar el sigmoid y el activationResponse 
 	vector<double> output = m_ItsBrain.Update(inputs);

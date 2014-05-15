@@ -197,9 +197,9 @@ double Npc::getDistanciaABot(double x, double y){
 	double getOrienEnem()
 	{
 		if(enemigo!=NULL)
-			return fmod(enemigo->character_node->getRotation().Y,360)/360;
+			return (fmod(enemigo->character_node->getRotation().Y,360) - fmod(this->character_node->getRotation().Y, 360))/360;
 		else
-			return fmod(player->get_character_node()->getRotation().Y,360)/360;
+			return (fmod(player->get_character_node()->getRotation().Y,360) - fmod(this->character_node->getRotation().Y, 360))/360;
 	}
 
 	//Inputs salud
@@ -227,17 +227,20 @@ double Npc::getDistanciaABot(double x, double y){
 		
 		return desgastes;
 	}
-
-
-	//Formatear a relativo a distancia relativa y dar mas cercano
-	double* getPosXItems()
-	{
-		return itemsPx;
+	
+	void getPosItemMasCercano(double &x, double &y){
+		double distancia = 9999999;
+		double distanciaAct;
+		for(int i=0; i<6; i++){
+			distanciaAct = getDistanciaABot(itemsPx[i], itemsPy[i]);
+			if(distancia > distanciaAct){
+				x = itemsPx[i];
+				y = itemsPy[i];
+				distancia = distanciaAct;
+			}
+		}
 	}
-	double* getPosYItems()
-	{
-		return itemsPy;
-	}
+
 	//Creemos que debemos quitarlo
 	/*double* getTypeItems()
 	{
