@@ -136,36 +136,64 @@ private:
 	CNeuralNet  m_ItsBrain;
 
 
-	//Inputs npc
-	double getPosPrX()
+	void Npc :: posEntreCeroYUno(double &x,double &y)
 	{
-		return Clamp(this->get_position().X/1894.93,0,1);
-	}
-	double getPosPrY()
-	{
-		return Clamp(this->get_position().Z/1294.88,0,1);
+		
+		y = y/(sqrt(2)*1294.88);
+		Clamp(y, -1, 1);
+		x = x/(sqrt(2)*1894.93);
+		Clamp(x, -1, 1);
 	}
 
+void Npc :: getPosRelativaABot(double &x, double &y){
+	x =x - this->get_position().X;
+	y = y - this->get_position().Z;
+}
+
+double Npc::getDistanciaABot(double x, double y){
+
+	return sqrt(pow(this->get_position().X, 2)+pow(this->get_position().Z,2)) - sqrt(pow(x, 2)+pow(y,2));
+}
+	
 	//Inputs enemigo
 	double getPosEnemX()
 	{
 		if(enemigo!=NULL)
-			return Clamp(enemigo->get_position().X/1894.93,0,1);
+		{
+			double x=enemigo->get_position().X;
+			double y=enemigo->get_position().Z;
+			getPosRelativaABot(x,y);
+			return x;
+		}			
 		else
-			return Clamp(player->get_position().X/1894.93,0,1);
+		{
+			double x=player->get_position().X;
+			double y=player->get_position().Z;
+			getPosRelativaABot(x,y);
+			return x;
+		}
+			
 	}
 	double getPosEnemY()
 	{
 		if(enemigo!=NULL)
-			return Clamp(enemigo->get_position().Z/1294.88,0,1);
+		{
+			double x=enemigo->get_position().X;
+			double y=enemigo->get_position().Z;
+			getPosRelativaABot(x,y);
+			return y;
+		}			
 		else
-			return Clamp(player->get_position().Z/1294.88,0,1);
+		{
+			double x=player->get_position().X;
+			double y=player->get_position().Z;
+			getPosRelativaABot(x,y);
+			return y;
+		}
 	}
-	double getOrienPr()
-	{
-		return fmod(this->character_node->getRotation().Y,360)/360;
-	}
+	
 
+	//Hacer orientacion con respecto a mi
 	double getOrienEnem()
 	{
 		if(enemigo!=NULL)
@@ -200,6 +228,8 @@ private:
 		return desgastes;
 	}
 
+
+	//Formatear a relativo a distancia relativa y dar mas cercano
 	double* getPosXItems()
 	{
 		return itemsPx;
@@ -208,10 +238,11 @@ private:
 	{
 		return itemsPy;
 	}
-	double* getTypeItems()
+	//Creemos que debemos quitarlo
+	/*double* getTypeItems()
 	{
 		return itemsType;
-	}
+	}*/
 
 	//the npc fitness score. 
 	double			m_dFitness;

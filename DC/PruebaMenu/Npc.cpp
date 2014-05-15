@@ -12,6 +12,7 @@ Npc::Npc(ISceneManager *sm,vector3df pos, IrrlichtDevice* d, ITriangleSelector* 
 	m_dFitness = 0;
 }
 
+
 Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangleSelector* mp): Character(knight_path, sm, w)
 {
 	posHealth=pos;
@@ -22,6 +23,7 @@ Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangl
 	mapSelector = mp;
 	m_dFitness = 0;
 }
+
 
 Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangleSelector* mp,ISceneNode* camp_fire_,ISceneNode* heal_): Character(knight_path, sm, w)
 {
