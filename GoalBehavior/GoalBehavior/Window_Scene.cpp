@@ -167,6 +167,7 @@ void Window_Scene::plotNeuralNet(vector<Bot*> bots, CController* controller){
 	int pos=120;
 	sf:: Color  c;
 	int cont=0;
+    NeuronCircles.clear();
 	for (int i=0; i<aux.m_NumHiddenLayers + 1; ++i)
 	{
 		//for each neuron
@@ -200,8 +201,8 @@ void Window_Scene::plotNeuralNet(vector<Bot*> bots, CController* controller){
 					{
 						c=sf::Color::Green;
 						NeuronCircles.push_back(sf::CircleShape(9.5F));
-						NeuronAristas.push_back(sf::RectangleShape(sf::Vector2f(120, 100)));
-						NeuronAristas[cont].setFillColor(c);
+						//NeuronAristas.push_back(sf::RectangleShape(sf::Vector2f(120, 100)));
+						//NeuronAristas[cont].setFillColor(c);
 						NeuronCircles[cont].setFillColor(c);
 						pos=pos+(50);
 						NeuronCircles[cont].setPosition(pos,(50+(70*i)));
