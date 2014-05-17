@@ -32,11 +32,11 @@ Juego::~Juego(void)
 		sound = 0;
 	} 
 
-	/*if(pf)
+	if(pf)
 	{
 		delete pf;
 		pf = 0;
-	}*/
+	}
 
 	if(hud)
 	{

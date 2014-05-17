@@ -49,8 +49,8 @@ int main()
 
 		if(menu)
 		{
-			menu = NULL;
 			delete menu;
+			menu = NULL;
 		}
 		if(estado==1 || estado == 4)
 		{

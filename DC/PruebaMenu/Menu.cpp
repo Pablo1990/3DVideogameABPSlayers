@@ -207,7 +207,7 @@ int MyMenu::AddMenu()
 
 	sound->play_background();
 	sound->set_volume(volume);
-	while(device->run() && driver && start == false)
+	while(start == false && device && device->run() && driver)
 	{
 		if(resize)
 		{
@@ -237,6 +237,7 @@ int MyMenu::AddMenu()
 		}
 	
 	}
+
 	sound->stop_all_sounds();
 	return start;
 }
@@ -296,8 +297,6 @@ bool MyMenu::OnEvent(const SEvent& event)
 				case GUI_ID_QUIT_BUTTON:
 					device->closeDevice();
 					device->run();
-					device->drop();
-					device = 0;
 					start = -1;
 					return false;
 				case GUI_ID_VOLVER_BUTTON:
@@ -327,7 +326,8 @@ bool MyMenu::OnEvent(const SEvent& event)
 					return true;
 
 				case GUI_ID_CONTINUAR_BUTTON:
-					this->select_menu(7);//Solo borramos
+					device->closeDevice();
+					device->run();
 					start = 4;
 
 					return true;
@@ -335,8 +335,7 @@ bool MyMenu::OnEvent(const SEvent& event)
 				case GUI_ID_NUEVA_PARTIDA_BUTTON:
 					device->closeDevice();
 					device->run();
-					device->drop();
-					device = 0;
+
 					//menu->setStart(true);
 					this->level = 0;
 					start = 1;
@@ -345,8 +344,7 @@ bool MyMenu::OnEvent(const SEvent& event)
 				case GUI_ID_APRENDIZAJE:
 					device->closeDevice();
 					device->run();
-					device->drop();
-					device = 0;
+	
 					//menu->setStart(true);
 					start = 2;
 					return true;
@@ -354,8 +352,7 @@ bool MyMenu::OnEvent(const SEvent& event)
 				case GUI_ID_JAPRENDIZAJE:
 					device->closeDevice();
 					device->run();
-					device->drop();
-					device = 0;
+
 					//menu->setStart(true);
 					start = 3;
 					return true;
