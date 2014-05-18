@@ -185,6 +185,7 @@ int Juego::getEstado()
 void Juego::switch_to_next_level()
 {
 	win_condition = 0;
+	this->cycles = 0;
 	device->getTimer()->setTime(0);
 	ISceneManager* sm = device->getSceneManager();
 	if(npc)
@@ -339,11 +340,11 @@ void Juego::run()
 					npc->manage_collision(player->get_weapon(), device, sound);
 					npc->heal_or_fire(campFire, heal_camp, device);
 
-					/*if(cycles % 1500 && !npc->get_is_dead())
+					if(cycles % 1500 && !npc->get_is_dead())
 					{
 						mente->Arbitrate();
 						mente->ProcessSubgoals();
-					}*/
+					}
 
 				
 					npc->restore_condition(device);
