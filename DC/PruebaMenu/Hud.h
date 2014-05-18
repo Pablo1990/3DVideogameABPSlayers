@@ -89,6 +89,8 @@ public:
 	void setVisibleHudF();
 	void show_main_buttons();
 	void show_audio_menu();
+	void show_end_menu();
+	void set_level(int level);
 
 private:
 	SoundEffect* sound;
@@ -113,6 +115,7 @@ private:
 	IGUIButton*		Salir;
 	IGUIButton*		Opciones;
 	IGUIButton*		volver_button;
+	IGUIButton*		next_level_button;
 
 	core::dimension2d<u32> size;
    gui::IGUIFont* font2 ;

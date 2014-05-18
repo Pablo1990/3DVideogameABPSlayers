@@ -123,11 +123,14 @@ void Hud::drawMenu(IrrlichtDevice* device)
 			,tabMenu,GUI_ID_VOLVER_BUTTON, L"Volver");
 
 	volume_control = env->addScrollBar(true, gh.ScaleValuebyScreenHeight(rect<s32>(80,70,330,95)/*rect<s32>(470,115,647,130)*/),tabMenu,GUI_ID_VOLUME_SCROLLBAR);
-			volume_control->setMax(100);
-			volume_control->setPos(sound->get_volume() * 100);
-			
-			Audio = device ->getGUIEnvironment()->addStaticText(L"Volumen:", gh.ScaleValuebyScreenHeight(rect<s32>(80,50,330,70)), false, false, tabMenu);
 	
+	volume_control->setMax(100);
+	volume_control->setPos(sound->get_volume() * 100);
+	
+	Audio = device ->getGUIEnvironment()->addStaticText(L"Volumen:", gh.ScaleValuebyScreenHeight(rect<s32>(80,50,330,70)), false, false, tabMenu);
+	
+	next_level_button = device->getGUIEnvironment()->addButton(gh.ScaleValuebyScreenHeight(rect<s32>(80,50,330,95))
+		,tabMenu,GUI_ID_NEXT_LEVEL, L"Siguiente Nivel");
 	/*	VMenu;
 	Salir;
 	Opciones;
@@ -144,6 +147,20 @@ void Hud::show_main_buttons()
 	volume_control->setVisible(false);
 	volver_button->setVisible(false);
 	Audio->setVisible(false);
+	next_level_button->setVisible(false);
+}
+
+void Hud::show_end_menu()
+{
+	tabMenu->setVisible(true);
+	Reanudar->setVisible(false);
+	Opciones->setVisible(false);
+	Salir->setVisible(true);
+	VMenu->setVisible(true);
+	volume_control->setVisible(false);
+	volver_button->setVisible(false);
+	Audio->setVisible(false);
+	next_level_button->setVisible(true);
 }
 
 void Hud::show_audio_menu()
@@ -157,6 +174,7 @@ void Hud::show_audio_menu()
 	volume_control->setVisible(true);
 	volver_button->setVisible(true);
 	Audio->setVisible(true);
+	next_level_button->setVisible(false);
 }
 
 void Hud::ActivaMenu()
@@ -193,7 +211,7 @@ void Hud:: drawHud(IrrlichtDevice* device,Npc* npc, Player* player)
 	core::rect<int> pos(size.Width-200, size.Height-250, size.Width-5 ,size.Height-5);
 	tab=device ->getGUIEnvironment()->addTabControl(pos,0,true,true);
 
-	titulo=  device ->getGUIEnvironment()->addStaticText(L"Jugador 1", core::rect<s32>(5,15,80,66), false, false, tab);
+	titulo=  device ->getGUIEnvironment()->addStaticText(L"Jugador 1", core::rect<s32>(5,15,150,66), false, false, tab);
 	titulo ->setOverrideColor(video::SColor(250,25,25,112));
 
 	//Salud
@@ -223,6 +241,15 @@ void Hud:: drawHud(IrrlichtDevice* device,Npc* npc, Player* player)
 	SaludBot= device ->getGUIEnvironment()->addStaticText(L"", core::rect<s32>(10,215,200,286), false, false, tab);
 	SaludBot ->setOverrideColor(video::SColor(250,255,255,255));
       	
+}
+
+void Hud::set_level(int level)
+{
+	wchar_t tmp[255];
+
+	swprintf(tmp, 255, L"Jugador 1 - Nivel %i", level + 1);
+		if(titulo)
+			titulo->setText(tmp);
 }
 
 void Hud::setHud(Npc* npc, Player* player)

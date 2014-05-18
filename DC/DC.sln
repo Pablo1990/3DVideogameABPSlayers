@@ -3,16 +3,37 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DC", "PruebaMenu\PruebaMenu.vcxproj", "{6F512E69-B739-4EFC-AA7D-46E4317B466C}"
 EndProject
+Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Setup2", "Setup2\Setup2.isproj", "{CEF4D1BD-DD04-498C-BEB8-B56FF7854C7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|Win32 = CD_ROM|Win32
 		Debug|Win32 = Debug|Win32
+		DVD-5|Win32 = DVD-5|Win32
 		Release|Win32 = Release|Win32
+		SingleImage|Win32 = SingleImage|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.CD_ROM|Win32.ActiveCfg = Release|Win32
+		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.CD_ROM|Win32.Build.0 = Release|Win32
 		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.Debug|Win32.ActiveCfg = Debug|Win32
 		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.Debug|Win32.Build.0 = Debug|Win32
+		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.DVD-5|Win32.ActiveCfg = Debug|Win32
+		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.DVD-5|Win32.Build.0 = Debug|Win32
 		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.Release|Win32.ActiveCfg = Release|Win32
 		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.Release|Win32.Build.0 = Release|Win32
+		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.SingleImage|Win32.ActiveCfg = Release|Win32
+		{6F512E69-B739-4EFC-AA7D-46E4317B466C}.SingleImage|Win32.Build.0 = Release|Win32
+		{CEF4D1BD-DD04-498C-BEB8-B56FF7854C7E}.CD_ROM|Win32.ActiveCfg = CD_ROM
+		{CEF4D1BD-DD04-498C-BEB8-B56FF7854C7E}.CD_ROM|Win32.Build.0 = CD_ROM
+		{CEF4D1BD-DD04-498C-BEB8-B56FF7854C7E}.Debug|Win32.ActiveCfg = DVD-5
+		{CEF4D1BD-DD04-498C-BEB8-B56FF7854C7E}.Debug|Win32.Build.0 = DVD-5
+		{CEF4D1BD-DD04-498C-BEB8-B56FF7854C7E}.DVD-5|Win32.ActiveCfg = DVD-5
+		{CEF4D1BD-DD04-498C-BEB8-B56FF7854C7E}.DVD-5|Win32.Build.0 = DVD-5
+		{CEF4D1BD-DD04-498C-BEB8-B56FF7854C7E}.Release|Win32.ActiveCfg = SingleImage
+		{CEF4D1BD-DD04-498C-BEB8-B56FF7854C7E}.Release|Win32.Build.0 = SingleImage
+		{CEF4D1BD-DD04-498C-BEB8-B56FF7854C7E}.SingleImage|Win32.ActiveCfg = SingleImage
+		{CEF4D1BD-DD04-498C-BEB8-B56FF7854C7E}.SingleImage|Win32.Build.0 = SingleImage
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

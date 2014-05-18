@@ -64,10 +64,11 @@ public:
 	void set_weapon(int w);
 
 private:
-	static const int KMAX_LEVEL = 5;
+	void switch_to_next_level();
+	static const int KMAX_LEVEL = 2;
 	int level;
 	bool cntinue;
-	int weaopon_selected;
+	int selected_weapon;
 	video::E_DRIVER_TYPE driverType;
 	IrrlichtDevice *device;
 	Hud * hud;

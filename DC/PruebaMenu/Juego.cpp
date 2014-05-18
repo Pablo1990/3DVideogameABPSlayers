@@ -16,7 +16,7 @@ Juego::Juego(video::E_DRIVER_TYPE d, int w, int h, bool f, float v)
 	this->height = h;
 	this->fullscreen = f;
 	this->volume = v;
-	this->weaopon_selected = 0;
+	this->selected_weapon = 0;
 }
 // Values used to identify individual GUI elements
 
@@ -32,11 +32,11 @@ Juego::~Juego(void)
 		sound = 0;
 	} 
 
-	if(pf)
+	/*if(pf)
 	{
 		delete pf;
 		pf = 0;
-	}
+	}*/
 
 	if(hud)
 	{
@@ -182,6 +182,61 @@ int Juego::getEstado()
 	return estado;
 }
 
+void Juego::switch_to_next_level()
+{
+	win_condition = 0;
+	device->getTimer()->setTime(0);
+	ISceneManager* sm = device->getSceneManager();
+	if(npc)
+		delete npc;
+
+	npc = new Npc(sm,  new Sword(4,7,sm),heal_camp->getPosition(), device, mapSelector);
+	npc->set_pathfinding(pf);
+	npc->add_to_scene(core::vector3df(100,10,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
+	npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df( 0.02, 0.02, 0.02));
+
+	camera->bindTargetAndRotation(true);
+	camera->setFarValue(5000.0f);
+
+	
+	if(player)
+		delete player;
+
+	player = new Player(sm, mapSelector, camera);
+	switch(selected_weapon)
+	{
+		case 1:
+			player->pick_weapon(camera, SPEAR_TYPE, device);
+			break;
+		case 2:
+			player->pick_weapon(camera, BOW_TYPE, device);
+			break;
+		default:
+			player->pick_weapon(camera, SWORD_TYPE, device);
+			break;
+	}
+
+	player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
+
+
+	camera->setPosition(core::vector3df(1000,80,1000));
+
+
+	if(mente)
+		delete mente;
+
+	npc->setEnem(player);
+	mente=new Goal_Think(this->level);
+	npc->setBrain(mente);
+	mente->setDueño(npc);
+	
+
+	replace_random_item(device, mapSelector);
+	player->set_types(types);
+	npc->setItems(armas, types);
+
+}
+
 void Juego::run()
 {
 	
@@ -228,9 +283,6 @@ void Juego::run()
 	
 	statusText->setOverrideColor(video::SColor(255,205,200,200));
 
-	s32 now = 0;
-	s32 lastfps = 0;
-	sceneStartTime = device->getTimer()->getTime();
 	wchar_t tmp[255];
 	
 	backColor.set(255,90,90,156);
@@ -239,13 +291,10 @@ void Juego::run()
 	switchToNextScene();
 	s32 timeForThisScene = -1;
 
-	int head_hit = 0;
-	int spine_hit = 0;
-	int ex_hit = 0;
 
 	scene::ISceneCollisionManager* collMan = smgr->getSceneCollisionManager();
 	core::line3d<f32> ray;
-	int attack_count = 0;
+
 		
 		
 	if(estado==1 || estado == 4)
@@ -259,6 +308,7 @@ void Juego::run()
 	hud->drawHud(device,npc,player);
 	hud->drawMenu(device);
 	hud->borrarMenu(device);
+	hud->set_level(this->level);
 
 	
 	cntinue = true;
@@ -274,10 +324,11 @@ void Juego::run()
 	{
 		if (device->isWindowActive())
 		{
+			if(win_condition == 0)
+
 			if(!paused)
 			{
 
-				now = device->getTimer()->getTime();
 
 				player->movement(camera);
 				if(player->get_weapon())
@@ -288,11 +339,11 @@ void Juego::run()
 					npc->manage_collision(player->get_weapon(), device, sound);
 					npc->heal_or_fire(campFire, heal_camp, device);
 
-					if(cycles % 1500 && !npc->get_is_dead())
+					/*if(cycles % 1500 && !npc->get_is_dead())
 					{
 						mente->Arbitrate();
 						mente->ProcessSubgoals();
-					}
+					}*/
 
 				
 					npc->restore_condition(device);
@@ -307,9 +358,19 @@ void Juego::run()
 						npc->die(device);
 						npc->remove_character_node();
 						this->win_condition = 1;
-						cntinue = false;
+						this->level++;
+						GameData gd;
+						gd.save_game(this->level);
 						if(sound)
 							sound->win_sound();
+
+						paused = true;
+						this->camera->setInputReceiverEnabled(false);
+						hud->setVisibleHudF();
+						this->sound->pause_background_sounds();
+						hud->ActivaMenu();
+						hud->show_end_menu();
+						this->device->getTimer()->stop();
 					}
 				}
 		
@@ -331,9 +392,17 @@ void Juego::run()
 					if(player->get_is_dead() && win_condition == 0)
 					{
 						win_condition = -1;
-						cntinue = false;
+						GameData gd;
+						gd.save_game(this->level);
 						if(sound)
 							sound->lose_sound();
+						paused = true;
+						this->camera->setInputReceiverEnabled(false);
+						hud->setVisibleHudF();
+						hud->ActivaMenu();
+						this->sound->pause_background_sounds();
+						hud->show_end_menu();
+						this->device->getTimer()->stop();
 					}
 				}
 
@@ -361,18 +430,21 @@ void Juego::run()
 				
 		}
 
-		if(win_condition == 1 && this->level < KMAX_LEVEL)
-		{
-			sound->win_sound();
-			this->level++;
-		}
-		else if(win_condition == -1)
-		{
-			sound->lose_sound();
-		}
+		//if(win_condition == 1 && this->level < KMAX_LEVEL)
+		//{
+		//	sound->win_sound();
+		//	this->level++;
+		//	GameData gd;
+		//	gd.save_game(this->level);
+		//}
+		//else if(win_condition == -1)
+		//{
+		//	sound->lose_sound();
+		//	GameData gd;
+		//	gd.save_game(this->level);
+		//}
 
-		GameData gd;
-		gd.save_game(this->level);
+
 	}
 	else if(estado==2)
 	{
@@ -383,7 +455,6 @@ void Juego::run()
 				if (device->isWindowActive())
 				{
 					
-					now = device->getTimer()->getTime();
 					controller->Update();
 					if(cycles % 150 == 0)
 					{
@@ -434,9 +505,6 @@ void Juego::run()
 	{
 		if (device->isWindowActive())
 		{
-
-
-					now = device->getTimer()->getTime();
 
 
 					player->movement(camera);
@@ -549,7 +617,7 @@ void Juego::switchToNextScene()
 			
 
 			player = new Player(sm, mapSelector, camera);
-			switch(weaopon_selected)
+			switch(selected_weapon)
 			{
 				case 1:
 					player->pick_weapon(camera, SPEAR_TYPE, device);
@@ -1118,6 +1186,18 @@ bool Juego::OnEvent(const SEvent& event)
 					case GUI_ID_VOLVER_BUTTON:
 						hud->show_main_buttons();
 						break;
+					case GUI_ID_NEXT_LEVEL:
+						this->switch_to_next_level();
+						paused = false;
+						this->device->getCursorControl()->setPosition(0.5f,0.5f);
+						this->camera->setInputReceiverEnabled(true);
+						this->sound->resume_background_sounds();
+						hud->setVisibleHudT();
+						//this->device->getTimer()->setTime(time_store);
+						hud->borrarMenu(device);
+						hud->set_level(this->level);
+						this->device->getTimer()->start();
+						break;
 				}
 			break;
 			case EGET_SCROLL_BAR_CHANGED:
@@ -1292,5 +1372,5 @@ void Juego::set_level(int lvl)
 
 void Juego::set_weapon(int w)
 {
-	this->weaopon_selected = w;
+	this->selected_weapon = w;
 }

@@ -30,7 +30,7 @@ double AttackTargetGoal_Evaluator::CalculateDesirability(Npc* pBot)
   double Desirability = 0.0;
    double Distance = Goal_Evaluator::DistanceToEnem(pBot);
   //only do the calculation if there is a target present
-  if (pBot->isEnemigoPresent())
+   if (pBot->isEnemigoPresent() && pBot->get_resistance() > 6)
   {
     //const double Tweaker = 0.8;
 

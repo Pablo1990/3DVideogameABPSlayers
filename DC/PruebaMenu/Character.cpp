@@ -115,7 +115,7 @@ bool Character::get_is_dead()
 void Character::die(IrrlichtDevice* device)
 {
 
-	IParticleSystemSceneNode* campFire = scene_manager->addParticleSystemSceneNode(false,0,1 << 0);
+	/*IParticleSystemSceneNode* campFire = scene_manager->addParticleSystemSceneNode(false,0,1 << 0);
 	campFire->setPosition(character_node->getPosition());
 	campFire->setScale(core::vector3df(10,30,10));
 	campFire->setName(std::to_string(TORCH_TYPE).c_str());
@@ -137,7 +137,7 @@ void Character::die(IrrlichtDevice* device)
 	campFire->setMaterialFlag(video::EMF_LIGHTING, false);
 	campFire->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
 	campFire->setMaterialTexture(0, device->getVideoDriver()->getTexture("../media/smoke.bmp"));
-	campFire->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+	campFire->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);*/
 }
 
 void Character::do_transformations_and_joints(vector3df position, vector3df rotation, vector3df scale)
