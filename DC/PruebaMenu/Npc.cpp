@@ -140,6 +140,7 @@ void Npc::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 								break;
 							case BLUE_SHROOM_TYPE:
 								//restan cansancio, aun no hecho
+								this->resistance = this->resistance - 5;
 								break;
 							case TORCH_TYPE:
 								this->health = this->health - 1;
