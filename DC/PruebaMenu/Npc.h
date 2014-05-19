@@ -114,7 +114,62 @@ double Clamp(double arg, double min, double max)
 	void drop_shield();
 	void pick_shield();
     void set_pathfinding(Pathfinding *pf);
+		void Npc :: posEntreCeroYUno(double &x,double &y)
+	{
+		
+		y = y/(sqrt(2)*1294.88);
+		Clamp(y, -1, 1);
+		x = x/(sqrt(2)*1894.93);
+		Clamp(x, -1, 1);
+	}
 
+void Npc :: getPosRelativaABot(double &x, double &y){
+	x =x - this->get_position().X;
+	y = y - this->get_position().Z;
+}
+
+double Npc::getDistanciaABot(double x, double y){
+
+	return sqrt(pow(this->get_position().X-x,2) + pow(this->get_position().Z-y,2));
+}
+	
+	//Inputs enemigo
+	double getPosEnemX()
+	{
+		if(enemigo!=NULL)
+		{
+			double x=enemigo->get_position().X;
+			double y=enemigo->get_position().Z;
+			getPosRelativaABot(x,y);
+			return x;
+		}			
+		else
+		{
+			double x=player->get_position().X;
+			double y=player->get_position().Z;
+			getPosRelativaABot(x,y);
+			return x;
+		}
+			
+	}
+	double getPosEnemY()
+	{
+		if(enemigo!=NULL)
+		{
+			double x=enemigo->get_position().X;
+			double y=enemigo->get_position().Z;
+			getPosRelativaABot(x,y);
+			return y;
+		}			
+		else
+		{
+			double x=player->get_position().X;
+			double y=player->get_position().Z;
+			getPosRelativaABot(x,y);
+			return y;
+		}
+	}
+	
 private:
 	Goal_Think *mente;
 	Player *player;
@@ -136,42 +191,15 @@ private:
 	CNeuralNet  m_ItsBrain;
 
 
-	//Inputs npc
-	double getPosPrX()
-	{
-		return Clamp(this->get_position().X/1894.93,0,1);
-	}
-	double getPosPrY()
-	{
-		return Clamp(this->get_position().Z/1294.88,0,1);
-	}
 
-	//Inputs enemigo
-	double getPosEnemX()
-	{
-		if(enemigo!=NULL)
-			return Clamp(enemigo->get_position().X/1894.93,0,1);
-		else
-			return Clamp(player->get_position().X/1894.93,0,1);
-	}
-	double getPosEnemY()
-	{
-		if(enemigo!=NULL)
-			return Clamp(enemigo->get_position().Z/1294.88,0,1);
-		else
-			return Clamp(player->get_position().Z/1294.88,0,1);
-	}
-	double getOrienPr()
-	{
-		return fmod(this->character_node->getRotation().Y,360)/360;
-	}
 
+	//Hacer orientacion con respecto a mi
 	double getOrienEnem()
 	{
 		if(enemigo!=NULL)
-			return fmod(enemigo->character_node->getRotation().Y,360)/360;
+			return (fmod(enemigo->character_node->getRotation().Y,360) - fmod(this->character_node->getRotation().Y, 360))/360;
 		else
-			return fmod(player->get_character_node()->getRotation().Y,360)/360;
+			return (fmod(player->get_character_node()->getRotation().Y,360) - fmod(this->character_node->getRotation().Y, 360))/360;
 	}
 
 	//Inputs salud
@@ -199,19 +227,25 @@ private:
 		
 		return desgastes;
 	}
+	
+	void getPosItemMasCercano(double &x, double &y){
+		double distancia = 9999999;
+		double distanciaAct;
+		for(int i=0; i<6; i++){
+			distanciaAct = getDistanciaABot(itemsPx[i], itemsPy[i]);
+			if(distancia > distanciaAct){
+				x = itemsPx[i];
+				y = itemsPy[i];
+				distancia = distanciaAct;
+			}
+		}
+	}
 
-	double* getPosXItems()
-	{
-		return itemsPx;
-	}
-	double* getPosYItems()
-	{
-		return itemsPy;
-	}
-	double* getTypeItems()
+	//Creemos que debemos quitarlo
+	/*double* getTypeItems()
 	{
 		return itemsType;
-	}
+	}*/
 
 	//the npc fitness score. 
 	double			m_dFitness;

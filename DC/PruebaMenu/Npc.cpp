@@ -9,8 +9,9 @@ Npc::Npc(ISceneManager *sm,vector3df pos, IrrlichtDevice* d, ITriangleSelector* 
 	steps_count = 0;
 	device = d;
 	mapSelector = mp;
-	m_dFitness = 1000;
+	m_dFitness = 0;
 }
+
 
 Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangleSelector* mp): Character(knight_path, sm, w)
 {
@@ -20,8 +21,9 @@ Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangl
 	steps_count = 0;
 	device = d;
 	mapSelector = mp;
-	m_dFitness = 1000;
+	m_dFitness = 0;
 }
+
 
 Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangleSelector* mp,ISceneNode* camp_fire_,ISceneNode* heal_): Character(knight_path, sm, w)
 {
@@ -31,7 +33,7 @@ Npc::Npc(ISceneManager *sm, Weapon* w,vector3df pos, IrrlichtDevice* d, ITriangl
 	steps_count = 0;
 	device = d;
 	mapSelector = mp;
-	m_dFitness = 1000;
+	m_dFitness = 0;
 	camp_fire=camp_fire_;
 	heal=heal_;
 }
@@ -237,6 +239,7 @@ void Npc::Reset(){
 	heal_flag = false;
 	heal_count = 0;
 	health=100;
+	m_dFitness= 0;
 }
 
 
@@ -941,24 +944,21 @@ bool Npc::Update()
 
 	vector<double> inputs;
 	//metemos los inputs:
-	inputs.push_back(getPosPrX()); //poosiciones relativas todo
-	inputs.push_back(getPosPrY());
+	//poosiciones relativas todo
 	inputs.push_back(getPosEnemX());
 	inputs.push_back(getPosEnemY());
-	inputs.push_back(getOrienPr());
 	inputs.push_back(getOrienEnem());
 	inputs.push_back(getSaludEnem());
 	inputs.push_back(getSaludPr());
 	for(int i=0; i<4; i++)
 		inputs.push_back(getDesgastePr()[i]);
 
-	for(int i=0; i<6; i++) //darle solo la maś cercana
-	{
+	//darle solo la mas cercana
 		//dar por tipos la más cercana: Ej: de la espada pos X e y , 
-		inputs.push_back(getPosXItems()[i]);
-		inputs.push_back(getPosYItems()[i]);
-		inputs.push_back(getTypeItems()[i]);
-	}
+	double x1, y1 = 0;
+	getPosItemMasCercano(x1,y1);
+	inputs.push_back(x1);
+	inputs.push_back(y1);
 
 	//cambiar el sigmoid y el activationResponse 
 	vector<double> output = m_ItsBrain.Update(inputs);
@@ -979,7 +979,7 @@ bool Npc::Update()
 
 	if(output[4]>output[5])
 	{
-		if(output[4]>0.25)
+		if(output[4]>0.3)
 		{
 			ISceneNodeAnimator *anim = scene_manager->createRotationAnimator(vector3df(0, -output[4]*10, 0));
 			get_character_node()->addAnimator(anim);
@@ -988,7 +988,7 @@ bool Npc::Update()
 		}
 	}
 	else{
-		if(output[5]>0.25)
+		if(output[5]>0.3)
 		{
 			ISceneNodeAnimator *anim = scene_manager->createRotationAnimator(vector3df(0, output[5]*10, 0));
 			get_character_node()->addAnimator(anim);
@@ -999,7 +999,7 @@ bool Npc::Update()
 
 	if(output[6]>output[7])
 	{
-		if(output[6]>0.25)
+		if(output[6]>0.3)
 		{
 			vector3df p = this->get_position();
 			double Theta = character_node->getAbsoluteTransformation().getRotationDegrees().Y;
@@ -1024,7 +1024,7 @@ bool Npc::Update()
 		}
 	}
 	else{
-		if(output[7]>0.25)
+		if(output[7]>0.3)
 		{
 			vector3df p = get_position();
 			double Theta = -character_node->getAbsoluteTransformation().getRotationDegrees().Y;
@@ -1108,8 +1108,6 @@ bool Npc::Update()
 		this->pick_weapon();
 	}
 	return true;
-	//aqui se se supone que debería actualizar inputs, pero eso
-	//se debera hacer al actuar (se encarga irrlicht)
 }
 
 void Npc::setEnem(Npc* enem)
