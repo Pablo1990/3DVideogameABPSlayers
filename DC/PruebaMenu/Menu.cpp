@@ -113,9 +113,9 @@ void MyMenu::select_menu(int stat)
 					L"Jugar", L"Comienza el juego");
 			env->addButton(gh.ScaleValuebyScreenHeight(second_rect.UpperLeftCorner, second_rect.LowerRightCorner), 0, GUI_ID_INVENTARIO_BUTTON,
 					L"Inventario", L"Echale un ojo a tus objetos");
-			env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_EDITOR_BUTTON,
-					L"Editor personajes", L"Modela tus personajes");
-			env->addButton(gh.ScaleValuebyScreenHeight(fourth_rect.UpperLeftCorner, fourth_rect.LowerRightCorner), 0, GUI_ID_OPCIONES_BUTTON,
+			/*env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_EDITOR_BUTTON,
+					L"Editor personajes", L"Modela tus personajes");*/
+			env->addButton(gh.ScaleValuebyScreenHeight(third_rect.UpperLeftCorner, third_rect.LowerRightCorner), 0, GUI_ID_OPCIONES_BUTTON,
 					L"Opciones", L"Configura el juego");
 			env->addButton(gh.ScaleValuebyScreenHeight(fifth_rect.UpperLeftCorner, fifth_rect.LowerRightCorner), 0, GUI_ID_QUIT_BUTTON,
 					L"Quit", L"Sal del juego");	
@@ -312,7 +312,7 @@ bool MyMenu::OnEvent(const SEvent& event)
 
 					break;
 				case GUI_ID_JUGAR_BUTTON:
-					this->select_menu(1);
+					this->select_menu(2);
 					return true;
 
 				case GUI_ID_1VS1_BUTTON:
