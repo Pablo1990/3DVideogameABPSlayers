@@ -262,6 +262,7 @@
 		<row><td>NewBinary16</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\InstallFirstUse.ico</td></row>
 		<row><td>NewBinary17</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\InstallPartial.ico</td></row>
 		<row><td>NewBinary18</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\InstallStateMenu.ico</td></row>
+		<row><td>NewBinary19</td><td/><td>&lt;ISProductFolder&gt;\redist\Language independent\i386\SerialNumCAHelper.dll</td></row>
 		<row><td>NewBinary2</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\New.ibd</td></row>
 		<row><td>NewBinary3</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\Up.ibd</td></row>
 		<row><td>NewBinary4</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\WarningIcon.ibd</td></row>
@@ -342,11 +343,15 @@
 		<row><td>DC.Resultado_principal1</td><td>{053F8EDC-8540-40D9-A556-0153BA10708C}</td><td>BIN1</td><td>2</td><td/><td>dc.resultado_principal1</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{7C159F1D-6FC5-429A-8F83-5ECED764823F}</td><td>MEDIA</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{97629145-5C3E-4D4E-9625-361D5220D70F}</td><td>KNIGHT</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT10</td><td>{5BEE8000-5677-4C1B-BD28-B171D6B2742B}</td><td>SAVE</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{286E3146-E55E-4F81-9A90-F7E7CBA7AE69}</td><td>MESH</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT3</td><td>{65243797-4659-4B37-A0BE-2271586503D2}</td><td>MUSIC</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT4</td><td>{6D945141-129D-4A29-B833-58CE16BEBF6B}</td><td>STONE_FOREST_1_LOD1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT5</td><td>{7260D4E4-2A0D-4769-8E4C-EC177C5BDAB5}</td><td>IMAGENES</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT6</td><td>{503B8D66-4FB5-4973-9CF9-069535DA7527}</td><td>BIN</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT7</td><td>{980BF7CA-5508-466E-8BC5-DD6337B1987E}</td><td>BIN1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT8</td><td>{239BA7DE-38E7-4689-ACC8-6967ACBA597B}</td><td>SONIDOS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT9</td><td>{B53A9140-FF65-48D8-B0D4-C017C4B6B736}</td><td>CONFIG</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Irrlicht.dll</td><td>{C68B62B5-AC43-4EDE-9A57-3DBAF422BB59}</td><td>BIN1</td><td>2</td><td/><td>irrlicht.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
@@ -1017,8 +1022,9 @@
 		<row><td>SetupCompleteError</td><td>Finish</td><td>DoAction</td><td>ShowMsiLog</td><td>MsiLogFileLocation And (ISSHOWMSILOG="1")</td><td>3</td></row>
 		<row><td>SetupCompleteError</td><td>Finish</td><td>EndDialog</td><td>Exit</td><td>1</td><td>2</td></row>
 		<row><td>SetupCompleteSuccess</td><td>OK</td><td>DoAction</td><td>CleanUp</td><td>ISSCRIPTRUNNING="1"</td><td>1</td></row>
-		<row><td>SetupCompleteSuccess</td><td>OK</td><td>DoAction</td><td>ShowMsiLog</td><td>MsiLogFileLocation And (ISSHOWMSILOG="1") And NOT ISENABLEDWUSFINISHDIALOG</td><td>6</td></row>
-		<row><td>SetupCompleteSuccess</td><td>OK</td><td>EndDialog</td><td>Exit</td><td>1</td><td>2</td></row>
+		<row><td>SetupCompleteSuccess</td><td>OK</td><td>DoAction</td><td>LaunchProgramFileFromSetupCompleteSuccess</td><td>LAUNCHPROGRAM And PROGRAMFILETOLAUNCHATEND &lt;&gt; "" And NOT Installed</td><td>2</td></row>
+		<row><td>SetupCompleteSuccess</td><td>OK</td><td>DoAction</td><td>ShowMsiLog</td><td>MsiLogFileLocation And (ISSHOWMSILOG="1") And NOT ISENABLEDWUSFINISHDIALOG</td><td>7</td></row>
+		<row><td>SetupCompleteSuccess</td><td>OK</td><td>EndDialog</td><td>Exit</td><td>1</td><td>3</td></row>
 		<row><td>SetupError</td><td>A</td><td>EndDialog</td><td>ErrorAbort</td><td>1</td><td>0</td></row>
 		<row><td>SetupError</td><td>C</td><td>EndDialog</td><td>ErrorCancel</td><td>1</td><td>0</td></row>
 		<row><td>SetupError</td><td>I</td><td>EndDialog</td><td>ErrorIgnore</td><td>1</td><td>0</td></row>
@@ -1074,6 +1080,7 @@
 		<row><td>ISSelfRegisterFiles</td><td>3073</td><td>ISSELFREG.DLL</td><td>ISSelfRegisterFiles</td><td/><td/></row>
 		<row><td>ISSelfRegisterFinalize</td><td>1</td><td>ISSELFREG.DLL</td><td>ISSelfRegisterFinalize</td><td/><td/></row>
 		<row><td>ISUnSelfRegisterFiles</td><td>3073</td><td>ISSELFREG.DLL</td><td>ISUnSelfRegisterFiles</td><td/><td/></row>
+		<row><td>LaunchProgramFileFromSetupCompleteSuccess</td><td>1</td><td>NewBinary19</td><td>LaunchProgram</td><td/><td/></row>
 		<row><td>SetARPINSTALLLOCATION</td><td>51</td><td>ARPINSTALLLOCATION</td><td>[INSTALLDIR]</td><td/><td/></row>
 		<row><td>SetAllUsersProfileNT</td><td>51</td><td>ALLUSERSPROFILE</td><td>[%SystemRoot]\Profiles\All Users</td><td/><td/></row>
 		<row><td>ShowMsiLog</td><td>226</td><td>SystemFolder</td><td>[SystemFolder]notepad.exe "[MsiLogFileLocation]"</td><td/><td>Shows Property-driven MSI Log</td></row>
@@ -1141,6 +1148,7 @@
 		<row><td>AppDataFolder</td><td>TARGETDIR</td><td>.:APPLIC~1|Application Data</td><td/><td>0</td><td/></row>
 		<row><td>BIN</td><td>INSTALLDIR</td><td>bin</td><td/><td>0</td><td/></row>
 		<row><td>BIN1</td><td>INSTALLDIR</td><td>bin</td><td/><td>0</td><td/></row>
+		<row><td>CONFIG</td><td>INSTALLDIR</td><td>config</td><td/><td>0</td><td/></row>
 		<row><td>CommonAppDataFolder</td><td>TARGETDIR</td><td>.:Common~1|CommonAppData</td><td/><td>0</td><td/></row>
 		<row><td>CommonFiles64Folder</td><td>TARGETDIR</td><td>.:Common64</td><td/><td>0</td><td/></row>
 		<row><td>CommonFilesFolder</td><td>TARGETDIR</td><td>.:Common</td><td/><td>0</td><td/></row>
@@ -1160,6 +1168,7 @@
 		<row><td>LocalAppDataFolder</td><td>TARGETDIR</td><td>.:LocalA~1|LocalAppData</td><td/><td>0</td><td/></row>
 		<row><td>MEDIA</td><td>INSTALLDIR</td><td>media</td><td/><td>0</td><td/></row>
 		<row><td>MESH</td><td>KNIGHT</td><td>mesh</td><td/><td>0</td><td/></row>
+		<row><td>MUSIC</td><td>MEDIA</td><td>music</td><td/><td>0</td><td/></row>
 		<row><td>MY_PRODUCT_NAME</td><td>SLAYERS</td><td>MYPROD~1|My Product Name</td><td/><td>0</td><td/></row>
 		<row><td>MyPicturesFolder</td><td>TARGETDIR</td><td>.:MyPict~1|MyPictures</td><td/><td>0</td><td/></row>
 		<row><td>NetHoodFolder</td><td>TARGETDIR</td><td>.:NetHood</td><td/><td>0</td><td/></row>
@@ -1170,7 +1179,9 @@
 		<row><td>ProgramFilesFolder</td><td>TARGETDIR</td><td>.:PROGRA~1|program files</td><td/><td>0</td><td/></row>
 		<row><td>ProgramMenuFolder</td><td>TARGETDIR</td><td>.:Programs</td><td/><td>3</td><td/></row>
 		<row><td>RecentFolder</td><td>TARGETDIR</td><td>.:Recent</td><td/><td>0</td><td/></row>
+		<row><td>SAVE</td><td>INSTALLDIR</td><td>save</td><td/><td>0</td><td/></row>
 		<row><td>SLAYERS</td><td>ProgramFilesFolder</td><td>Slayers</td><td/><td>0</td><td/></row>
+		<row><td>SONIDOS</td><td>MUSIC</td><td>sonidos</td><td/><td>0</td><td/></row>
 		<row><td>STONE_FOREST_1_LOD1</td><td>MEDIA</td><td>STONE_~1|Stone_Forest_1_LOD1</td><td/><td>0</td><td/></row>
 		<row><td>SendToFolder</td><td>TARGETDIR</td><td>.:SendTo</td><td/><td>3</td><td/></row>
 		<row><td>StartMenuFolder</td><td>TARGETDIR</td><td>.:STARTM~1|Start Menu</td><td/><td>3</td><td/></row>
@@ -1880,11 +1891,15 @@
 		<row><td>AlwaysInstall</td><td>DC.Resultado_principal1</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT10</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT3</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT4</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT5</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT6</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT7</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT8</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT9</td></row>
 		<row><td>AlwaysInstall</td><td>Irrlicht.dll</td></row>
 	</table>
 
@@ -1918,6 +1933,8 @@
 		<row><td>bottom.tga</td><td>ISX_DEFAULTCOMPONENT2</td><td>bottom.tga</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\knight\mesh\bottom.tga</td><td>1</td><td/></row>
 		<row><td>bottom_n.tga</td><td>ISX_DEFAULTCOMPONENT2</td><td>bottom_N.tga</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\knight\mesh\bottom_N.tga</td><td>1</td><td/></row>
 		<row><td>bottom_s.tga</td><td>ISX_DEFAULTCOMPONENT2</td><td>bottom_S.tga</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\knight\mesh\bottom_S.tga</td><td>1</td><td/></row>
+		<row><td>cachon.ogg</td><td>ISX_DEFAULTCOMPONENT8</td><td>cachon.ogg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\music\sonidos\cachon.ogg</td><td>1</td><td/></row>
+		<row><td>config.cfg</td><td>ISX_DEFAULTCOMPONENT9</td><td>config.cfg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\config\config.cfg</td><td>1</td><td/></row>
 		<row><td>dc.resultado_principal1</td><td>DC.Resultado_principal1</td><td>DC.Resultado principal</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;DC&gt;|Built</td><td>3</td><td/></row>
 		<row><td>demoback.jpg</td><td>ISX_DEFAULTCOMPONENT5</td><td>demoback.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\Imagenes\demoback.jpg</td><td>1</td><td/></row>
 		<row><td>fantasy_knight.dae</td><td>ISX_DEFAULTCOMPONENT2</td><td>FANTAS~1.DAE|fantasy Knight.dae</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\knight\mesh\fantasy Knight.dae</td><td>1</td><td/></row>
@@ -1925,10 +1942,15 @@
 		<row><td>fantasy_knight.x</td><td>ISX_DEFAULTCOMPONENT2</td><td>FANTAS~1.X|fantasy Knight.x</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\knight\mesh\fantasy Knight.x</td><td>1</td><td/></row>
 		<row><td>fantasy_knight2_banner.jpg</td><td>ISX_DEFAULTCOMPONENT1</td><td>FANTAS~1.JPG|fantasy_knight2_banner.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\knight\fantasy_knight2_banner.jpg</td><td>1</td><td/></row>
 		<row><td>feather.bmp</td><td>ISX_DEFAULTCOMPONENT</td><td>feather.bmp</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\feather.bmp</td><td>1</td><td/></row>
+		<row><td>fight.ogg</td><td>ISX_DEFAULTCOMPONENT8</td><td>fight.ogg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\music\sonidos\fight.ogg</td><td>1</td><td/></row>
 		<row><td>fire.bmp</td><td>ISX_DEFAULTCOMPONENT</td><td>fire.bmp</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\fire.bmp</td><td>1</td><td/></row>
 		<row><td>fireball.bmp</td><td>ISX_DEFAULTCOMPONENT</td><td>fireball.bmp</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\fireball.bmp</td><td>1</td><td/></row>
 		<row><td>fontcourier.bmp</td><td>ISX_DEFAULTCOMPONENT</td><td>FONTCO~1.BMP|fontcourier.bmp</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\fontcourier.bmp</td><td>1</td><td/></row>
 		<row><td>fonthaettenschweiler.bmp</td><td>ISX_DEFAULTCOMPONENT</td><td>FONTHA~1.BMP|fonthaettenschweiler.bmp</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\fonthaettenschweiler.bmp</td><td>1</td><td/></row>
+		<row><td>game.mp3</td><td>ISX_DEFAULTCOMPONENT3</td><td>game.mp3</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\music\game.mp3</td><td>1</td><td/></row>
+		<row><td>game.ogg</td><td>ISX_DEFAULTCOMPONENT3</td><td>game.ogg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\music\game.ogg</td><td>1</td><td/></row>
+		<row><td>game01.sav</td><td>ISX_DEFAULTCOMPONENT10</td><td>game01.sav</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\save\game01.sav</td><td>1</td><td/></row>
+		<row><td>golpeescudo.ogg</td><td>ISX_DEFAULTCOMPONENT8</td><td>GOLPEE~1.OGG|golpeEscudo.ogg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\music\sonidos\golpeEscudo.ogg</td><td>1</td><td/></row>
 		<row><td>hair.tga</td><td>ISX_DEFAULTCOMPONENT2</td><td>hair.tga</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\knight\mesh\hair.tga</td><td>1</td><td/></row>
 		<row><td>hair_op.tga</td><td>ISX_DEFAULTCOMPONENT2</td><td>hair_op.tga</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\knight\mesh\hair_op.tga</td><td>1</td><td/></row>
 		<row><td>hair_spec.tga</td><td>ISX_DEFAULTCOMPONENT2</td><td>HAIR_S~1.TGA|hair_SPEC.tga</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\knight\mesh\hair_SPEC.tga</td><td>1</td><td/></row>
@@ -1952,11 +1974,17 @@
 		<row><td>map_20kdm2.txt</td><td>ISX_DEFAULTCOMPONENT</td><td>MAP-20~1.TXT|map-20kdm2.txt</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\map-20kdm2.txt</td><td>1</td><td/></row>
 		<row><td>medieval_torch.mtl</td><td>ISX_DEFAULTCOMPONENT</td><td>MEDIEV~1.MTL|medieval-torch.mtl</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\medieval-torch.mtl</td><td>1</td><td/></row>
 		<row><td>medieval_torch.obj</td><td>ISX_DEFAULTCOMPONENT</td><td>MEDIEV~1.OBJ|medieval-torch.obj</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\medieval-torch.obj</td><td>1</td><td/></row>
+		<row><td>menu.mp3</td><td>ISX_DEFAULTCOMPONENT3</td><td>menu.mp3</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\music\menu.mp3</td><td>1</td><td/></row>
 		<row><td>metal.bmp</td><td>ISX_DEFAULTCOMPONENT</td><td>metal.bmp</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\metal.bmp</td><td>1</td><td/></row>
 		<row><td>mushd.jpg</td><td>ISX_DEFAULTCOMPONENT</td><td>mushd.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\mushd.jpg</td><td>1</td><td/></row>
+		<row><td>musica2.ogg</td><td>ISX_DEFAULTCOMPONENT3</td><td>musica2.ogg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\music\musica2.ogg</td><td>1</td><td/></row>
+		<row><td>musicatheme.ogg</td><td>ISX_DEFAULTCOMPONENT3</td><td>MUSICA~1.OGG|musicaTheme.ogg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\music\musicaTheme.ogg</td><td>1</td><td/></row>
+		<row><td>paralizado.ogg</td><td>ISX_DEFAULTCOMPONENT8</td><td>PARALI~1.OGG|paralizado.ogg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\music\sonidos\paralizado.ogg</td><td>1</td><td/></row>
 		<row><td>particle.bmp</td><td>ISX_DEFAULTCOMPONENT</td><td>particle.bmp</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\particle.bmp</td><td>1</td><td/></row>
 		<row><td>particle.tga</td><td>ISX_DEFAULTCOMPONENT</td><td>Particle.tga</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\Particle.tga</td><td>1</td><td/></row>
 		<row><td>particlegreen.jpg</td><td>ISX_DEFAULTCOMPONENT</td><td>PARTIC~1.JPG|particlegreen.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\particlegreen.jpg</td><td>1</td><td/></row>
+		<row><td>presentacion.ogg</td><td>ISX_DEFAULTCOMPONENT8</td><td>PRESEN~1.OGG|presentacion.ogg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\music\sonidos\presentacion.ogg</td><td>1</td><td/></row>
+		<row><td>recibolanzada.ogg</td><td>ISX_DEFAULTCOMPONENT8</td><td>RECIBO~1.OGG|reciboLanzada.ogg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\music\sonidos\reciboLanzada.ogg</td><td>1</td><td/></row>
 		<row><td>red_shroom.mtl</td><td>ISX_DEFAULTCOMPONENT</td><td>RED_SH~1.MTL|red_shroom.mtl</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\red_shroom.mtl</td><td>1</td><td/></row>
 		<row><td>red_shroom.obj</td><td>ISX_DEFAULTCOMPONENT</td><td>RED_SH~1.OBJ|red_shroom.obj</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\red_shroom.obj</td><td>1</td><td/></row>
 		<row><td>s1_lod1d.jpg</td><td>ISX_DEFAULTCOMPONENT4</td><td>S1_LOD1D.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\Stone_Forest_1_LOD1\S1_LOD1D.jpg</td><td>1</td><td/></row>
@@ -1988,6 +2016,8 @@
 		<row><td>ws_sm.jpg</td><td>ISX_DEFAULTCOMPONENT</td><td>WS_SM.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\WS_SM.jpg</td><td>1</td><td/></row>
 		<row><td>yellow_shroom.mtl</td><td>ISX_DEFAULTCOMPONENT</td><td>YELLOW~1.MTL|yellow_shroom.mtl</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\yellow_shroom.mtl</td><td>1</td><td/></row>
 		<row><td>yellow_shroom.obj</td><td>ISX_DEFAULTCOMPONENT</td><td>YELLOW~1.OBJ|yellow_shroom.obj</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\yellow_shroom.obj</td><td>1</td><td/></row>
+		<row><td>you_lose.ogg</td><td>ISX_DEFAULTCOMPONENT8</td><td>you_lose.ogg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\music\sonidos\you_lose.ogg</td><td>1</td><td/></row>
+		<row><td>you_win.ogg</td><td>ISX_DEFAULTCOMPONENT8</td><td>you_win.ogg</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\music\sonidos\you_win.ogg</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2134,11 +2164,15 @@
 		<row><td>DC.Resultado_principal1</td><td/><td/><td>_3409203C_681B_45F8_A660_4D94426F4D7D_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_4B3A92CD_61C2_4F16_99AE_1FE8B26ADF7C_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_673BD28F_4394_4F13_BC50_8F98DB64C27D_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT10</td><td/><td/><td>_10F515E1_F566_49D5_B6E1_DEE2772CC04B_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_6B88BF4A_7227_46A7_A87A_C02D4299DD75_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT3</td><td/><td/><td>_738726FA_7D59_4D4D_BCDF_EE77844C8ACF_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT4</td><td/><td/><td>_236AB157_FAD3_4797_8A83_B85B0F5F7E03_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT5</td><td/><td/><td>_D00B22C2_407E_4FD7_AC78_6E42C8BB9BB3_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT6</td><td/><td/><td>_7BC844B1_2DE8_4FF8_92A7_1AF3996D8D14_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT7</td><td/><td/><td>_2117C012_B0F9_4668_AF3D_2603FD7CB6B7_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT8</td><td/><td/><td>_AD944C33_D8EE_4E6A_825D_7BDF40B2D070_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT9</td><td/><td/><td>_A655E140_5C74_417B_B289_533F263D7044_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Irrlicht.dll</td><td/><td/><td>_3FD49C16_DA66_4FF6_99B3_B559296F0C63_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
@@ -2760,7 +2794,7 @@
 		<col def="I2">Encoded</col>
 		<col def="S0">Comment</col>
 		<col def="I4">TimeStamp</col>
-		<row><td>COMPANY_NAME</td><td>1034</td><td>Nombre de su organización</td><td>0</td><td/><td>2049108208</td></row>
+		<row><td>COMPANY_NAME</td><td>1034</td><td>Nombre de su organización</td><td>0</td><td/><td>-1700600909</td></row>
 		<row><td>DN_AlwaysInstall</td><td>1034</td><td>Instalar siempre</td><td>0</td><td/><td>2049108208</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_COLOR</td><td>1034</td><td>La configuración de colores de su sistema no es adecuada para ejecutar [ProductName].</td><td>0</td><td/><td>2049108208</td></row>
 		<row><td>IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION40FULL</td><td>1034</td><td>Microsoft .NET Framework 4.0 Full package or greater needs to be installed for this installation to continue.</td><td>0</td><td/><td>2049108208</td></row>
@@ -3577,6 +3611,8 @@
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME1</td><td>1034</td><td>LAUNCH~1.EXE|Launch vcredist_x64.exe</td><td>0</td><td/><td>2049093010</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME2</td><td>1033</td><td/><td>0</td><td/><td>2049103250</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME2</td><td>1034</td><td>LAUNCH~1.EXE|Launch vcredist_x86.exe</td><td>0</td><td/><td>2049103250</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME3</td><td>1033</td><td/><td>0</td><td/><td>-1700649997</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME3</td><td>1034</td><td>Destino de Caballero</td><td>0</td><td/><td>-1700609037</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO</td><td>1034</td><td>Seleccione el servidor de base de datos de destino en la lista de servidores que aparece a continuación.</td><td>0</td><td/><td>2049108208</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_DB</td><td>1034</td><td>En la lista de nombres de catálogo siguiente, seleccione el catálogo de base de datos de destino.</td><td>0</td><td/><td>2049108208</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_TEMPLATE</td><td>1034</td><td>[IS_SQLBROWSE_INTRO]</td><td>0</td><td/><td>2049108208</td></row>
@@ -3866,8 +3902,10 @@
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1034</td><td>La cantidad de RAM no es la adecuada para ejecutar [ProductName].</td><td>0</td><td/><td>2049108208</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1034</td><td>La resolución de pantalla no es la adecuada para ejecutar [ProductName].</td><td>0</td><td/><td>2049108208</td></row>
 		<row><td>ID_STRING1</td><td>1034</td><td/><td>0</td><td/><td>2049108208</td></row>
-		<row><td>ID_STRING2</td><td>1034</td><td>https://cloud.i3a.ua.es/projects/slayers</td><td>0</td><td/><td>2049108208</td></row>
-		<row><td>ID_STRING3</td><td>1034</td><td>Slayers</td><td>0</td><td/><td>2049108208</td></row>
+		<row><td>ID_STRING2</td><td>1034</td><td>http://www.Nombredesuorganización.com</td><td>0</td><td/><td>-1700600909</td></row>
+		<row><td>ID_STRING3</td><td>1034</td><td>Nombre de su organización</td><td>0</td><td/><td>-1700600909</td></row>
+		<row><td>ID_STRING4</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-1700647949</td></row>
+		<row><td>ID_STRING4</td><td>1034</td><td>Launch |Built</td><td>0</td><td/><td>-1700647949</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1034</td><td>Este componente no se instalará.</td><td>0</td><td/><td>2049108208</td></row>
 	</table>
 
@@ -4111,7 +4149,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{520CB516-B31C-48B2-BF1E-7DBBCA3B3C17}</td></row>
 		<row><td>ISUSSignature</td><td>{047395CF-FD62-47AD-B2E1-5B1C1B0C77FA}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppFiles,viewRealSetupDesign,viewSystemSearch,viewRelease,viewProject,viewFeatureFiles,viewUI,viewDesignPatches,viewUpgradePaths,viewObjects</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppFiles,viewRealSetupDesign,viewSystemSearch,viewRelease,viewProject,viewFeatureFiles,viewUI,viewDesignPatches,viewUpgradePaths,viewObjects,viewSetupDesign,viewSetupTypes,viewDependencies,viewIniFiles,viewEnvironmentVariables</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -4456,6 +4494,8 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>IS_SQLSERVER_USERNAME</td><td>sa</td><td/></row>
 		<row><td>InstallChoice</td><td>AR</td><td/></row>
 		<row><td>LAUNCHPROGRAM</td><td>1</td><td/></row>
+		<row><td>LAUNCHPROGRAMCOMPCODE</td><td>{053F8EDC-8540-40D9-A556-0153BA10708C}</td><td/></row>
+		<row><td>LAUNCHPROGRAMFILEKEY</td><td>dc.resultado_principal1</td><td/></row>
 		<row><td>LAUNCHREADME</td><td>1</td><td/></row>
 		<row><td>Manufacturer</td><td>##COMPANY_NAME##</td><td/></row>
 		<row><td>PIDKEY</td><td/><td/></row>
@@ -4483,6 +4523,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKVROOTS</td><td>##IDS_PROGMSG_IIS_ROLLBACKVROOTS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
+		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[INSTALLDIR]bin\DC.Resultado principal</td><td/></row>
 		<row><td>ProductCode</td><td>{2F4D5993-B2CB-4D9E-B0FE-FF47113BB3F0}</td><td/></row>
 		<row><td>ProductName</td><td>Destino de Caballero</td><td/></row>
 		<row><td>ProductVersion</td><td>1.00.0000</td><td/></row>
@@ -4497,6 +4538,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>RestartManagerOption</td><td>CloseRestart</td><td/></row>
 		<row><td>SERIALNUMBER</td><td/><td/></row>
 		<row><td>SERIALNUMVALSUCCESSRETVAL</td><td>1</td><td/></row>
+		<row><td>SHOWLAUNCHPROGRAM</td><td>-1</td><td/></row>
 		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR</td><td/></row>
 		<row><td>SelectedSetupType</td><td>##IDS__DisplayName_Typical##</td><td/></row>
 		<row><td>SetupType</td><td>Typical</td><td/></row>
@@ -4645,6 +4687,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
+		<row><td>_Built1</td><td>DesktopFolder</td><td>##IDS_SHORTCUT_DISPLAY_NAME3##</td><td>DC.Resultado_principal1</td><td>AlwaysInstall</td><td/><td/><td/><td/><td/><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">

@@ -492,6 +492,9 @@ void Juego::run()
 			vector <double> vecPesos = npc->getPesosDeFichero();
 			hud=new Hud(device, sound);
 			hud->drawHud(device,npc,player);
+			hud->drawMenu(device);
+			hud->borrarMenu(device);
+			hud->set_level(this->level);
 			vector<int> SplitPoints = npc->CalculateSplitPoints();
 			CGenAlg* m_pGA = new CGenAlg(1,
 		CParams::dMutationRate,
@@ -946,7 +949,7 @@ bool Juego::OnEvent(const SEvent& event)
 
 	if (event.EventType == EET_KEY_INPUT_EVENT &&
 		event.KeyInput.Key == KEY_ESCAPE &&
-		event.KeyInput.PressedDown == false)
+		event.KeyInput.PressedDown == false && estado != 2)
 	{
 		// user wants to quit.
 		//device->closeDevice();
@@ -977,7 +980,7 @@ bool Juego::OnEvent(const SEvent& event)
 	}
 	else if(event.EventType == EET_KEY_INPUT_EVENT &&
 		event.KeyInput.Key == KEY_KEY_P &&
-		event.KeyInput.PressedDown == false)
+		event.KeyInput.PressedDown == false && estado != 2)
 	{
 		if(paused)
 		{
@@ -1003,14 +1006,14 @@ bool Juego::OnEvent(const SEvent& event)
 			this->device->getTimer()->stop();
 		}
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_G && event.KeyInput.PressedDown == true && player != NULL && !paused)
+	else if(estado != 2 && event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_G && event.KeyInput.PressedDown == true && player != NULL && !paused)
 	{
 		/*camera->removeChild(gun);
 		gun = NULL;*/
 
 		player->drop_weapon(camera);
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_E && event.KeyInput.PressedDown == true && !paused)
+	else if(estado != 2 && event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_E && event.KeyInput.PressedDown == true && !paused)
 	{
 		try
 		{
@@ -1065,7 +1068,7 @@ bool Juego::OnEvent(const SEvent& event)
 		catch(...)
 		{}
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == true && !paused)
+	else if(estado != 2 && event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == true && !paused)
 	{
 		if(!crouch)
 		{
@@ -1086,7 +1089,7 @@ bool Juego::OnEvent(const SEvent& event)
 			{}
 		}
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == false && !paused)
+	else if(estado != 2 && event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_LCONTROL && event.KeyInput.PressedDown == false && !paused)
 	{
 		if(crouch)
 		{
@@ -1108,11 +1111,11 @@ bool Juego::OnEvent(const SEvent& event)
 			{}
 		}
 	}
-	else if(event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_J && !paused)
+	else if(estado != 2 && event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_J && !paused)
 	{
 		player->reset_fall_time(this->device);
 	}
-	else if (event.EventType == EET_MOUSE_INPUT_EVENT &&
+	else if (estado != 2 && event.EventType == EET_MOUSE_INPUT_EVENT &&
 		 event.MouseInput.Event == EMIE_LMOUSE_LEFT_UP && !paused)
 	{
 		if(player)
@@ -1122,7 +1125,7 @@ bool Juego::OnEvent(const SEvent& event)
 			player->attack(firstX, firstY, lastX, lastY);
 		}
 		
-	}else if((event.EventType == EET_MOUSE_INPUT_EVENT &&
+	}else if(estado != 2 && (event.EventType == EET_MOUSE_INPUT_EVENT &&
 		event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) && !paused)
 	{
 		if(player)
@@ -1132,21 +1135,21 @@ bool Juego::OnEvent(const SEvent& event)
 		}
 
 	}
-	else if (event.EventType == EET_MOUSE_INPUT_EVENT &&
+	else if (estado != 2 && event.EventType == EET_MOUSE_INPUT_EVENT &&
 		event.MouseInput.Event == EMIE_RMOUSE_LEFT_UP && !paused)
 	{
 		if(player)
 			player->no_defend();
 	}
 	else
-	if((event.EventType == EET_MOUSE_INPUT_EVENT &&
+	if(estado != 2 && (event.EventType == EET_MOUSE_INPUT_EVENT &&
 		event.MouseInput.Event == EMIE_RMOUSE_PRESSED_DOWN) && !paused)
 	{
 		if(player)
 			player->defend();
 	}
 	else
-	if (event.EventType == EET_GUI_EVENT && paused)
+	if (estado != 2 && event.EventType == EET_GUI_EVENT && paused)
     {
 		GameData gd;
         s32 id = event.GUIEvent.Caller->getID();
