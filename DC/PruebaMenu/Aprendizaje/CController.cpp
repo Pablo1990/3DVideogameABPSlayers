@@ -36,11 +36,14 @@ CController::CController(HWND hwndMain,ISceneManager *sm, vector3df posHealth,st
 	//NN so we can initialise the GA
 	m_NumWeightsInNN = m_vecNpc[0]->GetNumberOfWeights();
 	
+
+	vector<int> SplitPoints = m_vecNpc[0]->CalculateSplitPoints();
+	
 	//initialize the Genetic Algorithm class
 	m_pGA = new CGenAlg(m_NumNpc,
 		CParams::dMutationRate,
 		CParams::dCrossoverRate,
-		m_NumWeightsInNN);
+		m_NumWeightsInNN, SplitPoints);
 
 	//Get the weights from the GA and insert into the sweepers brains
 	m_vecThePopulation = m_pGA->GetChromos();
@@ -218,16 +221,22 @@ void CController::updateFitnessFinal(Npc* uno,Npc* dos)
 
 }
 void CController::updateNpcFitness(int numNpc){
-	//my health decrease or increase
+	/*//my health decrease or increase
 
 	m_vecNpc[numNpc]->setFitness(m_vecNpc[numNpc]->Fitness()-(m_vecNpcHealth[numNpc]-m_vecNpc[numNpc]->get_health())/10);
 	m_vecNpcHealth[numNpc] = m_vecNpc[numNpc]->get_health();
+	*/
 
 	//enemy health decrease
-	//value of the difference will increase fitness twice
+	//value of the difference will increase fitness twice Si pierde vida el bot le sumamos 10
 	if(m_vecNpc[numNpc]->getEnemigo()->get_health()<m_vecNpcEnemiesHealth[numNpc]){
-		m_vecNpc[numNpc]->setFitness(m_vecNpc[numNpc]->Fitness()+(m_vecNpcEnemiesHealth[numNpc]-m_vecNpc[numNpc]->getEnemigo()->get_health())/5);
+		m_vecNpc[numNpc]->setFitness(m_vecNpc[numNpc]->Fitness()+10);
 		m_vecNpcEnemiesHealth[numNpc] = m_vecNpc[numNpc]->getEnemigo()->get_health();
+	}
+
+	if(m_vecNpc[numNpc]->getDistanciaABot(m_vecNpc[numNpc]->getEnemigo()->get_position().X,m_vecNpc[numNpc]->getEnemigo()->get_position().Z)<=500)
+	{
+		m_vecNpc[numNpc]->setFitness(m_vecNpc[numNpc]->Fitness()+2);
 	}
 
 }

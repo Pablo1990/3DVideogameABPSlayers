@@ -492,10 +492,11 @@ void Juego::run()
 			vector <double> vecPesos = npc->getPesosDeFichero();
 			hud=new Hud(device, sound);
 			hud->drawHud(device,npc,player);
+			vector<int> SplitPoints = npc->CalculateSplitPoints();
 			CGenAlg* m_pGA = new CGenAlg(1,
 		CParams::dMutationRate,
 		CParams::dCrossoverRate,
-		vecPesos.size());
+		vecPesos.size(), SplitPoints);
 
 		//Get the weights from the GA and insert into the sweepers brains
 		vector<SGenome> m_vecThePopulation = m_pGA->GetChromos();
