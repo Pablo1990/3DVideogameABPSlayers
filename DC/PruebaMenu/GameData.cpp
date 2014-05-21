@@ -41,24 +41,6 @@ bool GameData::save_game(int level, std::string name)
 			return false;
 		}
 	}
-	/*FILE *save_file;
-
-	stringstream ss;
-	ss << "../media/save/" << name << ".txt";
-	string path = ss.str();
-
-	errno_t errorCode = fopen_s(&save_file, path.c_str(), "w");
-
-	if(save_file == 0)
-	{
-		fprintf(save_file, "%i", level);
-		fclose(save_file);
-		return true;
-	}
-	else
-	{
-		return false;
-	}*/
 }
 
 int GameData::load_game(std::string name)

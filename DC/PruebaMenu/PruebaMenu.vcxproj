@@ -136,7 +136,6 @@
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GUIHandler.cpp" />
     <ClCompile Include="Hud.cpp" />
-    <ClCompile Include="Mapa.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="EscapeGoal_Evaluator.cpp" />
     <ClCompile Include="ExploreGoal_Evaluator.cpp" />
@@ -171,7 +170,6 @@
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Juego.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="MyEventReceiver.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>

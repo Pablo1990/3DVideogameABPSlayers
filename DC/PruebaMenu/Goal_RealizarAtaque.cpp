@@ -30,8 +30,7 @@ int Goal_RealizarAtaque::Process()
 		//Añadir animación de ataque
 		d->face_target(d->getEnem()->get_character_node());
 		d->attack(0);
-		//d->getEnem()->set_health(d->getEnem()->get_health()-5);
-		//d->get_weapon()->set_resist(d->get_weapon()->get_resist()-0.01);
+
 		Terminate();
 	}
 	else

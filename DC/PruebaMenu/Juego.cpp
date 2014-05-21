@@ -1,5 +1,4 @@
 #include "Juego.h"
-
 #include <iostream>
 using namespace std;
 
@@ -24,7 +23,6 @@ Juego::Juego(video::E_DRIVER_TYPE d, int w, int h, bool f, float v)
 Juego::~Juego(void)
 {
 
-	
 
 	if(sound)
 	{
@@ -32,11 +30,11 @@ Juego::~Juego(void)
 		sound = 0;
 	} 
 
-	/*if(pf)
+	if(pf)
 	{
 		delete pf;
 		pf = 0;
-	}*/
+	}
 
 	if(hud)
 	{
@@ -192,6 +190,7 @@ void Juego::switch_to_next_level()
 		delete npc;
 
 	npc = new Npc(sm,  new Sword(4,7,sm),heal_camp->getPosition(), device, mapSelector);
+	npc->set_health(100);
 	npc->set_pathfinding(pf);
 	npc->add_to_scene(core::vector3df(100,10,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 	npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df( 0.02, 0.02, 0.02));
@@ -204,6 +203,7 @@ void Juego::switch_to_next_level()
 		delete player;
 
 	player = new Player(sm, mapSelector, camera);
+	player->set_health(100);
 	switch(selected_weapon)
 	{
 		case 1:
@@ -431,21 +431,6 @@ void Juego::run()
 				
 		}
 
-		//if(win_condition == 1 && this->level < KMAX_LEVEL)
-		//{
-		//	sound->win_sound();
-		//	this->level++;
-		//	GameData gd;
-		//	gd.save_game(this->level);
-		//}
-		//else if(win_condition == -1)
-		//{
-		//	sound->lose_sound();
-		//	GameData gd;
-		//	gd.save_game(this->level);
-		//}
-
-
 	}
 	else if(estado==2)
 	{
@@ -512,9 +497,9 @@ void Juego::run()
 		{
 
 
-					player->movement(camera);
-					if(player->get_weapon())
-						player->get_weapon()->finish_animation();
+			player->movement(camera);
+			if(player->get_weapon())
+				player->get_weapon()->finish_animation();
 				
 					
 			if(npc)
@@ -634,7 +619,7 @@ void Juego::switchToNextScene()
 					player->pick_weapon(camera, SWORD_TYPE, device);
 					break;
 			}
-			//player->get_weapon()->add_to_camera(core::vector3df(15,-10,20), core::vector3df(0,50,90), core::vector3df(0.008,0.008,0.008), camera);
+			
 			player->add_to_camera(vector3df(30, -70, 20/*-15*/), vector3df(0,180,0), vector3df(0.55, 0.55, 0.55), camera);
 			player->set_types(types);
 	}
@@ -657,10 +642,6 @@ void Juego::switchToNextScene()
 				core::vector3df(0,45,0), 0.005f);
 	
 		camera->addAnimator(collider);
-		//((ISceneNodeAnimatorCameraFPS*)camera)->setMoveSpeed();
-		//IDEA:
-		/* Para la ralentizar el movimiento dividirlo entre dos, para paralizar poner a 0 y ver que pasa.
-		   El valor por defecto es .4f */
 		
 	}
 	catch(...)
@@ -684,14 +665,6 @@ void Juego::loadSceneData()
 	if (quakeLevelMesh)
 	{
 		u32 i;
-
-		//move all quake level meshes (non-realtime)
-		/*core::matrix4 m;
-		m.setTranslation(core::vector3df(-1300,-70,-1249));
-
-		for ( i = 0; i != scene::quake3::E_Q3_MESH_SIZE; ++i )
-			sm->getMeshManipulator()->transform(quakeLevelMesh->getMesh(i), m);
-		*/
 
 		quakeLevelNode = sm->addOctreeSceneNode(
 				quakeLevelMesh->getMesh( scene::quake3::E_Q3_MESH_GEOMETRY));
@@ -868,61 +841,16 @@ void Juego::loadSceneData()
 		npc->set_pathfinding(pf);
 		npc->add_to_scene(core::vector3df(100,10,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 
-		//Sword *sw3 = new Sword(4,7,sm);
-		//Spear *sw3 = new Spear(4,5,sm);
-		//Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
-	
-	
-	
-
-			Sword *sw3 = new Sword(4,7,sm);
-			//Spear *sw3 = new Spear(4,5,sm);
-		//Bow *sw3 = new Bow(4,5,sm, mapSelector, device);
-			//ThrowableItem *sw3 = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
-	
-			//if(npc->get_weapon())
-			//{
-			//	delete npc->get_weapon();
-			//	npc->set_weapon(0);
-			//}
-			npc->set_weapon(sw3);
-			npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df( 0.02, 0.02, 0.02));
-			//npc->get_weapon()->set_resist(0);
+		Sword *sw3 = new Sword(4,7,sm);
+		npc->set_weapon(sw3);
+		npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df( 0.02, 0.02, 0.02));
+		
 
 	}
 
 	//SWORD: position 40, 100, 0; rotation 180, -50, 90; scale 0.02, 0.02, 0.02
 	//SPEAR: position 10, 100, -20; rotation 90,-50,90, scale 2.5, 2.5, 2.5
 	//BOW: position 40, 100, 0; rotation 180, -50, 90, scale 0.02, 0.02, 0.02
-	//armas =std::list<Weapon*>();
-/*	dropped_sword = new Sword(0,0,sm);
-	dropped_sword->add_to_scene(core::vector3df(180,5,180), core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, -1);
-	//armas.push_front(dropped_sword);
-
-	dropped_bow = new Bow(0,0,sm, mapSelector, device);
-	dropped_bow->add_to_scene(core::vector3df(230,5,180), core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, -1);
-	//armas.push_front(dropped_bow);
-
-	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM);
-	dropped_red_shroom->add_to_scene(core::vector3df(280,8,180), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, -1);
-	//armas.push_front(dropped_red_shroom);
-
-	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM);
-	dropped_red_shroom->add_to_scene(core::vector3df(280,8,230), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, -1);
-
-	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM);
-	dropped_red_shroom->add_to_scene(core::vector3df(280,8,280), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, -1);
-
-	dropped_spear = new Spear(0,0,sm);
-	dropped_spear->add_to_scene( core::vector3df(330,30,180), core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, -1);
-
-	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE);
-	dropped_red_shroom->add_to_scene(core::vector3df(280,8,330), core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, -1);
-
-	dropped_red_shroom = new ThrowableItem(sm, mapSelector, device, ThrowableItem::TORCH);
-	dropped_red_shroom->add_to_scene(core::vector3df(800,8,550), core::vector3df(90,0,0), core::vector3df(4,4,4), true, -1);
-	dropped_red_shroom->add_to_scene(core::vector3df(800,8,850), core::vector3df(90,180,0), core::vector3df(4,4,4), true, -1);
-	*/
 
 	//Meto armas
 		srand((unsigned)time(0)); 
@@ -952,7 +880,6 @@ bool Juego::OnEvent(const SEvent& event)
 		event.KeyInput.PressedDown == false && estado != 2)
 	{
 		// user wants to quit.
-		//device->closeDevice();
 		
 		if(paused)
 		{
@@ -1058,8 +985,7 @@ bool Juego::OnEvent(const SEvent& event)
 					
 
 						player->pick_weapon(camera, selectedSceneNode, device, armas);
-						//cout << "RECOJO EL NODO " << ((std::string)selectedSceneNode->getName()).substr(strcspn(selectedSceneNode->getName(), "_") + 1) << endl;
-						//this->replace_random_item(atoi(((std::string)selectedSceneNode->getName()).substr(strcspn(selectedSceneNode->getName(), "_") + 1).c_str()));
+						
 					}
 				}
 
@@ -1321,34 +1247,31 @@ void Juego::replace_random_item(IrrlichtDevice *device, 	scene::ITriangleSelecto
 							it_aux = armas->insert(it_aux, new Spear(6,5,sm));
 							position.Y = 25;
 							(*it_aux)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas->size() - 1);
-						/*armas.push_back( new Spear(0,0,sm));
-						position.Y = 25;
-						(*(--armas.end()))->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(1.5,1.5,1.5), true, armas.size() - 1);*/
-						break;
-					case 1:
-						it_aux = armas->insert(it_aux, new Sword(4,7,sm));
-						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas->size() - 1);
-						break;
-					case 2:
-						it_aux = armas->insert(it_aux, new Bow(4,4,sm, mapSelector, device));
-						(*it_aux)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-						break;
-					case 3:
-						it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM));
-						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-						break;
-					case 4:
-						it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM));
-						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-						break;
-					case 5:
-						it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM));
-						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-						break;
-					case 6:
-						it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE));
-						(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
-						break;
+							break;
+						case 1:
+							it_aux = armas->insert(it_aux, new Sword(4,7,sm));
+							(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.008,0.008,0.008), true, armas->size() - 1);
+							break;
+						case 2:
+							it_aux = armas->insert(it_aux, new Bow(4,4,sm, mapSelector, device));
+							(*it_aux)->add_to_scene(position, core::vector3df(90,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+							break;
+						case 3:
+							it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::RED_SHROOM));
+							(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+							break;
+						case 4:
+							it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::BLUE_SHROOM));
+							(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+							break;
+						case 5:
+							it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::YELLOW_SHROOM));
+							(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+							break;
+						case 6:
+							it_aux = armas->insert(it_aux, new ThrowableItem(sm, mapSelector, device, ThrowableItem::STONE));
+							(*it_aux)->add_to_scene(position, core::vector3df(0,0,0), core::vector3df(0.05,0.05,0.05), true, armas->size() - 1);
+							break;
 					}
 		
 					(*it_aux)->set_main_position(position);

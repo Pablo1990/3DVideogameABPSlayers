@@ -353,6 +353,9 @@
 		<row><td>ISX_DEFAULTCOMPONENT8</td><td>{239BA7DE-38E7-4689-ACC8-6967ACBA597B}</td><td>SONIDOS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT9</td><td>{B53A9140-FF65-48D8-B0D4-C017C4B6B736}</td><td>CONFIG</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Irrlicht.dll</td><td>{C68B62B5-AC43-4EDE-9A57-3DBAF422BB59}</td><td>BIN1</td><td>2</td><td/><td>irrlicht.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ikpFlac.dll</td><td>{654B5688-009E-4153-A43E-1CFE9C225054}</td><td>BIN1</td><td>2</td><td/><td>ikpflac.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ikpMP3.dll</td><td>{97226AE5-6D0B-4FC1-B00F-5717C695CA4E}</td><td>BIN1</td><td>2</td><td/><td>ikpmp3.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>irrKlang.dll</td><td>{922EA3B8-A7D8-42DD-9465-87DA2719FDA3}</td><td>BIN1</td><td>2</td><td/><td>irrklang.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1901,6 +1904,9 @@
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT8</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT9</td></row>
 		<row><td>AlwaysInstall</td><td>Irrlicht.dll</td></row>
+		<row><td>AlwaysInstall</td><td>ikpFlac.dll</td></row>
+		<row><td>AlwaysInstall</td><td>ikpMP3.dll</td></row>
+		<row><td>AlwaysInstall</td><td>irrKlang.dll</td></row>
 	</table>
 
 	<table name="File">
@@ -1964,6 +1970,9 @@
 		<row><td>head_skin_med_nrm.tga</td><td>ISX_DEFAULTCOMPONENT2</td><td>HEAD_S~1.TGA|head_skin_med_NRM.tga</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\knight\mesh\head_skin_med_NRM.tga</td><td>1</td><td/></row>
 		<row><td>head_skin_med_spec.tga</td><td>ISX_DEFAULTCOMPONENT2</td><td>HEAD_S~1.TGA|head_skin_med_SPEC.tga</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\knight\mesh\head_skin_med_SPEC.tga</td><td>1</td><td/></row>
 		<row><td>icono.png</td><td>ISX_DEFAULTCOMPONENT</td><td>Icono.PNG</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\Icono.PNG</td><td>1</td><td/></row>
+		<row><td>ikpflac.dll</td><td>ikpFlac.dll</td><td>ikpFlac.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\Debug\ikpFlac.dll</td><td>1</td><td/></row>
+		<row><td>ikpmp3.dll</td><td>ikpMP3.dll</td><td>ikpMP3.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\Debug\ikpMP3.dll</td><td>1</td><td/></row>
+		<row><td>irrklang.dll</td><td>irrKlang.dll</td><td>irrKlang.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\Debug\irrKlang.dll</td><td>1</td><td/></row>
 		<row><td>irrlicht.dll</td><td>Irrlicht.dll</td><td>Irrlicht.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\irrlicht-1.8\bin\Win32-VisualStudio\Irrlicht.dll</td><td>1</td><td/></row>
 		<row><td>kiem.tga</td><td>ISX_DEFAULTCOMPONENT2</td><td>kiem.tga</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\knight\mesh\kiem.tga</td><td>1</td><td/></row>
 		<row><td>kiem_nrm.tga</td><td>ISX_DEFAULTCOMPONENT2</td><td>kiem_NRM.tga</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Alex\Documents\slayers\DC\media\knight\mesh\kiem_NRM.tga</td><td>1</td><td/></row>
@@ -2174,6 +2183,9 @@
 		<row><td>ISX_DEFAULTCOMPONENT8</td><td/><td/><td>_AD944C33_D8EE_4E6A_825D_7BDF40B2D070_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT9</td><td/><td/><td>_A655E140_5C74_417B_B289_533F263D7044_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Irrlicht.dll</td><td/><td/><td>_3FD49C16_DA66_4FF6_99B3_B559296F0C63_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ikpFlac.dll</td><td/><td/><td>_4A8E2A09_A1B5_48BE_BC8F_B79669F1252D_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ikpMP3.dll</td><td/><td/><td>_56F55F4B_EC96_4700_97CF_3547BD784ACF_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>irrKlang.dll</td><td/><td/><td>_E59B0DC9_9593_4A0B_8319_1F3775CF5562_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -4149,7 +4161,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{520CB516-B31C-48B2-BF1E-7DBBCA3B3C17}</td></row>
 		<row><td>ISUSSignature</td><td>{047395CF-FD62-47AD-B2E1-5B1C1B0C77FA}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppFiles,viewRealSetupDesign,viewSystemSearch,viewRelease,viewProject,viewFeatureFiles,viewUI,viewDesignPatches,viewUpgradePaths,viewObjects,viewSetupDesign,viewSetupTypes,viewDependencies,viewIniFiles,viewEnvironmentVariables</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewAppFiles,viewRealSetupDesign,viewSystemSearch,viewRelease,viewProject,viewFeatureFiles,viewUI,viewDesignPatches,viewUpgradePaths,viewObjects,viewSetupDesign,viewSetupTypes,viewDependencies,viewIniFiles,viewEnvironmentVariables,viewISToday</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
