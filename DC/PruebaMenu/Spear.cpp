@@ -16,7 +16,7 @@ bool Spear::attack(float first_x, float first_y, float last_x, float last_y)
 {
 	try
 	{
-		if (weapon_node != NULL && weapon_node->getAnimators().empty())
+		if (weapon_node != NULL && weapon_node->getAnimators().empty() && resist > 0)
 			{
 				float difX, difY;
 				difX = abs(abs(first_x) - abs(last_x));
