@@ -17,6 +17,7 @@ private:
 	vector<Position> camino;
 	int*** mapa;
 	Position finMapa;
+	int*** expandidos;
 
 public:
 	/* Constructores y destructor */
