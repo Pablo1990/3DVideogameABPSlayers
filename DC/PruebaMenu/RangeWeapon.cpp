@@ -241,12 +241,19 @@ void RangeWeapon::set_impact_at(int index, bool flag)
 
 bool RangeWeapon::get_impact_at(int index)
 {
-	return Impacts[index].collision_flag;
+	if(index<Impacts.size())
+	{
+		return Impacts[index].collision_flag;
+	}
+	return true;
 }
 
 ISceneNode* RangeWeapon::get_impact_node_at(int index)
 {
-	return Impacts[index].node;
+	if(index<Impacts.size())
+		return Impacts[index].node;
+	else
+		return NULL;
 }
 
 int RangeWeapon::get_distance_multiplier(int index, int x, int z)
