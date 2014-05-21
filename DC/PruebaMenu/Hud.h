@@ -89,7 +89,7 @@ public:
 	void setVisibleHudF();
 	void show_main_buttons();
 	void show_audio_menu();
-	void show_end_menu();
+	void show_end_menu(bool);
 	void set_level(int level);
 
 private:

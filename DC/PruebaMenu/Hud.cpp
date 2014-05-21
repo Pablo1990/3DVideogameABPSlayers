@@ -150,7 +150,7 @@ void Hud::show_main_buttons()
 	next_level_button->setVisible(false);
 }
 
-void Hud::show_end_menu()
+void Hud::show_end_menu(bool muerto)
 {
 	tabMenu->setVisible(true);
 	Reanudar->setVisible(false);
@@ -160,13 +160,25 @@ void Hud::show_end_menu()
 	volume_control->setVisible(false);
 	volver_button->setVisible(false);
 	Audio->setVisible(false);
-	next_level_button->setVisible(true);
-
 	wchar_t tmp[255];
 
-	swprintf(tmp, 255, L"HAS GANADO, SUPERADO NIVEL %i",this->level);
-	if(tituloPause)
-		VSalud->setText(tmp);
+	
+	if(muerto)
+		swprintf(tmp, 255, L"Reintentar");
+	else
+		swprintf(tmp, 255, L"Siguiente Nivel");
+
+	next_level_button->setText(tmp);
+
+	if(muerto)
+		swprintf(tmp, 255, L"GAME OVER");
+	else
+		swprintf(tmp, 255, L"HAS GANADO, SUPERADO NIVEL %i",this->level);
+		
+	tituloPause->setText(tmp);
+	next_level_button->setVisible(true);
+	
+	
 
 }
 

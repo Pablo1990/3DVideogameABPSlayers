@@ -361,7 +361,7 @@ void Juego::run()
 						hud->setVisibleHudF();
 						this->sound->pause_background_sounds();
 						hud->ActivaMenu();
-						hud->show_end_menu();
+						hud->show_end_menu(false);
 						this->device->getTimer()->stop();
 					}
 				}
@@ -388,7 +388,7 @@ void Juego::run()
 						hud->setVisibleHudF();
 						hud->ActivaMenu();
 						this->sound->pause_background_sounds();
-						hud->show_end_menu();
+						hud->show_end_menu(true);
 						this->device->getTimer()->stop();
 					}
 				}
@@ -559,7 +559,7 @@ void Juego::run()
 					hud->setVisibleHudF();
 					this->sound->pause_background_sounds();
 					hud->ActivaMenu();
-					hud->show_end_menu();
+					hud->show_end_menu(false);
 					this->device->getTimer()->stop();
 				}
 
@@ -575,7 +575,7 @@ void Juego::run()
 						hud->setVisibleHudF();
 						hud->ActivaMenu();
 						this->sound->pause_background_sounds();
-						hud->show_end_menu();
+						hud->show_end_menu(true);
 						this->device->getTimer()->stop();
 					}
 					
