@@ -51,14 +51,6 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 					if(sound)
 						sound->hit_sound();
 
-					if(scene_manager)
-					{
-						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
-						if(mesh_manipulator)
-						{
-							mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 0,   0));//RED
-						}
-					}
 				}
 				else if (detect_collision(w->get_weapon_node(), this->body))
 				{
@@ -68,14 +60,6 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 					if(sound)
 						sound->hit_sound();
 
-					if(scene_manager)
-					{
-						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
-						if(mesh_manipulator)
-						{
-							mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 0,   0,  255));//BLUE
-						}
-					}
 				}
 				else if (detect_collision(w->get_weapon_node(), this->extremity))
 				{
@@ -86,14 +70,6 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 					if(sound)
 						sound->hit_sound();
 
-					if(scene_manager)
-					{
-						IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
-						if(mesh_manipulator)
-						{
-							mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 255, 0));//YELLOW
-						}
-					}
 				}
 				
 			}
@@ -176,15 +152,7 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 							if(sound)
 								sound->hit_sound();
 							rw->set_impact_at(i, true);
-							if(scene_manager)
-							{
-								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
-								if(mesh_manipulator)
-								{
-									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 255, 0,   0));//RED
-								}
-
-							}
+						
 
 								this->health = this->health - ((w->get_damage() + 0.50 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
@@ -195,16 +163,7 @@ void Player::manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound)
 							if(sound)
 								sound->hit_sound();
 							rw->set_impact_at(i, true);
-							if(scene_manager)
-							{
-								IMeshManipulator* mesh_manipulator = scene_manager->getMeshManipulator();
-								if(mesh_manipulator)
-								{
-									mesh_manipulator->setVertexColors(character_node->getMesh(), SColor(255, 0,   0,  255));//BLUE
-								}
-
-
-							}
+							
 
 							this->health = this->health - ((w->get_damage() - 0.40 * w->get_damage()) 
 								/ rw->get_distance_multiplier(i, this->character_node->getPosition().X,
