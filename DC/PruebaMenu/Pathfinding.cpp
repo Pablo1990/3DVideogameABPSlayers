@@ -10,17 +10,19 @@ Pathfinding::Pathfinding(Position pIni, Position pFin){
 	this->pIni = Position(pIni);
 	this->pFin = Position(pFin);
 	this->camino.clear();
+	
 }
 
 Pathfinding::~Pathfinding(){
 	this->camino.~vector();
 
+	int maxX = finMapa.getX();
+	int maxY = finMapa.getY();
+	int maxZ = finMapa.getZ();
 
 	if(mapa)
 	{
-		int maxX = finMapa.getX();
-		int maxY = finMapa.getY();
-		int maxZ = finMapa.getZ();
+		
 
 		for (int i = 0; i < maxX; i++) {
 			for (int j = 0; j < maxZ; j++) {
@@ -34,6 +36,19 @@ Pathfinding::~Pathfinding(){
 		mapa = 0;
 	}
 
+	if(expandidos)
+		{
+			for (int i = 0; i < maxX; i++) {
+				for (int j = 0; j < maxZ; j++) {
+					delete[] expandidos[i][j];
+					expandidos[i][j] = 0;
+				}
+				delete[] expandidos[i];
+				expandidos[i] = 0;
+			}
+			delete[] expandidos;
+			expandidos = 0;
+		}
 
 }
 
@@ -104,6 +119,26 @@ void Pathfinding::setMapa(vector<vector<Position>> obstaculos){
 			}
 		}
 	}
+
+	int minX = 0;
+	int minZ = 0;
+
+
+	int minY = 0;
+	
+	double dx = pow(pIni.getX() - pFin.getX(), 2);
+		double dz = pow(pIni.getZ() - pFin.getZ(), 2);
+		double dy = pow(pIni.getY() - pFin.getY(), 2);
+
+	expandidos = new int **[maxX+1];
+        //Recorremos el mapa y lo sacamos por pantalla y llenamos de -1 el array expandidos
+	for (int i = minX; i < maxX; i++) {
+		expandidos[i] = new int *[maxZ+1];
+		for (int j = minZ; j < maxZ; j++) {
+			expandidos[i][j] = new int[1];
+			expandidos[i][j][0] = -1;
+        }
+    }
 }
 
 /* functions */
@@ -131,12 +166,9 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 			return p2;
 		}
 
-	int*** expandidos = new int **[maxX+1];
         //Recorremos el mapa y lo sacamos por pantalla y llenamos de -1 el array expandidos
 	for (int i = minX; i < maxX; i++) {
-		expandidos[i] = new int *[maxZ+1];
 		for (int j = minZ; j < maxZ; j++) {
-			expandidos[i][j] = new int[1];
 			expandidos[i][j][0] = -1;
         }
     }
@@ -265,19 +297,7 @@ vector<Position> Pathfinding::AEstrella(float pasos){ //250 por default
 					
 
 		vector<Position> p;
-	/*	if(expandidos)
-		{
-			for (int i = minX; i < maxX; i++) {
-				for (int j = minZ; j < maxZ; j++) {
-					delete[] expandidos[i][j];
-					expandidos[i][j] = 0;
-				}
-				delete[] expandidos[i];
-				expandidos[i] = 0;
-			}
-			delete[] expandidos;
-			expandidos = 0;
-		}*/
+	/*	*/
         //Si no ha encontrado solución
 		return p;
 }
