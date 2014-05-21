@@ -644,8 +644,7 @@ void Npc::attack(int type)
 					this->weapon->get_weapon_node()->remove();
 					this->weapon->set_weapon_node(0);
 					this->weapon->set_no_weapon(true);
-					//this->weapon->get_weapon_node()->getParent()->removeChild(this->weapon->get_weapon_node());
-					//this->weapon->set_weapon_node(NULL);
+
 				}
 			}
 		}
@@ -722,37 +721,6 @@ void Npc::drop_shield()
 void Npc::pick_weapon()
 {
 
-	//try
-	//{
-	//	if(this->weapon && this->weapon->get_weapon_node())
-	//		this->weapon->get_weapon_node()->remove();
-
-	//	this->weapon = this->near_weapon;
-	//	ISceneNode* aux = this->near_weapon->get_weapon_node();
-
-	//	this->add_weapon_to_node(aux->getPosition(), aux->getRotation(), aux->getScale()/*core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02)*/);
-	//	this->get_weapon()->set_resist(15);
-
-	//	if(this->weapon->with_shield())
-	//	{
-	//		this->pick_shield();
-	//	}
-	//	else
-	//	{
-	//		this->drop_shield();
-	//	}
-	//	//NECESITO UN METODO QUE ME DIGA SI EL ARMA VA CON O SIN ESCUDO, BOOLEANO QUE SE INICIE EN EL CONSTRUCTOR
-	//	//DE CADA ARMA AL VALOR QUE TOQUE; LUEGO RECUPERAR CON UN GET
-
-	//	//TAMBIEN ES NECESARIO QUE LOS VALORES DE AÑADIR AL NODO LOS PONGA LA CLASE DE CADA ARMA, PARA ABSTRAER Y QUE NO SEA
-	//	//NECESARIO CONOCER EL ARMA PARA AÑADIRLA
-
-	//	this->replace_random_item(atoi(((std::string)this->near_weapon->get_weapon_node()->getName()).substr(strcspn(this->near_weapon->get_weapon_node()->getName(), "_") + 1).c_str()), items, device, mapSelector);
-
-	//}
-	//catch(...)
-	//{}
-
 	try
 	{
 		if(!near_weapon->no_weapon())
@@ -761,12 +729,7 @@ void Npc::pick_weapon()
 			{
 				character_node->removeChild(weapon->get_weapon_node());
 				weapon->set_weapon_node(0);
-				/*
-				this->weapon->get_weapon_node()->setVisible(false);
-				this->weapon->get_weapon_node()->removeAll();
-				this->weapon->get_weapon_node()->removeAnimators();
-				this->weapon->get_weapon_node()->remove();
-				*/
+				
 			}
 			//SWORD: position 40, 100, 0; rotation 180, -50, 90; scale 0.02, 0.02, 0.02
 			//SPEAR: position 10, 100, -20; rotation 90,-50,90, scale 2.5, 2.5, 2.5
@@ -931,15 +894,6 @@ void Npc::face_target(vector3df target_pos)
 
 bool Npc::Update()
 {
-	/*
-	cout<<"<<<<<<<<Vida>>>>>>>"<<endl;
-	cout<<"Vida enemigo"<<endl;*/
-	//cout<<this->getEnemigo()->get_health()<<endl;
-
-	//cout<<"Vida propia"<<endl;
-	//cout<<this->get_health()<<endl;
-	/*cout<<"Desgaste arma enem: "<<this->getEnemigo()->get_weapon()->get_resist()<<endl;
-	cout<<"Desgaste arma propia: "<<this->get_weapon()->get_resist()<<endl;*/
 
 
 	vector<double> inputs;
@@ -984,7 +938,7 @@ bool Npc::Update()
 			ISceneNodeAnimator *anim = scene_manager->createRotationAnimator(vector3df(0, -output[4]*10, 0));
 			get_character_node()->addAnimator(anim);
 			anim->drop();
-			//cout<<"Rotacion Derecha"<<endl;
+			
 		}
 	}
 	else{
@@ -993,7 +947,7 @@ bool Npc::Update()
 			ISceneNodeAnimator *anim = scene_manager->createRotationAnimator(vector3df(0, output[5]*10, 0));
 			get_character_node()->addAnimator(anim);
 			anim->drop();
-			//cout<<"Rotacion Izq"<<endl;
+			
 		}
 	}
 
@@ -1019,8 +973,7 @@ bool Npc::Update()
 
 			p.set(xp, p.Y, zp);
 			this->get_character_node()->setPosition(p);
-			//this->set_position(xp, p.Y, zp);
-			//cout<<"MovimientoDelante "<<xp<<" "<<zp<<endl;
+			
 		}
 	}
 	else{
@@ -1044,8 +997,7 @@ bool Npc::Update()
 
 			p.set(xp, p.Y, zp);
 			this->get_character_node()->setPosition(p);
-			//this->set_position(xp, p.Y, zp);
-			//cout<<"MovimientoDetrás "<<xp<<" "<<zp<<endl;
+
 
 		}
 	}
@@ -1055,7 +1007,7 @@ bool Npc::Update()
 		if(pAtaque==output[0])
 		{
 			this->defend();
-			//cout<<"Cubro"<<endl;
+			
 		}	
 		else if(pAtaque == output[1])
 		{

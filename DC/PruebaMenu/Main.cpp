@@ -3,6 +3,7 @@
 #include "BotonesMenu.h"
 #include "Menu.h"
 #include "Juego.h"
+#include <Windows.h>
 
 using namespace irr;
 
@@ -15,7 +16,14 @@ using namespace gui;
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
 #endif
-int main()
+
+#ifdef _WIN32
+#pragma comment(lib, "Irrlicht.lib")
+INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT );
+#else
+int main(int argc, char* argv[])
+#endif
+INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
 
 {
 
@@ -25,7 +33,7 @@ int main()
     if (driverType==video::EDT_COUNT)
         return false;
 
-	MyMenu *menu ;//= new MyMenu(driverType);
+	MyMenu *menu ;
 
 	
 	int estado = 0;//Para que entre

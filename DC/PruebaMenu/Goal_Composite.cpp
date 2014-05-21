@@ -60,7 +60,6 @@ int Goal_Composite::ProcessSubgoals()
   {
 	  // completed is 2
 	  
-	//cout<<"Objetivo Completado siguiente"<<endl;
     return 2;
   }
 }
@@ -73,7 +72,6 @@ void Goal_Composite::RemoveAllSubgoals()
        ++it)
   {
     (*it)->Terminate();
-	//cout << "Bucle9" << endl;
     delete *it;
 	*it=0;
   }
