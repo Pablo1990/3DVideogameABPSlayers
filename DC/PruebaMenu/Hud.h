@@ -93,6 +93,7 @@ public:
 	void set_level(int level);
 
 private:
+	int level;
 	SoundEffect* sound;
 	IGUIScrollBar* volume_control;
 	IGUIEnvironment* env ;

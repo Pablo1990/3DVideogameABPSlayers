@@ -272,38 +272,59 @@ void Npc::setEnem(Player* p)
 	player=p;
 }
 
-vector<double> Npc::getPesosDeFichero(){
+vector<double> Npc::getPesosDeFichero(std::string nombre){
+	
+	
 	vector<double> vecPesos;
 	std::string pesos="";
-	ifstream myfile ("pesos.txt");
-	if (myfile.is_open())
+	try
 	{
-		char my_character ;
-		int number_of_lines = 0;
 		
-		getline(myfile, pesos);
-		getline(myfile, pesos);
-		pesos = "";
-		while (!myfile.eof() ) {
-			myfile.get(my_character);
-			pesos+=my_character;
+		ifstream myfile (nombre);
+		if (myfile.is_open())
+		{
+			char my_character ;
+			int number_of_lines = 0;
+		
+			getline(myfile, pesos);
+			getline(myfile, pesos);
+			pesos = "";
+			while (!myfile.eof() ) {
+				myfile.get(my_character);
+				pesos+=my_character;
+			}
+			myfile.close();
 		}
-		myfile.close();
-	}
-	else cout << "Unable to open file";
+		else cout << "Unable to open file";
 
-	//string al vector
-	std::string line = "";
-	for(int i = 0; i<pesos.length(); i++)
-	{
-		if(pesos[i]!=' ')
-			line+=pesos[i];
-		else{
-			vecPesos.push_back(atof(line.c_str()));
-			line = "";
+		//string al vector
+		std::string line = "";
+		for(int i = 0; i<pesos.length(); i++)
+		{
+			if(pesos[i]!=' ')
+				line+=pesos[i];
+			else{
+				vecPesos.push_back(atof(line.c_str()));
+				line = "";
+			}
 		}
+		vecPesos.push_back(atof(line.c_str()));
 	}
-	vecPesos.push_back(atof(line.c_str()));
+	catch(...)
+	{
+		//string al vector
+		std::string line = "";
+		for(int i = 0; i<pesos.length(); i++)
+		{
+			if(pesos[i]!=' ')
+				line+=pesos[i];
+			else{
+				vecPesos.push_back(atof(line.c_str()));
+				line = "";
+			}
+		}
+		vecPesos.push_back(atof(line.c_str()));
+	}
 
 	return vecPesos;
 }

@@ -7,12 +7,14 @@ Player::Player(ISceneManager *sm, ITriangleSelector* ms, ICameraSceneNode *camer
 {
 	mapSelector = ms;
 	cam = camera;
+	this->health = 101;
 }
 
 Player::Player(ISceneManager *sm, Weapon* w, ITriangleSelector* ms, ICameraSceneNode *camera): Character(knight_path, sm, w)
 {
 		mapSelector = ms;
-		cam = camera;;
+		cam = camera;
+		this->health = 101;
 }
 
 
