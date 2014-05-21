@@ -21,6 +21,7 @@ static const char *config_path = "../config/config.cfg";
 static const char *sword_icon_path  = "../media/sword.jpg";
 static const char *spear_icon_path = "../media/lanza.jpg";
 static const char *bow_icon_path = "../media/bow.jpg";
+static const char *controles_path = "../media/controles.png";
 
 
 

@@ -172,6 +172,9 @@ int Juego::getEstado()
 
 void Juego::switch_to_next_level()
 {
+	if(level > 1)
+		estado = 3;
+
 	win_condition = 0;
 	this->cycles = 0;
 	device->getTimer()->setTime(0);
@@ -1159,6 +1162,9 @@ bool Juego::OnEvent(const SEvent& event)
 						hud->borrarMenu(device);
 						hud->set_level(this->level);
 						this->device->getTimer()->start();
+						break;
+					case GUI_ID_CONTROLES_BUTTON:
+						hud->show_controls();
 						break;
 				}
 			break;

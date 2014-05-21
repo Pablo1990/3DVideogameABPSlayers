@@ -111,7 +111,7 @@ void Hud::drawMenu(IrrlichtDevice* device)
 			,tabMenu,GUI_ID_CONTINUAR_BUTTON, L"Reanudar");
 
 	Opciones = device->getGUIEnvironment()->addButton(gh.ScaleValuebyScreenHeight(rect<s32>(80,115,330,160))
-			,tabMenu,GUI_ID_OPCIONES_BUTTON, L"Audio");
+			,tabMenu,GUI_ID_OPCIONES_BUTTON, L"Opciones");
 
 	Salir = device->getGUIEnvironment()->addButton(gh.ScaleValuebyScreenHeight(rect<s32>(80,180,330,225))
 			,tabMenu,GUI_ID_QUIT_BUTTON, L"Salir");
@@ -131,6 +131,16 @@ void Hud::drawMenu(IrrlichtDevice* device)
 	
 	next_level_button = device->getGUIEnvironment()->addButton(gh.ScaleValuebyScreenHeight(rect<s32>(80,50,330,95))
 		,tabMenu,GUI_ID_NEXT_LEVEL, L"Siguiente Nivel");
+
+
+	controls_image = device->getGUIEnvironment()->addImage(gh.ScaleValuebyScreenHeight(rect<s32>(120,100,280,235)), tabMenu, GUI_ID_CONTROLES_BUTTON,
+		0, true);
+	
+
+
+	ITexture* images = device->getVideoDriver()->getTexture(controles_path);
+	controls_image->setScaleImage(true);
+	controls_image->setImage(images);
 	/*	VMenu;
 	Salir;
 	Opciones;
@@ -148,6 +158,7 @@ void Hud::show_main_buttons()
 	volver_button->setVisible(false);
 	Audio->setVisible(false);
 	next_level_button->setVisible(false);
+	controls_image->setVisible(false);
 }
 
 void Hud::show_end_menu(bool muerto)
@@ -160,6 +171,10 @@ void Hud::show_end_menu(bool muerto)
 	volume_control->setVisible(false);
 	volver_button->setVisible(false);
 	Audio->setVisible(false);
+
+	controls_image->setVisible(false);
+
+
 	wchar_t tmp[255];
 
 	
@@ -168,7 +183,6 @@ void Hud::show_end_menu(bool muerto)
 	else
 		swprintf(tmp, 255, L"Siguiente Nivel");
 
-	next_level_button->setText(tmp);
 
 	if(muerto)
 		swprintf(tmp, 255, L"GAME OVER");
@@ -194,6 +208,21 @@ void Hud::show_audio_menu()
 	volver_button->setVisible(true);
 	Audio->setVisible(true);
 	next_level_button->setVisible(false);
+	controls_image->setVisible(true);
+}
+
+void Hud::show_controls()
+{
+	tabMenu->setVisible(false);
+	Reanudar->setVisible(false);
+	Opciones->setVisible(false);
+	Salir->setVisible(false);
+	VMenu->setVisible(false);
+	volume_control->setVisible(false);
+	volver_button->setVisible(true);
+	Audio->setVisible(false);
+	next_level_button->setVisible(false);
+	controls_image->setVisible(true);
 }
 
 void Hud::ActivaMenu()
