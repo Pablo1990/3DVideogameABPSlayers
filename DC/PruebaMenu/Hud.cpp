@@ -149,6 +149,12 @@ void Hud::drawMenu(IrrlichtDevice* device)
 
 void Hud::show_main_buttons()
 {
+	wchar_t tmp[255];
+
+	swprintf(tmp, 255, L"Pause",this->level);
+	if(tituloPause)
+		tituloPause->setText(tmp);
+
 	tabMenu->setVisible(true);
 	Reanudar->setVisible(true);
 	Opciones->setVisible(true);
@@ -183,6 +189,7 @@ void Hud::show_end_menu(bool muerto)
 	else
 		swprintf(tmp, 255, L"Siguiente Nivel");
 
+	next_level_button->setText(tmp);
 
 	if(muerto)
 		swprintf(tmp, 255, L"GAME OVER");
@@ -198,6 +205,12 @@ void Hud::show_end_menu(bool muerto)
 
 void Hud::show_audio_menu()
 {
+	wchar_t tmp[255];
+
+	swprintf(tmp, 255, L"Pause",this->level);
+	if(tituloPause)
+		tituloPause->setText(tmp);
+
 	volume_control->setPos(sound->get_volume() * 100);
 	tabMenu->setVisible(true);
 	Reanudar->setVisible(false);
@@ -213,6 +226,12 @@ void Hud::show_audio_menu()
 
 void Hud::show_controls()
 {
+	wchar_t tmp[255];
+
+	swprintf(tmp, 255, L"Pause",this->level);
+	if(tituloPause)
+		tituloPause->setText(tmp);
+
 	tabMenu->setVisible(false);
 	Reanudar->setVisible(false);
 	Opciones->setVisible(false);
@@ -236,7 +255,7 @@ void Hud::ActivaMenu()
 
 	swprintf(tmp, 255, L"Pause",this->level);
 	if(tituloPause)
-		VSalud->setText(tmp);
+		tituloPause->setText(tmp);
 
 	show_main_buttons();
 }
