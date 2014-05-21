@@ -65,7 +65,7 @@ public:
 
 private:
 	void switch_to_next_level();
-	static const int KMAX_LEVEL = 2;
+	static const int KMAX_LEVEL = 4;
 	int level;
 	bool cntinue;
 	int selected_weapon;

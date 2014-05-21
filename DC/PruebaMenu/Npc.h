@@ -30,7 +30,7 @@ public:
 	~Npc(void);
 
 	void manage_collision(Weapon *w, IrrlichtDevice* d, SoundEffect* sound = NULL); 
-	vector<double> getPesosDeFichero();
+	vector<double> getPesosDeFichero(std::string nombre = "pesos.txt");
 	bool MoverseAItemSalud();
 	bool MoverseAItemArma();
 	bool MoverseAEnemigo();

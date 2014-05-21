@@ -16,6 +16,7 @@ Juego::Juego(video::E_DRIVER_TYPE d, int w, int h, bool f, float v)
 	this->fullscreen = f;
 	this->volume = v;
 	this->selected_weapon = 0;
+	win_condition = 0;
 }
 // Values used to identify individual GUI elements
 
@@ -42,17 +43,6 @@ Juego::~Juego(void)
 		hud = 0;
 	}
 
-	if(statusText)
-	{
-		statusText->remove();
-		statusText = 0;
-	}
-
-	if(statusText2)
-	{
-		statusText2->remove();
-		statusText2 = 0;
-	}
 
 	if(campFire)
 	{
@@ -240,7 +230,9 @@ void Juego::switch_to_next_level()
 
 void Juego::run()
 {
-	
+	if(level > 1)
+		estado = 3;
+
 	bool collision_flag = false;
 	core::dimension2d<u32> resolution(width, height);
 	
@@ -257,6 +249,7 @@ void Juego::run()
 	
 	if (!device)
 		return;
+
 
 	if (device->getFileSystem()->existFile("test1.pk3"))
 		device->getFileSystem()->addFileArchive("test1.pk3");
@@ -280,9 +273,7 @@ void Juego::run()
 	
 
 	device->getGUIEnvironment()->addImage(pos);
-	statusText = device->getGUIEnvironment()->addStaticText(L"Loading...",	pos, true);
 	
-	statusText->setOverrideColor(video::SColor(255,205,200,200));
 
 	wchar_t tmp[255];
 	
@@ -297,7 +288,7 @@ void Juego::run()
 	core::line3d<f32> ray;
 
 		
-		
+	device->getCursorControl()->setActiveIcon(ECURSOR_ICON::ECI_CROSS);
 	if(estado==1 || estado == 4)
 	{
 		
@@ -383,12 +374,7 @@ void Juego::run()
 					player->manage_collision(npc->get_weapon(), device);
 					player->restore_condition(device);
 
-				
-					swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f -- Nivel: %i -- Resistencia: %i"
-						, player->get_position().X, player->get_position().Y, 
-						player->get_position().Z, this->level, player->get_resistance());
-				
-					statusText->setText(tmp);
+			
 
 					if(player->get_is_dead() && win_condition == 0)
 					{
@@ -474,7 +460,19 @@ void Juego::run()
 			npc->add_to_scene(core::vector3df(100,10,100), core::vector3df(0, 270, 0), core::vector3df(0.55, 0.55, 0.55));
 			npc->add_weapon_to_node(core::vector3df(40, 100, 0), core::vector3df(180, -50, 90), core::vector3df(0.02, 0.02, 0.02));
 			npc->setItems(armas, types);
-			vector <double> vecPesos = npc->getPesosDeFichero();
+			vector <double> vecPesos;
+			switch(level)
+			{
+				case 2:
+					vecPesos = npc->getPesosDeFichero("pesos1.txt");
+					break;
+				case 3:
+					vecPesos = npc->getPesosDeFichero("pesos2.txt");
+					break;
+				default:
+					vecPesos = npc->getPesosDeFichero("pesos1.txt");
+					break;
+			}
 			hud=new Hud(device, sound);
 			hud->drawHud(device,npc,player);
 			hud->drawMenu(device);
@@ -496,65 +494,98 @@ void Juego::run()
 		if (device->isWindowActive())
 		{
 
-
-			player->movement(camera);
-			if(player->get_weapon())
-				player->get_weapon()->finish_animation();
+			if(!paused)
+			{
+				player->movement(camera);
+				if(player->get_weapon())
+					player->get_weapon()->finish_animation();
 				
 					
-			if(npc)
-			{
-				
-				if(!npc->get_is_dead())
+				if(npc && win_condition == 0)
 				{
-					npc->Update();
+				
+					if(!npc->get_is_dead())
+					{
+						npc->Update();
+					}
+
+					npc->restore_condition(device);
+
+
+					if(npc->get_is_dead() && npc->get_character_node()->isVisible())
+					{
+						npc->die(device);
+						npc->remove_character_node();
+					}
 				}
 
-				npc->restore_condition(device);
+				if(player && win_condition == 0)
+				{
+					player->heal_or_fire(campFire, heal_camp, device);
+					player->fall_down(device);
+					player->manage_collision(npc->get_weapon(), device, sound);
+					player->restore_condition(device);
 
+				}
 
-				if(npc->get_is_dead() && npc->get_character_node()->isVisible())
+				if(cycles % 1500 == 0)
+				{
+					this->replace_random_item(this->device, this->mapSelector);
+				}
+				
+					
+		
+				hud->setSkinTransparency( guienv->getSkin());
+				hud->setHud(npc,player);
+					
+				if(cycles + 1 == INT_MAX)
+				{
+					cycles = 0;
+				}
+
+				if(npc->get_is_dead() && win_condition == 0)
 				{
 					npc->die(device);
 					npc->remove_character_node();
+					this->win_condition = 1;
+					this->level++;
+					GameData gd;
+					gd.save_game(this->level);
+					if(sound)
+						sound->win_sound();
+
+					paused = true;
+					this->camera->setInputReceiverEnabled(false);
+					hud->setVisibleHudF();
+					this->sound->pause_background_sounds();
+					hud->ActivaMenu();
+					hud->show_end_menu();
+					this->device->getTimer()->stop();
 				}
-			}
 
-			if(player)
-			{
-				player->heal_or_fire(campFire, heal_camp, device);
-				player->fall_down(device);
-				player->manage_collision(npc->get_weapon(), device, sound);
-				player->restore_condition(device);
-
-				
-				swprintf(tmp, 255, L"NpcHealth X:%f Y:%f Z:%f", player->get_position().X, player->get_position().Y, 
-					player->get_position().Z);
-				
-				statusText->setText(tmp);
-			}
-
-			if(cycles % 1500 == 0)
-			{
-				this->replace_random_item(this->device, this->mapSelector);
-			}
-				
-					driver->beginScene(timeForThisScene != -1, true, backColor);
-		
-					hud->setSkinTransparency( guienv->getSkin());
-					hud->setHud(npc,player);
-					smgr->drawAll();
-					guienv->drawAll();
-					driver->endScene();
-					if(cycles + 1 == INT_MAX)
+				if(player->get_is_dead() && win_condition == 0)
 					{
-						cycles = 0;
+						win_condition = -1;
+						GameData gd;
+						gd.save_game(this->level);
+						if(sound)
+							sound->lose_sound();
+						paused = true;
+						this->camera->setInputReceiverEnabled(false);
+						hud->setVisibleHudF();
+						hud->ActivaMenu();
+						this->sound->pause_background_sounds();
+						hud->show_end_menu();
+						this->device->getTimer()->stop();
 					}
-
 					
-					cycles++;
+				cycles++;
 					
-
+			}
+			driver->beginScene(timeForThisScene != -1, true, backColor);
+			smgr->drawAll();
+			guienv->drawAll();
+			driver->endScene();
 				}
 			}
 	
@@ -591,7 +622,7 @@ void Juego::switchToNextScene()
 	keyMap[7].KeyCode = KEY_KEY_D;
 
 	keyMap[8].Action = EKA_JUMP_UP;
-	keyMap[8].KeyCode = KEY_KEY_J;
+	keyMap[8].KeyCode = KEY_SPACE;
 
 	keyMap[9].Action = EKA_CROUCH;
 	keyMap[9].KeyCode = KEY_LCONTROL;
@@ -1037,7 +1068,7 @@ bool Juego::OnEvent(const SEvent& event)
 			{}
 		}
 	}
-	else if(estado != 2 && event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_KEY_J && !paused)
+	else if(estado != 2 && event.EventType == EET_KEY_INPUT_EVENT && event.KeyInput.Key == KEY_SPACE && !paused)
 	{
 		player->reset_fall_time(this->device);
 	}

@@ -18,7 +18,7 @@ Hud::Hud(IrrlichtDevice* device, SoundEffect* s)
 
 	this->sound = s;
 
-
+	this->level = 0;
 	
 
 	
@@ -161,6 +161,13 @@ void Hud::show_end_menu()
 	volver_button->setVisible(false);
 	Audio->setVisible(false);
 	next_level_button->setVisible(true);
+
+	wchar_t tmp[255];
+
+	swprintf(tmp, 255, L"HAS GANADO, SUPERADO NIVEL %i",this->level);
+	if(tituloPause)
+		VSalud->setText(tmp);
+
 }
 
 void Hud::show_audio_menu()
@@ -183,6 +190,12 @@ void Hud::ActivaMenu()
 	skin->setColor(EGDC_3D_FACE  , video::SColor(70,215,0,15));
 	skin->setColor(EGDC_HIGH_LIGHT , video::SColor(20,255,0,0));
 	skin->setColor(EGDC_ICON_HIGH_LIGHT , video::SColor(100,255,255,0));
+	
+	wchar_t tmp[255];
+
+	swprintf(tmp, 255, L"Pause",this->level);
+	if(tituloPause)
+		VSalud->setText(tmp);
 
 	show_main_buttons();
 }
@@ -245,6 +258,7 @@ void Hud:: drawHud(IrrlichtDevice* device,Npc* npc, Player* player)
 
 void Hud::set_level(int level)
 {
+	this->level = level;
 	wchar_t tmp[255];
 
 	swprintf(tmp, 255, L"Jugador 1 - Nivel %i", level + 1);
