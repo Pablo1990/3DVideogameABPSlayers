@@ -91,6 +91,7 @@ public:
 	void show_audio_menu();
 	void show_end_menu();
 	void set_level(int level);
+	void show_controls();
 
 private:
 	int level;
@@ -117,6 +118,7 @@ private:
 	IGUIButton*		Opciones;
 	IGUIButton*		volver_button;
 	IGUIButton*		next_level_button;
+	IGUIImage*		controls_image;
 
 	core::dimension2d<u32> size;
    gui::IGUIFont* font2 ;
